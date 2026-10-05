@@ -26,6 +26,8 @@ test('room floor outer footprint matches walls and ground is hidden', async ({ p
   await page.reload();
   await ready(page);
 
+  // The room controls are only rendered in the Room workspace (UX-07).
+  await page.click('#workspace-mode button[data-mode=room]');
   await page.selectOption('#room-preset', 'living');
   await page.click('#btn-create-room');
   await expect.poll(async () => page.evaluate(() => window.__rv.roomGraph()?.walls.length ?? 0)).toBe(4);

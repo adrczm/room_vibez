@@ -7,6 +7,8 @@
 // - An error is marked by an icon, a heavier left edge and bolder text, not only by colour.
 // - The toast stacks above the hint line and stops below the stage toolbar. Both are
 //   measured, so it holds when either wraps.
+// - The toast does not take the pointer, except on its buttons: it lies over the canvas, and a
+//   click on the room under it must reach the room (notify.css).
 // - The entrance animation lives inside a prefers-reduced-motion query in notify.css.
 //
 // The existing #stage-hint is the state line. This module only reads its position.
@@ -32,7 +34,8 @@ export interface NotifyOptions {
   /**
    * Milliseconds before the toast closes by itself. 0 keeps it until it is dismissed or
    * replaced. Default: 6000 for info and success, 12000 for warning and error.
-   * The countdown pauses while the pointer is over the toast or focus is inside it.
+   * The countdown pauses while the pointer is over one of the toast's buttons or focus is inside
+   * it. (The rest of the toast lets the pointer through to the canvas: see notify.css.)
    */
   timeoutMs?: number;
 }

@@ -28,6 +28,13 @@ async function createRoom(page: Page, preset?: string) {
 
 const mode = (page: Page) => page.evaluate(() => window.__rv.viewer()!.getInteractionMode());
 
+/** The Room workspace shows one step at a time (UX-08). Open one from its heading; a no-op if it is open. */
+const openStep = (page: Page, step: 'room' | 'openings' | 'place' | 'finish') =>
+  page.click(`.step[data-step=${step}] .step-toggle`);
+
+/** With a preset selected the size fields are behind "Adjust size" (UX-08 item 4). */
+const openAdjustSize = (page: Page) => page.click('#room-size-adjust > summary');
+
 /**
  * Where the camera comes to rest. OrbitControls damping spreads a drag over many frames, so
  * under SwiftShader the camera keeps drifting for seconds after the mouse is released (about
@@ -72,14 +79,16 @@ test('room tools: a second click switches the tool off, Esc leaves it, and neith
   await openRoomWorkspace(page);
   await createRoom(page, 'living');
 
+  // Each tool button is in its own step (UX-08), so the user opens that step first.
   const tools = [
-    ['#btn-place-mode', 'place'],
-    ['#btn-opening-mode', 'opening'],
-    ['#btn-draw-wall-mode', 'draw-wall'],
+    ['#btn-place-mode', 'place', 'place'],
+    ['#btn-opening-mode', 'opening', 'openings'],
+    ['#btn-draw-wall-mode', 'draw-wall', 'room'],
   ] as const;
 
   // Toggle: on, off, on again, off.
-  for (const [button, tool] of tools) {
+  for (const [button, tool, step] of tools) {
+    await openStep(page, step);
     await page.click(button);
     await expect(page.locator(button)).toHaveAttribute('aria-pressed', 'true');
     expect(await mode(page)).toBe(tool);
@@ -89,6 +98,7 @@ test('room tools: a second click switches the tool off, Esc leaves it, and neith
   }
 
   // Esc leaves the tool (focus is on the button that was just clicked, not in a field).
+  await openStep(page, 'place');
   await page.click('#btn-place-mode');
   expect(await mode(page)).toBe('place');
   await page.keyboard.press('Escape');
@@ -107,7 +117,8 @@ test('room tools: a second click switches the tool off, Esc leaves it, and neith
   const orbited = await restingCamera(page);
   expect(moved(arrival, orbited)).toBeGreaterThan(0.5); // the drag really orbited
 
-  for (const [button, tool] of tools) {
+  for (const [button, tool, step] of tools) {
+    await openStep(page, step); // opening a step must not move the camera either
     await page.click(button);
     expect(await mode(page)).toBe(tool);
     const after = await restingCamera(page);
@@ -137,8 +148,14 @@ test('room size: the fields win over the preset, and typing in one flips the pre
   await openRoomWorkspace(page);
   await expect(page.locator('#room-preset')).toHaveValue('small-bedroom');
 
+  // A preset is selected, so the fields are behind "Adjust size": open it, then type.
+  await expect(page.locator('#room-length')).toBeHidden();
+  await openAdjustSize(page);
   await page.fill('#room-length', '6');
   await expect(page.locator('#room-preset')).toHaveValue('custom');
+  // Custom shows the fields as they are, with no "Adjust size" to open.
+  await expect(page.locator('#room-length')).toBeVisible();
+  await expect(page.locator('#room-size-adjust > summary')).toBeHidden();
 
   await createRoom(page);
   const size = await roomSize(page);
@@ -190,6 +207,8 @@ test('room units: switching to cm converts the fields and their limits; the wall
   expect(await roomSize(page)).toEqual({ length: 3, width: 3, ceiling: 2.7, wallThickness: 0.12 });
 
   // Feet and back: the numbers return to where they started.
+  // Units is in step 1, which folded to its summary when the room was created: "Change" reopens it.
+  await page.click('#btn-step-room-change');
   await page.selectOption('#room-units', 'ft-in');
   await expect(page.locator('#room-length')).toHaveValue('9.84252');
   await page.selectOption('#room-units', 'm');
@@ -212,6 +231,9 @@ test('Cmd/Ctrl+Z typed in a field undoes the typing, not the room', async ({ pag
     await expect.poll(() => placementCount(page), { timeout: 15_000 }).toBe(n);
   }
 
+  // The Length field: step 1 ("Change"), then "Adjust size" (the Living preset is selected).
+  await page.click('#btn-step-room-change');
+  await openAdjustSize(page);
   await page.click('#room-length');
   await page.keyboard.press('End');
   await page.keyboard.type('9');

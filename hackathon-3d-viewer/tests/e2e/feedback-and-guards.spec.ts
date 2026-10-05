@@ -39,6 +39,13 @@ async function createRoom(page: Page) {
   await page.waitForTimeout(500);
 }
 
+/** The Room workspace shows one step at a time (UX-08). Open one from its heading; a no-op if it is open. */
+const openStep = (page: Page, step: 'room' | 'openings' | 'place' | 'finish') =>
+  page.click(`.step[data-step=${step}] .step-toggle`);
+
+/** With a room, step 1 is folded to its summary. "Change" reopens the create forms (UX-08 item 2). */
+const changeRoom = (page: Page) => page.click('#btn-step-room-change');
+
 /** Client coordinates of a world point, through the live camera. */
 const toClient = (page: Page, x: number, y: number, z: number) =>
   page.evaluate(
@@ -166,8 +173,10 @@ test('Room workspace with no room: empty stage, a card with four ways to start, 
     await expect(page.locator('#stage-empty')).toBeVisible();
   }
 
-  // The fourth entry opens the project file picker (QA-04). The panel's own button needs a room.
-  await expect(page.locator('#btn-import-project')).toBeHidden();
+  // The fourth entry opens the project file picker (QA-04). The room toolbar's own Import project
+  // button is there as well, room or no room (QA C15); Export project waits for a room.
+  await expect(page.locator('#btn-import-project')).toBeVisible();
+  await expect(page.locator('#btn-export-project')).toBeHidden();
   const [chooser] = await Promise.all([
     page.waitForEvent('filechooser'),
     page.click('#stage-empty button[data-empty-action=project]'),
@@ -203,6 +212,8 @@ test('Clear room asks first: Keep room changes nothing; confirming empties the r
   await expect.poll(() => exportCopyInIdb(page)).toBe(true);
 
   // The button is no longer a full-width button under the primary one.
+  // (Create room is in step 1, folded now that a room exists: reopen it to compare the two.)
+  await changeRoom(page);
   const button = await page.evaluate(() => {
     const clear = document.getElementById('btn-clear-room')!.getBoundingClientRect();
     const create = document.getElementById('btn-create-room')!.getBoundingClientRect();
@@ -265,6 +276,7 @@ test('replacing a room that has work in it asks first; an untouched room is repl
   const dialog = page.locator('dialog.confirm-dialog');
 
   // A room with nothing in it and no history: Create room again just replaces it.
+  await changeRoom(page);
   await page.click('#btn-create-room');
   await page.waitForTimeout(300);
   await expect(dialog).toHaveCount(0);
@@ -273,6 +285,7 @@ test('replacing a room that has work in it asks first; an untouched room is repl
   await addProductAndDoor(page);
 
   // Create room over it.
+  await changeRoom(page);
   await page.click('#btn-create-room');
   await expect(dialog).toBeVisible();
   await expect(dialog.locator('.app-dialog-title')).toHaveText('Replace your current room?');
@@ -283,6 +296,8 @@ test('replacing a room that has work in it asks first; an untouched room is repl
   expect(await counts(page)).toEqual({ placements: 1, openings: 1 });
 
   // A size that cannot make a room is reported first. There is nothing to confirm yet.
+  // (The Living preset is selected, so the size fields are behind "Adjust size".)
+  await page.click('#room-size-adjust > summary');
   await page.fill('#room-length', '0');
   await page.click('#btn-create-room');
   await page.waitForTimeout(300);
@@ -291,6 +306,8 @@ test('replacing a room that has work in it asks first; an untouched room is repl
   await page.fill('#room-length', '5');
 
   // Use template over it. Saving the template itself replaces nothing.
+  // ("Save as template" is under "More" on step 1 since UX-08 item 6.)
+  await page.click('#room-more > summary');
   await page.fill('#template-title', 'Guard test');
   await page.click('#btn-save-template-scratch');
   await expect(page.locator('#template-list li')).toHaveCount(1);
@@ -346,6 +363,7 @@ test('Place mode answers on the stage: fixed tool labels, a state chip, a toast 
     );
   expect(await labels()).toEqual(['Add opening', 'Place product', 'Draw walls']);
   await expect(hint).not.toHaveAttribute('data-tool');
+  await openStep(page, 'place');
   await page.click('#btn-place-mode');
   await expect(page.locator('#btn-place-mode')).toHaveAttribute('aria-pressed', 'true');
   expect(await labels()).toEqual(['Add opening', 'Place product', 'Draw walls']);
@@ -429,6 +447,7 @@ test('Place mode answers on the stage: fixed tool labels, a state chip, a toast 
   expect(await labels()).toEqual(['Add opening', 'Place product', 'Draw walls']);
 
   // The opening tool names the type it will add.
+  await openStep(page, 'openings');
   await page.click('#btn-opening-mode');
   await expect(hint).toHaveAttribute('data-tool', 'opening');
   await expect(hint).toHaveText('Click a wall to add a door.');
@@ -444,6 +463,7 @@ test('a project file can be opened in the Room workspace before any room exists,
   // Someone exports a project that has one placed product (placed with a real click).
   await openRoomWorkspace(page);
   await createRoom(page);
+  await openStep(page, 'place');
   await page.click('#btn-place-mode');
   const floorPx = await toClient(page, 0.8, 0, -0.5);
   await page.mouse.click(floorPx.x, floorPx.y);
@@ -501,6 +521,7 @@ test('choosing only a wall finish leaves the floor as it was, and the other way 
     });
   const untouched = await shell();
 
+  await openStep(page, 'finish');
   await page.selectOption('#room-wall-material', { index: 1 });
   await expect
     .poll(async () => page.evaluate(() => window.__rv.roomGraph()!.rooms[0]!.wall_material_id ?? ''))

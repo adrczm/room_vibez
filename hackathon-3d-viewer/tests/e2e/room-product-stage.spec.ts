@@ -86,6 +86,8 @@ test('QA-05: picking a product with a room on stage leaves the camera alone', as
   await page.selectOption('#room-preset', 'living');
   await page.click('#btn-create-room');
   await expect.poll(async () => page.evaluate(() => !!window.__rv.roomGraph())).toBe(true);
+  // In the Room workspace the product picker is in the "Place products" step (UX-08): open it.
+  await page.click('.step[data-step=place] .step-toggle');
   const roomCam = await settledCam(page);
   expect((await stage(page)).mode).toBe('room');
 
@@ -129,6 +131,8 @@ test('QA-05: a product loaded off stage is framed as soon as the turntable is sh
   await page.selectOption('#room-preset', 'living');
   await page.click('#btn-create-room');
   await expect.poll(async () => page.evaluate(() => !!window.__rv.roomGraph())).toBe(true);
+  // In the Room workspace the product picker is in the "Place products" step (UX-08): open it.
+  await page.click('.step[data-step=place] .step-toggle');
   await pick(page, 'demo-side-table');
   // Engine call only, no resetCamera(): the viewer itself must not leave the product unframed.
   await page.evaluate(() => window.__rv.viewer()!.setInteractionMode('catalog'));

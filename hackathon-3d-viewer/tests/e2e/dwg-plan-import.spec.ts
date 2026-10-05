@@ -32,7 +32,8 @@ test('DWG plan import: mock fixture → confirm → immediate room + template', 
   await expect(page.locator('.brand')).toHaveText('Catalog 3D');
   await expect(page.locator('#model-files')).toBeVisible();
 
-  // Switch to Import plan ingress
+  // Switch to Import plan ingress. The room controls are only rendered in the Room workspace (UX-07).
+  await page.click('#workspace-mode button[data-mode=room]');
   await page.click('#room-ingress button[data-ingress=import]');
   await expect(page.locator('#room-ingress-import')).toBeVisible();
   await expect(page.locator('#import-oda-note')).toContainText('ODA / APS not available');
@@ -65,7 +66,8 @@ test('DWG plan import: mock fixture → confirm → immediate room + template', 
     .toBe(0);
   await expect(page.locator('#room-tools')).toBeVisible();
 
-  // Place catalog GLB into imported room
+  // Place catalog GLB into imported room. The picker and the Place button are in step 3 (UX-08): open it.
+  await page.click('.step[data-step=place] .step-toggle');
   await page.selectOption('#product-select', 'demo-lounge-chair');
   await page.click('#btn-place-mode');
   await page.evaluate(() => {

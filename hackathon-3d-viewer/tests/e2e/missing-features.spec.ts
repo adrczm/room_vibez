@@ -53,7 +53,8 @@ test('missing features: undo, materials, snap, export, underlay path', async ({ 
   await page.click('#btn-redo');
   await expect.poll(async () => page.evaluate(() => window.__rv.roomGraph()?.openings.length ?? 0)).toBe(1);
 
-  // Wall/floor materials
+  // Wall/floor materials (step 4, UX-08)
+  await page.click('.step[data-step=finish] .step-toggle');
   const wallOpts = await page.locator('#room-wall-material option').count();
   expect(wallOpts).toBeGreaterThan(1);
   await page.selectOption('#room-wall-material', { index: 1 });
@@ -63,7 +64,8 @@ test('missing features: undo, materials, snap, export, underlay path', async ({ 
     )
     .not.toBe('');
 
-  // Wall snap + place
+  // Wall snap + place (step 3, UX-08)
+  await page.click('.step[data-step=place] .step-toggle');
   await page.check('#place-wall-snap');
   await page.selectOption('#product-select', 'demo-lounge-chair');
   await page.click('#btn-place-mode');
@@ -74,7 +76,8 @@ test('missing features: undo, materials, snap, export, underlay path', async ({ 
     .poll(async () => page.evaluate(() => window.__rv.roomGraph()?.placements.length ?? 0))
     .toBeGreaterThan(0);
 
-  // Save template from scratch
+  // Save template from scratch. It moved out of the create form into "More" on step 1 (UX-08 item 6).
+  await page.click('#room-more > summary');
   await page.fill('#template-title', 'E2E living');
   await page.click('#btn-save-template-scratch');
 
@@ -101,6 +104,8 @@ test('missing features: undo, materials, snap, export, underlay path', async ({ 
       'base64',
     ),
   );
+  // With a room, step 1 is folded to its summary: "Change" reopens the create forms (UX-08 item 2).
+  await page.click('#btn-step-room-change');
   await page.locator('#room-ingress button[data-ingress=import]').click();
   await page.setInputFiles('#plan-file', pngPath);
   await page.click('#btn-import-plan');

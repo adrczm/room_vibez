@@ -11,10 +11,13 @@
   font-size: 13px; line-height: 1.4;
   pointer-events: none;
 }
+/* The toast sits over the canvas, so it lets the pointer through: a click, drag or scroll on its
+   text or background reaches the room under it. Only its buttons take the pointer. */
 .stage-toast.is-open {
-  pointer-events: auto; overflow-y: auto;
+  overflow-y: auto;
   padding: 8px 10px; border-radius: var(--radius-sm);
 }
+.stage-toast.is-open button { pointer-events: auto; }
 /* info and success: neutral surface. */
 .stage-toast.is-open:not(.warning) {
   background: var(--surface); color: var(--text);

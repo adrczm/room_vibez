@@ -37,6 +37,8 @@ async function roomWithTwoProducts(page: Page) {
   await page.selectOption('#room-preset', 'living');
   await page.click('#btn-create-room');
   await expect.poll(async () => page.evaluate(() => window.__rv.roomGraph()?.walls.length ?? 0)).toBe(4);
+  // In the Room workspace the product picker is in the "Place products" step (UX-08): open it.
+  await page.click('.step[data-step=place] .step-toggle');
   await page.waitForTimeout(500);
 
   const place = async (productId: string, x: number, z: number, expected: number) => {

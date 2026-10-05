@@ -23,7 +23,8 @@ test('room from scratch: create, opening cutout, place catalog GLB', async ({ pa
   await expect(page.locator('.brand')).toHaveText('Catalog 3D');
   await expect(page.locator('#model-files')).toBeVisible();
 
-  // Create Living 5×4 room
+  // Create Living 5×4 room. The room controls are only rendered in the Room workspace (UX-07).
+  await page.click('#workspace-mode button[data-mode=room]');
   await page.selectOption('#room-preset', 'living');
   await page.click('#btn-create-room');
   await expect.poll(async () => page.evaluate(() => window.__rv.roomGraph()?.walls.length ?? 0)).toBe(4);
@@ -76,7 +77,8 @@ test('room from scratch: create, opening cutout, place catalog GLB', async ({ pa
   await page.screenshot({ path: path.join(MEDIA, '02-opening-mark.png'), fullPage: true });
   await page.screenshot({ path: path.join(ARTIFACTS, 'room-opening.png'), fullPage: true });
 
-  // Place lounge chair on floor
+  // Place lounge chair on floor. The picker and the Place button are in step 3 (UX-08): open it.
+  await page.click('.step[data-step=place] .step-toggle');
   await page.selectOption('#product-select', 'demo-lounge-chair');
   await ready(page);
   await page.click('#btn-place-mode');

@@ -153,6 +153,22 @@ const roomFloorMaterial = $<HTMLSelectElement>('room-floor-material');
 const stageHint = $('stage-hint');
 const stageEmpty = $('stage-empty');
 const workspaceMode = $('workspace-mode');
+const stageEl = document.querySelector<HTMLElement>('.stage')!;
+const panel = document.querySelector<HTMLElement>('.panel')!;
+/** One panel group per workspace (UX-07). Only the active workspace's group is rendered. */
+const panelCatalog = $('panel-catalog');
+const panelRoom = $('panel-room');
+/**
+ * The product picker's travelling wrapper. It holds `#product-select` (and, once the thumbnail
+ * picker is mounted on the select, the picker element that wraps it). `setWorkspace` moves this
+ * wrapper between the Product card and the "Place products" step, so there is one picker.
+ */
+const productPickerSlot = $('product-picker-slot');
+const roomToolbar = $('room-toolbar');
+const btnExportProject = $<HTMLButtonElement>('btn-export-project');
+const btnAddToRoom = $<HTMLButtonElement>('btn-add-to-room');
+const btnStepRoomChange = $<HTMLButtonElement>('btn-step-room-change');
+const roomSizeAdjust = $<HTMLDetailsElement>('room-size-adjust');
 
 const roomHistory = new RoomHistory();
 
@@ -172,6 +188,14 @@ let importJob: ImportJob | null = null;
 let underlayJob: UnderlayJob | null = null;
 let drawSession: DrawSession | null = null;
 let roomIngress: 'scratch' | 'import' | 'template' = 'scratch';
+
+/** The Room workspace's steps (UX-08 item 1), in order. Their titles are `copy.notInDeck.steps`. */
+type RoomStep = 'room' | 'openings' | 'place' | 'finish';
+const ROOM_STEPS: readonly RoomStep[] = ['room', 'openings', 'place', 'finish'];
+/** The one open step. It is always 'room' while there is no room. */
+let roomStep: RoomStep = 'room';
+/** Whether the user left "Adjust size" open while a size preset is selected (UX-08 item 4). */
+let sizeAdjustOpen = false;
 
 /** Active pack session (product id → meta + live params). */
 interface PackSession {
@@ -427,15 +451,104 @@ function setRoomIngress(mode: 'scratch' | 'import' | 'template') {
   document.body.dataset.roomIngress = roomIngress;
 }
 
+/** The elements of one step of the Room workspace. */
+function stepParts(step: RoomStep) {
+  const el = roomTools.querySelector<HTMLElement>(`.step[data-step="${step}"]`)!;
+  return {
+    el,
+    /** The heading. It takes focus when the app moves the user on to this step (UX-13). */
+    title: el.querySelector<HTMLElement>('.step-title')!,
+    toggle: el.querySelector<HTMLButtonElement>('.step-toggle')!,
+    body: el.querySelector<HTMLElement>('.step-body')!,
+  };
+}
+
+/**
+ * Open one step of the Room workspace and fold the others (UX-08 item 1: one open at a time).
+ * The open step carries `aria-current="step"`. Without a room only step 1 can be open, and the
+ * toggles of steps 2 to 4 are disabled: their tools all need a room.
+ * Also the one place that decides whether the step-1 "Change" link shows.
+ */
+function setRoomStep(step: RoomStep) {
+  const has = !!roomGraph;
+  const next: RoomStep = has ? step : 'room';
+  // The button of a tool that is on is about to be hidden with its step. Leave the tool, so
+  // nothing stays switched on that the panel no longer shows.
+  if (next !== roomStep) exitRoomTool();
+  roomStep = next;
+  for (const id of ROOM_STEPS) {
+    const { el, toggle, body } = stepParts(id);
+    const open = id === next;
+    if (open) el.setAttribute('aria-current', 'step');
+    else el.removeAttribute('aria-current');
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.disabled = id !== 'room' && !has;
+    body.hidden = !open;
+  }
+  // Step 1 folded to its one-line summary (#room-status): offer the way back into it.
+  btnStepRoomChange.hidden = !(has && next !== 'room');
+}
+
+/** Side panel to its top, with no animation (UX-07 item 4, QA-15). On a narrow screen the page scrolls instead, so this does nothing there. */
+function scrollPanelToTop() {
+  panel.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+/**
+ * Narrow screens (QA-03): the page is one column and scrolls as a whole, so the 3D view can be
+ * off screen when something happens on it. Bring it back, with no animation. On a wide screen
+ * the stage is always in view and this does nothing.
+ */
+function revealStage() {
+  const rect = stageEl.getBoundingClientRect();
+  // Scroll the page by the least that shows the whole stage ("nearest", without the scroll
+  // padding that is there for the room toolbar).
+  if (rect.top < 0) window.scrollBy({ top: rect.top, behavior: 'instant' });
+  else if (rect.bottom > window.innerHeight) {
+    window.scrollBy({ top: Math.min(rect.top, rect.bottom - window.innerHeight), behavior: 'instant' });
+  }
+}
+
+/**
+ * A room has just been created, imported or opened (UX-08 item 2): step 1 folds to its summary
+ * and the next step opens. Focus moves to that step's heading (UX-13), without scrolling: the
+ * panel goes to its top, where the summary and the open step are, and the stage is shown.
+ */
+function onRoomStarted() {
+  setRoomStep('openings');
+  scrollPanelToTop();
+  revealStage();
+  stepParts(roomStep).title.focus({ preventScroll: true });
+}
+
+/**
+ * The room size fields (UX-08 item 4): shown as they are for the Custom preset, behind the
+ * "Adjust size" disclosure for the others. With Custom the disclosure is held open and its
+ * summary is hidden (`.is-custom`, styles.css).
+ */
+function syncSizeFields() {
+  const custom = roomPreset.value === 'custom';
+  roomSizeAdjust.classList.toggle('is-custom', custom);
+  roomSizeAdjust.open = custom || sizeAdjustOpen;
+}
+
 function renderRoomUi() {
   roomGraphJson.textContent = roomGraph ? JSON.stringify(roomGraph, null, 2) : 'null';
   const has = !!roomGraph;
-  roomTools.hidden = !has;
+  // #room-tools holds the steps and is always shown. What needs a room is hidden or disabled here.
   roomPlan.hidden = !has;
   $('room-plan-actions').hidden = !has;
-  // Neither can do anything without a room. ("Download plan PNG" is hidden with its row above.)
+  // The room toolbar (Picker A1 as corrected by QA C15): Undo, Redo and Export project need a
+  // room. Import project is always there. The toolbar is in the Room group, so none of it is
+  // rendered in the Product workspace, room or no room.
+  btnUndo.hidden = !has;
+  btnRedo.hidden = !has;
+  btnExportProject.hidden = !has;
+  // None of these can do anything without a room. ("Download plan PNG" is hidden with its row above.)
   $<HTMLButtonElement>('btn-save-template-scratch').disabled = !has;
   $<HTMLButtonElement>('btn-clear-room').disabled = !has;
+  btnDrawWallMode.disabled = !has;
+  setRoomStep(roomStep);
   if (!has) {
     roomStatus.textContent = 'No room yet — from scratch, import plan, or template.';
     roomStatus.classList.remove('error');
@@ -563,6 +676,7 @@ function renderTemplateList() {
         if (!(await confirmReplaceRoom())) return;
         setWorkspace('room');
         applyRoomGraph(graph, { frame: true, reloadPlacements: true, history: 'reset' });
+        onRoomStarted();
         roomStatus.textContent = `Instantiated template “${tpl.title}”`;
         roomStatus.classList.remove('error');
       } catch (err) {
@@ -633,6 +747,7 @@ async function onImportStartEditing() {
     importJob = { ...job, status: 'confirmed' };
     setWorkspace('room');
     applyRoomGraph(graph, { frame: true, reloadPlacements: true, history: 'reset' });
+    onRoomStarted();
     roomStatus.textContent = `Immediate room from import · ${graph.source_assets[0]?.extract_path ?? 'import'} · place Catalog 3D GLBs`;
     roomStatus.classList.remove('error');
   } catch (err) {
@@ -723,6 +838,7 @@ async function onUnderlayConfirm() {
     renderUnderlayReview();
     setWorkspace('room');
     applyRoomGraph(graph, { frame: true, reloadPlacements: true, history: 'reset' });
+    onRoomStarted();
     roomStatus.textContent = `Room from underlay · ${graph.source_assets[0]?.filename ?? 'raster'} · place Catalog 3D GLBs`;
     roomStatus.classList.remove('error');
   } catch (err) {
@@ -772,6 +888,7 @@ async function onImportProjectFile(file: File) {
     if (project.templates.length) persistTemplates(project.templates);
     setWorkspace('room');
     applyRoomGraph(project.room_graph, { frame: true, reloadPlacements: true, history: 'reset' });
+    onRoomStarted();
     if (project.templates.length) renderTemplateList();
     // Opening a project can start from the card on the stage (QA-04), so its result is said there.
     notify(
@@ -906,6 +1023,13 @@ function setWorkspace(mode: 'catalog' | 'room') {
   workspaceMode.querySelectorAll('button').forEach((b) => {
     b.setAttribute('aria-checked', String(b.getAttribute('data-mode') === mode));
   });
+  // UX-07 item 1: only the active workspace's controls are rendered. `hidden` also takes the
+  // other group's controls out of the tab order (QA-09).
+  panelCatalog.hidden = mode !== 'catalog';
+  panelRoom.hidden = mode !== 'room';
+  // The one product picker goes where it is used: the Product card, or the "Place products" step.
+  const pickerHome = $(mode === 'room' ? 'product-picker-home-room' : 'product-picker-home-catalog');
+  if (productPickerSlot.parentElement !== pickerHome) pickerHome.appendChild(productPickerSlot);
   const hint = $('workspace-mode-hint');
   if (mode === 'catalog') {
     hint.textContent = 'Product turntable — inspect GLB, materials, and packs.';
@@ -913,7 +1037,6 @@ function setWorkspace(mode: 'catalog' | 'room') {
     // Reframe the catalog GLB — room camera/shell must not leave the product invisible.
     viewer?.resetCamera();
     setToolButtons(null);
-    $('catalog-card')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   } else {
     hint.textContent = 'Room editor — build the shell, openings, and place Catalog 3D products.';
     // Room mode with or without a room. With no room the engine shows an empty stage instead of
@@ -924,8 +1047,13 @@ function setWorkspace(mode: 'catalog' | 'room') {
     // view the user had just orbited to.
     if (roomGraph && changed) viewer?.frameRoom();
     setToolButtons(null);
-    $('room-card')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
+  // UX-07 item 4: the panel of the workspace starts at its top. It used to scroll a card into
+  // view, which left the panel mid-form and, on a narrow screen, scrolled the 3D view away
+  // (QA-03). The cold boot goes through here too and must not move the page: the group shown is
+  // already at the top, and the stage is only brought into view on a real switch.
+  scrollPanelToTop();
+  if (changed) revealStage();
 }
 
 function readOpeningParamsMeters() {
@@ -1038,37 +1166,170 @@ function onRoomPointer(hit: RoomPointerHit | null, mode: InteractionMode) {
   }
 }
 
+/** Where a placed product stands: its floor point and its turn about the vertical axis. */
+interface PlacementPose {
+  x: number;
+  z: number;
+  rotationY: number;
+}
+
+type Footprint = ReturnType<typeof footprintFromObject>;
+
+/**
+ * The pose a product gets when it is asked for at floor point (x, z): against the nearest wall
+ * when "Snap to nearest wall" is ticked, the point itself otherwise.
+ */
+function placementPose(graph: RoomGraph, x: number, z: number): PlacementPose {
+  if (($('place-wall-snap') as HTMLInputElement).checked) {
+    const snap = snapPlacementToWall(graph, { x, z });
+    // The snap moves the point toward a wall. Keep it only while it stays on the floor.
+    if (snap && pointInRoom(graph, { x: snap.x, z: snap.z })) return { x: snap.x, z: snap.z, rotationY: snap.rotation_y };
+  }
+  return { x, z, rotationY: 0 };
+}
+
+/** The floor box a product covers at a pose, from the box it covers standing unturned at the origin. */
+function footprintAtPose(base: Footprint, pose: PlacementPose): Footprint {
+  const cos = Math.cos(pose.rotationY);
+  const sin = Math.sin(pose.rotationY);
+  const xs: number[] = [];
+  const zs: number[] = [];
+  for (const bx of [base.minX, base.maxX]) {
+    for (const bz of [base.minZ, base.maxZ]) {
+      // A turn about Y by the same convention three.js uses for `rotation.y`.
+      xs.push(pose.x + bx * cos + bz * sin);
+      zs.push(pose.z - bx * sin + bz * cos);
+    }
+  }
+  return { minX: Math.min(...xs), maxX: Math.max(...xs), minZ: Math.min(...zs), maxZ: Math.max(...zs) };
+}
+
+/**
+ * Where "Add to room" puts a product (UX-08 item 3): the first free spot, or the room centre.
+ *
+ * Candidates are the points of a grid laid over the bounds of the floor polygon, 0.25 m apart
+ * (closer in a small room, so each side has at least eight steps), tried nearest the centre of
+ * those bounds first. The first product therefore lands in the middle of the room and the next
+ * ones beside it. A candidate is turned into the pose a click on that point would give (wall snap
+ * included) and is taken when it is
+ *   1. on the floor: `pointInRoom`, the test a canvas click has to pass. The centre of the bounds
+ *      is a candidate like any other, because in an L-shaped room it is not on the floor;
+ *   2. free: `checkPlacementCollision` finds no wall and no placed product under the product's
+ *      footprint at that pose. It is asked twice, once with the stand-in boxes it uses by default
+ *      (what the "It overlaps…" warning after placing is based on) and once with the real boxes
+ *      of the placed products from the viewer. A spot is free only when both agree.
+ * When no candidate is free, the product goes to "the room centre": the on-floor candidate nearest
+ * the centre that is at least half the product's smaller side away from every wall (`pointInRoom`
+ * with a margin), or failing that the nearest on-floor candidate. The usual overlap warning
+ * follows; a placement is never blocked by an overlap.
+ * Returns null only when no grid point is on the floor at all.
+ */
+function findSpotInRoom(graph: RoomGraph, root: Object3D): PlacementPose | null {
+  const polygon = graph.rooms[0]?.floor_polygon;
+  if (!polygon || polygon.length < 3) return null;
+  const xsAll = polygon.map((p) => p.x);
+  const zsAll = polygon.map((p) => p.z);
+  const minX = Math.min(...xsAll);
+  const maxX = Math.max(...xsAll);
+  const minZ = Math.min(...zsAll);
+  const maxZ = Math.max(...zsAll);
+  const cx = (minX + maxX) / 2;
+  const cz = (minZ + maxZ) / 2;
+  const step = Math.max(0.05, Math.min(0.25, (maxX - minX) / 8, (maxZ - minZ) / 8));
+  const stepsX = Math.floor((maxX - cx) / step);
+  const stepsZ = Math.floor((maxZ - cz) / step);
+  const candidates: { x: number; z: number; d2: number }[] = [];
+  for (let i = -stepsX; i <= stepsX; i++) {
+    for (let j = -stepsZ; j <= stepsZ; j++) candidates.push({ x: cx + i * step, z: cz + j * step, d2: i * i + j * j });
+  }
+  // Nearest the centre first. The sort is stable, so equal distances keep one fixed order.
+  candidates.sort((a, b) => a.d2 - b.d2);
+
+  // The product's box standing unturned at the origin; `attachPlacement` sets the same two fields.
+  root.position.set(0, 0, 0);
+  root.rotation.y = 0;
+  const base = footprintFromObject(root);
+  const placed = new Map<string, Footprint>();
+  for (const pl of graph.placements) {
+    const box = viewer?.getPlacementFootprint(pl.id);
+    if (box) placed.set(pl.id, box);
+  }
+
+  const inset = Math.min(base.maxX - base.minX, base.maxZ - base.minZ) / 2;
+  let centre: PlacementPose | null = null;
+  let onFloor: PlacementPose | null = null;
+  for (const c of candidates) {
+    if (!pointInRoom(graph, c)) continue;
+    const pose = placementPose(graph, c.x, c.z);
+    if (!pointInRoom(graph, pose)) continue;
+    onFloor ??= pose;
+    if (!centre && pointInRoom(graph, pose, inset)) centre = pose;
+    const footprint = footprintAtPose(base, pose);
+    if (
+      checkPlacementCollision(graph, footprint).ok &&
+      checkPlacementCollision(graph, footprint, { otherFootprints: placed }).ok
+    ) {
+      return pose;
+    }
+  }
+  return centre ?? onFloor;
+}
+
+/** "Add to room" clicks run one after another: each search has to see what the one before it placed. */
+let addToRoomQueue: Promise<void> = Promise.resolve();
+
+/** "Add to room" (UX-08 item 3): place the selected product with no pointer. Also the keyboard and touch path. */
+function onAddToRoom() {
+  addToRoomQueue = addToRoomQueue.then(addCurrentProductToRoom).catch((err) => console.error(err));
+}
+
+async function addCurrentProductToRoom() {
+  if (!roomGraph || !viewer) return;
+  const product = currentProduct;
+  if (!product?.glb && product.sourceKind !== 'mjs-module') {
+    notify(copy.roomMessages.noModel, { kind: 'warning' });
+    return;
+  }
+  try {
+    // The model is loaded first: the search needs the product's size. The same root is then placed.
+    const root = await loadPlacementRoot(product);
+    // The room can have been cleared or replaced while the model loaded.
+    if (!roomGraph || !viewer) return;
+    const pose = findSpotInRoom(roomGraph, root);
+    if (!pose) throw new Error('No point of the room floor to place on');
+    await placeCurrentProduct(pose.x, pose.z, { product, root, pose });
+  } catch (err) {
+    notifyProblem(friendlyError(err, { where: 'place', name: product.name }));
+  }
+}
+
 /**
  * Place the selected product at a floor point. Every caller goes through the room-bounds check
- * here (QA-02), so a path that does not come from a canvas raycast (a test hook today, a keyboard
- * or "Add to room" path later) cannot put a product outside the room either.
+ * here (QA-02), so a path that does not come from a canvas raycast (the test hook, "Add to room")
+ * cannot put a product outside the room either.
+ *
+ * `prepared` is for "Add to room", which has already loaded the product's model to measure it and
+ * has chosen the pose: the product, root and pose are then taken as given.
  */
-async function placeCurrentProduct(x: number, z: number) {
+async function placeCurrentProduct(
+  x: number,
+  z: number,
+  prepared?: { product: Product; root: Object3D; pose: PlacementPose },
+) {
   if (!roomGraph || !viewer) return;
   if (!pointInRoom(roomGraph, { x, z })) {
     notify(copy.notInDeck.outsideRoom, { kind: 'warning' });
     return;
   }
-  const product = currentProduct;
+  const product = prepared?.product ?? currentProduct;
   if (!product?.glb && product.sourceKind !== 'mjs-module') {
     notify(copy.roomMessages.noModel, { kind: 'warning' });
     return;
   }
   notify(fmt(copy.roomMessages.placing, { name: product.name }));
   try {
-    let px = x;
-    let pz = z;
-    let rotationY = 0;
-    if (($('place-wall-snap') as HTMLInputElement).checked) {
-      const snap = snapPlacementToWall(roomGraph, { x, z });
-      // The snap moves the point toward a wall. Keep it only while it stays on the floor.
-      if (snap && pointInRoom(roomGraph, { x: snap.x, z: snap.z })) {
-        px = snap.x;
-        pz = snap.z;
-        rotationY = snap.rotation_y;
-      }
-    }
-    const root = await loadPlacementRoot(product);
+    const { x: px, z: pz, rotationY } = prepared?.pose ?? placementPose(roomGraph, x, z);
+    const root = prepared?.root ?? (await loadPlacementRoot(product));
     const slot_bindings: Record<string, string> = {};
     for (const s of product.slots) slot_bindings[s.id] = s.default;
     const next = addPlacement(roomGraph, {
@@ -1145,6 +1406,7 @@ async function onCreateRoom() {
     setWorkspace('room');
     applyRoomGraph(graph, { frame: true, reloadPlacements: true, history: 'reset' });
     viewer?.clearAllPlacements();
+    onRoomStarted();
   } catch (err) {
     roomStatus.textContent = String((err as Error)?.message ?? err);
     roomStatus.classList.add('error');
@@ -1486,6 +1748,8 @@ function applyPackColorsToRoot(root: import('three').Object3D, session: PackSess
 }
 
 function renderPresets() {
+  // UX-07 item 3: the presets sit in the stage toolbar. The group's name is the deck's word for it.
+  presetsEl.setAttribute('aria-label', copy.productCard.lightingHeading);
   presetsEl.innerHTML = '';
   for (const p of LIGHT_PRESETS) {
     const b = document.createElement('button');
@@ -1852,8 +2116,7 @@ function initStageUi() {
     button.textContent = labels[action];
     button.addEventListener('click', () => {
       if (action === 'project') {
-        // The same hidden input the panel's Import project button uses. It sits inside
-        // #room-tools, which is hidden while there is no room; a hidden file input still opens.
+        // The one hidden input that the room toolbar's Import project button uses as well.
         $<HTMLInputElement>('project-file').click();
         return;
       }
@@ -1863,9 +2126,70 @@ function initStageUi() {
       $('room-ingress').querySelector<HTMLButtonElement>(`button[data-ingress="${action}"]`)?.focus();
     });
   });
+
+  // Two things are sized by what sits above them, and both can wrap onto a second row:
+  // the empty-room card stays below the stage toolbar (which now holds the light presets), and
+  // a control scrolled into view in the panel stays clear of the room toolbar stuck to its top.
+  const stageToolbar = stageEl.querySelector<HTMLElement>('.stage-toolbar');
+  const measure = () => {
+    if (stageToolbar) {
+      stageEl.style.setProperty('--stage-toolbar-bottom', `${stageToolbar.offsetTop + stageToolbar.offsetHeight}px`);
+    }
+    // 0 while the Room group is hidden.
+    document.documentElement.style.setProperty('--room-toolbar-height', `${roomToolbar.offsetHeight}px`);
+  };
+  measure();
+  if (typeof ResizeObserver !== 'undefined') {
+    const observer = new ResizeObserver(measure);
+    if (stageToolbar) observer.observe(stageToolbar);
+    observer.observe(roomToolbar);
+  }
+}
+
+/**
+ * One-time wiring of the side panel's structure (UX-07, UX-08): the labels of the new controls
+ * (all from `copy`, so index.html leaves them empty), the steps, "Adjust size" and "Add to room".
+ * It needs no data, so it runs before anything is fetched.
+ */
+function initPanelUi() {
+  const labels = copy.notInDeck;
+  $('product-advanced-summary').textContent = labels.advanced;
+  $('room-size-adjust-summary').textContent = labels.adjustSize;
+  $('room-more-summary').textContent = labels.more;
+  btnStepRoomChange.textContent = labels.stepChange;
+  btnAddToRoom.textContent = labels.addToRoom;
+
+  for (const step of ROOM_STEPS) {
+    const { toggle, title } = stepParts(step);
+    toggle.querySelector('.step-name')!.textContent = labels.steps[step];
+    // One step is open at a time, so the toggle of the open step has nothing to do.
+    toggle.addEventListener('click', () => {
+      if (roomStep === step) return;
+      setRoomStep(step);
+      // The steps above may just have folded and moved this heading: keep it in view.
+      title.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+    });
+  }
+  // "Change" on the step-1 summary reopens step 1. The link hides itself, so focus goes to the heading.
+  btnStepRoomChange.addEventListener('click', () => {
+    setRoomStep('room');
+    const { title } = stepParts('room');
+    title.focus({ preventScroll: true });
+    title.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+  });
+
+  // Remember what the user did with "Adjust size" (with Custom the app holds it open, and its
+  // summary is hidden, so that is never their choice). The click is about to toggle the
+  // disclosure. The `toggle` event is not used: it arrives a task later, by when the preset may
+  // have changed again.
+  $('room-size-adjust-summary').addEventListener('click', () => {
+    sizeAdjustOpen = !roomSizeAdjust.open;
+  });
+  btnAddToRoom.addEventListener('click', () => onAddToRoom());
 }
 
 async function boot() {
+  initPanelUi();
   [library, catalog] = await Promise.all([
     fetchJson<MaterialsLibrary>('/assets/library/materials.json'),
     fetchJson<Catalog>('/assets/library/catalog.json'),
@@ -1880,6 +2204,8 @@ async function boot() {
     }
   }
   roomHistory.reset(roomGraph);
+  // A room restored from the last visit: step 1 is done, so the Room workspace opens on the next step.
+  if (roomGraph) roomStep = 'openings';
   populateMaterialSelects();
 
   refreshProductSelect(catalog.products[0]?.id);
@@ -1941,6 +2267,8 @@ async function boot() {
   $('btn-import-start-editing').addEventListener('click', () => void onImportStartEditing());
   $('btn-import-save-template').addEventListener('click', () => onImportSaveTemplate());
   roomPreset.addEventListener('change', () => {
+    // Custom shows the size fields; a preset folds them behind "Adjust size" (UX-08 item 4).
+    syncSizeFields();
     const preset = ROOM_PRESETS.find((p) => p.id === roomPreset.value);
     if (!preset) return;
     const u = displayUnit();
@@ -1952,6 +2280,7 @@ async function boot() {
   for (const input of [roomLength, roomWidth, roomCeiling]) {
     input.addEventListener('input', () => {
       roomPreset.value = 'custom';
+      syncSizeFields();
     });
   }
   roomUnits.addEventListener('change', () => {
