@@ -80,6 +80,34 @@ body {
   position: absolute; bottom: 10px; left: 12px; margin: 0; padding: 4px 8px; border-radius: 6px;
   background: rgba(255, 255, 255, 0.85); color: var(--text-muted); font-size: 11px;
 }
+/* UX-04: while a room tool is on, the hint is the on-canvas state line, shown as a chip that says
+   what a click will do. It takes the pressed tool button's fill and border, with --text for contrast.
+   With no tool on, the attribute is removed and the hint is the quiet nudge above. */
+.hint[data-tool] {
+  /* It names the selected product, which can be a long file name with no spaces: wrap inside the stage. */
+  max-width: calc(100% - 24px); overflow-wrap: anywhere;
+  padding: 6px 10px; border: 1px solid var(--accent); border-radius: var(--radius-sm);
+  background: var(--accent-soft); color: var(--text); font-size: 13px; font-weight: 550; box-shadow: var(--shadow);
+}
+
+/* UX-06: Room workspace with no room. A card over the empty stage with the ways to start.
+   The padding keeps the card clear of the stage toolbar (top) and the hint (bottom). */
+.stage-empty {
+  position: absolute; inset: 0; display: grid; place-items: center; padding: 56px 12px 44px;
+  overflow: hidden; pointer-events: none;
+}
+.stage-empty-card {
+  width: min(400px, 100%); max-height: 100%; overflow-y: auto; padding: 16px; text-align: center;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow);
+  pointer-events: auto;
+}
+.card .stage-empty-title { display: block; margin: 0 0 4px; font-size: 14px; font-weight: 650; }
+.stage-empty-body { margin: 0 0 12px; }
+.stage-empty-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+/* "Import project" opens a file instead of starting a room, so it sits apart from the three starts. */
+.stage-empty-project { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+/* A viewer error fills the stage with its own message. */
+body[data-viewer-status='error'] .stage-empty { display: none; }
 
 .panel { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; min-height: 0; }
 
@@ -96,6 +124,9 @@ body {
 .btn-primary:hover:where(:not(:disabled)) { background: #006e52; color: #fff; }
 /* Disabled: a design default, not a validated value. */
 .btn:disabled { opacity: 0.5; cursor: default; box-shadow: none; }
+/* UX-03: a destructive action is a secondary button with critical text. It is never the primary. */
+.btn.btn-danger { color: var(--critical); }
+.btn.btn-danger:hover:where(:not(:disabled)) { background: var(--critical-soft); border-color: #f0b6ae; }
 
 .upload-block { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
 .upload-label { display: block; font-weight: 600; margin-bottom: 4px; }
@@ -201,7 +232,8 @@ body[data-workspace='room'] .panel-card[data-workspace-panel='catalog']:focus-wi
 }
 .room-dims { margin-top: 8px; }
 .room-dims.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-#btn-clear-room { margin-top: 8px; width: 100%; }
+/* UX-03: Clear room sits in the row under the 2D plan, at the far end from "Download plan PNG". */
+#btn-clear-room { margin-left: auto; }
 .room-tools { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
 .room-subhead { margin: 14px 0 6px; font-size: 12px; font-weight: 650; }
 .room-tools h3 { margin: 12px 0 8px; font-size: 12px; font-weight: 650; }

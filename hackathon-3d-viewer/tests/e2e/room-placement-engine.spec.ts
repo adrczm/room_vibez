@@ -122,7 +122,9 @@ test('UX-09 engine: placement hits, pose changes and the highlight', async ({ pa
   const emptyFloor = await toClient(page, 1.8, 0, 1.2);
   await page.mouse.click(emptyFloor.x, emptyFloor.y);
   const box = (await page.locator('#viewer-host canvas').boundingBox())!;
-  await page.mouse.click(box.x + 40, box.y + box.height - 60);
+  // The void click goes to the bottom-right corner. The bottom-left one now holds the stage toast
+  // ("Placed …", UX-04), which sits over the canvas there and takes the click itself.
+  await page.mouse.click(box.x + box.width - 40, box.y + box.height - 60);
   const hits = await page.evaluate(() => (window as any).__hits as { hit: any; mode: string }[]);
   expect(hits.map((h) => h.mode)).toEqual(['room', 'room', 'room']);
   expect(hits[0]!.hit).toMatchObject({ kind: 'placement', placementId: chair });

@@ -30,6 +30,7 @@ import {
   createProductFromModelFiles,
   createProductFromPack,
   candidatesOverlaySvg,
+  clearProjectFromIdb,
   confirmImportToRoomGraph,
   createRectangularRoom,
   defaultsFromMeta,
@@ -39,7 +40,6 @@ import {
   exportProjectJson,
   findMaterial,
   footprintFromObject,
-  formatCollisionWarn,
   formatLength,
   fromMeters,
   getModuleFactory,
@@ -58,6 +58,7 @@ import {
   persistRoomGraph,
   persistTemplates,
   planSvgToPngDataUrl,
+  pointInRoom,
   registerModuleFactory,
   removeOpening,
   removePlacement,
@@ -96,6 +97,10 @@ import {
   type UnderlayJob,
   type ViewerStatus,
 } from './viewer';
+import { copy, fmt, plural } from './copy';
+import { friendlyError, placedMessage, type FriendlyMessage } from './errors';
+import { confirmDialog } from './ui/confirmDialog';
+import { dismissNotification, mountNotifier, notify } from './ui/notify';
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 
@@ -146,6 +151,7 @@ const btnRedo = $<HTMLButtonElement>('btn-redo');
 const roomWallMaterial = $<HTMLSelectElement>('room-wall-material');
 const roomFloorMaterial = $<HTMLSelectElement>('room-floor-material');
 const stageHint = $('stage-hint');
+const stageEmpty = $('stage-empty');
 const workspaceMode = $('workspace-mode');
 
 const roomHistory = new RoomHistory();
@@ -269,19 +275,76 @@ function syncOpeningDefaultsFromType() {
   viewer?.setOpeningToolDefaults(openingType, d.width);
 }
 
-function shellMaterialsFromGraph(graph: RoomGraph): RoomMeshMaterials | undefined {
+/**
+ * Shell materials for the surfaces the user chose a finish for, and only those. A surface that
+ * is left out keeps the engine's default (`buildRoomScene`). Filling the other one in with the
+ * first library material turned the floor white as soon as a wall finish was picked.
+ */
+function shellMaterialsFromGraph(graph: RoomGraph): Partial<RoomMeshMaterials> | undefined {
   const room = graph.rooms[0];
-  if (!room?.wall_material_id && !room?.floor_material_id) return undefined;
-  const wallDef = room.wall_material_id ? findMaterial(library, room.wall_material_id) : null;
-  const floorDef = room.floor_material_id ? findMaterial(library, room.floor_material_id) : null;
-  return {
-    wall: wallDef
-      ? meshStandardFromLibrary(wallDef, { side: DoubleSide, name: `room:wall:${wallDef.id}` })
-      : meshStandardFromLibrary(library.materials[0]!, { side: DoubleSide, name: 'room:wall:default' }),
-    floor: floorDef
-      ? meshStandardFromLibrary(floorDef, { name: `room:floor:${floorDef.id}` })
-      : meshStandardFromLibrary(library.materials[0]!, { name: 'room:floor:default' }),
-  };
+  const wallDef = room?.wall_material_id ? findMaterial(library, room.wall_material_id) : null;
+  const floorDef = room?.floor_material_id ? findMaterial(library, room.floor_material_id) : null;
+  if (!wallDef && !floorDef) return undefined;
+  const materials: Partial<RoomMeshMaterials> = {};
+  if (wallDef) materials.wall = meshStandardFromLibrary(wallDef, { side: DoubleSide, name: `room:wall:${wallDef.id}` });
+  if (floorDef) materials.floor = meshStandardFromLibrary(floorDef, { name: `room:floor:${floorDef.id}` });
+  return materials;
+}
+
+/**
+ * Canvas-originated feedback goes to the toast on the stage (UX-04), where the user is looking.
+ * `#room-status` in the panel stays the persistent room summary and is not written by these
+ * paths, so each message has exactly one announcer.
+ */
+function notifyProblem(msg: FriendlyMessage) {
+  if (msg.neutral) notify(msg.text);
+  else notify(msg.text, { kind: msg.critical ? 'error' : 'warning' });
+}
+
+/** Deck §5 "Replace room" is asked only when there is work to lose (Copy Phase 4 item 3). */
+function roomHasContent(): boolean {
+  return !!roomGraph && (roomGraph.placements.length > 0 || roomGraph.openings.length > 0 || roomHistory.canUndo());
+}
+
+/**
+ * Guard for every flow that swaps the room and resets undo history (create room, use template,
+ * create room from plan or image, open project). Resolves true when the caller may go ahead.
+ */
+async function confirmReplaceRoom(): Promise<boolean> {
+  if (!roomGraph || !roomHasContent()) return true;
+  const c = copy.confirm.replaceRoom;
+  return confirmDialog({
+    title: c.title,
+    body: fmt(c.body, { products: plural(roomGraph.placements.length, c.placedProductCount) }),
+    confirmLabel: c.confirmLabel,
+    cancelLabel: c.cancelLabel,
+    destructive: true,
+  });
+}
+
+/** Clear room (UX-03): ask first, then empty the room and stay in the workspace the user is in. */
+async function onClearRoom() {
+  if (!roomGraph) return;
+  const c = copy.confirm.clearRoom;
+  const confirmed = await confirmDialog({
+    title: c.title,
+    body: fmt(c.body, {
+      openings: plural(roomGraph.openings.length, c.openingCount),
+      products: plural(roomGraph.placements.length, c.placedProductCount),
+    }),
+    confirmLabel: c.confirmLabel,
+    cancelLabel: c.cancelLabel,
+    destructive: true,
+  });
+  if (!confirmed) return;
+  viewer?.clearAllPlacements();
+  drawSession = null;
+  applyRoomGraph(null, { history: 'reset' });
+  // A toast still on the stage ("Placed …") is about the room that has just gone.
+  dismissNotification();
+  // The Clear button has just been hidden with its row. In the Room workspace the empty-room
+  // card took its place on the stage, so keyboard focus continues there.
+  if (workspace === 'room') stageEmpty.querySelector<HTMLButtonElement>('button')?.focus();
 }
 
 function applyRoomGraph(
@@ -298,6 +361,9 @@ function applyRoomGraph(
     roomGraph = roomHistory.commit(next);
   }
   persistRoomGraph(roomGraph);
+  // Export project also leaves a copy in IndexedDB, and boot falls back to it when no room is
+  // saved. Without this a cleared room came back on the next reload.
+  if (!roomGraph) void clearProjectFromIdb();
   viewer?.setRoomGraph(roomGraph, {
     frame: opts?.frame,
     materials: roomGraph ? shellMaterialsFromGraph(roomGraph) : undefined,
@@ -316,16 +382,14 @@ function onUndo() {
   if (!roomHistory.canUndo()) return;
   const prev = roomHistory.undo();
   applyRoomGraph(prev, { frame: false, reloadPlacements: true, history: 'skip' });
-  roomStatus.textContent = 'Undid last room change';
-  roomStatus.classList.remove('error');
+  notify(copy.roomMessages.undid);
 }
 
 function onRedo() {
   if (!roomHistory.canRedo()) return;
   const next = roomHistory.redo();
   applyRoomGraph(next, { frame: false, reloadPlacements: true, history: 'skip' });
-  roomStatus.textContent = 'Redid room change';
-  roomStatus.classList.remove('error');
+  notify(copy.roomMessages.redid);
 }
 
 function populateMaterialSelects() {
@@ -381,6 +445,7 @@ function renderRoomUi() {
     setToolButtons(null);
     return;
   }
+  syncStageState();
   const room = roomGraph!.rooms[0];
   const u = displayUnit();
   const len = room ? Math.abs(room.floor_polygon[1].x - room.floor_polygon[0].x) : 0;
@@ -492,9 +557,10 @@ function renderTemplateList() {
     const useBtn = document.createElement('button');
     useBtn.type = 'button';
     useBtn.textContent = 'Instantiate';
-    useBtn.addEventListener('click', () => {
+    useBtn.addEventListener('click', async () => {
       try {
         const graph = instantiateTemplate(tpl.id);
+        if (!(await confirmReplaceRoom())) return;
         setWorkspace('room');
         applyRoomGraph(graph, { frame: true, reloadPlacements: true, history: 'reset' });
         roomStatus.textContent = `Instantiated template “${tpl.title}”`;
@@ -507,7 +573,16 @@ function renderTemplateList() {
     const delBtn = document.createElement('button');
     delBtn.type = 'button';
     delBtn.textContent = 'Delete';
-    delBtn.addEventListener('click', () => {
+    delBtn.addEventListener('click', async () => {
+      const c = copy.confirm.deleteTemplate;
+      const confirmed = await confirmDialog({
+        title: fmt(c.title, { name: tpl.title }),
+        body: c.body,
+        confirmLabel: c.confirmLabel,
+        cancelLabel: c.cancelLabel,
+        destructive: true,
+      });
+      if (!confirmed) return;
       deleteTemplate(tpl.id);
       renderTemplateList();
     });
@@ -549,11 +624,13 @@ function onApplyImportScale() {
   }
 }
 
-function onImportStartEditing() {
+async function onImportStartEditing() {
   if (!importJob) return;
   try {
-    const graph = confirmImportToRoomGraph(importJob);
-    importJob = { ...importJob, status: 'confirmed' };
+    const job = importJob;
+    const graph = confirmImportToRoomGraph(job);
+    if (!(await confirmReplaceRoom())) return;
+    importJob = { ...job, status: 'confirmed' };
     setWorkspace('room');
     applyRoomGraph(graph, { frame: true, reloadPlacements: true, history: 'reset' });
     roomStatus.textContent = `Immediate room from import · ${graph.source_assets[0]?.extract_path ?? 'import'} · place Catalog 3D GLBs`;
@@ -631,7 +708,7 @@ async function onStartUnderlay(file: File) {
   }
 }
 
-function onUnderlayConfirm() {
+async function onUnderlayConfirm() {
   if (!underlayJob) return;
   try {
     underlayJob = {
@@ -641,6 +718,7 @@ function onUnderlayConfirm() {
       status: 'confirmed',
     };
     const graph = confirmUnderlayToRoomGraph(underlayJob);
+    if (!(await confirmReplaceRoom())) return;
     underlayJob = null;
     renderUnderlayReview();
     setWorkspace('room');
@@ -689,15 +767,19 @@ function onExportProject() {
 async function onImportProjectFile(file: File) {
   try {
     const project = parseProjectJson(JSON.parse(await file.text()));
+    // Ask before anything is written: "Keep current room" must leave the room and the templates alone.
+    if (!(await confirmReplaceRoom())) return;
     if (project.templates.length) persistTemplates(project.templates);
     setWorkspace('room');
     applyRoomGraph(project.room_graph, { frame: true, reloadPlacements: true, history: 'reset' });
     if (project.templates.length) renderTemplateList();
-    roomStatus.textContent = `Imported project${project.label ? ` “${project.label}”` : ''}`;
-    roomStatus.classList.remove('error');
+    // Opening a project can start from the card on the stage (QA-04), so its result is said there.
+    notify(
+      project.label ? fmt(copy.roomMessages.importOk, { name: project.label }) : copy.roomMessages.importOkUnnamed,
+      { kind: 'success' },
+    );
   } catch (err) {
-    roomStatus.textContent = `Import failed: ${String((err as Error)?.message ?? err)}`;
-    roomStatus.classList.add('error');
+    notifyProblem(friendlyError(err, 'project-import'));
   }
 }
 
@@ -774,27 +856,53 @@ function renderPlacementList() {
   }
 }
 
+/**
+ * The three tool buttons keep one fixed label each (deck §3.6). Their state is `aria-pressed`,
+ * and the stage hint says what a click on the canvas will do.
+ */
 function setToolButtons(mode: InteractionMode | null) {
   btnOpeningMode.setAttribute('aria-pressed', String(mode === 'opening'));
   btnPlaceMode.setAttribute('aria-pressed', String(mode === 'place'));
   btnDrawWallMode.setAttribute('aria-pressed', String(mode === 'draw-wall'));
-  btnOpeningMode.textContent = mode === 'opening' ? 'Opening mode on — click a wall' : 'Click wall to mark opening';
-  btnPlaceMode.textContent = mode === 'place' ? 'Place mode on — click the floor' : 'Click floor to place product';
-  btnDrawWallMode.textContent =
-    mode === 'draw-wall' ? 'Draw walls on — click floor corners' : 'Draw walls mode';
-  if (mode === 'opening') stageHint.textContent = 'Opening mode · click a wall · orbit drag to look · scroll to zoom';
-  else if (mode === 'place') stageHint.textContent = 'Place mode · click floor to drop the selected product · orbit to look';
-  else if (mode === 'draw-wall')
-    stageHint.textContent = 'Draw walls · click floor corners · click near first point to close · orbit to look';
-  else if (workspace === 'room' || roomGraph)
-    stageHint.textContent = 'Room · drag to orbit · scroll to zoom · right-drag to pan';
-  else stageHint.textContent = 'Drag to spin product · scroll to zoom · right-drag / two-finger to pan';
+  syncStageState();
+}
+
+/**
+ * What the stage itself says about the current state. One function, so the two cannot disagree.
+ *
+ * `#stage-hint` is the single on-canvas state line and always carries the deck §3.3 string for
+ * the state. With a tool on it is shown as a chip (`data-tool`, styled in styles.css); with no
+ * tool on the chip goes away and the same element is the quiet nudge it was before.
+ *
+ * `#stage-empty` is the card for the Room workspace with no room (UX-06).
+ *
+ * The state is read here, not passed in: workspace, room, the engine's interaction mode, the
+ * opening type and the selected product. Call it after any of them changes.
+ */
+function syncStageState() {
+  const inRoom = workspace === 'room';
+  const im = viewer?.getInteractionMode();
+  const tool = inRoom && roomGraph && (im === 'opening' || im === 'place' || im === 'draw-wall') ? im : null;
+  let hint: string;
+  if (!inRoom) hint = copy.stageHints.product;
+  else if (!roomGraph) hint = copy.stageHints.roomEmpty;
+  else if (tool === 'opening')
+    hint = openingType === 'window' ? copy.stageHints.addOpeningWindow : copy.stageHints.addOpeningDoor;
+  else if (tool === 'place') hint = fmt(copy.stageHints.placeProduct, { product: currentProduct?.name ?? '' });
+  else if (tool === 'draw-wall') hint = copy.stageHints.drawWalls;
+  else hint = copy.stageHints.roomIdle;
+  stageHint.textContent = hint;
+  if (tool) stageHint.dataset.tool = tool;
+  else delete stageHint.dataset.tool;
+  stageEmpty.hidden = !(inRoom && !roomGraph);
 }
 
 function setWorkspace(mode: 'catalog' | 'room') {
   const changed = workspace !== mode;
   workspace = mode;
   document.body.dataset.workspace = mode;
+  // A toast belongs to the stage it was shown on. Do not carry it into the other workspace.
+  if (changed) dismissNotification();
   workspaceMode.querySelectorAll('button').forEach((b) => {
     b.setAttribute('aria-checked', String(b.getAttribute('data-mode') === mode));
   });
@@ -805,21 +913,17 @@ function setWorkspace(mode: 'catalog' | 'room') {
     // Reframe the catalog GLB — room camera/shell must not leave the product invisible.
     viewer?.resetCamera();
     setToolButtons(null);
-    stageHint.textContent = 'Drag to spin product · scroll to zoom · right-drag / two-finger to pan';
     $('catalog-card')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   } else {
     hint.textContent = 'Room editor — build the shell, openings, and place Catalog 3D products.';
-    if (roomGraph) {
-      viewer?.setInteractionMode('room');
-      // Frame the room on arrival from Product only. Framing on every call threw away the
-      // view the user had just orbited to.
-      if (changed) viewer?.frameRoom();
-      stageHint.textContent = 'Room · drag to orbit · scroll to zoom · right-drag to pan';
-    } else {
-      stageHint.textContent = 'Room workspace — create or import a room to edit the shell.';
-    }
-    const im = viewer?.getInteractionMode();
-    setToolButtons(im === 'opening' || im === 'place' || im === 'draw-wall' ? im : null);
+    // Room mode with or without a room. With no room the engine shows an empty stage instead of
+    // the turntable product (`hideProductInEmptyRoom`, see mountViewer), and syncStageState puts
+    // the empty-room card over it (UX-06).
+    viewer?.setInteractionMode('room');
+    // Frame the room on arrival from Product only. Framing on every call threw away the
+    // view the user had just orbited to.
+    if (roomGraph && changed) viewer?.frameRoom();
+    setToolButtons(null);
     $('room-card')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 }
@@ -859,10 +963,11 @@ function isTypingTarget(target: EventTarget | null): boolean {
 
 function onRoomPointer(hit: RoomPointerHit | null, mode: InteractionMode) {
   if (!roomGraph || !viewer) return;
+  // Everything said from here on is about a click on the canvas, so it is said on the canvas
+  // (the stage toast), not in the panel's #room-status.
   if (mode === 'opening') {
     if (!hit || hit.kind !== 'wall' || !hit.wallId || hit.offsetAlongWall == null) {
-      roomStatus.textContent = 'Click a wall to place the opening.';
-      roomStatus.classList.add('error');
+      notify(copy.roomMessages.clickWall, { kind: 'warning' });
       return;
     }
     const dims = readOpeningParamsMeters();
@@ -874,18 +979,22 @@ function onRoomPointer(hit: RoomPointerHit | null, mode: InteractionMode) {
         ...dims,
       });
       applyRoomGraph(next, { frame: false, reloadPlacements: false });
-      roomStatus.classList.remove('error');
-      roomStatus.textContent = `Added ${openingType} on wall · procedural placeholder mesh (not a catalog SKU)`;
+      notify(openingType === 'window' ? copy.roomMessages.openingAddedWindow : copy.roomMessages.openingAddedDoor, {
+        kind: 'success',
+      });
     } catch (err) {
-      roomStatus.textContent = String((err as Error)?.message ?? err);
-      roomStatus.classList.add('error');
+      notifyProblem(friendlyError(err, 'opening-add'));
     }
     return;
   }
   if (mode === 'place') {
-    if (!hit || hit.kind !== 'floor') {
-      roomStatus.textContent = 'Click the floor inside the room to place furniture.';
-      roomStatus.classList.add('error');
+    if (!hit) {
+      // Nothing of the room is under the pointer: the click was outside it (QA-02, D-QA1: reject, say so).
+      notify(copy.notInDeck.outsideRoom, { kind: 'warning' });
+      return;
+    }
+    if (hit.kind !== 'floor') {
+      notify(copy.roomMessages.clickFloor, { kind: 'warning' });
       return;
     }
     void placeCurrentProduct(hit.point.x, hit.point.z);
@@ -899,8 +1008,7 @@ function onRoomPointer(hit: RoomPointerHit | null, mode: InteractionMode) {
           ? { x: hit.point.x, z: hit.point.z }
           : null;
     if (!point) {
-      roomStatus.textContent = 'Click the floor to add wall corners.';
-      roomStatus.classList.add('error');
+      notify(copy.roomMessages.clickCorner, { kind: 'warning' });
       return;
     }
     if (!drawSession) {
@@ -919,37 +1027,42 @@ function onRoomPointer(hit: RoomPointerHit | null, mode: InteractionMode) {
         applyRoomGraph(graph, { frame: true, reloadPlacements: true });
         viewer.setInteractionMode('room');
         setToolButtons(null);
-        roomStatus.classList.remove('error');
-        roomStatus.textContent = `Closed freeform room · ${graph.walls.length} walls`;
+        notify(plural(graph.walls.length, copy.roomMessages.drawClosed), { kind: 'success' });
       } catch (err) {
-        roomStatus.textContent = String((err as Error)?.message ?? err);
-        roomStatus.classList.add('error');
+        notifyProblem(friendlyError(err, 'draw-walls'));
       }
       return;
     }
     drawSession = addDrawPoint(drawSession, point);
-    roomStatus.classList.remove('error');
-    roomStatus.textContent = `Draw wall: ${drawSession.points.length} point(s) — click near first to close`;
+    notify(plural(drawSession.points.length, copy.roomMessages.drawProgress));
   }
 }
 
+/**
+ * Place the selected product at a floor point. Every caller goes through the room-bounds check
+ * here (QA-02), so a path that does not come from a canvas raycast (a test hook today, a keyboard
+ * or "Add to room" path later) cannot put a product outside the room either.
+ */
 async function placeCurrentProduct(x: number, z: number) {
   if (!roomGraph || !viewer) return;
-  const product = currentProduct;
-  if (!product?.glb && product.sourceKind !== 'mjs-module') {
-    roomStatus.textContent = 'Select a Catalog 3D product with a GLB (or pack) first.';
-    roomStatus.classList.add('error');
+  if (!pointInRoom(roomGraph, { x, z })) {
+    notify(copy.notInDeck.outsideRoom, { kind: 'warning' });
     return;
   }
-  roomStatus.classList.remove('error');
-  roomStatus.textContent = `Placing “${product.name}”…`;
+  const product = currentProduct;
+  if (!product?.glb && product.sourceKind !== 'mjs-module') {
+    notify(copy.roomMessages.noModel, { kind: 'warning' });
+    return;
+  }
+  notify(fmt(copy.roomMessages.placing, { name: product.name }));
   try {
     let px = x;
     let pz = z;
     let rotationY = 0;
     if (($('place-wall-snap') as HTMLInputElement).checked) {
       const snap = snapPlacementToWall(roomGraph, { x, z });
-      if (snap) {
+      // The snap moves the point toward a wall. Keep it only while it stays on the floor.
+      if (snap && pointInRoom(roomGraph, { x: snap.x, z: snap.z })) {
         px = snap.x;
         pz = snap.z;
         rotationY = snap.rotation_y;
@@ -972,14 +1085,15 @@ async function placeCurrentProduct(x: number, z: number) {
     applyRoomGraph(next, { frame: false, reloadPlacements: false });
     const fp = footprintFromObject(root);
     const report = checkPlacementCollision(roomGraph, fp, { ignorePlacementId: placed.id });
-    const warn = formatCollisionWarn(report);
-    roomStatus.textContent = warn
-      ? `Placed “${product.name}” · ${warn}`
-      : `Placed “${product.name}” on the floor`;
+    // An overlap warns and never blocks. An overlapped product is named as its list row names it.
+    const graph = roomGraph;
+    const msg = placedMessage(product.name, report, (o) => {
+      const other = graph.placements.find((p) => p.id === o.id);
+      return catalog.products.find((p) => p.id === other?.product_id)?.name ?? other?.sku_id ?? o.label;
+    });
+    notify(msg.text, { kind: msg.overlap ? 'warning' : 'success' });
   } catch (err) {
-    console.error(err);
-    roomStatus.textContent = `Place failed: ${String((err as Error)?.message ?? err)}`;
-    roomStatus.classList.add('error');
+    notifyProblem(friendlyError(err, { where: 'place', name: product.name }));
   }
 }
 
@@ -1008,7 +1122,7 @@ async function reloadAllPlacements(graph: RoomGraph) {
   }
 }
 
-function onCreateRoom() {
+async function onCreateRoom() {
   const u = displayUnit();
   // The preset only names the room. The size always comes from the fields, which the preset
   // fills in and the user may then edit.
@@ -1026,6 +1140,8 @@ function onCreateRoom() {
       name: preset?.label ?? 'Custom room',
       displayUnit: u,
     });
+    // The size is valid. Now ask, if the room on stage has work in it (deck §5 "Replace room").
+    if (!(await confirmReplaceRoom())) return;
     setWorkspace('room');
     applyRoomGraph(graph, { frame: true, reloadPlacements: true, history: 'reset' });
     viewer?.clearAllPlacements();
@@ -1043,6 +1159,9 @@ function mountViewer() {
     onPartListUpdate: onParts,
     onSlotsDiscovered: renderWarnings,
     onRoomPointer,
+    // Room workspace with no room: an empty stage, not the turntable product (UX-06).
+    // Product (catalog mode) is not affected by this option.
+    hideProductInEmptyRoom: true,
   });
   if (roomGraph) {
     // Restore shell/placements into the viewer, but do not force Room mode when
@@ -1060,6 +1179,8 @@ function mountViewer() {
 
 async function loadProduct(product: Product, opts?: { onRootReady?: (root: Object3D) => void | Promise<void> }) {
   currentProduct = product;
+  // The Place hint names the selected product.
+  syncStageState();
   const packNote = product.pack
     ? ` · pack ${product.pack.completeness}/${product.pack.mappingMode}`
     : '';
@@ -1706,6 +1827,44 @@ async function onAddTexture() {
   }
 }
 
+/**
+ * One-time wiring of what sits on the stage besides the canvas: the toast (UX-04), the
+ * empty-room card (UX-06, QA-04) and the fixed tool-button labels (deck §3.6).
+ */
+function initStageUi() {
+  mountNotifier(document.querySelector<HTMLElement>('.stage')!, { dismissLabel: copy.notInDeck.toastDismiss });
+
+  btnOpeningMode.textContent = copy.roomTools.addOpening;
+  btnPlaceMode.textContent = copy.roomTools.placeProduct;
+  btnDrawWallMode.textContent = copy.roomTools.drawWalls;
+
+  const empty = copy.notInDeck.emptyRoom;
+  $('stage-empty-title').textContent = empty.title;
+  $('stage-empty-body').textContent = empty.body;
+  const labels = {
+    scratch: empty.fromScratch,
+    import: empty.importPlan,
+    template: empty.fromTemplate,
+    project: empty.importProject,
+  };
+  stageEmpty.querySelectorAll<HTMLButtonElement>('button[data-empty-action]').forEach((button) => {
+    const action = button.dataset.emptyAction as keyof typeof labels;
+    button.textContent = labels[action];
+    button.addEventListener('click', () => {
+      if (action === 'project') {
+        // The same hidden input the panel's Import project button uses. It sits inside
+        // #room-tools, which is hidden while there is no room; a hidden file input still opens.
+        $<HTMLInputElement>('project-file').click();
+        return;
+      }
+      setRoomIngress(action);
+      // Take the user to the form they chose. Focusing its tab also scrolls it into view, in the
+      // panel on a wide screen and in the page on a narrow one.
+      $('room-ingress').querySelector<HTMLButtonElement>(`button[data-ingress="${action}"]`)?.focus();
+    });
+  });
+}
+
 async function boot() {
   [library, catalog] = await Promise.all([
     fetchJson<MaterialsLibrary>('/assets/library/materials.json'),
@@ -1776,10 +1935,10 @@ async function boot() {
     }
     void onStartImport(file, false);
   });
-  $('btn-underlay-confirm').addEventListener('click', () => onUnderlayConfirm());
+  $('btn-underlay-confirm').addEventListener('click', () => void onUnderlayConfirm());
   $('btn-import-fixture').addEventListener('click', () => void onStartImport(null, true));
   $('btn-import-apply-scale').addEventListener('click', () => onApplyImportScale());
-  $('btn-import-start-editing').addEventListener('click', () => onImportStartEditing());
+  $('btn-import-start-editing').addEventListener('click', () => void onImportStartEditing());
   $('btn-import-save-template').addEventListener('click', () => onImportSaveTemplate());
   roomPreset.addEventListener('change', () => {
     const preset = ROOM_PRESETS.find((p) => p.id === roomPreset.value);
@@ -1809,19 +1968,16 @@ async function boot() {
         x.setAttribute('aria-checked', String(x === b));
       });
       syncOpeningDefaultsFromType();
+      // The Add opening hint names the type.
+      syncStageState();
     });
   });
   openingWidth.addEventListener('change', () => {
     viewer?.setOpeningToolDefaults(openingType, readOpeningParamsMeters().width);
   });
-  $('btn-create-room').addEventListener('click', () => onCreateRoom());
+  $('btn-create-room').addEventListener('click', () => void onCreateRoom());
   $('btn-save-template-scratch').addEventListener('click', () => onSaveTemplateFromScratch());
-  $('btn-clear-room').addEventListener('click', () => {
-    viewer?.clearAllPlacements();
-    drawSession = null;
-    applyRoomGraph(null, { history: 'reset' });
-    setWorkspace('catalog');
-  });
+  $('btn-clear-room').addEventListener('click', () => void onClearRoom());
   btnUndo.addEventListener('click', () => onUndo());
   btnRedo.addEventListener('click', () => onRedo());
   roomWallMaterial.addEventListener('change', () => onRoomMaterialChange());
@@ -1929,6 +2085,7 @@ async function boot() {
   });
 
   renderPresets();
+  initStageUi();
   // Every length field below is seeded in the unit the select shows right now.
   fieldUnit = displayUnit();
   syncLengthFieldLimits(fieldUnit);

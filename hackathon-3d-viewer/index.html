@@ -32,11 +32,26 @@
       <section class="stage card" aria-label="3D viewer">
         <div id="viewer-host" class="viewer-host"></div>
         <div id="viewer-overlay" class="overlay" role="status">Loading…</div>
+        <!-- Room workspace with no room (UX-06, QA-04). Shown and filled by main.ts; the words are in src/copy.ts. -->
+        <div id="stage-empty" class="stage-empty" hidden>
+          <div class="stage-empty-card" role="group" aria-labelledby="stage-empty-title">
+            <h2 id="stage-empty-title" class="stage-empty-title"></h2>
+            <p id="stage-empty-body" class="stage-empty-body muted"></p>
+            <div class="stage-empty-actions">
+              <button type="button" class="btn" data-empty-action="scratch"></button>
+              <button type="button" class="btn" data-empty-action="import"></button>
+              <button type="button" class="btn" data-empty-action="template"></button>
+            </div>
+            <div class="stage-empty-actions stage-empty-project">
+              <button type="button" class="btn" data-empty-action="project"></button>
+            </div>
+          </div>
+        </div>
         <div class="stage-toolbar">
           <button id="btn-reset" class="btn">Reset camera</button>
           <button id="btn-remount" class="btn" title="Dispose and recreate the viewer (SPA lifecycle demo)">Dispose &amp; remount</button>
         </div>
-        <p id="stage-hint" class="hint">Drag to spin product · scroll to zoom · right-drag / two-finger to pan</p>
+        <p id="stage-hint" class="hint">Drag to spin · scroll to zoom · right-drag to pan</p>
       </section>
 
       <aside class="panel">
@@ -168,12 +183,13 @@
             <p id="template-status" class="upload-status muted small" role="status">No templates yet — import a plan and choose “Save as template”.</p>
           </div>
 
-          <button id="btn-clear-room" class="btn" type="button">Clear room</button>
           <p id="room-status" class="upload-status muted small" role="status">No room yet — create a size to start.</p>
 
           <div id="room-plan" class="room-plan" aria-label="2D plan" hidden></div>
           <div class="btn-row" id="room-plan-actions" hidden>
             <button id="btn-download-plan" class="btn" type="button">Download plan PNG</button>
+            <!-- UX-03: destructive, so secondary and away from "Create room". It asks before it clears. -->
+            <button id="btn-clear-room" class="btn btn-danger" type="button">Clear room</button>
           </div>
 
           <div id="room-tools" class="room-tools" hidden>
@@ -199,7 +215,7 @@
             </div>
             <h3>Draw walls</h3>
             <p class="muted small">Click floor corners to trace an orthogonal polygon; click near the first point to close.</p>
-            <button id="btn-draw-wall-mode" class="btn" type="button">Draw walls mode</button>
+            <button id="btn-draw-wall-mode" class="btn" type="button" aria-pressed="false">Draw walls</button>
             <h3>Openings</h3>
             <div class="segmented" id="opening-type" role="radiogroup" aria-label="Opening type">
               <button type="button" data-type="door" aria-checked="true" role="radio">Door</button>
@@ -219,7 +235,7 @@
                 <input id="opening-sill" class="text-input" type="number" min="0" step="0.05" value="0" />
               </label>
             </div>
-            <button id="btn-opening-mode" class="btn" type="button">Click wall to mark opening</button>
+            <button id="btn-opening-mode" class="btn" type="button" aria-pressed="false">Add opening</button>
             <ul id="opening-list" class="room-list" aria-label="Openings"></ul>
 
             <h3>Place furniture</h3>
@@ -228,7 +244,7 @@
               <input id="place-wall-snap" type="checkbox" />
               <span>Snap placement to nearest wall</span>
             </label>
-            <button id="btn-place-mode" class="btn" type="button">Click floor to place product</button>
+            <button id="btn-place-mode" class="btn" type="button" aria-pressed="false">Place product</button>
             <ul id="placement-list" class="room-list" aria-label="Placements"></ul>
           </div>
 

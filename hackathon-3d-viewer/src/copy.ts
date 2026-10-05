@@ -834,6 +834,10 @@ export const copy = {
     /** written. QA-02: a Place click outside the floor polygon is rejected with this message. */
     outsideRoom: 'That spot is outside the room, so nothing was placed. Click the floor inside the room.',
 
+    // ----- Stage toast (UX-04 item 1) ---------------------------------------------------------
+    /** written. UX-04 item 1: accessible name of the toast's close button (`#stage-toast`). */
+    toastDismiss: 'Dismiss',
+
     // ----- Uploaded products after a refresh (Copy §6 C) --------------------------------------
     /** given. Copy §6 C: a saved placement whose product is no longer in the catalog. */
     uploadNotRestored:

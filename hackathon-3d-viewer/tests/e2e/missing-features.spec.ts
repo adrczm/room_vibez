@@ -108,6 +108,8 @@ test('missing features: undo, materials, snap, export, underlay path', async ({ 
   await page.fill('#underlay-width', '5');
   await page.fill('#underlay-depth', '4');
   await page.click('#btn-underlay-confirm');
+  // UX-03: the room on stage has an opening and a placed product, so the app asks before replacing it.
+  await page.click('dialog.confirm-dialog [data-action="confirm"]');
   await expect
     .poll(async () => page.evaluate(() => window.__rv.roomGraph()?.underlay?.uri ? 1 : 0))
     .toBe(1);

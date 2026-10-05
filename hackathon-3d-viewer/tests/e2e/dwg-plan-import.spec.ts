@@ -87,6 +87,10 @@ test('DWG plan import: mock fixture → confirm → immediate room + template', 
     localStorage.removeItem('catalog3d.roomGraph');
   });
   await page.click('#btn-clear-room');
+  // UX-03: Clear room asks first ("Clear this room?"). The user confirms and stays in the Room workspace.
+  await page.click('dialog.confirm-dialog [data-action="confirm"]');
+  await expect.poll(async () => page.evaluate(() => window.__rv.roomGraph())).toBeNull();
+  await expect(page.locator('body')).toHaveAttribute('data-workspace', 'room');
   await page.click('#room-ingress button[data-ingress=import]');
   await page.click('#btn-import-fixture');
   await expect(page.locator('#import-review')).toBeVisible({ timeout: 10_000 });
