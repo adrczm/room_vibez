@@ -105,8 +105,9 @@ import {
   type UnderlayJob,
   type ViewerStatus,
 } from './viewer';
-import { copy, fmt, plural } from './copy';
+import { copy, fmt, plural, rich, type RichSegment } from './copy';
 import { friendlyError, movedOverlapMessage, placedMessage, type FriendlyMessage } from './errors';
+import { createHelpButton, initHelp, openHelp, type HelpAnchor, type HelpTabId } from './help';
 import {
   finishForPlacing,
   isNudgeKey,
@@ -309,16 +310,84 @@ async function fetchJson<T>(url: string): Promise<T> {
   return res.json() as Promise<T>;
 }
 
-function setStatus(status: ViewerStatus, detail?: string) {
+// ------------------------------------------------------------------ static copy (Copy Phase 1)
+
+/** The string at a dotted path of `copy` ("roomStart.units.ft-in"), or null when there is none. */
+function copyAt(path: string): string | null {
+  let node: unknown = copy;
+  for (const key of path.split('.')) {
+    node = node && typeof node === 'object' ? (node as Record<string, unknown>)[key] : undefined;
+  }
+  return typeof node === 'string' ? node : null;
+}
+
+/** Text with the deck's `**bold**` runs as nodes: a `<strong>` for each bold run, text otherwise. Never innerHTML. */
+function richNodes(segments: readonly RichSegment[]): Node[] {
+  return segments.map((s) => {
+    if (!s.strong) return document.createTextNode(s.text);
+    const strong = document.createElement('strong');
+    strong.textContent = s.text;
+    return strong;
+  });
+}
+
+/**
+ * Write every static string of index.html from `copy`, the one source of the app's words
+ * (Copy §4 item 4). An element names its string: `data-copy` for its text, `data-copy-aria-label`,
+ * `data-copy-title` and `data-copy-placeholder` for those attributes. Runs first thing at boot,
+ * before anything is fetched. (Strings with a `{unit}` are written by `syncUnitLabels`; the few
+ * that change with the app's state by the function that owns that state.)
+ */
+function initStaticCopy() {
+  const targets: readonly [attribute: string, write: (el: HTMLElement, text: string) => void][] = [
+    ['data-copy', (el, text) => (el.textContent = text)],
+    ['data-copy-aria-label', (el, text) => el.setAttribute('aria-label', text)],
+    ['data-copy-title', (el, text) => (el.title = text)],
+    ['data-copy-placeholder', (el, text) => el.setAttribute('placeholder', text)],
+  ];
+  for (const [attribute, write] of targets) {
+    document.querySelectorAll<HTMLElement>(`[${attribute}]`).forEach((el) => {
+      const path = el.getAttribute(attribute)!;
+      const text = copyAt(path);
+      // A key that does not exist is a mistake in index.html; tests/unit/staticCopy.test.ts catches it.
+      if (text === null) console.error(`[copy] index.html names "${path}", which is not a string in src/copy.ts`);
+      else write(el, text);
+    });
+  }
+}
+
+/**
+ * The labels that end in a unit, "Length (cm)" (deck §3.5 and §3.6; Copy Phase 1 step 4): the four
+ * room size fields and the three opening fields, marked `data-unit-label` in index.html. They
+ * follow the Units select, as the numbers in those fields do (`convertLengthFields`). Called at
+ * boot and whenever the unit changes.
+ */
+function syncUnitLabels(unit: DisplayUnit) {
+  const abbreviation = copy.notInDeck.unitAbbrev[unit];
+  document.querySelectorAll<HTMLElement>('[data-unit-label]').forEach((el) => {
+    const template = copyAt(el.dataset.unitLabel!);
+    if (template === null) console.error(`[copy] index.html names "${el.dataset.unitLabel}", which is not a string in src/copy.ts`);
+    else el.textContent = fmt(template as '{unit}', { unit: abbreviation });
+  });
+}
+
+/**
+ * The stage overlay (deck §3.2; Copy Phase 1 step 8). "Loading…" until the first product is on the
+ * stage. On an error it says which of three things happened, in the deck's words and never with
+ * the raw error text: the browser has no 3D (WebGL), the viewer could not start (`where` is
+ * 'boot': boot().catch), or the selected product's model could not be loaded (the engine's
+ * `onStatus('error', detail)`). `friendlyError` chooses the sentence and logs the raw error.
+ */
+function setStatus(status: ViewerStatus, detail?: unknown, where: 'boot' | 'product-load' = 'product-load') {
   document.body.dataset.viewerStatus = status;
   overlay.classList.toggle('hidden', status === 'ready');
   overlay.classList.toggle('error', status === 'error');
-  overlay.textContent =
-    status !== 'error'
-      ? 'Loading…'
-      : /webgl/i.test(detail ?? '')
-        ? 'This browser could not start WebGL (3D graphics). Enable hardware acceleration, try another browser, or use "Start Viewer.command", which runs Chrome with software WebGL.'
-        : `Could not load model: ${detail}`;
+  // One block inside the overlay, so a sentence with a bold start wraps as one paragraph.
+  const message = document.createElement('p');
+  message.className = 'overlay-message';
+  if (status === 'error') message.append(...richNodes(friendlyError(detail ?? '', where).segments));
+  else message.textContent = copy.topBarAndStage.loading;
+  overlay.replaceChildren(message);
 }
 
 function onParts(parts: PartsList) {
@@ -514,8 +583,8 @@ function populateMaterialSelects() {
   const keepFloor = roomFloorMaterial.value;
   roomWallMaterial.innerHTML = '';
   roomFloorMaterial.innerHTML = '';
-  roomWallMaterial.add(new Option('Default', ''));
-  roomFloorMaterial.add(new Option('Default', ''));
+  roomWallMaterial.add(new Option(copy.notInDeck.picker.defaultMaterial, ''));
+  roomFloorMaterial.add(new Option(copy.notInDeck.picker.defaultMaterial, ''));
   for (const m of library.materials) {
     roomWallMaterial.add(new Option(m.name, m.id));
     roomFloorMaterial.add(new Option(m.name, m.id));
@@ -651,7 +720,8 @@ function renderRoomUi() {
   btnDrawWallMode.disabled = !has;
   setRoomStep(roomStep);
   if (!has) {
-    roomStatus.textContent = 'No room yet — from scratch, import plan, or template.';
+    // Deck §3.1 #14, with "below" for the deck's "above": see `notInDeck.roomStatusEmptyBelow`.
+    roomStatus.textContent = copy.notInDeck.roomStatusEmptyBelow;
     roomStatus.classList.remove('error');
     roomPlan.innerHTML = '';
     openingList.innerHTML = '';
@@ -672,6 +742,10 @@ function renderRoomUi() {
         ? `template:${prov.template_id ?? '?'}`
         : 'authored';
   roomStatus.classList.remove('error');
+  // SEAM for the messages half of the copy pass (Copy Phase 3, "§3.6 status rows"): this summary is
+  // still today's string. The deck's is `copy.roomTools.roomSummary` with `roomSize` (or
+  // `notInDeck.roomSizeFeet`), `openingCount` and `productCount`; provenance moves to the JSON view.
+  // Two specs pin "5.00 m × 4.00 m" and "6.00 m × 3.00 m" here (panel-structure, trust-fixes).
   roomStatus.textContent = `${room?.name ?? 'Room'} · ${formatLength(len, u)} × ${formatLength(wid, u)} · ceiling ${formatLength(room!.ceiling_height, u)} · ${roomGraph!.openings.length} opening(s) · ${roomGraph!.placements.length} placement(s) · ${provLabel}`;
   syncMaterialSelectsFromGraph();
   renderPlanSvg();
@@ -679,6 +753,115 @@ function renderRoomUi() {
   renderPlacementList();
   // The selected product's finish can have changed (a swatch, undo, redo): show the room's truth.
   syncMaterialsCard();
+}
+
+/**
+ * A "Why?" link (deck §1: one beside each honesty label). It opens the ? pop-up on the section
+ * that gives the long answer; the click is handled once, for all of them, in `initHelpUi`.
+ */
+function whyLink(target: { anchor: HelpAnchor } | { tab: HelpTabId }): HTMLButtonElement {
+  const link = document.createElement('button');
+  link.type = 'button';
+  link.className = 'link-btn why-link';
+  if ('anchor' in target) link.dataset.helpAnchor = target.anchor;
+  else link.dataset.helpTab = target.tab;
+  link.textContent = copy.common.why;
+  return link;
+}
+
+/**
+ * The banner over the plan review (deck §3.5 "Sample banner"; Copy Phase 1 step 5).
+ *
+ * Visible: one friendly line with a "Why?" link, when what is shown is the sample. The original
+ * technical string is kept, unchanged, inside a collapsed "Technical details": e2e pins
+ * "mock_fixture" and "ODA available: no" in it (`dwg-plan-import.spec.ts`), and a collapsed block
+ * still counts for `textContent`.
+ *
+ * Which line (the deck has one banner, written for an uploaded drawing; handover §9 item 2). It
+ * goes by what was chosen, so that the line is true:
+ *  - a DWG or DXF the user uploaded: the deck's line, "Your file was kept but not read…";
+ *  - "Try the sample plan": there is no file, so `notInDeck.sampleBannerBuiltIn` says only that;
+ *  - a JSON plan: the file was read and the walls come from it, so no sample line is shown at
+ *    all. Only the technical string is there, and the banner drops its caution colours
+ *    (`data-kind="plain"`).
+ */
+function renderImportBanner(banner: HTMLElement, job: ImportJob) {
+  const ex = job.candidates.extract;
+  const wasOpen = banner.querySelector('details')?.open ?? false;
+  const source = job.source.kind;
+  const friendly =
+    source === 'mock_fixture'
+      ? copy.notInDeck.sampleBannerBuiltIn
+      : source === 'dwg' || source === 'dxf'
+        ? copy.roomStart.sampleBanner
+        : null;
+  banner.dataset.kind = friendly ? 'sample' : 'plain';
+  banner.replaceChildren();
+  if (friendly) {
+    const line = document.createElement('p');
+    line.className = 'import-banner-line';
+    line.append(...richNodes(rich(friendly)), ' ', whyLink({ anchor: 'plans' }));
+    banner.appendChild(line);
+  }
+  const details = document.createElement('details');
+  details.className = 'disclosure technical';
+  details.open = wasOpen;
+  const summary = document.createElement('summary');
+  summary.textContent = copy.common.technicalDetails;
+  const body = document.createElement('div');
+  body.className = 'technical-body';
+  // Not copy: the engine's own description of the extract ("yes" / "no" included), as it always read.
+  body.textContent = fmt(copy.roomStart.sampleBannerTechnical, {
+    path: ex.path,
+    oda: ex.oda_available ? 'yes' : 'no',
+    note: ex.note,
+  });
+  details.append(summary, body);
+  banner.appendChild(details);
+}
+
+/**
+ * One row of a "found" list of the plan review: what was found, and whether it goes into the room.
+ *
+ * Deck §3.5: "Included / Left out (with aria-pressed)". The row carries both words as two
+ * buttons, each with a fixed label, and the pressed one is the row's state. One button that
+ * flipped its own label would be the pattern the deck itself rules out (§3.6, "Why labels stay
+ * fixed"; Copy §8: every button with `aria-pressed` keeps one label).
+ */
+function candidateRow(kind: 'wall' | 'opening' | 'room', id: string, text: string, accepted: boolean): HTMLLIElement {
+  const li = document.createElement('li');
+  li.dataset.candidateId = id;
+  const label = document.createElement('span');
+  label.textContent = text;
+  const toggle = document.createElement('span');
+  toggle.className = 'candidate-toggle';
+  toggle.setAttribute('role', 'group');
+  toggle.setAttribute('aria-label', text);
+  for (const include of [true, false]) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.dataset.include = String(include);
+    b.textContent = include ? copy.roomStart.included : copy.roomStart.leftOut;
+    b.setAttribute('aria-pressed', String(accepted === include));
+    b.addEventListener('click', () => {
+      if (!importJob || accepted === include) return;
+      importJob = setCandidateAccepted(importJob, kind, id, include);
+      renderImportReview();
+    });
+    toggle.appendChild(b);
+  }
+  li.append(label, toggle);
+  return li;
+}
+
+/** Selector of an Included / Left out button, from the button as it is now (`keepingFocus`). */
+function candidateControlKey(el: Element): string | null {
+  const list = el.closest<HTMLElement>('ul[id]')?.id;
+  const id = el.closest<HTMLElement>('li[data-candidate-id]')?.dataset.candidateId;
+  const include = el.closest<HTMLElement>('button[data-include]')?.dataset.include;
+  return list && id && include
+    ? `#${list} li[data-candidate-id="${CSS.escape(id)}"] button[data-include="${include}"]`
+    : null;
 }
 
 function renderImportReview() {
@@ -694,62 +877,52 @@ function renderImportReview() {
     review.hidden = true;
     return;
   }
+  const job = importJob;
   review.hidden = false;
   $('underlay-review').hidden = true;
-  const ex = importJob.candidates.extract;
-  banner.textContent = `[${ex.path}] ODA available: ${ex.oda_available ? 'yes' : 'no'} — ${ex.note}`;
-  status.textContent = `Job ${importJob.id} · source ${importJob.source.kind}:${importJob.source.filename} · scale ×${importJob.scale_factor.toFixed(3)}`;
+  renderImportBanner(banner, job);
+  // Deck §3.5 "Job status": the name of the file being reviewed. The built-in sample has no file
+  // of the user's; its internal file name is not shown (`notInDeck.jobStatusSample`).
+  status.textContent =
+    job.source.kind === 'mock_fixture'
+      ? copy.notInDeck.jobStatusSample
+      : fmt(copy.roomStart.jobStatus, { file: job.source.filename });
   status.classList.remove('error');
-  preview.innerHTML = candidatesOverlaySvg(importJob);
-  scaleStatus.textContent = importJob.candidates.scale_hint
-    ? `Hint: ${importJob.candidates.scale_hint.label} = ${importJob.candidates.scale_hint.length_m} m in extract space → factor ${importJob.scale_factor.toFixed(3)}`
-    : 'No scale hint on this extract — enter a known length if needed.';
+  preview.innerHTML = candidatesOverlaySvg(job);
+  // Deck §3.5 "Scale status".
+  const hint = job.candidates.scale_hint;
+  scaleStatus.textContent = hint
+    ? fmt(copy.roomStart.scaleSuggested, { length: hint.length_m })
+    : copy.roomStart.scaleNotFound;
 
-  wallList.innerHTML = '';
-  for (const w of importJob.candidates.walls) {
-    const li = document.createElement('li');
-    const len = Math.hypot(w.b.x - w.a.x, w.b.z - w.a.z) * importJob.scale_factor;
-    li.innerHTML = `<span>${w.id} · ${formatLength(len, 'm')}${w.source_layer ? ` · ${w.source_layer}` : ''}</span>`;
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.textContent = w.accepted ? 'Accepted' : 'Rejected';
-    btn.addEventListener('click', () => {
-      importJob = setCandidateAccepted(importJob!, 'wall', w.id, !w.accepted);
-      renderImportReview();
-    });
-    li.appendChild(btn);
-    wallList.appendChild(li);
-  }
-
-  openingCandList.innerHTML = '';
-  for (const o of importJob.candidates.openings) {
-    const li = document.createElement('li');
-    li.innerHTML = `<span>${o.type} · ${formatLength(o.width * importJob.scale_factor, 'm')}${o.inferred ? ' · inferred' : ''}${o.source_block ? ` · ${o.source_block}` : ''}</span>`;
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.textContent = o.accepted ? 'Accepted' : 'Rejected';
-    btn.addEventListener('click', () => {
-      importJob = setCandidateAccepted(importJob!, 'opening', o.id, !o.accepted);
-      renderImportReview();
-    });
-    li.appendChild(btn);
-    openingCandList.appendChild(li);
-  }
-
-  roomCandList.innerHTML = '';
-  for (const r of importJob.candidates.rooms) {
-    const li = document.createElement('li');
-    li.innerHTML = `<span>${r.name ?? r.id} · ceiling ${formatLength(r.ceiling_height, 'm')}</span>`;
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.textContent = r.accepted ? 'Accepted' : 'Rejected';
-    btn.addEventListener('click', () => {
-      importJob = setCandidateAccepted(importJob!, 'room', r.id, !r.accepted);
-      renderImportReview();
-    });
-    li.appendChild(btn);
-    roomCandList.appendChild(li);
-  }
+  // The rows are rebuilt on every change. Keyboard focus stays on the button that was pressed.
+  keepingFocus(review, candidateControlKey, () => {
+    wallList.replaceChildren(
+      ...job.candidates.walls.map((w, i) => {
+        const len = Math.hypot(w.b.x - w.a.x, w.b.z - w.a.z) * job.scale_factor;
+        const text = fmt(copy.notInDeck.importWallRow, { n: i + 1, length: formatLength(len, 'm') });
+        return candidateRow('wall', w.id, text, w.accepted);
+      }),
+    );
+    openingCandList.replaceChildren(
+      ...job.candidates.openings.map((o) => {
+        const text = fmt(o.inferred ? copy.roomStart.openingRowEstimated : copy.roomStart.openingRow, {
+          type: copy.roomStart.openingTypes[o.type],
+          width: formatLength(o.width * job.scale_factor, 'm'),
+        });
+        return candidateRow('opening', o.id, text, o.accepted);
+      }),
+    );
+    roomCandList.replaceChildren(
+      ...job.candidates.rooms.map((r) => {
+        const text = fmt(copy.notInDeck.importRoomRow, {
+          name: r.name ?? r.id,
+          height: formatLength(r.ceiling_height, 'm'),
+        });
+        return candidateRow('room', r.id, text, r.accepted);
+      }),
+    );
+  });
 }
 
 function renderTemplateList() {
@@ -757,22 +930,33 @@ function renderTemplateList() {
   const status = $('template-status');
   const templates = loadTemplates();
   list.innerHTML = '';
+  status.classList.remove('error');
   if (templates.length === 0) {
-    status.textContent = 'No templates yet — import a plan and choose “Save as template”.';
+    // Deck §3.1 #7.
+    status.textContent = copy.helperLines.templatesEmpty;
     return;
   }
-  status.textContent = `${templates.length} template(s) in local CMS (catalog3d.roomTemplates).`;
+  // Deck §3.5 "Template count".
+  status.textContent = plural(templates.length, copy.roomStart.templateCount);
+  // Deck §3.5 "Template row": "Title · 4 walls", the title in bold as it always was. The title is
+  // the user's text: it goes in as text, never as markup.
+  const [beforeTitle = '', afterTitle = ''] = copy.roomStart.templateRow.split('{title}');
   for (const tpl of templates) {
     const li = document.createElement('li');
-    const walls = tpl.room_graph.walls.length;
-    const src = tpl.room_graph.source_assets[0]?.filename ?? 'shell';
-    li.innerHTML = `<span><strong>${tpl.title}</strong> · ${walls} walls · ${src}</span>`;
+    const text = document.createElement('span');
+    const title = document.createElement('strong');
+    title.textContent = tpl.title;
+    const walls = plural(tpl.room_graph.walls.length, copy.roomStart.wallCount);
+    text.append(beforeTitle, title, fmt(afterTitle as '{walls}', { walls }));
+    li.appendChild(text);
     const actions = document.createElement('span');
     actions.style.display = 'flex';
     actions.style.gap = '6px';
     const useBtn = document.createElement('button');
     useBtn.type = 'button';
-    useBtn.textContent = 'Instantiate';
+    // Copy Phase 1 step 7: the label can change again; tests find the button by this attribute.
+    useBtn.dataset.action = 'use-template';
+    useBtn.textContent = copy.roomStart.useTemplate;
     useBtn.addEventListener('click', async () => {
       try {
         const graph = instantiateTemplate(tpl.id);
@@ -789,7 +973,8 @@ function renderTemplateList() {
     });
     const delBtn = document.createElement('button');
     delBtn.type = 'button';
-    delBtn.textContent = 'Delete';
+    delBtn.dataset.action = 'delete-template';
+    delBtn.textContent = copy.common.delete;
     delBtn.addEventListener('click', async () => {
       const c = copy.confirm.deleteTemplate;
       const confirmed = await confirmDialog({
@@ -901,10 +1086,16 @@ function renderUnderlayReview() {
   }
   review.hidden = false;
   $('import-review').hidden = true;
-  status.textContent = `${underlayJob.note} · ${underlayJob.source.filename}`;
+  // Deck §3.5 "Underlay note".
+  status.textContent = copy.roomStart.traceNote;
+  status.classList.remove('error');
   ($('underlay-width') as HTMLInputElement).value = String(underlayJob.width_m);
   ($('underlay-depth') as HTMLInputElement).value = String(underlayJob.depth_m);
-  preview.innerHTML = `<img src="${underlayJob.imageUri}" alt="Underlay preview" style="max-width:100%;max-height:160px;object-fit:contain" />`;
+  const image = document.createElement('img');
+  image.src = underlayJob.imageUri;
+  image.alt = copy.notInDeck.planImagePreviewLabel;
+  image.style.cssText = 'max-width:100%;max-height:160px;object-fit:contain';
+  preview.replaceChildren(image);
 }
 
 async function onStartUnderlay(file: File) {
@@ -1043,10 +1234,18 @@ function renderOpeningList() {
   for (const op of roomGraph.openings) {
     const li = document.createElement('li');
     const u = displayUnit();
-    li.innerHTML = `<span>${op.type} · ${formatLength(op.width, u)} × ${formatLength(op.height, u)} · sill ${formatLength(op.sill_height, u)}</span>`;
+    // The deck has no row for this list (§3.6 gives its label only): today's row, with the deck's capital.
+    const text = document.createElement('span');
+    text.textContent = fmt(copy.notInDeck.openingListRow, {
+      type: copy.roomStart.openingTypes[op.type],
+      width: formatLength(op.width, u),
+      height: formatLength(op.height, u),
+      sill: formatLength(op.sill_height, u),
+    });
+    li.appendChild(text);
     const del = document.createElement('button');
     del.type = 'button';
-    del.textContent = 'Delete';
+    del.textContent = copy.common.delete;
     del.addEventListener('click', () => {
       if (!roomGraph) return;
       applyRoomGraph(removeOpening(roomGraph, op.id), { frame: false, reloadPlacements: false });
@@ -1443,15 +1642,16 @@ function setWorkspace(mode: 'catalog' | 'room') {
   }
   // A placed product is selected in the room only. Leaving the room lets go of it.
   if (mode !== 'room') selectPlacement(null);
+  // Deck §3.1 #1 and #1b. Both are one short line, so the top bar keeps its height (QA-10).
   const hint = $('workspace-mode-hint');
   if (mode === 'catalog') {
-    hint.textContent = 'Product turntable — inspect GLB, materials, and packs.';
+    hint.textContent = copy.helperLines.workspaceHintProduct;
     viewer?.setInteractionMode('catalog');
     // Reframe the catalog GLB — room camera/shell must not leave the product invisible.
     viewer?.resetCamera();
     setToolButtons(null);
   } else {
-    hint.textContent = 'Room editor — build the shell, openings, and place Catalog 3D products.';
+    hint.textContent = copy.helperLines.workspaceHintRoom;
     // Room mode with or without a room. With no room the engine shows an empty stage instead of
     // the turntable product (`hideProductInEmptyRoom`, see mountViewer), and syncStageState puts
     // the empty-room card over it (UX-06).
@@ -1974,12 +2174,11 @@ async function loadProduct(product: Product, opts?: { onRootReady?: (root: Objec
   currentProduct = product;
   // The Place hint names the selected product.
   syncStageState();
-  const packNote = product.pack
-    ? ` · pack ${product.pack.completeness}/${product.pack.mappingMode}`
-    : '';
-  productMeta.textContent = `${product.sku} · slots tagged via ${product.slotTagging ?? 'unknown'}${
-    product.userAdded ? ' · session upload' : ''
-  }${packNote}`;
+  // Deck §3.4 `#product-meta`: the SKU, and " · your upload" for a model the user added. How the
+  // parts are labelled is in ? › For developers; a pack's state is in the pack status line.
+  productMeta.textContent = fmt(product.userAdded ? copy.productCard.productMetaUpload : copy.productCard.productMeta, {
+    sku: product.sku,
+  });
   slotsEl.innerHTML = '';
   warningsEl.innerHTML = '';
   // Swatch clicks still on their way belonged to the product that was on the turntable.
@@ -2069,27 +2268,16 @@ function renderSlots() {
   // The warnings under the swatches are about the model on the turntable, not about a placed product.
   warningsEl.hidden = target.kind === 'placement';
 
+  // Deck §3.4 "Slot row meta": the line under each row of swatches (slot id, mesh count, how the
+  // part was labelled) is no longer shown. How parts are labelled is in ? › For developers.
   const turntable = viewer?.getSlots() ?? [];
-  const metaOf = (s: (typeof turntable)[number]) =>
-    `material_slot_id: <code>${s.def.id}</code> · ${s.meshCount} mesh(es) · via ${s.sources.join(', ')}`;
-  let rows: { def: SlotDefinition; materialId: string; meta: string | null }[];
+  let rows: { def: SlotDefinition; materialId: string }[];
   if (target.kind === 'placement') {
     // What is on the placed model: the saved finish, with the default wherever a saved entry cannot be used.
     const bindings = resolveBindings(target.product, target.placement.slot_bindings, library).bindings;
-    // The line under each row of swatches is about the model. When the picker holds this same
-    // product, the turntable has the same model and the line is the same, so the card does not
-    // change height between "next product" and "this product". For another product it is left out.
-    const sameModel = viewer?.getPartsList()?.productId === target.product.id;
-    rows = target.product.slots.map((def) => {
-      const onTurntable = sameModel ? turntable.find((s) => s.def.id === def.id) : undefined;
-      return { def, materialId: bindings[def.id] ?? def.default, meta: onTurntable ? metaOf(onTurntable) : null };
-    });
+    rows = target.product.slots.map((def) => ({ def, materialId: bindings[def.id] ?? def.default }));
   } else {
-    rows = turntable.map((s) => ({
-      def: s.def,
-      materialId: pendingSlotChoices.get(s.def.id) ?? s.materialId,
-      meta: metaOf(s),
-    }));
+    rows = turntable.map((s) => ({ def: s.def, materialId: pendingSlotChoices.get(s.def.id) ?? s.materialId }));
   }
 
   keepingFocus(slotsEl, swatchKey, () => {
@@ -2099,15 +2287,16 @@ function renderSlots() {
       const wrap = document.createElement('div');
       wrap.className = 'slot';
       wrap.dataset.slot = row.def.id;
+      // SEAM for the messages half of the copy pass (Copy Phase 3, "Escape user text"): the slot
+      // label and the material name still go in as markup here.
       wrap.innerHTML = `
       <div class="slot-head">
         <span class="slot-label">${row.def.label}</span>
         <span class="slot-value" data-role="value">${current?.name ?? row.materialId}</span>
       </div>
-      <div class="swatches" role="group" aria-label="${row.def.label} materials"></div>${
-        row.meta ? `\n      <div class="slot-meta">${row.meta}</div>` : ''
-      }`;
+      <div class="swatches" role="group"></div>`;
       const swatches = wrap.querySelector('.swatches')!;
+      swatches.setAttribute('aria-label', fmt(copy.notInDeck.slotSwatchesLabel, { part: row.def.label }));
       for (const mat of materialsForSlot(library, row.def)) {
         // UX-15 step 6: the swatches stay inline buttons, and each one carries its name on one
         // line under it. The tile is a <label>, so a click on the name presses its button. The
@@ -2120,7 +2309,7 @@ function renderSlots() {
         name.textContent = mat.name;
         const b = document.createElement('button');
         b.className = 'swatch';
-        b.title = `${mat.name} (${mat.sku})`;
+        b.title = fmt(copy.productCard.swatchTooltip, { name: mat.name, sku: mat.sku });
         b.setAttribute('aria-label', mat.name);
         b.setAttribute('aria-pressed', String(mat.id === row.materialId));
         b.dataset.material = mat.id;
@@ -2411,9 +2600,12 @@ function renderPresets() {
   // UX-07 item 3: the presets sit in the stage toolbar. The group's name is the deck's word for it.
   presetsEl.setAttribute('aria-label', copy.productCard.lightingHeading);
   presetsEl.innerHTML = '';
+  // Deck §3.4 "Preset buttons", keyed by preset id ("Neutral", not the engine's "Neutral (no IBL)").
+  // A preset the deck does not know keeps the engine's own label.
+  const names: Record<string, string> = copy.productCard.lightPresets;
   for (const p of LIGHT_PRESETS) {
     const b = document.createElement('button');
-    b.textContent = p.label;
+    b.textContent = names[p.id] ?? p.label;
     b.dataset.preset = p.id;
     b.setAttribute('role', 'radio');
     b.setAttribute('aria-checked', String(p.id === currentPreset));
@@ -2575,7 +2767,9 @@ function refreshProductSelect(selectId?: string) {
   const keep = selectId ?? productSelect.value;
   productSelect.innerHTML = '';
   for (const p of catalog.products) {
-    const opt = new Option(p.userAdded ? `${p.name} (upload)` : p.name, p.id);
+    // Deck §3.4 "Product list option". (The picker over this select shows the same two parts as a
+    // name and a line under it.)
+    const opt = new Option(p.userAdded ? fmt(copy.productCard.productOptionUpload, { name: p.name }) : p.name, p.id);
     productSelect.add(opt);
   }
   if (keep && catalog.products.some((p) => p.id === keep)) productSelect.value = keep;
@@ -3020,7 +3214,42 @@ function initPanelUi() {
   initPlacedProductsUi();
 }
 
+/**
+ * The ? pop-up (Copy Phase 2; deck §2): its button at the right end of the top bar, after the
+ * Workspace switch, and the "Why?" links beside the import nudge, the sample banner and the Parts
+ * list note. It never opens by itself.
+ */
+function initHelpUi() {
+  // SEAM for the messages half of the copy pass (Copy §6 item A, Phase 4 item 1): pass `true`
+  // only once the "Saving blocked" banner (deck §4.F) really shows when storage fails. Until
+  // then Files & saving carries the interim sentence instead of "…the app tells you."
+  initHelp({ storageFailureIsSurfaced: false });
+  // A hot reload of this module must not leave a second button behind.
+  document.getElementById('btn-help')?.remove();
+  const button = createHelpButton();
+  // The button's three strings are deck §3.2 rows, so `copy` has the last word on them, as for
+  // every other control of the top bar. (src/help.ts sets the same words from its own copy of them.)
+  button.textContent = copy.topBarAndStage.helpButton;
+  button.title = copy.topBarAndStage.helpTooltip;
+  button.setAttribute('aria-label', copy.topBarAndStage.helpAriaLabel);
+  document.querySelector('.topbar')!.append(button);
+  // One listener for every "Why?" link: the one in the sample banner is rebuilt with its banner.
+  // A link names where the long answer is: a section (`data-help-anchor`) or a tab (`data-help-tab`).
+  document.addEventListener('click', (e) => {
+    const link = e.target instanceof Element ? e.target.closest<HTMLElement>('.why-link') : null;
+    if (!link) return;
+    const anchor = link.dataset.helpAnchor as HelpAnchor | undefined;
+    const tab = link.dataset.helpTab as HelpTabId | undefined;
+    if (anchor) openHelp({ anchor, returnFocusTo: link });
+    else if (tab) openHelp({ tab, returnFocusTo: link });
+  });
+}
+
 async function boot() {
+  // The words first: nothing below may show an unlabelled control for longer than this takes.
+  initStaticCopy();
+  syncUnitLabels(displayUnit());
+  initHelpUi();
   initPanelUi();
   [library, catalog] = await Promise.all([
     fetchJson<MaterialsLibrary>('/assets/library/materials.json'),
@@ -3124,6 +3353,8 @@ async function boot() {
     const next = displayUnit();
     convertLengthFields(fieldUnit, next);
     fieldUnit = next;
+    // The labels name the unit the numbers are now in: "Length (cm)".
+    syncUnitLabels(next);
     if (roomGraph) roomGraph = { ...roomGraph, display_unit: next };
     renderRoomUi();
   });
@@ -3266,6 +3497,7 @@ async function boot() {
   // Every length field below is seeded in the unit the select shows right now.
   fieldUnit = displayUnit();
   syncLengthFieldLimits(fieldUnit);
+  syncUnitLabels(fieldUnit);
   syncOpeningDefaultsFromType();
   // Seed custom fields from default preset.
   roomPreset.dispatchEvent(new Event('change'));
@@ -3326,8 +3558,9 @@ window.__rv = {
 };
 
 boot().catch((err) => {
-  console.error(err);
-  setStatus('error', String(err?.message ?? err));
+  // Deck §3.2: "3D isn't available in this browser" for a WebGL failure, "The viewer couldn't
+  // start" for anything else. `friendlyError` (in setStatus) logs the raw error.
+  setStatus('error', err, 'boot');
 });
 
 if (import.meta.hot) {

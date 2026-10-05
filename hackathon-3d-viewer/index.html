@@ -6,31 +6,40 @@
     <title>Catalog 3D</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%23303030%22/%3E%3C/svg%3E" />
   </head>
+  <!--
+    WORDS. Every static string of this page is in src/copy.ts (the deck, docs/ux-copy-deck.md, is
+    the source). An element names its string with data-copy="group.key" (its text), and likewise
+    data-copy-aria-label, data-copy-title and data-copy-placeholder; main.ts fills them at boot
+    (initStaticCopy). Do not type visible words into this file. Three texts are also written here,
+    because they show before the script runs: the <title>, the brand and "Loading…".
+    tests/unit/staticCopy.test.ts checks that every key named here exists.
+    The (?) help button is added to the top bar by main.ts (src/help.ts builds it).
+  -->
   <body data-workspace="catalog">
     <header class="topbar">
-      <div class="brand">Catalog 3D</div>
-      <nav class="workspace-nav" aria-label="Workspace">
+      <div class="brand" data-copy="topBarAndStage.brand">Catalog 3D</div>
+      <nav class="workspace-nav" data-copy-aria-label="topBarAndStage.workspaceLabel">
         <div class="workspace-nav-row">
-          <span class="workspace-nav-label" id="workspace-mode-label">Workspace</span>
+          <span class="workspace-nav-label" id="workspace-mode-label" data-copy="topBarAndStage.workspaceLabel"></span>
           <div
             class="mode-toggle segmented cols-2"
             id="workspace-mode"
             role="radiogroup"
             aria-labelledby="workspace-mode-label"
           >
-            <button type="button" data-mode="catalog" aria-checked="true" role="radio">Product</button>
-            <button type="button" data-mode="room" aria-checked="false" role="radio">Room workspace</button>
+            <button type="button" data-mode="catalog" aria-checked="true" role="radio" data-copy="topBarAndStage.workspaceProduct"></button>
+            <button type="button" data-mode="room" aria-checked="false" role="radio" data-copy="topBarAndStage.workspaceRoom"></button>
           </div>
         </div>
-        <p class="workspace-nav-hint muted small" id="workspace-mode-hint" role="status">
-          Product turntable — inspect GLB, materials, and packs.
-        </p>
+        <!-- Deck §3.1 #1 and #1b. main.ts (setWorkspace) writes the line of the active workspace. -->
+        <p class="workspace-nav-hint muted small" id="workspace-mode-hint" role="status" data-copy="helperLines.workspaceHintProduct"></p>
       </nav>
     </header>
 
     <main class="layout">
-      <section class="stage card" aria-label="3D viewer">
+      <section class="stage card" data-copy-aria-label="notInDeck.stageRegionLabel">
         <div id="viewer-host" class="viewer-host"></div>
+        <!-- main.ts (setStatus) writes the overlay: "Loading…", or one of the deck §3.2 messages. -->
         <div id="viewer-overlay" class="overlay" role="status">Loading…</div>
         <!-- Room workspace with no room (UX-06, QA-04). Shown and filled by main.ts; the words are in src/copy.ts. -->
         <div id="stage-empty" class="stage-empty" hidden>
@@ -48,25 +57,26 @@
           </div>
         </div>
         <div class="stage-toolbar">
-          <button id="btn-reset" class="btn">Reset camera</button>
-          <button id="btn-remount" class="btn" title="Dispose and recreate the viewer (SPA lifecycle demo)">Dispose &amp; remount</button>
+          <button id="btn-reset" class="btn" data-copy="topBarAndStage.resetCamera"></button>
+          <button id="btn-remount" class="btn" data-copy="topBarAndStage.restartView" data-copy-title="topBarAndStage.restartViewTooltip"></button>
           <!-- UX-07 item 3: the light presets are a stage control, in both workspaces. main.ts fills the
                buttons and sets the group's accessible name from src/copy.ts. -->
           <div id="presets" class="segmented" role="radiogroup"></div>
         </div>
-        <p id="stage-hint" class="hint">Drag to spin · scroll to zoom · right-drag to pan</p>
+        <!-- Deck §3.3: main.ts (syncStageState) writes the hint for the current state. -->
+        <p id="stage-hint" class="hint" data-copy="stageHints.product"></p>
       </section>
 
       <!--
         The side panel holds one group per workspace (UX-07). main.ts shows the group of the active
         workspace and gives the other one `hidden`, so its controls are neither rendered nor tab stops.
-        New labels are left empty here and filled from src/copy.ts by main.ts (initPanelUi).
+        Labels are empty here and filled from src/copy.ts by main.ts (initStaticCopy, initPanelUi, initStageUi).
       -->
       <aside class="panel">
         <!-- ============ Product workspace ============ -->
         <div class="panel-group" id="panel-catalog" data-workspace-panel="catalog">
           <div class="card panel-card" id="catalog-card">
-            <h2>Product</h2>
+            <h2 data-copy="topBarAndStage.workspaceProduct"></h2>
             <!--
               The product picker is ONE element used by both workspaces. #product-picker-slot (with the
               select inside it) is moved by main.ts between this home and #product-picker-home-room in
@@ -74,7 +84,7 @@
             -->
             <div id="product-picker-home-catalog" class="product-picker-home">
               <div id="product-picker-slot" class="product-picker-slot">
-                <select id="product-select" class="select" aria-label="Product"></select>
+                <select id="product-select" class="select" data-copy-aria-label="notInDeck.picker.productLabel"></select>
               </div>
             </div>
             <p id="product-meta" class="muted small"></p>
@@ -86,28 +96,25 @@
             "Place products" step. #materials-state says what a swatch applies to there; it is hidden in Product.
           -->
           <div class="card" id="materials-card">
-            <h2>Material slots</h2>
+            <h2 data-copy="productCard.materialsHeading"></h2>
             <p id="materials-state" class="materials-state muted small" hidden></p>
             <div id="slots"></div>
             <div id="slot-warnings"></div>
           </div>
 
+          <!--
+            QA-14 (WCAG 2.5.3): a file input, select or text field with a visible <label> has no
+            aria-label of its own, so its accessible name is the label people see.
+          -->
           <div class="card" id="add-model-card">
-            <label class="upload-label" for="model-files">Add 3D model</label>
-            <p class="muted small upload-hint">
-              Adds to the product list (does not replace demos). Prefer self-contained <code>.glb</code>;
-              multi-file <code>.gltf</code> + companions OK.
-              <strong>OBJ</strong> packages: select <code>.obj</code> with <code>.mtl</code> + texture maps
-              (+ optional <code>.slots.json</code> sidecar). Converts in-session to GLB-equivalent + material slots from
-              <code>usemtl</code> / groups — same library swatch UX. Not Polyfork MJS codegen. Session Object URLs only.
-            </p>
+            <label class="upload-label" for="model-files" data-copy="productCard.addModelLabel"></label>
+            <p class="muted small upload-hint" data-copy="helperLines.addModelHint"></p>
             <input
               id="model-files"
               class="file-input"
               type="file"
               multiple
               accept=".glb,.gltf,.obj,.mtl,.png,.jpg,.jpeg,.webp,.slots.json,model/gltf-binary,model/gltf+json,model/obj,text/plain,application/json,image/png,image/jpeg,image/webp"
-              aria-label="Upload GLB, glTF, or OBJ package"
             />
             <p id="model-upload-status" class="upload-status muted small" role="status"></p>
           </div>
@@ -116,81 +123,78 @@
           <details class="card advanced" id="product-advanced">
             <summary id="product-advanced-summary"></summary>
             <div class="advanced-block">
-              <h3>Add texture</h3>
-              <p class="muted small upload-hint">Uploads go into the materials library, then apply via slot swatches (materials SoR). PNG / JPEG / WebP. Session Object URLs only.</p>
+              <h3 data-copy="productCard.addTextureHeading"></h3>
+              <p class="muted small upload-hint" data-copy="helperLines.addTextureHint"></p>
               <div class="form-grid">
                 <label class="field">
-                  <span>Image</span>
-                  <input id="texture-file" class="file-input" type="file" accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp" aria-label="Upload texture image" />
+                  <span data-copy="productCard.textureImageLabel"></span>
+                  <input id="texture-file" class="file-input" type="file" accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp" />
                 </label>
                 <label class="field">
-                  <span>Name</span>
-                  <input id="texture-name" class="text-input" type="text" placeholder="Optional display name" maxlength="64" />
+                  <span data-copy="productCard.textureNameLabel"></span>
+                  <input id="texture-name" class="text-input" type="text" data-copy-placeholder="productCard.textureNamePlaceholder" maxlength="64" />
                 </label>
                 <label class="field">
-                  <span>Category</span>
-                  <select id="texture-category" class="select" aria-label="Texture category">
-                    <option value="wood">wood</option>
-                    <option value="textile">textile</option>
-                    <option value="plastic">plastic</option>
-                    <option value="stone">stone</option>
-                    <option value="metal">metal</option>
+                  <span data-copy="productCard.textureCategoryLabel"></span>
+                  <select id="texture-category" class="select">
+                    <option value="wood" data-copy="productCard.textureCategories.wood"></option>
+                    <option value="textile" data-copy="productCard.textureCategories.textile"></option>
+                    <option value="plastic" data-copy="productCard.textureCategories.plastic"></option>
+                    <option value="stone" data-copy="productCard.textureCategories.stone"></option>
+                    <option value="metal" data-copy="productCard.textureCategories.metal"></option>
                   </select>
                 </label>
                 <label class="field">
-                  <span>Map role</span>
-                  <select id="texture-role" class="select" aria-label="Texture map role">
-                    <option value="map">baseColor (new material)</option>
-                    <option value="normalMap">normal → existing</option>
-                    <option value="roughnessMap">roughness → existing</option>
+                  <span data-copy="productCard.textureUseAsLabel"></span>
+                  <select id="texture-role" class="select">
+                    <option value="map" data-copy="productCard.textureRoles.map"></option>
+                    <option value="normalMap" data-copy="productCard.textureRoles.normalMap"></option>
+                    <option value="roughnessMap" data-copy="productCard.textureRoles.roughnessMap"></option>
                   </select>
                 </label>
                 <label class="field" id="texture-target-wrap" hidden>
-                  <span>Target material</span>
-                  <select id="texture-target" class="select" aria-label="Target library material"></select>
+                  <span data-copy="productCard.textureAddToMaterialLabel"></span>
+                  <select id="texture-target" class="select"></select>
                 </label>
               </div>
-              <button id="btn-add-texture" class="btn btn-primary" type="button">Add to library</button>
+              <button id="btn-add-texture" class="btn btn-primary" type="button" data-copy="productCard.addToLibrary"></button>
               <p id="texture-upload-status" class="upload-status muted small" role="status"></p>
-              <ul id="user-materials" class="user-list" aria-label="Session materials"></ul>
+              <ul id="user-materials" class="user-list" data-copy-aria-label="notInDeck.userMaterialsListLabel"></ul>
             </div>
             <div class="upload-block">
-              <label class="upload-label" for="pack-files">Load pack (.mjs + .glb)</label>
-              <p class="muted small upload-hint">
-                Polyfork-style pack: prefer multi-select <code>name.mjs</code> + sibling <code>name.glb</code>
-                (same basename). GLB drives the turntable mesh; MJS is the params / materials source.
-                MJS alone falls back to <code>createAsset()</code> (pack incomplete). Executes JS — trusted files only.
-                Example: <code>Room Vibez/models/core-rulebook-4aedc7.mjs</code> + <code>.glb</code>.
-              </p>
+              <label class="upload-label" for="pack-files" data-copy="productCard.loadPackLabel"></label>
+              <p class="muted small upload-hint" data-copy="helperLines.loadPackHint"></p>
               <input
                 id="pack-files"
                 class="file-input"
                 type="file"
                 multiple
                 accept=".mjs,.glb,text/javascript,model/gltf-binary"
-                aria-label="Load MJS and optional GLB pack"
               />
-              <label class="upload-label pack-mate-label" for="pack-glb-mate">Or attach pack-mate GLB</label>
-              <input id="pack-glb-mate" class="file-input" type="file" accept=".glb,model/gltf-binary" aria-label="Pack mate GLB" />
+              <label class="upload-label pack-mate-label" for="pack-glb-mate" data-copy="productCard.packMateLabel"></label>
+              <input id="pack-glb-mate" class="file-input" type="file" accept=".glb,model/gltf-binary" />
               <p id="pack-upload-status" class="upload-status muted small" role="status"></p>
               <div id="pack-params" class="pack-params" hidden></div>
             </div>
             <div class="upload-block">
-              <label class="upload-label" for="module-file">Load module (.mjs only)</label>
-              <p class="muted small upload-hint">
-                Same as pack without GLB. Prefer <strong>Load pack</strong> when the sibling GLB is available.
-              </p>
-              <input id="module-file" class="file-input" type="file" accept=".mjs,text/javascript" aria-label="Load ES module .mjs" />
+              <label class="upload-label" for="module-file" data-copy="productCard.loadModuleLabel"></label>
+              <p class="muted small upload-hint" data-copy="helperLines.loadModuleHint"></p>
+              <input id="module-file" class="file-input" type="file" accept=".mjs,text/javascript" />
               <p id="module-upload-status" class="upload-status muted small" role="status"></p>
               <label class="field checkbox-field">
                 <input id="mjs-enabled" type="checkbox" checked />
-                <span>Enable .mjs module loading (trusted files only)</span>
+                <span data-copy="productCard.allowMjs"></span>
               </label>
             </div>
           </details>
 
           <div class="card" id="parts-card">
-            <h2>Parts list <span class="badge subtle">stub · onPartListUpdate</span></h2>
+            <h2><span data-copy="productCard.partsListHeading"></span> <span class="badge subtle" data-copy="productCard.partsListBadge"></span></h2>
+            <!-- Deck §3.1 "new": the honesty note, with a "Why?" link into the ? pop-up (Copy Phase 2). -->
+            <p class="muted small card-note" id="parts-note">
+              <span data-copy="helperLines.partsListNote"></span>
+              <button type="button" class="link-btn why-link" data-help-tab="product" data-copy="common.why"></button>
+            </p>
             <pre id="parts-list" class="code" data-testid="parts-list"></pre>
           </div>
         </div>
@@ -203,16 +207,15 @@
             always shown here. There is one #project-file input; the empty-room card on the stage uses it too.
           -->
           <div class="card room-toolbar" id="room-toolbar">
-            <button id="btn-undo" class="btn" type="button" title="Undo (Ctrl/Cmd+Z)">Undo</button>
-            <button id="btn-redo" class="btn" type="button" title="Redo (Ctrl/Cmd+Shift+Z)">Redo</button>
-            <button id="btn-export-project" class="btn" type="button">Export project</button>
-            <button id="btn-import-project" class="btn" type="button">Import project</button>
-            <input id="project-file" class="file-input" type="file" accept=".json,application/json" hidden aria-label="Import project JSON" />
+            <button id="btn-undo" class="btn" type="button" data-copy="roomTools.undo" data-copy-title="roomTools.undoTooltip"></button>
+            <button id="btn-redo" class="btn" type="button" data-copy="roomTools.redo" data-copy-title="roomTools.redoTooltip"></button>
+            <button id="btn-export-project" class="btn" type="button" data-copy="roomTools.exportProject"></button>
+            <button id="btn-import-project" class="btn" type="button" data-copy="roomTools.importProject"></button>
+            <input id="project-file" class="file-input" type="file" accept=".json,application/json" hidden data-copy-aria-label="roomTools.importProject" />
           </div>
 
         <div class="card panel-card" id="room-card">
-          <h2>Room workspace <span class="badge subtle">MVP</span></h2>
-          <p class="muted small">Three create paths → same owned room graph → Catalog 3D GLB on the floor. Graph JSON is SoT (session + localStorage). DWG is never Three.js SoT.</p>
+          <h2><span data-copy="topBarAndStage.workspaceRoom"></span> <span class="badge subtle" data-copy="roomStart.badge"></span></h2>
 
           <!--
             UX-08: the room tasks as four steps, one open at a time. #room-tools is the wrapper and is
@@ -228,37 +231,36 @@
             </h3>
             <!-- The one-line summary of step 1. It stays when the step is folded, with the "Change" link. -->
             <div class="step-summary">
-              <p id="room-status" class="upload-status muted small" role="status">No room yet — create a size to start.</p>
+              <!-- Deck §3.1 #14 with no room; the room's one-line summary once there is one (main.ts, renderRoomUi). -->
+              <p id="room-status" class="upload-status muted small" role="status" data-copy="notInDeck.roomStatusEmptyBelow"></p>
               <button type="button" id="btn-step-room-change" class="link-btn" hidden></button>
             </div>
             <div class="step-body" id="step-room-body">
 
           <label class="field units-field">
-            <span>Units</span>
-            <select id="room-units" class="select" aria-label="Display units">
-              <option value="m">meters (m)</option>
-              <option value="cm">centimeters (cm)</option>
-              <option value="ft-in">feet (decimal) / ft-in labels</option>
+            <span data-copy="notInDeck.unitsLabel"></span>
+            <select id="room-units" class="select">
+              <option value="m" data-copy="roomStart.units.m"></option>
+              <option value="cm" data-copy="roomStart.units.cm"></option>
+              <option value="ft-in" data-copy="roomStart.units.ft-in"></option>
             </select>
           </label>
 
-          <div class="segmented" id="room-ingress" role="radiogroup" aria-label="Room create path">
-            <button type="button" data-ingress="scratch" aria-checked="true" role="radio">From scratch</button>
-            <button type="button" data-ingress="import" aria-checked="false" role="radio">Import plan</button>
-            <button type="button" data-ingress="template" aria-checked="false" role="radio">From template</button>
+          <!-- Deck §3.5: the three sub-heads under these tabs are gone; the tab already says it. -->
+          <div class="segmented" id="room-ingress" role="radiogroup" data-copy-aria-label="notInDeck.ingressGroupLabel">
+            <button type="button" data-ingress="scratch" aria-checked="true" role="radio" data-copy="roomStart.ingress.scratch"></button>
+            <button type="button" data-ingress="import" aria-checked="false" role="radio" data-copy="roomStart.ingress.import"></button>
+            <button type="button" data-ingress="template" aria-checked="false" role="radio" data-copy="roomStart.ingress.template"></button>
           </div>
 
           <div id="room-ingress-scratch">
-          <h4 class="room-subhead">From scratch</h4>
-          <p class="muted small">Rectangular shell → door/window cutouts → place furniture.</p>
-
           <label class="field">
-            <span>Preset</span>
-            <select id="room-preset" class="select" aria-label="Room size preset">
-              <option value="small-bedroom">Small bedroom 3×3 m</option>
-              <option value="living">Living 5×4 m</option>
-              <option value="studio">Studio 6×4 m</option>
-              <option value="custom">Custom…</option>
+            <span data-copy="notInDeck.presetLabel"></span>
+            <select id="room-preset" class="select">
+              <option value="small-bedroom" data-copy="roomStart.presets.small-bedroom"></option>
+              <option value="living" data-copy="roomStart.presets.living"></option>
+              <option value="studio" data-copy="roomStart.presets.studio"></option>
+              <option value="custom" data-copy="roomStart.presets.custom"></option>
             </select>
           </label>
 
@@ -266,105 +268,122 @@
             UX-08 item 4: with a preset selected the size fields sit behind "Adjust size"; with Custom
             they are shown and the summary is hidden (main.ts, syncSizeFields). The min and step
             attributes are in metres and are read by main.ts: keep them.
+            data-unit-label: a label that ends in the unit of the Units select, "Length (cm)"
+            (deck §3.5, §3.6). main.ts (syncUnitLabels) writes it at boot and when the unit changes.
           -->
           <details class="disclosure" id="room-size-adjust">
             <summary id="room-size-adjust-summary"></summary>
           <div class="form-grid room-dims" id="room-custom-fields">
             <label class="field">
-              <span>Length (X)</span>
+              <span data-unit-label="roomStart.lengthLabel"></span>
               <input id="room-length" class="text-input" type="number" min="0.5" step="0.1" value="4" />
             </label>
             <label class="field">
-              <span>Width (Z)</span>
+              <span data-unit-label="roomStart.widthLabel"></span>
               <input id="room-width" class="text-input" type="number" min="0.5" step="0.1" value="3" />
             </label>
             <label class="field">
-              <span>Ceiling height</span>
+              <span data-unit-label="roomStart.ceilingHeightLabel"></span>
               <input id="room-ceiling" class="text-input" type="number" min="0.5" step="0.1" value="2.7" />
             </label>
             <label class="field">
-              <span>Wall thickness</span>
+              <span data-unit-label="roomStart.wallThicknessLabel"></span>
               <input id="room-thickness" class="text-input" type="number" min="0.05" step="0.01" value="0.12" />
             </label>
           </div>
           </details>
 
-          <button id="btn-create-room" class="btn btn-primary" type="button">Create room</button>
+          <button id="btn-create-room" class="btn btn-primary" type="button" data-copy="roomStart.createRoom"></button>
           </div>
 
           <div id="room-ingress-import" hidden>
-            <h4 class="room-subhead">Import plan <span class="badge subtle">mock extract</span></h4>
-            <p class="muted small" id="import-oda-note">
-              Upload DWG/DXF (kept as SourceAsset), a JSON candidates payload, or a <strong>JPG/PNG/WebP underlay</strong>.
-              Raster underlays require human confirm of width/depth before the room graph is written.
-              <strong>PDF</strong> needs a rasterizer — upload PNG/JPG instead, or use a pre-rendered image.
-              <strong>ODA / APS not available here</strong> — DWG/DXF use a clearly labeled mock fixture extract, not real entity parsing.
-            </p>
-            <label class="upload-label" for="plan-file">Plan file (.dwg / .dxf / .json / .png / .jpg / .pdf)</label>
+            <!-- Deck §3.5: the "Sample only" badge stays. Its sub-head is gone, so it stands at the top of the form. -->
+            <p class="ingress-badge"><span class="badge subtle" data-copy="roomStart.importBadge"></span></p>
+            <!--
+              Deck §3.1 #5 and Copy Phase 1 step 6. Visible: the one-line nudge and a "Why?" link into
+              the ? pop-up. The sentence that e2e pins ("ODA / APS not available") is today's sentence,
+              unchanged, inside the collapsed "Technical details". It is not in src/copy.ts on purpose:
+              it is not new copy, and the unit test of copy.ts keeps team vocabulary out of that file.
+            -->
+            <div class="muted small import-note" id="import-oda-note">
+              <p class="import-note-line">
+                <span data-copy="helperLines.importNote"></span>
+                <button type="button" class="link-btn why-link" data-help-anchor="import-plan" data-copy="common.why"></button>
+              </p>
+              <details class="disclosure technical">
+                <summary data-copy="common.technicalDetails"></summary>
+                <div class="technical-body"><strong>ODA / APS not available here</strong> — DWG/DXF use a clearly labeled mock fixture extract, not real entity parsing.</div>
+              </details>
+            </div>
+            <label class="upload-label" for="plan-file" data-copy="roomStart.planFileLabel"></label>
             <input
               id="plan-file"
               class="file-input"
               type="file"
               accept=".dwg,.dxf,.json,.candidates.json,.png,.jpg,.jpeg,.webp,.pdf,application/json,application/octet-stream,image/png,image/jpeg,image/webp,application/pdf"
-              aria-label="Upload DWG, DXF, candidates JSON, raster underlay, or PDF"
             />
             <div class="btn-row">
-              <button id="btn-import-plan" class="btn btn-primary" type="button">Upload &amp; derive candidates</button>
-              <button id="btn-import-fixture" class="btn" type="button">Load mock fixture</button>
+              <button id="btn-import-plan" class="btn btn-primary" type="button" data-copy="roomStart.uploadPlan"></button>
+              <button id="btn-import-fixture" class="btn" type="button" data-copy="roomStart.trySamplePlan"></button>
             </div>
             <p id="import-status" class="upload-status muted small" role="status"></p>
 
             <div id="underlay-review" class="import-review" hidden>
-              <h5 class="room-subhead">Raster underlay <span class="badge subtle">human confirm</span></h5>
+              <h5 class="room-subhead" data-copy="roomStart.traceHeading"></h5>
               <p id="underlay-status" class="muted small" role="status"></p>
-              <div id="underlay-preview" class="room-plan import-preview" aria-label="Underlay preview"></div>
+              <div id="underlay-preview" class="room-plan import-preview" data-copy-aria-label="notInDeck.planImagePreviewLabel"></div>
               <div class="form-grid room-dims">
                 <label class="field">
-                  <span>Width (m)</span>
+                  <span data-copy="roomStart.traceWidthLabel"></span>
                   <input id="underlay-width" class="text-input" type="number" min="0.5" step="0.1" value="5" />
                 </label>
                 <label class="field">
-                  <span>Depth (m)</span>
+                  <span data-copy="roomStart.traceDepthLabel"></span>
                   <input id="underlay-depth" class="text-input" type="number" min="0.5" step="0.1" value="4" />
                 </label>
               </div>
-              <button id="btn-underlay-confirm" class="btn btn-primary" type="button">Confirm underlay → room</button>
+              <button id="btn-underlay-confirm" class="btn btn-primary" type="button" data-copy="roomStart.createRoomFromImage"></button>
             </div>
 
             <div id="import-review" class="import-review" hidden>
-              <p id="import-extract-banner" class="import-banner" role="status"></p>
-              <div id="import-preview" class="room-plan import-preview" aria-label="Plan preview + candidates"></div>
+              <!--
+                Deck §3.5 "Sample banner" and Copy Phase 1 step 5. main.ts (renderImportReview) fills it:
+                the friendly line with a "Why?" link, and the original technical string, unchanged,
+                inside a collapsed "Technical details" (e2e pins "mock_fixture" and "ODA available: no").
+              -->
+              <div id="import-extract-banner" class="import-banner" role="status"></div>
+              <div id="import-preview" class="room-plan import-preview" data-copy-aria-label="notInDeck.planPreviewLabel"></div>
               <label class="field">
-                <span>Known south-wall length (m) — scale confirm</span>
+                <span data-copy="roomStart.scaleFieldLabel"></span>
                 <input id="import-known-length" class="text-input" type="number" min="0.1" step="0.01" value="5" />
               </label>
-              <button id="btn-import-apply-scale" class="btn" type="button">Apply scale from known length</button>
+              <button id="btn-import-apply-scale" class="btn" type="button" data-copy="roomStart.setScale"></button>
               <p id="import-scale-status" class="muted small"></p>
-              <h5 class="room-subhead">Wall candidates</h5>
-              <ul id="import-wall-list" class="room-list" aria-label="Wall candidates"></ul>
-              <h5 class="room-subhead">Opening candidates</h5>
-              <ul id="import-opening-list" class="room-list" aria-label="Opening candidates"></ul>
-              <h5 class="room-subhead">Room candidates</h5>
-              <ul id="import-room-list" class="room-list" aria-label="Room candidates"></ul>
+              <p class="muted small list-nudge" data-copy="roomStart.listNudge"></p>
+              <h5 class="room-subhead" id="import-wall-heading" data-copy="roomStart.wallsFound"></h5>
+              <ul id="import-wall-list" class="room-list" aria-labelledby="import-wall-heading"></ul>
+              <h5 class="room-subhead" id="import-opening-heading" data-copy="roomStart.openingsFound"></h5>
+              <ul id="import-opening-list" class="room-list" aria-labelledby="import-opening-heading"></ul>
+              <h5 class="room-subhead" id="import-room-heading" data-copy="roomStart.roomsFound"></h5>
+              <ul id="import-room-list" class="room-list" aria-labelledby="import-room-heading"></ul>
               <div class="btn-row">
-                <button id="btn-import-start-editing" class="btn btn-primary" type="button">Start editing (immediate room)</button>
-                <button id="btn-import-save-template" class="btn" type="button">Save as template</button>
+                <button id="btn-import-start-editing" class="btn btn-primary" type="button" data-copy="roomStart.createRoomFromPlan"></button>
+                <button id="btn-import-save-template" class="btn" type="button" data-copy="roomStart.saveAsTemplate"></button>
               </div>
             </div>
           </div>
 
           <div id="room-ingress-template" hidden>
-            <h4 class="room-subhead">From template</h4>
-            <p class="muted small">Instantiate a saved room-graph seed (clone). Templates are not DWG files.</p>
-            <ul id="template-list" class="room-list" aria-label="Room templates"></ul>
-            <p id="template-status" class="upload-status muted small" role="status">No templates yet — import a plan and choose “Save as template”.</p>
+            <ul id="template-list" class="room-list" data-copy-aria-label="notInDeck.templatesListLabel"></ul>
+            <!-- Deck §3.1 #7 with no templates; the count once there are some (main.ts, renderTemplateList). -->
+            <p id="template-status" class="upload-status muted small" role="status" data-copy="helperLines.templatesEmpty"></p>
           </div>
 
           <!-- UX-08 item 1: drawing the walls is the other way to shape the room. It reshapes the room on stage, so it needs one. -->
           <div class="step-alt">
-            <h4 class="room-subhead">Draw walls</h4>
-            <p class="muted small">Click floor corners to trace an orthogonal polygon; click near the first point to close.</p>
-            <button id="btn-draw-wall-mode" class="btn" type="button" aria-pressed="false">Draw walls</button>
+            <h4 class="room-subhead" data-copy="roomTools.drawWallsHeading"></h4>
+            <!-- The three tool buttons keep one fixed label each (deck §3.6); main.ts (initStageUi) sets it. -->
+            <button id="btn-draw-wall-mode" class="btn" type="button" aria-pressed="false"></button>
           </div>
 
             </div>
@@ -372,10 +391,10 @@
             <details class="disclosure step-more" id="room-more">
               <summary id="room-more-summary"></summary>
               <label class="field">
-                <span>Template title (optional)</span>
-                <input id="template-title" class="text-input" type="text" placeholder="My room template" maxlength="64" />
+                <span data-copy="roomStart.templateNameLabel"></span>
+                <input id="template-title" class="text-input" type="text" data-copy-placeholder="roomStart.templateNamePlaceholder" maxlength="64" />
               </label>
-              <button id="btn-save-template-scratch" class="btn" type="button">Save current room as template</button>
+              <button id="btn-save-template-scratch" class="btn" type="button" data-copy="roomStart.saveAsTemplate"></button>
             </details>
           </section>
 
@@ -386,26 +405,26 @@
               </button>
             </h3>
             <div class="step-body" id="step-openings-body" hidden>
-              <div class="segmented" id="opening-type" role="radiogroup" aria-label="Opening type">
-                <button type="button" data-type="door" aria-checked="true" role="radio">Door</button>
-                <button type="button" data-type="window" aria-checked="false" role="radio">Window</button>
+              <div class="segmented" id="opening-type" role="radiogroup" data-copy-aria-label="notInDeck.openingTypeLabel">
+                <button type="button" data-type="door" aria-checked="true" role="radio" data-copy="roomTools.door"></button>
+                <button type="button" data-type="window" aria-checked="false" role="radio" data-copy="roomTools.window"></button>
               </div>
               <div class="form-grid room-dims">
                 <label class="field">
-                  <span>Width</span>
+                  <span data-unit-label="roomTools.openingWidthLabel"></span>
                   <input id="opening-width" class="text-input" type="number" min="0.2" step="0.05" value="0.9" />
                 </label>
                 <label class="field">
-                  <span>Height</span>
+                  <span data-unit-label="roomTools.openingHeightLabel"></span>
                   <input id="opening-height" class="text-input" type="number" min="0.2" step="0.05" value="2.1" />
                 </label>
                 <label class="field">
-                  <span>Sill</span>
+                  <span data-unit-label="roomTools.openingSillLabel"></span>
                   <input id="opening-sill" class="text-input" type="number" min="0" step="0.05" value="0" />
                 </label>
               </div>
-              <button id="btn-opening-mode" class="btn btn-primary" type="button" aria-pressed="false">Add opening</button>
-              <ul id="opening-list" class="room-list" aria-label="Openings"></ul>
+              <button id="btn-opening-mode" class="btn btn-primary" type="button" aria-pressed="false"></button>
+              <ul id="opening-list" class="room-list" data-copy-aria-label="roomTools.openingsListLabel"></ul>
             </div>
           </section>
 
@@ -416,19 +435,18 @@
               </button>
             </h3>
             <div class="step-body" id="step-place-body" hidden>
-              <p class="muted small">Select a Catalog product, then click the floor. Door/window openings use procedural placeholder meshes — not catalog SKUs.</p>
               <!-- The product picker lives here while the Room workspace is active (see #product-picker-home-catalog). -->
               <div id="product-picker-home-room" class="product-picker-home"></div>
               <!-- UX-16 step 3: the Materials card (#materials-card) lives here while the Room workspace is active. -->
               <div id="materials-home-room" class="materials-home"></div>
               <label class="field checkbox-field">
                 <input id="place-wall-snap" type="checkbox" />
-                <span>Snap placement to nearest wall</span>
+                <span data-copy="roomTools.snapToWall"></span>
               </label>
               <!-- UX-08 item 3: "Add to room" places the selected product with no pointer. "Place product" is the pointer tool. -->
               <button id="btn-add-to-room" class="btn btn-primary" type="button"></button>
-              <button id="btn-place-mode" class="btn" type="button" aria-pressed="false">Place product</button>
-              <ul id="placement-list" class="room-list" aria-label="Placements"></ul>
+              <button id="btn-place-mode" class="btn" type="button" aria-pressed="false"></button>
+              <ul id="placement-list" class="room-list" data-copy-aria-label="roomTools.productsListLabel"></ul>
             </div>
           </section>
 
@@ -441,27 +459,27 @@
             <div class="step-body" id="step-finish-body" hidden>
               <div class="form-grid room-dims">
                 <label class="field">
-                  <span>Wall material</span>
-                  <select id="room-wall-material" class="select" aria-label="Wall material"></select>
+                  <span data-copy="roomTools.wallsLabel"></span>
+                  <select id="room-wall-material" class="select"></select>
                 </label>
                 <label class="field">
-                  <span>Floor material</span>
-                  <select id="room-floor-material" class="select" aria-label="Floor material"></select>
+                  <span data-copy="roomTools.floorLabel"></span>
+                  <select id="room-floor-material" class="select"></select>
                 </label>
               </div>
             </div>
           </section>
           </div>
 
-          <div id="room-plan" class="room-plan" aria-label="2D plan" hidden></div>
+          <div id="room-plan" class="room-plan" data-copy-aria-label="notInDeck.planLabel" hidden></div>
           <div class="btn-row" id="room-plan-actions" hidden>
-            <button id="btn-download-plan" class="btn" type="button">Download plan PNG</button>
+            <button id="btn-download-plan" class="btn" type="button" data-copy="roomTools.downloadPlanPng"></button>
             <!-- UX-03: destructive, so secondary and away from "Create room". It asks before it clears. -->
-            <button id="btn-clear-room" class="btn btn-danger" type="button">Clear room</button>
+            <button id="btn-clear-room" class="btn btn-danger" type="button" data-copy="roomStart.clearRoom"></button>
           </div>
 
           <details class="room-graph-details">
-            <summary>Room graph JSON</summary>
+            <summary data-copy="roomTools.developerView"></summary>
             <pre id="room-graph-json" class="code" data-testid="room-graph">null</pre>
           </details>
         </div>

@@ -922,6 +922,51 @@ export const copy = {
      * "sample-plan.candidates.json", which is internal vocabulary.
      */
     jobStatusSample: 'Sample plan',
+
+    // ----- Copy pass, host wave 6a (Copy Phase 1; QA-14) ---------------------------------------
+    // (Not here on purpose: the technical sentence kept under `#import-oda-note`, Copy Phase 1
+    // step 6. It is today's sentence, unchanged, and holds team vocabulary that the unit test of
+    // this file keeps out of `copy`. It stays in index.html, inside the collapsed block.)
+    /**
+     * written (deck string changed, one word). Deck §3.1 #14 is "No room yet. Pick a way to start
+     * above." Since UX-08 the line sits in the step-1 summary, and the three ways to start are the
+     * tabs right under it, so "above" points the wrong way. `helperLines.roomStatusEmpty` keeps the
+     * deck's words and is not used.
+     */
+    roomStatusEmptyBelow: 'No room yet. Pick a way to start below.',
+    /**
+     * given (today's labels, kept). Deck §3.5 names the "Units select" and the "Preset options"
+     * and lists their options, but not the two field labels themselves.
+     */
+    unitsLabel: 'Units',
+    presetLabel: 'Preset',
+    /** given (today's `aria-label`, kept). The stage region around the canvas, the overlay and the hint. */
+    stageRegionLabel: '3D viewer',
+    /**
+     * written. `aria-label` of the three start tabs (`#room-ingress`); it was "Room create path".
+     * From the deck's own phrase for them, "Pick a way to start" (§3.1 #14).
+     */
+    ingressGroupLabel: 'Way to start',
+    /** given (today's `aria-label`, kept). The Door / Window group (`#opening-type`). */
+    openingTypeLabel: 'Opening type',
+    /**
+     * written. `aria-label` of `#underlay-preview` and `alt` of the image in it; both were
+     * "Underlay preview". The deck calls the picture "your image" (§3.5 "Trace over your image").
+     */
+    planImagePreviewLabel: 'Preview of your image',
+    /** written. `aria-label` of `#import-preview`; it was "Plan preview + candidates". */
+    planPreviewLabel: 'Plan preview',
+    /** written. `aria-label` of `#template-list`; it was "Room templates". The deck's noun (§2 "What's saved"). */
+    templatesListLabel: 'Templates',
+    /**
+     * written. `aria-label` of `#user-materials`; it was "Session materials". After the deck's
+     * "Models, textures and plans you add" (§2).
+     */
+    userMaterialsListLabel: 'Materials you added',
+    /** given (today's `aria-label`, kept). `#room-plan`; the deck's own name for it (§2 "saves the 2D plan as an image"). */
+    planLabel: '2D plan',
+    /** given (today's `aria-label`, kept). The group of swatches of one part: "Frame materials". */
+    slotSwatchesLabel: '{part} materials',
   },
 } as const satisfies CopyTree;
 

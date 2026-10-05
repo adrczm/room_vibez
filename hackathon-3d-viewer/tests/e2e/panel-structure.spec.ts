@@ -219,6 +219,12 @@ test('Product on arrival at 1440×900: Materials need no panel scroll, the light
   expect(await panelTop()).toBe(250);
   await page.click(ROOM_TOGGLE);
   expect(await panelTop()).toBe(0);
+  // Since the copy pass (five paragraphs and three sub-heads gone), the Room panel with no room is
+  // exactly as tall as the panel at 1440×900 and cannot scroll at all. The plan review is long:
+  // open it, so that there is a scroll position for the switch back to Product to reset.
+  await page.click('#room-ingress button[data-ingress=import]');
+  await page.click('#btn-import-fixture');
+  await expect(page.locator('#import-review')).toBeVisible({ timeout: 10_000 });
   await page.evaluate(() => document.querySelector('.panel')!.scrollTo({ top: 60, behavior: 'instant' }));
   expect(await panelTop()).toBeGreaterThan(0);
   await page.click(PRODUCT_TOGGLE);

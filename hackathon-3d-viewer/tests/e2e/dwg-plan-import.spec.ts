@@ -100,7 +100,8 @@ test('DWG plan import: mock fixture → confirm → immediate room + template', 
   await expect(page.locator('#room-ingress-template')).toBeVisible();
   await expect(page.locator('#template-list li')).toHaveCount(1);
 
-  await page.click('#template-list li button:has-text("Instantiate")');
+  // Copy Phase 1 step 7: the button reads "Use template" now; it is found by its data-action.
+  await page.click('#template-list li button[data-action="use-template"]');
   await expect
     .poll(async () => page.evaluate(() => window.__rv.roomGraph()?.provenance.kind))
     .toBe('template_instance');

@@ -75,6 +75,10 @@ body {
 }
 .overlay.hidden { opacity: 0; }
 .overlay.error { color: var(--critical); background: var(--critical-soft); opacity: 1; }
+/* The overlay's words are one block (main.ts, setStatus), so an error sentence with a bold start
+   wraps as one centred paragraph instead of one grid row per run. */
+.overlay-message { margin: 0; max-width: 46ch; padding: 0 16px; text-align: center; }
+.overlay-message strong { font-weight: 650; }
 /* The toolbar spans the stage so that it wraps inside it. Only its controls take the pointer:
    the empty parts of its box let clicks and drags through to the canvas. */
 .stage-toolbar {
@@ -220,7 +224,6 @@ body[data-viewer-status='error'] .stage-empty { display: none; }
 .slot-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 8px; }
 .slot-label { font-weight: 600; }
 .slot-value { color: var(--text-muted); font-size: 12px; text-align: right; }
-.slot-meta { color: var(--text-muted); font-size: 11px; margin-top: 6px; }
 .swatches { display: flex; flex-wrap: wrap; gap: 8px; }
 .swatch {
   width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border-strong); cursor: pointer; padding: 0;
@@ -340,6 +343,25 @@ body[data-viewer-status='error'] .stage-empty { display: none; }
   font: inherit; font-size: 12px; font-weight: 550; color: var(--accent); text-decoration: underline; cursor: pointer;
 }
 .link-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+/* ---- Copy pass (Copy Phase 1 and 2) ---- */
+/* A "Why?" link is a .link-btn at the end of a sentence; it opens the ? pop-up. The sentence and
+   the link are one line of text, so the link keeps the line's height. */
+.why-link { display: inline; vertical-align: baseline; white-space: nowrap; }
+/* A one-line note under a card heading (the Parts list note). */
+.card-note { margin: -4px 0 10px; }
+/* "Technical details": an original technical string kept under a friendly line (Copy Phase 1
+   steps 5 and 6). It is a .disclosure, so it is closed by default and its content is not rendered
+   until it is opened (.panel details:not([open]) above); it is still in the DOM. */
+.technical-body { margin: 0 0 4px; font-size: 12px; line-height: 1.4; overflow-wrap: anywhere; }
+/* The import nudge (deck §3.1 #5) with its "Sample only" badge above it. */
+.ingress-badge { margin: 0 0 6px; }
+.ingress-badge .badge { margin-left: 0; }
+.import-note { margin: 0 0 4px; }
+.import-note-line, .import-banner-line { margin: 0; }
+/* Included / Left out: two small buttons per row of the plan review; the pressed one is the row's state. */
+.candidate-toggle { flex: 0 0 auto; display: inline-flex; gap: 4px; }
+.room-list button[aria-pressed='true'] { background: var(--accent-soft); border-color: var(--accent); color: var(--text); }
 .step-more { margin: -4px 0 8px; }
 .step-more .btn { margin-top: 8px; }
 /* The other way to shape the room, under the create forms. */
@@ -355,6 +377,11 @@ body[data-viewer-status='error'] .stage-empty { display: none; }
   font-size: 12px; line-height: 1.4; padding: 8px 10px; border-radius: 6px;
   background: #fff6e8; border: 1px solid #e8c48a; color: #5c3d10; margin: 0 0 10px;
 }
+/* Inside the banner the "Technical details" summary takes the banner's own text colour. */
+.import-banner .disclosure > summary { color: inherit; padding-bottom: 2px; }
+.import-banner[data-kind='sample'] .disclosure > summary { padding-top: 6px; }
+/* A plan that is not the sample (a JSON plan) has no caution to show: only the technical string. */
+.import-banner[data-kind='plain'] { padding: 0; background: none; border: 0; color: var(--text-muted); }
 .import-preview { margin-top: 0; }
 #room-ingress-import .upload-label { margin-top: 8px; display: block; }
 #room-ingress { margin-bottom: 10px; }

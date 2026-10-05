@@ -1,5 +1,10 @@
 // Content of the ? pop-up. Source: docs/ux-copy-deck.md §2, copied word for word.
 //
+// One sentence differs from the deck (host wave 6a, copy handoff §2 "the pop-up may only state
+// what is true"): Room tab, "Place products". The deck says "To move something, delete it from
+// the list and place it again." A placed product can now be selected and moved with the arrow
+// keys (UX-09), so it reads "…select it in the list and use the arrow keys."
+//
 // Everything here is static, authored HTML. Nothing a user typed (file names, template
 // titles, product names) may ever be interpolated into these strings: help.ts assigns
 // them with innerHTML.
@@ -101,7 +106,7 @@ const ROOM_HTML = `
 <h4>Place products</h4>
 <ul>
   <li>Choose a product in the Product list, choose <strong>Place product</strong>, then click the floor. Turn on <strong>Snap to nearest wall</strong> to line it up against a wall.</li>
-  <li>Overlaps with a wall or another product are allowed, with a warning. To move something, delete it from the list and place it again.</li>
+  <li>Overlaps with a wall or another product are allowed, with a warning. To move something, select it in the list and use the arrow keys.</li>
 </ul>
 <h4>Undo, save and share</h4>
 <ul>
