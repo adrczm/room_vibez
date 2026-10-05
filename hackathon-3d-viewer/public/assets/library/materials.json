@@ -1,0 +1,23 @@
+{
+  "$comment": "Demo materials library (stand-in for the owned Materials DB). SKUs are STUB identifiers, not real ERP codes. No prices on purpose.",
+  "version": 1,
+  "materials": [
+    { "id": "wood-oak",       "name": "Natural oak",     "category": "wood",    "sku": "STUB-MAT-WOOD-OAK",   "color": "#ffffff", "roughness": 0.65, "metalness": 0, "map": "/assets/textures/wood-oak.png",    "repeat": [1, 1] },
+    { "id": "wood-walnut",    "name": "Walnut",          "category": "wood",    "sku": "STUB-MAT-WOOD-WAL",   "color": "#ffffff", "roughness": 0.55, "metalness": 0, "map": "/assets/textures/wood-walnut.png", "repeat": [1, 1] },
+    { "id": "wood-black",     "name": "Black stained ash","category": "wood",   "sku": "STUB-MAT-WOOD-BLK",   "color": "#4a4a4a", "roughness": 0.5,  "metalness": 0, "map": "/assets/textures/wood-oak.png",    "repeat": [1, 1] },
+
+    { "id": "plastic-black",  "name": "Matte black PP",  "category": "plastic", "sku": "STUB-MAT-PL-BLK",     "color": "#1e1e1e", "roughness": 0.55, "metalness": 0 },
+    { "id": "plastic-white",  "name": "Gloss white ABS", "category": "plastic", "sku": "STUB-MAT-PL-WHT",     "color": "#f2f2f2", "roughness": 0.18, "metalness": 0 },
+    { "id": "plastic-green",  "name": "Sage PP",         "category": "plastic", "sku": "STUB-MAT-PL-SGE",     "color": "#7f9a7b", "roughness": 0.45, "metalness": 0 },
+
+    { "id": "wool-cream",     "name": "Wool — cream",    "category": "textile", "sku": "STUB-MAT-WL-CRM",     "color": "#efe6d4", "roughness": 0.95, "metalness": 0, "map": "/assets/textures/wool-knit.png",   "repeat": [2, 2] },
+    { "id": "wool-terracotta","name": "Wool — terracotta","category": "textile","sku": "STUB-MAT-WL-TER",     "color": "#c4704f", "roughness": 0.95, "metalness": 0, "map": "/assets/textures/wool-knit.png",   "repeat": [2, 2] },
+    { "id": "wool-forest",    "name": "Wool — forest",   "category": "textile", "sku": "STUB-MAT-WL-FOR",     "color": "#3f5e4a", "roughness": 0.95, "metalness": 0, "map": "/assets/textures/wool-knit.png",   "repeat": [2, 2] },
+
+    { "id": "stone-marble",   "name": "White marble",    "category": "stone",   "sku": "STUB-MAT-ST-MRB",     "color": "#ffffff", "roughness": 0.25, "metalness": 0, "map": "/assets/textures/marble-white.png", "repeat": [1, 1] },
+
+    { "id": "metal-brass",    "name": "Brushed brass",   "category": "metal",   "sku": "STUB-MAT-MT-BRS",     "color": "#c9a45c", "roughness": 0.35, "metalness": 1 },
+    { "id": "metal-black",    "name": "Powder-coat black","category": "metal",  "sku": "STUB-MAT-MT-BLK",     "color": "#232323", "roughness": 0.6,  "metalness": 0.6 },
+    { "id": "metal-chrome",   "name": "Chrome",          "category": "metal",   "sku": "STUB-MAT-MT-CHR",     "color": "#e6e6e6", "roughness": 0.08, "metalness": 1 }
+  ]
+}
