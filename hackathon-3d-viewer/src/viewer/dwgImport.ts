@@ -14,6 +14,7 @@ import {
   DEFAULT_DOOR,
   DEFAULT_WALL_THICKNESS_M,
   DEFAULT_WINDOW,
+  roomGraphProblem,
   type OpeningEntity,
   type OpeningType,
   type RoomEntity,
@@ -23,6 +24,7 @@ import {
   type Vec2,
   type WallEntity,
 } from './roomGraph';
+import { isPdfPlanFile, isRasterPlanFile } from './planUnderlay';
 
 export type ExtractPath = SourceAsset['extract_path'];
 
@@ -107,6 +109,114 @@ export function kindFromFilename(name: string): SourceAssetKind {
   if (lower.endsWith('.dxf')) return 'dxf';
   if (lower.endsWith('.json') || lower.endsWith('.candidates.json')) return 'json_candidates';
   return 'mock_fixture';
+}
+
+/**
+ * Why a chosen plan file is refused before any import starts:
+ * - `unsupported_type`: not an image, DWG, DXF or JSON by name (for example `.ifc`, `.exe`, no extension)
+ * - `pdf_unsupported`: a PDF (there is no rasterizer)
+ * - `not_dwg`: named `.dwg` but the content does not start like a DWG
+ * - `not_dxf`: named `.dxf` but the content does not start like a DXF
+ */
+export type PlanFileRejection = 'unsupported_type' | 'pdf_unsupported' | 'not_dwg' | 'not_dxf';
+
+/** Which import path a plan file belongs to. `raster` goes to `startUnderlayJob`; the rest to `startImportJob`. */
+export type PlanFileKind = 'raster' | 'dwg' | 'dxf' | 'json_candidates';
+
+export type PlanFileCheck =
+  | { ok: true; kind: PlanFileKind; filename: string }
+  | {
+      ok: false;
+      reason: PlanFileRejection;
+      filename: string;
+      /** Lower-case extension without the dot, or '' when the name has none. */
+      extension: string;
+    };
+
+/** Thrown by `startImportJob` for a file it has no import path for. `reason` is the fact to map to copy. */
+export class PlanFileError extends Error {
+  readonly reason: PlanFileRejection;
+  readonly filename: string;
+  constructor(reason: PlanFileRejection, filename: string, message: string) {
+    super(message);
+    this.name = 'PlanFileError';
+    this.reason = reason;
+    this.filename = filename;
+  }
+}
+
+function extensionOf(name: string): string {
+  const dot = name.lastIndexOf('.');
+  return dot < 0 || dot === name.length - 1 ? '' : name.slice(dot + 1).toLowerCase();
+}
+
+function asciiAt(bytes: Uint8Array, start: number, length: number): string {
+  let out = '';
+  for (let i = start; i < Math.min(bytes.length, start + length); i++) out += String.fromCharCode(bytes[i]!);
+  return out;
+}
+
+/**
+ * True when the bytes start with a DWG version tag of the form `AC10xx` (six ASCII characters,
+ * for example `AC1015` or `AC1032`). That tag is all this looks at: it does not parse the drawing,
+ * and it was written from the documented format, not checked against a DWG file from a CAD program.
+ */
+export function looksLikeDwg(head: Uint8Array): boolean {
+  return /^AC10[0-9]{2}$/.test(asciiAt(head, 0, 6));
+}
+
+/**
+ * True when the bytes start like a DXF: either the binary sentinel `AutoCAD Binary DXF`, or text
+ * whose first group, after any `999` comment groups, is `0` / `SECTION` (or `0` / `EOF`, an empty
+ * drawing). Looks at the start only; it does not parse the drawing, and it was not checked against a
+ * DXF file from a CAD program.
+ */
+export function looksLikeDxf(head: Uint8Array): boolean {
+  if (asciiAt(head, 0, 18) === 'AutoCAD Binary DXF') return true;
+  let text = asciiAt(head, 0, head.length);
+  if (text.startsWith('ï»¿')) text = text.slice(3); // UTF-8 byte-order mark, read as bytes
+  const lines = text.split(/\r\n|\r|\n/).map((line) => line.trim());
+  while (lines.length && lines[0] === '') lines.shift();
+  for (let i = 0; i + 1 < lines.length; i += 2) {
+    const code = lines[i]!;
+    const value = lines[i + 1]!;
+    if (!/^[0-9]{1,4}$/.test(code)) return false;
+    if (Number(code) === 999) continue; // comment group
+    return Number(code) === 0 && (value === 'SECTION' || value === 'EOF');
+  }
+  return false;
+}
+
+/** How much of a file `checkPlanFile` reads to recognise DWG / DXF content. */
+export const PLAN_SNIFF_BYTES = 4096;
+
+/**
+ * Decide, before any import starts, whether a chosen plan file can be used and by which path.
+ * Call this first; on `ok: false` show the matching message and start nothing, so a file that is not
+ * a plan never reaches the sample-extract path.
+ *
+ * Images and PDFs are recognised by name or MIME type (same rules as `isRasterPlanFile` /
+ * `isPdfPlanFile`); their content is not inspected. DWG and DXF are recognised by name and then by
+ * the first `PLAN_SNIFF_BYTES` bytes. JSON is recognised by name; `startImportJob` validates it.
+ */
+export async function checkPlanFile(file: File): Promise<PlanFileCheck> {
+  const filename = file.name;
+  const extension = extensionOf(filename);
+  if (isRasterPlanFile(file)) return { ok: true, kind: 'raster', filename };
+  if (isPdfPlanFile(file)) return { ok: false, reason: 'pdf_unsupported', filename, extension };
+  if (extension === 'json') return { ok: true, kind: 'json_candidates', filename };
+  if (extension !== 'dwg' && extension !== 'dxf') {
+    return { ok: false, reason: 'unsupported_type', filename, extension };
+  }
+  const head = new Uint8Array(await file.slice(0, PLAN_SNIFF_BYTES).arrayBuffer());
+  if (extension === 'dwg') {
+    return looksLikeDwg(head)
+      ? { ok: true, kind: 'dwg', filename }
+      : { ok: false, reason: 'not_dwg', filename, extension };
+  }
+  return looksLikeDxf(head)
+    ? { ok: true, kind: 'dxf', filename }
+    : { ok: false, reason: 'not_dxf', filename, extension };
 }
 
 /** Built-in rectangular living-room-like plan candidates (meters). */
@@ -222,6 +332,11 @@ export async function loadFixtureCandidates(): Promise<ImportCandidates> {
  * - `.json` candidate payloads are parsed directly (honest path).
  * - `.dwg` / `.dxf` uploads attach as SourceAsset but derive candidates from the
  *   mock fixture until an ODA/APS farm is wired (explicitly labeled).
+ * - Any other file name throws `PlanFileError` (`unsupported_type`): it has no import path and must
+ *   not get the sample extract.
+ *
+ * This does not look inside a `.dwg` / `.dxf` file. Call `checkPlanFile` first to refuse files that
+ * are not really DWG / DXF.
  */
 export async function startImportJob(file: File | null, opts?: { useFixture?: boolean }): Promise<ImportJob> {
   const useFixture = opts?.useFixture || !file;
@@ -243,14 +358,28 @@ export async function startImportJob(file: File | null, opts?: { useFixture?: bo
   } else if (!file) {
     throw new Error('No file provided');
   } else {
+    const kind = kindFromFilename(file.name);
+    if (kind !== 'dwg' && kind !== 'dxf' && kind !== 'json_candidates') {
+      throw new PlanFileError(
+        'unsupported_type',
+        file.name,
+        `Unsupported plan file type: "${file.name}" (expected .dwg, .dxf or .json)`,
+      );
+    }
     const buffer = await file.arrayBuffer();
     const hash = await sha256Hex(buffer);
-    const kind = kindFromFilename(file.name);
     const uri = URL.createObjectURL(file);
 
     if (kind === 'json_candidates') {
       const text = new TextDecoder().decode(buffer);
-      candidates = parseCandidatesPayload(JSON.parse(text));
+      let payload: unknown;
+      try {
+        payload = JSON.parse(text);
+      } catch {
+        // Same message as a parsed value that is not an object: the file is not a candidates payload.
+        throw new Error('Candidates payload must be a JSON object');
+      }
+      candidates = parseCandidatesPayload(payload);
       source = {
         id: nid('src'),
         kind,
@@ -339,9 +468,15 @@ function scaleVec(v: Vec2, s: number): Vec2 {
   return { x: v.x * s, z: v.z * s };
 }
 
+/** Start of the message thrown when accepted candidates do not add up to a usable room. The failed check follows. */
+export const IMPORT_NOT_A_ROOM_MESSAGE = 'Import candidates are not a usable room';
+
 /**
  * Human confirm → owned RoomGraph (same schema as from-scratch).
  * Placements stay empty; DWG furniture blocks are ignored.
+ *
+ * Throws when the result would not pass `normalizeRoomGraph` (for example a candidates file whose
+ * walls have no thickness), so a room that cannot be saved or reopened is never handed to the host.
  */
 export function confirmImportToRoomGraph(job: ImportJob): RoomGraph {
   const s = job.scale_factor;
@@ -401,7 +536,7 @@ export function confirmImportToRoomGraph(job: ImportJob): RoomGraph {
       inferred: o.inferred,
     }));
 
-  return {
+  const graph: RoomGraph = {
     schema_version: 1,
     units: 'm',
     rooms,
@@ -417,6 +552,9 @@ export function confirmImportToRoomGraph(job: ImportJob): RoomGraph {
     display_unit: 'm',
     label: job.candidates.label,
   };
+  const problem = roomGraphProblem(graph);
+  if (problem) throw new Error(`${IMPORT_NOT_A_ROOM_MESSAGE}: ${problem}`);
+  return graph;
 }
 
 /** SVG overlay of accepted candidates (plan view) for the review UI. */

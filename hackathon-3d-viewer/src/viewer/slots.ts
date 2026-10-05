@@ -1,5 +1,6 @@
 import type { Mesh, Object3D } from 'three';
-import type { SlotSource } from './types';
+import { findMaterial } from './library';
+import type { MaterialsLibrary, Product, SlotSource } from './types';
 
 /** Node-name convention: `slot_<slotId>__<partName>` (or just `slot_<slotId>`). */
 const NAME_CONVENTION = /^slot_([a-z0-9-]+(?:_[a-z0-9-]+)*?)(?:__.*)?$/i;
@@ -102,4 +103,56 @@ export function meshesMissingUv(root: Object3D): string[] {
     if (!mesh.geometry?.attributes.uv) missing.push(mesh.name || '(unnamed)');
   });
   return missing;
+}
+
+
+export type BindingRejectReason = 'unknown-slot' | 'unknown-material' | 'category-not-allowed' | 'not-a-string';
+
+export interface ResolvedBindings {
+  /** Exactly one entry per slot in `product.slots`: the requested material when usable, else the slot default. */
+  bindings: Record<string, string>;
+  /** Requested entries that were not used, and why. Empty when everything requested was valid. */
+  rejected: { slotId: string; materialId: string; reason: BindingRejectReason }[];
+}
+
+/**
+ * Pure: turn a requested slot → material map (for example a saved `slot_bindings`) into one that
+ * is safe to apply. Fills defaults, drops slots the product does not define, and, when `library`
+ * is given, drops materials that are not in the library or whose category the slot does not allow.
+ * Never throws; a bad saved binding must not block placing a product.
+ */
+export function resolveBindings(
+  product: Pick<Product, 'slots'>,
+  requested?: Record<string, unknown> | null,
+  library?: MaterialsLibrary,
+): ResolvedBindings {
+  const bindings: Record<string, string> = {};
+  const rejected: ResolvedBindings['rejected'] = [];
+  const asked = requested && typeof requested === 'object' ? requested : {};
+  const known = new Set(product.slots.map((s) => s.id));
+  for (const [slotId, value] of Object.entries(asked)) {
+    if (!known.has(slotId)) rejected.push({ slotId, materialId: String(value), reason: 'unknown-slot' });
+  }
+  for (const slot of product.slots) {
+    bindings[slot.id] = slot.default;
+    if (!Object.prototype.hasOwnProperty.call(asked, slot.id)) continue;
+    const value = asked[slot.id];
+    if (typeof value !== 'string' || !value) {
+      rejected.push({ slotId: slot.id, materialId: String(value), reason: 'not-a-string' });
+      continue;
+    }
+    if (library) {
+      const material = findMaterial(library, value);
+      if (!material) {
+        rejected.push({ slotId: slot.id, materialId: value, reason: 'unknown-material' });
+        continue;
+      }
+      if (!slot.allowedCategories.includes(material.category)) {
+        rejected.push({ slotId: slot.id, materialId: value, reason: 'category-not-allowed' });
+        continue;
+      }
+    }
+    bindings[slot.id] = value;
+  }
+  return { bindings, rejected };
 }

@@ -146,6 +146,65 @@ export const ROOM_PRESETS = [
 ] as const;
 
 export const STORAGE_KEY = 'catalog3d.roomGraph';
+/** Where an unreadable saved room is moved at boot (see `loadPersistedRoomGraphOrQuarantine`). */
+export const QUARANTINE_STORAGE_KEY = 'catalog3d.roomGraph.unreadable';
+
+/** The part of `Storage` this module uses. Pass one to run the persistence functions without a browser. */
+export interface StorageLike {
+  getItem(key: string): string | null;
+  setItem(key: string, value: string): void;
+  removeItem(key: string): void;
+}
+
+/** The four size inputs of a rectangular room, named by their `RoomSizeInput` key. */
+export type RoomSizeField = 'length' | 'width' | 'ceilingHeight' | 'wallThickness';
+
+/** Message of every `RoomSizeError`. Unchanged from the plain Error thrown before; a unit test and the host mapper match it. */
+export const ROOM_SIZE_ERROR_MESSAGE =
+  'Room size must be positive (length, width, ceiling height, wall thickness)';
+
+/**
+ * Thrown by `createRectangularRoom` when a size is not a finite number above 0.
+ * `fields` names every invalid input in form order (length, width, ceiling height, wall thickness),
+ * so the host can say which field to fix. The message itself stays generic.
+ */
+export class RoomSizeError extends Error {
+  readonly fields: RoomSizeField[];
+  constructor(fields: RoomSizeField[]) {
+    super(ROOM_SIZE_ERROR_MESSAGE);
+    this.name = 'RoomSizeError';
+    this.fields = fields;
+  }
+}
+
+function isFiniteNumber(value: unknown): value is number {
+  return typeof value === 'number' && Number.isFinite(value);
+}
+
+function isPositiveNumber(value: unknown): value is number {
+  return isFiniteNumber(value) && value > 0;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return !!value && typeof value === 'object' && !Array.isArray(value);
+}
+
+function isFinitePoint(value: unknown): boolean {
+  return isRecord(value) && isFiniteNumber(value.x) && isFiniteNumber(value.z);
+}
+
+/**
+ * Size inputs that are not a finite number above 0, in form order. Empty when the size is valid.
+ * A missing `wallThickness` is valid (the default applies).
+ */
+export function invalidRoomSizeFields(input: RoomSizeInput): RoomSizeField[] {
+  const fields: RoomSizeField[] = [];
+  if (!isPositiveNumber(input.length)) fields.push('length');
+  if (!isPositiveNumber(input.width)) fields.push('width');
+  if (!isPositiveNumber(input.ceilingHeight)) fields.push('ceilingHeight');
+  if (input.wallThickness != null && !isPositiveNumber(input.wallThickness)) fields.push('wallThickness');
+  return fields;
+}
 
 let idSeq = 0;
 function nid(prefix: string): string {
@@ -189,15 +248,16 @@ export function formatLength(meters: number, unit: DisplayUnit, digits = 2): str
  * Length = X extent, width = Z extent. Origin at room center, floor y=0.
  * Wall a→b centerlines sit on the floor polygon edges (inner faces);
  * mesh thickness extrudes outward from those centerlines.
+ *
+ * Throws `RoomSizeError` (with `.fields`) when a size is not a finite number above 0.
  */
 export function createRectangularRoom(input: RoomSizeInput): RoomGraph {
   const length = input.length;
   const width = input.width;
   const ceiling = input.ceilingHeight;
   const thickness = input.wallThickness ?? DEFAULT_WALL_THICKNESS_M;
-  if (!(length > 0) || !(width > 0) || !(ceiling > 0) || !(thickness > 0)) {
-    throw new Error('Room size must be positive (length, width, ceiling height, wall thickness)');
-  }
+  const invalid = invalidRoomSizeFields(input);
+  if (invalid.length > 0) throw new RoomSizeError(invalid);
 
   const hx = length / 2;
   const hz = width / 2;
@@ -249,9 +309,79 @@ export function createRectangularRoom(input: RoomSizeInput): RoomGraph {
   };
 }
 
-/** Normalize legacy `provenance: "authored"` string from early from-scratch builds. */
+/**
+ * First reason `raw` cannot be used as a RoomGraph, or null when it can.
+ * The text is for the console and diagnostics (a path and what is wrong with it), not UI copy.
+ *
+ * Checked: schema_version 1; `rooms` and `walls` are lists; at least one room; every room has
+ * a floor polygon of 3 or more finite points and a ceiling height above 0; every wall has finite
+ * end points and a thickness and height above 0; every opening and placement that is present is
+ * an object whose numbers are finite. Not checked: ids, cross-references (`wall_ids`, `wall_id`),
+ * materials, source assets, underlay.
+ */
+export function roomGraphProblem(raw: unknown): string | null {
+  if (!isRecord(raw)) return 'not an object';
+  if (raw.schema_version !== 1) return 'schema_version is not 1';
+  if (!Array.isArray(raw.walls)) return 'walls is not a list';
+  if (!Array.isArray(raw.rooms)) return 'rooms is not a list';
+  if (raw.rooms.length === 0) return 'rooms is empty';
+
+  for (let i = 0; i < raw.rooms.length; i++) {
+    const room: unknown = raw.rooms[i];
+    if (!isRecord(room)) return `rooms[${i}] is not an object`;
+    const polygon = room.floor_polygon;
+    if (!Array.isArray(polygon) || polygon.length < 3) return `rooms[${i}].floor_polygon has fewer than 3 points`;
+    for (let j = 0; j < polygon.length; j++) {
+      if (!isFinitePoint(polygon[j])) return `rooms[${i}].floor_polygon[${j}] is not a finite point`;
+    }
+    if (!isPositiveNumber(room.ceiling_height)) return `rooms[${i}].ceiling_height is not a number above 0`;
+  }
+
+  for (let i = 0; i < raw.walls.length; i++) {
+    const wall: unknown = raw.walls[i];
+    if (!isRecord(wall)) return `walls[${i}] is not an object`;
+    if (!isFinitePoint(wall.a)) return `walls[${i}].a is not a finite point`;
+    if (!isFinitePoint(wall.b)) return `walls[${i}].b is not a finite point`;
+    if (!isPositiveNumber(wall.thickness)) return `walls[${i}].thickness is not a number above 0`;
+    if (!isPositiveNumber(wall.height)) return `walls[${i}].height is not a number above 0`;
+  }
+
+  if (Array.isArray(raw.openings)) {
+    for (let i = 0; i < raw.openings.length; i++) {
+      const opening: unknown = raw.openings[i];
+      if (!isRecord(opening)) return `openings[${i}] is not an object`;
+      for (const key of ['offset_along_wall', 'width', 'height', 'sill_height'] as const) {
+        if (!isFiniteNumber(opening[key])) return `openings[${i}].${key} is not a finite number`;
+      }
+    }
+  }
+
+  if (Array.isArray(raw.placements)) {
+    for (let i = 0; i < raw.placements.length; i++) {
+      const placement: unknown = raw.placements[i];
+      if (!isRecord(placement)) return `placements[${i}] is not an object`;
+      const position = placement.position;
+      if (!isFinitePoint(position)) return `placements[${i}].position is not a finite point`;
+      // `position.y` and `scale` are written by addPlacement but read nowhere; reject only a present, non-finite value.
+      const y = (position as Record<string, unknown>).y;
+      if (y !== undefined && !isFiniteNumber(y)) return `placements[${i}].position.y is not a finite number`;
+      if (!isFiniteNumber(placement.rotation_y)) return `placements[${i}].rotation_y is not a finite number`;
+      if (placement.scale !== undefined && !isFiniteNumber(placement.scale)) {
+        return `placements[${i}].scale is not a finite number`;
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Validate a stored or imported graph and return it in the current shape, or null when it is unusable
+ * (`roomGraphProblem` says why). Also normalizes the legacy `provenance: "authored"` string from early
+ * from-scratch builds.
+ */
 export function normalizeRoomGraph(raw: unknown): RoomGraph | null {
-  if (!raw || typeof raw !== 'object') return null;
+  if (roomGraphProblem(raw) !== null) return null;
   const parsed = raw as {
     schema_version?: number;
     rooms?: RoomEntity[];
@@ -502,25 +632,183 @@ export function openingOffsetFromHit(
   return Math.min(Math.max(along - half, 0), Math.max(0, len - openingWidth));
 }
 
-export function persistRoomGraph(graph: RoomGraph | null): void {
+/**
+ * Save the room to browser storage (or remove it when `graph` is null).
+ * Returns true when storage accepted the write, false when it threw (blocked, full, or unavailable).
+ * On false the room lives only in memory: the caller should tell the user (deck §4.F "Saving blocked").
+ * Never throws.
+ */
+export function persistRoomGraph(graph: RoomGraph | null, storage?: StorageLike): boolean {
   try {
+    // Reading `localStorage` can itself throw when the browser blocks storage, so it stays inside the try.
+    const store = storage ?? localStorage;
     if (!graph) {
-      localStorage.removeItem(STORAGE_KEY);
-      return;
+      store.removeItem(STORAGE_KEY);
+      return true;
     }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(graph));
+    store.setItem(STORAGE_KEY, JSON.stringify(graph));
+    return true;
   } catch {
-    // session-only fallback if storage blocked
+    return false;
   }
 }
 
-export function loadPersistedRoomGraph(): RoomGraph | null {
+/** The saved room, or null when there is none, it is unreadable, or storage is unavailable. Changes nothing. */
+export function loadPersistedRoomGraph(storage?: StorageLike): RoomGraph | null {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = (storage ?? localStorage).getItem(STORAGE_KEY);
     if (!raw) return null;
     return normalizeRoomGraph(JSON.parse(raw));
   } catch {
     return null;
+  }
+}
+
+/**
+ * Why a saved room was set aside:
+ * - `not_json`: the stored text does not parse as JSON
+ * - `invalid_graph`: it parses, but `roomGraphProblem` rejects it
+ * - `render_failed`: it passed validation but the host could not display it (host-reported)
+ */
+export type QuarantineReason = 'not_json' | 'invalid_graph' | 'render_failed';
+
+/** What is kept under `QUARANTINE_STORAGE_KEY` (as JSON) for an unreadable saved room. */
+export interface QuarantinedRoomGraph {
+  /** The saved text exactly as found. This is what a "download the damaged data" action should offer. */
+  raw: string;
+  reason: QuarantineReason;
+  /** Developer-facing detail (the failed check or the error text). Not UI copy. */
+  detail: string;
+  /** ISO timestamp. */
+  quarantined_at: string;
+}
+
+export interface QuarantineOutcome {
+  quarantined: QuarantinedRoomGraph;
+  /** True when the copy was written under `QUARANTINE_STORAGE_KEY`. False when storage refused the write. */
+  backedUp: boolean;
+  /**
+   * True when the unreadable text was removed from `STORAGE_KEY`. It is removed only after the backup
+   * succeeded, so the only stored copy is never destroyed; when false, the next load reports it again.
+   */
+  removed: boolean;
+}
+
+/**
+ * Move whatever is saved under `STORAGE_KEY` to `QUARANTINE_STORAGE_KEY` (replacing an earlier backup).
+ * Returns null when nothing is saved or storage cannot be read. Never throws.
+ *
+ * `loadPersistedRoomGraphOrQuarantine` calls this for text it cannot read. The host can call it directly
+ * with `'render_failed'` if a saved room passes validation but breaks the first render.
+ */
+export function quarantinePersistedRoomGraph(
+  reason: QuarantineReason,
+  detail: string,
+  storage?: StorageLike,
+  now: () => Date = () => new Date(),
+): QuarantineOutcome | null {
+  let store: StorageLike;
+  let raw: string | null;
+  try {
+    store = storage ?? localStorage;
+    raw = store.getItem(STORAGE_KEY);
+  } catch {
+    return null;
+  }
+  if (raw === null) return null;
+  const quarantined: QuarantinedRoomGraph = { raw, reason, detail, quarantined_at: now().toISOString() };
+  let backedUp = false;
+  let removed = false;
+  try {
+    store.setItem(QUARANTINE_STORAGE_KEY, JSON.stringify(quarantined));
+    backedUp = true;
+    store.removeItem(STORAGE_KEY);
+    removed = true;
+  } catch {
+    // Storage refused. The caller still has `quarantined.raw` in memory to offer as a download.
+  }
+  return { quarantined, backedUp, removed };
+}
+
+/** Result of reading the saved room at boot. `graph` is null in every state except `ok`. */
+export type PersistedRoomLoad =
+  | { status: 'none'; graph: null }
+  | { status: 'ok'; graph: RoomGraph }
+  | ({ status: 'unreadable'; graph: null } & QuarantineOutcome)
+  | { status: 'storage_unavailable'; graph: null };
+
+/**
+ * Boot-time load. Like `loadPersistedRoomGraph`, but a saved room that cannot be read is moved to
+ * `QUARANTINE_STORAGE_KEY` and reported, so the app can start empty, say so, and offer the damaged
+ * data as a download (deck §4.F "Saved room unreadable"). Never throws.
+ */
+export function loadPersistedRoomGraphOrQuarantine(
+  storage?: StorageLike,
+  now: () => Date = () => new Date(),
+): PersistedRoomLoad {
+  let store: StorageLike;
+  let raw: string | null;
+  try {
+    store = storage ?? localStorage;
+    raw = store.getItem(STORAGE_KEY);
+  } catch {
+    return { status: 'storage_unavailable', graph: null };
+  }
+  if (!raw) return { status: 'none', graph: null };
+
+  let reason: QuarantineReason = 'invalid_graph';
+  let detail: string;
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    const graph = normalizeRoomGraph(parsed);
+    if (graph) return { status: 'ok', graph };
+    detail = roomGraphProblem(parsed) ?? 'rejected by normalizeRoomGraph';
+  } catch (err) {
+    reason = 'not_json';
+    detail = String((err as Error)?.message ?? err);
+  }
+
+  const outcome = quarantinePersistedRoomGraph(reason, detail, store, now);
+  if (!outcome) {
+    // The text was readable a moment ago and is gone or unreachable now; report what was read.
+    return {
+      status: 'unreadable',
+      graph: null,
+      quarantined: { raw, reason, detail, quarantined_at: now().toISOString() },
+      backedUp: false,
+      removed: false,
+    };
+  }
+  return { status: 'unreadable', graph: null, ...outcome };
+}
+
+/** The backup written by the last quarantine, or null when there is none (or it cannot be read). */
+export function readQuarantinedRoomGraph(storage?: StorageLike): QuarantinedRoomGraph | null {
+  try {
+    const text = (storage ?? localStorage).getItem(QUARANTINE_STORAGE_KEY);
+    if (!text) return null;
+    const parsed: unknown = JSON.parse(text);
+    if (!isRecord(parsed) || typeof parsed.raw !== 'string') return null;
+    const reason: QuarantineReason =
+      parsed.reason === 'not_json' || parsed.reason === 'render_failed' ? parsed.reason : 'invalid_graph';
+    return {
+      raw: parsed.raw,
+      reason,
+      detail: typeof parsed.detail === 'string' ? parsed.detail : '',
+      quarantined_at: typeof parsed.quarantined_at === 'string' ? parsed.quarantined_at : '',
+    };
+  } catch {
+    return null;
+  }
+}
+
+/** Delete the quarantine backup (for example after the user downloaded it). False when storage threw. */
+export function discardQuarantinedRoomGraph(storage?: StorageLike): boolean {
+  try {
+    (storage ?? localStorage).removeItem(QUARANTINE_STORAGE_KEY);
+    return true;
+  } catch {
+    return false;
   }
 }
 

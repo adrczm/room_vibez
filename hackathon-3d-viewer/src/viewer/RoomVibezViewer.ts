@@ -1,6 +1,7 @@
 import {
   AmbientLight,
   Box3,
+  Box3Helper,
   Color,
   DirectionalLight,
   Group,
@@ -13,6 +14,7 @@ import {
   Object3D,
   PCFSoftShadowMap,
   PerspectiveCamera,
+  Plane,
   PlaneGeometry,
   PMREMGenerator,
   Raycaster,
@@ -41,8 +43,9 @@ import {
   type OpeningType,
   type RoomGraph,
 } from './roomGraph';
-import { buildRoomScene, type BuiltRoomScene, type RoomMeshMaterials } from './roomMesh';
-import { bindUntaggedToFallback, discoverSlots, ensureMeshNormals, meshesMissingUv } from './slots';
+import { pointInFloorPolygon } from './roomCollision';
+import { buildRoomScene, type BuiltRoomScene, type RoomMeshMaterials, type WallCutawayPlane } from './roomMesh';
+import { bindUntaggedToFallback, discoverSlots, ensureMeshNormals, meshesMissingUv, resolveBindings } from './slots';
 import type { LibraryMaterial, MaterialsLibrary, PartsList, Product, SlotReport, SlotState } from './types';
 
 export type ViewerStatus = 'idle' | 'loading' | 'ready' | 'error' | 'disposed';
@@ -51,8 +54,14 @@ export type ViewerStatus = 'idle' | 'loading' | 'ready' | 'error' | 'disposed';
 export type InteractionMode = 'catalog' | 'room' | 'opening' | 'place' | 'draw-wall';
 
 export interface RoomPointerHit {
-  kind: 'wall' | 'floor';
+  /**
+   * `floor` always means a point inside `rooms[0].floor_polygon` (except in `draw-wall` mode, where
+   * any point on the floor slab is a drawing point). `placement` is only reported in mode `room`.
+   */
+  kind: 'wall' | 'floor' | 'placement';
   wallId?: string;
+  /** Set when `kind === 'placement'`: the id passed to `attachPlacement`. */
+  placementId?: string;
   /** Suggested opening start offset along wall (meters), for opening mode. */
   offsetAlongWall?: number;
   point: { x: number; y: number; z: number };
@@ -67,7 +76,27 @@ export interface ViewerOptions {
   onStatus?: (status: ViewerStatus, detail?: string) => void;
   /** Fired on primary click in room / opening / place modes (after drag threshold). */
   onRoomPointer?: (hit: RoomPointerHit | null, mode: InteractionMode) => void;
+  /**
+   * Opt-in for the Room workspace empty state. Default false: unchanged behaviour (with no room
+   * graph the turntable product shows in every mode, and `setRoomGraph(null)` drops to `catalog`).
+   * When true: in a non-catalog mode with no room graph the turntable product and its shadow ground
+   * are hidden, and `setRoomGraph(null)` called in a non-catalog mode stays in `room` mode.
+   * Mode `catalog` always shows the product, whatever this flag says.
+   */
+  hideProductInEmptyRoom?: boolean;
 }
+
+/** Orbit zoom-out limit in Product mode (the constructor default; `frameRoom` raises it to fit the room). */
+const CATALOG_MAX_DISTANCE = 8;
+/** Default room view: camera elevation above the horizon, in degrees. */
+const ROOM_VIEW_ELEVATION_DEG = 45;
+/** Default room view: horizontal direction from the room centre to the camera (same azimuth as before). */
+const ROOM_VIEW_AZIMUTH_XZ: [number, number] = [0.9, 1.1];
+/** Part of the canvas (each axis) the room may fill after `frameRoom`. */
+const ROOM_VIEW_FILL = 0.88;
+const FLOOR_PLANE = new Plane(new Vector3(0, 1, 0), 0);
+const HIGHLIGHT_COLOR = '#008060';
+const HIGHLIGHT_PAD_M = 0.02;
 
 /**
  * Owned Three.js catalog viewer. The engine owns the canvas; the host owns all UI.
@@ -117,6 +146,15 @@ export class RoomVibezViewer {
   private readonly placementRoots = new Map<string, Object3D>();
   private interactionMode: InteractionMode = 'catalog';
   private openingWidth = 0.9;
+  /** Hide walls (and a shown ceiling) that stand between the camera and the room. */
+  private wallCutaway = true;
+  /** What the host asked for through setCeilingVisible; the cutaway may still hide it. */
+  private ceilingWanted = false;
+  /** A product was loaded while the turntable was off stage, so the camera was left alone. */
+  private framePending = false;
+  /** Placement the host wants outlined. Kept across detach/re-attach of the same id. */
+  private highlightId: string | null = null;
+  private highlightHelper: Box3Helper | null = null;
 
   constructor(host: HTMLElement, opts: ViewerOptions) {
     this.host = host;
@@ -140,7 +178,7 @@ export class RoomVibezViewer {
     this.controls.enableRotate = false; // product spins on the turntable instead
     this.controls.screenSpacePanning = true;
     this.controls.minDistance = 0.3;
-    this.controls.maxDistance = 8;
+    this.controls.maxDistance = CATALOG_MAX_DISTANCE;
     this.controls.maxPolarAngle = Math.PI / 2 - 0.02; // keep the camera above the floor
 
     this.ground = new Mesh(new PlaneGeometry(40, 40), new ShadowMaterial({ opacity: 0.18 }));
@@ -197,6 +235,7 @@ export class RoomVibezViewer {
 
     this.renderer.setAnimationLoop(() => {
       this.controls.update();
+      this.updateCutaway();
       this.renderer.render(this.scene, this.camera);
     });
   }
@@ -248,7 +287,13 @@ export class RoomVibezViewer {
       if (this.getStatus() === 'disposed') throw new StaleLoadError();
 
       this.turntable.add(this.model);
-      this.frameModel(this.model);
+      // QA-05: with a room on stage the turntable is hidden, so picking a product must not move the
+      // room camera. Seat the model now; frame it when the turntable is next shown.
+      if (this.turntable.visible) this.frameModel(this.model);
+      else {
+        this.seatModel(this.model);
+        this.framePending = true;
+      }
 
       const report = this.bindSlots(product, { normalsComputed });
       if (!product.preserveMaterials) {
@@ -330,35 +375,42 @@ export class RoomVibezViewer {
     this.controls.enableRotate = roomy;
     // Catalog product turntable owns the stage: show the GLB, restore the shadow
     // ground, and hide the room shell/placements so walls cannot occlude the model.
-    this.turntable.visible = catalog || !this.roomGraph;
-    this.ground.visible = catalog || !this.roomGraph;
+    // With no room graph the product also shows in room modes, unless the host opted in to
+    // an empty Room stage (ViewerOptions.hideProductInEmptyRoom).
+    const showProduct = catalog || (!this.roomGraph && !this.opts.hideProductInEmptyRoom);
+    this.turntable.visible = showProduct;
+    this.ground.visible = showProduct;
     if (this.roomBuilt?.root) this.roomBuilt.root.visible = roomy && !!this.roomGraph;
     this.placementsRoot.visible = roomy && !!this.roomGraph;
     this.canvas.style.cursor =
       mode === 'opening' || mode === 'place' || mode === 'draw-wall' ? 'crosshair' : '';
+    this.updateCutaway();
+    if (showProduct && this.framePending && this.model) this.frameModel(this.model);
   }
 
   /**
    * Apply room graph as SoT: rebuild wall/floor meshes (Shape holes + ExtrudeGeometry).
    * Pass null to clear. Does not load placement GLBs — host calls `loadPlacement`.
-   * Optional `materials` applies local library colors to the shell (not production Materials DB).
+   * Optional `materials` applies local library colors to the shell (not production Materials DB);
+   * pass only `wall` or only `floor` to keep the default for the other surface.
    * `activate` (default true): switch into room interaction when currently in catalog.
    * Pass `activate: false` to restore a persisted graph while keeping Product/catalog landing
    * (shell stays in the scene graph but hidden until the host enters Room workspace).
    */
   setRoomGraph(
     graph: RoomGraph | null,
-    opts?: { frame?: boolean; materials?: RoomMeshMaterials; activate?: boolean },
+    opts?: { frame?: boolean; materials?: Partial<RoomMeshMaterials>; activate?: boolean },
   ): void {
     this.assertAlive();
     this.clearRoomShell();
     this.roomGraph = graph;
     if (!graph) {
-      this.turntable.visible = true;
       // Restore product-mode shadow catcher at y=0.
-      this.ground.visible = true;
       this.ground.position.y = 0;
-      this.setInteractionMode('catalog');
+      // Default: back to the product turntable. With the empty-Room-stage opt-in, a room mode
+      // stays a room mode (plain `room`: there is nothing left to place on or draw).
+      const stayInRoom = !!this.opts.hideProductInEmptyRoom && this.interactionMode !== 'catalog';
+      this.setInteractionMode(stayInRoom ? 'room' : 'catalog');
       return;
     }
     this.roomBuilt = buildRoomScene(graph, opts?.materials);
@@ -382,8 +434,24 @@ export class RoomVibezViewer {
     return { minX: box.min.x, maxX: box.max.x, minZ: box.min.z, maxZ: box.max.z };
   }
 
+  /**
+   * Show or hide the ceiling (hidden by default). The request is kept across room rebuilds.
+   * While the wall cutaway is on, a shown ceiling is still hidden whenever the camera is above it,
+   * so it cannot wash out the view into the room.
+   */
   setCeilingVisible(visible: boolean): void {
-    if (this.roomBuilt?.ceiling) this.roomBuilt.ceiling.visible = visible;
+    this.ceilingWanted = visible;
+    this.updateCutaway();
+  }
+
+  /** Wall cutaway (default on): hides walls that stand between the camera and the room. */
+  setWallCutaway(enabled: boolean): void {
+    this.wallCutaway = enabled;
+    this.updateCutaway();
+  }
+
+  getWallCutaway(): boolean {
+    return this.wallCutaway;
   }
 
   frameRoom(): void {
@@ -393,14 +461,42 @@ export class RoomVibezViewer {
     const sizeZ = b.maxZ - b.minZ;
     const height = b.height;
     const target = new Vector3((b.minX + b.maxX) / 2, height * 0.35, (b.minZ + b.maxZ) / 2);
-    const radius = Math.max(sizeX, sizeZ, height) * 0.75;
-    const dist = radius / Math.sin((this.camera.fov * Math.PI) / 360);
+    // Look down into the room (UX-05). The near walls are removed by the cutaway, so the floor shows.
+    const el = (ROOM_VIEW_ELEVATION_DEG * Math.PI) / 180;
+    const azLen = Math.hypot(ROOM_VIEW_AZIMUTH_XZ[0], ROOM_VIEW_AZIMUTH_XZ[1]);
+    const toCamera = new Vector3(
+      (ROOM_VIEW_AZIMUTH_XZ[0] / azLen) * Math.cos(el),
+      Math.sin(el),
+      (ROOM_VIEW_AZIMUTH_XZ[1] / azLen) * Math.cos(el),
+    );
+    // Smallest distance at which every corner of the room box (walls included) is inside the view,
+    // for this direction and this canvas shape. The old sphere estimate ignored the aspect ratio and
+    // was then cut to OrbitControls.maxDistance (8 m), which cropped the room on narrow canvases.
+    const forward = toCamera.clone().negate();
+    const right = new Vector3().crossVectors(forward, new Vector3(0, 1, 0)).normalize();
+    const up = new Vector3().crossVectors(right, forward);
+    const tanV = Math.tan((this.camera.fov * Math.PI) / 360) * ROOM_VIEW_FILL;
+    const tanH = tanV * this.camera.aspect;
+    const pad = this.roomGraph.walls.reduce((m, w) => Math.max(m, w.thickness), 0);
+    const corner = new Vector3();
+    let dist = 0.5;
+    for (const x of [b.minX - pad, b.maxX + pad]) {
+      for (const y of [0, height]) {
+        for (const z of [b.minZ - pad, b.maxZ + pad]) {
+          corner.set(x, y, z).sub(target);
+          const depth = corner.dot(forward);
+          dist = Math.max(dist, Math.abs(corner.dot(up)) / tanV - depth, Math.abs(corner.dot(right)) / tanH - depth);
+        }
+      }
+    }
+    this.controls.maxDistance = Math.max(CATALOG_MAX_DISTANCE, dist * 2.5);
     this.controls.target.copy(target);
-    this.camera.position.copy(target).add(new Vector3(0.9, 0.55, 1.1).normalize().multiplyScalar(dist * 1.25));
+    this.camera.position.copy(target).addScaledVector(toCamera, dist);
     this.camera.near = Math.max(0.05, dist / 100);
     this.camera.far = Math.max(50, dist * 20);
     this.camera.updateProjectionMatrix();
     this.controls.update();
+    this.updateCutaway();
     // Widen shadow camera for room scale (ASSUMPTIONS A12).
     this.presetRig.traverse((o) => {
       const d = o as DirectionalLight;
@@ -413,19 +509,53 @@ export class RoomVibezViewer {
     });
   }
 
+  /**
+   * What is under a canvas point. Hidden objects are skipped (walls removed by the cutaway, their
+   * opening placeholders, anything while the room shell is off stage).
+   * - `wall`: nearest visible wall.
+   * - `floor`: only for a point inside `rooms[0].floor_polygon`. The floor slab also runs under the
+   *   walls (outer footprint); a hit on that strip is not a floor hit and the ray carries on.
+   *   Exception: in `draw-wall` mode any point on the slab is returned, as before.
+   * - `placement`: only in mode `room`, when a placed product is the nearest thing under the pointer.
+   */
   raycastRoom(clientX: number, clientY: number): RoomPointerHit | null {
     if (!this.roomBuilt) return null;
+    // Raycasting reads world matrices, which three.js only refreshes when a frame is rendered.
+    // A room shell rebuilt since the last frame (every graph change rebuilds it) would still sit at
+    // the origin, and a click in that gap hit walls that are not there. Refresh before every pick;
+    // same for a camera moved in this tick (frameRoom) and for placements just attached or moved.
+    this.camera.updateMatrixWorld();
+    this.roomBuilt.root.updateMatrixWorld();
+    this.placementsRoot.updateMatrixWorld();
+    this.updateCutaway();
     const rect = this.canvas.getBoundingClientRect();
     this.ndc.x = ((clientX - rect.left) / rect.width) * 2 - 1;
     this.ndc.y = -((clientY - rect.top) / rect.height) * 2 + 1;
     this.raycaster.setFromCamera(this.ndc, this.camera);
 
+    // Raycaster does not skip `visible = false` objects by itself, so only visible meshes are offered.
     const targets: Object3D[] = [];
-    this.roomBuilt.root.traverse((o) => {
+    this.roomBuilt.root.traverseVisible((o) => {
       if ((o as Mesh).isMesh) targets.push(o);
     });
+    const placementOf = new Map<Object3D, string>();
+    if (this.interactionMode === 'room' && this.placementsRoot.visible) {
+      for (const [id, root] of this.placementRoots) {
+        root.traverseVisible((o) => {
+          if (!(o as Mesh).isMesh) return;
+          targets.push(o);
+          placementOf.set(o, id);
+        });
+      }
+    }
+    const polygon = this.roomGraph?.rooms[0]?.floor_polygon;
+    const slabIsFloor = this.interactionMode === 'draw-wall';
     const hits = this.raycaster.intersectObjects(targets, false);
     for (const h of hits) {
+      const placementId = placementOf.get(h.object);
+      if (placementId) {
+        return { kind: 'placement', placementId, point: { x: h.point.x, y: h.point.y, z: h.point.z } };
+      }
       const kind = h.object.userData.kind as string | undefined;
       if (kind === 'wall' && h.object.userData.wallId) {
         const wallId = h.object.userData.wallId as string;
@@ -438,14 +568,15 @@ export class RoomVibezViewer {
         return { kind: 'wall', wallId, offsetAlongWall, point };
       }
       if (kind === 'floor') {
+        if (!slabIsFloor && !(polygon && pointInFloorPolygon({ x: h.point.x, z: h.point.z }, polygon))) continue;
         return { kind: 'floor', point: { x: h.point.x, y: 0, z: h.point.z } };
       }
     }
-    // Floor plane fallback for place mode (click outside extruded floor still snaps).
-    if (this.interactionMode === 'place' && this.roomGraph) {
-      const floorPlaneHits = this.raycaster.intersectObject(this.ground, false);
-      if (floorPlaneHits[0]) {
-        const p = floorPlaneHits[0].point;
+    // Place mode: fall back to the y=0 plane for a click that missed the floor mesh, but never
+    // outside the room (QA-02: the old infinite-plane fallback placed products in the void).
+    if (this.interactionMode === 'place' && polygon) {
+      const p = this.raycaster.ray.intersectPlane(FLOOR_PLANE, new Vector3());
+      if (p && pointInFloorPolygon({ x: p.x, z: p.z }, polygon)) {
         return { kind: 'floor', point: { x: p.x, y: 0, z: p.z } };
       }
     }
@@ -468,14 +599,123 @@ export class RoomVibezViewer {
     root.userData.placementId = placementId;
     this.placementsRoot.add(root);
     this.placementRoots.set(placementId, root);
+    if (this.highlightId === placementId) this.syncHighlight();
   }
 
   detachPlacement(placementId: string): void {
     const existing = this.placementRoots.get(placementId);
     if (!existing) return;
     this.placementsRoot.remove(existing);
-    disposeObject(existing);
+    // Library materials on a placement were made for it by applySlotBindings, so free them too.
+    disposeObject(existing, true);
     this.placementRoots.delete(placementId);
+    if (this.highlightId === placementId) this.syncHighlight();
+  }
+
+  /** The attached root for a placement id, or null. Do not dispose it; use `detachPlacement`. */
+  getPlacementRoot(placementId: string): Object3D | null {
+    return this.placementRoots.get(placementId) ?? null;
+  }
+
+  /**
+   * Move and/or turn an attached placement in place. Unlike `attachPlacement` this keeps the root
+   * (no dispose, no reload), so it is safe to call on every nudge or drag step.
+   * `rotationY` omitted = keep the current rotation. Returns false when the id is not attached.
+   * The room graph is not touched: the host commits with `updatePlacement`.
+   */
+  setPlacementPose(placementId: string, position: { x: number; z: number }, rotationY?: number): boolean {
+    this.assertAlive();
+    const root = this.placementRoots.get(placementId);
+    if (!root) return false;
+    root.position.x = position.x;
+    root.position.z = position.z;
+    if (rotationY !== undefined) root.rotation.y = rotationY;
+    root.updateMatrixWorld(true);
+    if (this.highlightId === placementId) this.syncHighlight();
+    return true;
+  }
+
+  /**
+   * Outline one placement (world-aligned box), or pass null to clear. The id is remembered: if the
+   * placement is detached and attached again under the same id (undo, reload), the outline returns.
+   * Returns true when an outline is showing after the call.
+   */
+  setPlacementHighlight(placementId: string | null): boolean {
+    this.assertAlive();
+    this.highlightId = placementId;
+    this.syncHighlight();
+    return !!this.highlightHelper;
+  }
+
+  /** The id last passed to `setPlacementHighlight` (it may not be attached right now). */
+  getPlacementHighlight(): string | null {
+    return this.highlightId;
+  }
+
+  /**
+   * Put library materials on a product root that is NOT the turntable model (a placement, a thumbnail).
+   * Await it before `attachPlacement`; it can also be called again on an attached root to change a finish.
+   * - `bindings` is slot id → material id, e.g. a placement's `slot_bindings`. Missing slots use the
+   *   slot default. An unknown slot, unknown material or a category the slot does not allow is
+   *   ignored with a console warning and the slot default is used: this never throws for bad data.
+   * - Does nothing for `product.preserveMaterials` (the asset keeps its own materials).
+   * - Only slots defined in `product.slots` and present in the model are touched.
+   * Returns the slot id → material id map that is now on the meshes.
+   */
+  async applySlotBindings(
+    root: Object3D,
+    product: Product,
+    bindings?: Record<string, string> | null,
+  ): Promise<Record<string, string>> {
+    this.assertAlive();
+    if (product.preserveMaterials) return {};
+    const found = discoverSlots(root, product.sidecar);
+    if (product.fallbackSlotId) bindUntaggedToFallback(found, product.fallbackSlotId);
+    const resolved = resolveBindings(product, bindings, this.opts.library);
+    for (const r of resolved.rejected) {
+      console.warn(`[slots] ${product.id}: ignored binding ${r.slotId} → ${r.materialId} (${r.reason})`);
+    }
+
+    // Build every material first (textures come from the shared cache), then assign in one go.
+    const made = await Promise.all(
+      product.slots.map(async (slot) => {
+        const meshes = found.slots.get(slot.id)?.meshes ?? [];
+        const def = findMaterial(this.opts.library, resolved.bindings[slot.id] ?? slot.default);
+        if (!meshes.length || !def) {
+          if (meshes.length) console.warn(`[slots] ${product.id}/${slot.id}: no library material, model material kept`);
+          return null;
+        }
+        try {
+          return { slotId: slot.id, materialId: def.id, meshes, material: await this.createMaterial(def) };
+        } catch (err) {
+          console.warn(`[slots] ${product.id}/${slot.id}: could not build "${def.id}", model material kept`, err);
+          return null;
+        }
+      }),
+    );
+    if (this.status === 'disposed') {
+      for (const m of made) m?.material.dispose();
+      return {};
+    }
+
+    const applied: Record<string, string> = {};
+    const replaced = new Set<Material>();
+    for (const m of made) {
+      if (!m) continue;
+      for (const mesh of m.meshes) {
+        for (const prev of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
+          if (prev) replaced.add(prev);
+        }
+        mesh.material = m.material;
+      }
+      applied[m.slotId] = m.materialId;
+    }
+    // GLB materials are often shared across meshes and slots: free each replaced one once, and only
+    // when no mesh of this root still uses it.
+    for (const prev of replaced) {
+      if (!stillReferenced(root, prev)) prev.dispose();
+    }
+    return applied;
   }
 
   clearAllPlacements(): void {
@@ -486,6 +726,60 @@ export class RoomVibezViewer {
     const keep = new Set(graph.placements.map((p) => p.id));
     for (const id of [...this.placementRoots.keys()]) {
       if (!keep.has(id)) this.detachPlacement(id);
+    }
+  }
+
+  /**
+   * Cutaway (UX-05 / C5): hide every wall the camera sees from outside the room, i.e. the camera is
+   * on the outer side of that wall's plane. Walls seen from their room side stay. Opening
+   * placeholders follow their wall, and a hidden wall leaves its flat footprint on the floor.
+   * A ceiling the host asked for is hidden while the camera is above it.
+   * Runs every frame and before every raycast, so picking always matches what is drawn.
+   */
+  private updateCutaway(): void {
+    const built = this.roomBuilt;
+    if (!built) return;
+    const cam = this.camera.position;
+    for (const mesh of built.wallMeshes.values()) {
+      const c = mesh.userData.cutaway as WallCutawayPlane | null | undefined;
+      mesh.visible = !(this.wallCutaway && c && c.nx * (cam.x - c.px) + c.nz * (cam.z - c.pz) > 0);
+    }
+    for (const [wallId, footprint] of built.wallFootprints) {
+      footprint.visible = built.wallMeshes.get(wallId)?.visible === false;
+    }
+    for (const child of built.root.children) {
+      if (child.userData.kind !== 'opening-placeholder') continue;
+      child.visible = built.wallMeshes.get(child.userData.wallId as string)?.visible ?? true;
+    }
+    if (built.ceiling) {
+      built.ceiling.visible = this.ceilingWanted && !(this.wallCutaway && cam.y > built.ceiling.position.y);
+    }
+  }
+
+  /** Make the outline match `highlightId`: build, move or remove the helper. */
+  private syncHighlight(): void {
+    const root = this.highlightId ? this.placementRoots.get(this.highlightId) : undefined;
+    if (!root) {
+      if (this.highlightHelper) {
+        this.placementsRoot.remove(this.highlightHelper);
+        this.highlightHelper.dispose();
+        this.highlightHelper = null;
+      }
+      return;
+    }
+    root.updateMatrixWorld(true);
+    const box = new Box3().setFromObject(root).expandByScalar(HIGHLIGHT_PAD_M);
+    if (!this.highlightHelper) {
+      const helper = new Box3Helper(box, HIGHLIGHT_COLOR);
+      helper.name = 'placement-highlight';
+      helper.userData.kind = 'placement-highlight';
+      // Drawn on top so the outline stays readable behind other furniture.
+      (helper.material as Material).depthTest = false;
+      helper.renderOrder = 10;
+      this.highlightHelper = helper;
+      this.placementsRoot.add(helper);
+    } else {
+      this.highlightHelper.box.copy(box);
     }
   }
 
@@ -510,6 +804,8 @@ export class RoomVibezViewer {
     this.controls.dispose();
     this.unloadModel();
     this.clearAllPlacements();
+    this.highlightId = null;
+    this.syncHighlight();
     this.clearRoomShell();
     this.roomGraph = null;
     this.clearPresetRig();
@@ -682,16 +978,22 @@ export class RoomVibezViewer {
     }
   }
 
-  /** Sit the model on the floor at the origin and point the camera at it. */
-  private frameModel(model: Object3D): void {
+  /** Sit the model on the floor at the origin. Returns its size. The camera is not touched. */
+  private seatModel(model: Object3D): Vector3 {
     model.position.set(0, 0, 0);
     model.updateMatrixWorld(true);
     const box = new Box3().setFromObject(model);
     const center = box.getCenter(new Vector3());
     model.position.set(-center.x, -box.min.y, -center.z);
     model.updateMatrixWorld(true);
+    return box.getSize(new Vector3());
+  }
 
-    const size = box.getSize(new Vector3());
+  /** Sit the model on the floor at the origin and point the camera at it. */
+  private frameModel(model: Object3D): void {
+    this.framePending = false;
+    const size = this.seatModel(model);
+    this.controls.maxDistance = CATALOG_MAX_DISTANCE;
     const radius = size.length() / 2;
     const dist = radius / Math.sin((this.camera.fov * Math.PI) / 360);
     const target = new Vector3(0, size.y / 2, 0);
@@ -715,6 +1017,7 @@ export class RoomVibezViewer {
     this.slotState = [];
     this.model = null;
     this.product = null;
+    this.framePending = false;
   }
 
   private resize(): void {
@@ -742,8 +1045,12 @@ export class StaleLoadError extends Error {
   }
 }
 
-/** Resolve the scene root: GLB/glTF via loader, or a registered .mjs createAsset() factory. */
-async function loadProductRoot(product: Product): Promise<Object3D> {
+/**
+ * Resolve a fresh scene root for a product: GLB/glTF via loader, or a registered .mjs createAsset()
+ * factory. This is what `loadProduct` uses; exported so other engine code (thumbnails) and the host
+ * can load a root the same way.
+ */
+export async function loadProductRoot(product: Product): Promise<Object3D> {
   if (product.sourceKind === 'mjs-module') {
     const factory = getModuleFactory(product.id);
     if (!factory) throw new Error(`No createAsset factory registered for module product "${product.id}"`);
@@ -778,16 +1085,21 @@ function stillReferenced(root: Object3D | null, material: Material): boolean {
   return used;
 }
 
-function disposeObject(root: Object3D): void {
+/**
+ * Free a root's geometries and materials. Turntable model: library materials are owned by
+ * slotMaterials and disposed there, so only GLB-embedded ones are freed. Placement roots pass
+ * `includeLibraryMaterials`: theirs were created per root by applySlotBindings.
+ * Textures are never disposed here (library textures are shared through the viewer's cache).
+ */
+function disposeObject(root: Object3D, includeLibraryMaterials = false): void {
   const seen = new Set<Material>();
   root.traverse((o) => {
     const mesh = o as Mesh;
     if (!mesh.isMesh) return;
     mesh.geometry.dispose();
     const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-    // Library materials are owned by slotMaterials and disposed there; only free GLB-embedded ones.
     for (const m of mats) {
-      if (!m || m.userData?.libraryId || seen.has(m)) continue;
+      if (!m || seen.has(m) || (m.userData?.libraryId && !includeLibraryMaterials)) continue;
       seen.add(m);
       m.dispose();
     }

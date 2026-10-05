@@ -1,0 +1,25 @@
+/* Confirmation dialog. The shell (.app-dialog, .app-dialog-surface, .app-dialog-head,
+   .app-dialog-title) comes from ../help.css. Tokens come from styles.css. */
+
+.app-dialog.confirm-dialog { width: min(440px, calc(100vw - 32px)); }
+
+.confirm-dialog .app-dialog-title { overflow-wrap: anywhere; }
+
+.confirm-body { padding: 0 16px; overflow-wrap: anywhere; overflow-y: auto; min-height: 0; }
+.confirm-body p { margin: 0 0 8px; }
+.confirm-body p:last-child { margin-bottom: 0; }
+.confirm-body strong { font-weight: 650; }
+
+.confirm-actions {
+  display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px;
+  padding: 14px 16px;
+}
+/* .btn-primary is full width with a top margin in the side panel. Not here. */
+.confirm-actions .btn { margin-top: 0; width: auto; }
+
+/* Destructive confirm: the existing critical treatment (.warning.critical), not the
+   primary colour. #f0b6ae is the critical border already used by .warning.critical. */
+.confirm-actions .btn.btn-critical {
+  background: var(--critical-soft); color: var(--critical); border-color: #f0b6ae;
+}
+.confirm-actions .btn.btn-critical:hover { background: var(--critical-soft); border-color: var(--critical); }

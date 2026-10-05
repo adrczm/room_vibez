@@ -60,6 +60,11 @@ export interface Product {
   /** True for products added via the host upload UI (session Object URLs). */
   userAdded?: boolean;
   /**
+   * Optional ready-made picker image (any URL an <img> can show). When present it wins over a
+   * run-time render (`createThumbnailRenderer`). No pipeline fills this today; the demo catalog has none.
+   */
+  thumbnailUrl?: string;
+  /**
    * How the mesh is obtained at load time.
    * - `glb` (default): `GLTFLoader` on `product.glb`
    * - `mjs-module`: call registered `createAsset()` from a dynamic `.mjs` import

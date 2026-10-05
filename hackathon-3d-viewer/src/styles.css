@@ -19,6 +19,8 @@
 }
 
 * { box-sizing: border-box; }
+/* The `hidden` attribute must win over any class that sets `display` (.file-input, .field, .btn-row, .room-plan, .pack-params). */
+[hidden] { display: none !important; }
 html, body { margin: 0; height: 100%; }
 body {
   background: var(--bg);
@@ -86,11 +88,14 @@ body {
   border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 6px 12px; cursor: pointer;
   box-shadow: var(--shadow);
 }
-.btn:hover { background: var(--surface-hover); }
+/* :where() keeps these hover rules at their old specificity, so .btn[aria-pressed] further down still wins. */
+.btn:hover:where(:not(:disabled)) { background: var(--surface-hover); }
 .btn-primary {
   margin-top: 10px; width: 100%; background: var(--accent); color: #fff; border-color: var(--accent);
 }
-.btn-primary:hover { background: #006e52; color: #fff; }
+.btn-primary:hover:where(:not(:disabled)) { background: #006e52; color: #fff; }
+/* Disabled: a design default, not a validated value. */
+.btn:disabled { opacity: 0.5; cursor: default; box-shadow: none; }
 
 .upload-block { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
 .upload-label { display: block; font-weight: 600; margin-bottom: 4px; }

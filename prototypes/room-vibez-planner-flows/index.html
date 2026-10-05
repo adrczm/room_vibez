@@ -13,10 +13,11 @@
   <div class="app-shell">
     <header class="topbar" role="banner">
       <div class="brand">Room Vibez</div>
-      <span class="sim-badge" title="This UI evokes a planner chrome for click-through research; it is not Planner 5D’s official product UI.">Simulated Planner 5D–style UI (not official)</span>
+      <span class="sim-badge">Prototype · nothing is saved</span>
       <div class="topbar-spacer"></div>
-      <span class="role-pill" id="rolePill">Not signed in</span>
-      <span class="meta-pill" id="projectPill">No project</span>
+      <span class="role-pill" id="rolePill">No account needed</span>
+      <span class="meta-pill" id="projectPill">No project yet</span>
+      <button type="button" class="help-btn" id="btnHelp" title="How this works" aria-label="Help: how this works" aria-haspopup="dialog">?</button>
     </header>
 
     <main class="main" id="main">
@@ -24,29 +25,30 @@
       <section class="screen active" id="screen-auth" aria-label="Sign up and choose role">
         <div class="compose">
           <p class="sim-badge">Click-through prototype · no real accounts</p>
-          <h1>Plan rooms. Place real products. Own the BOM.</h1>
-          <p class="lede">Pick a persona to walk the Room Vibez shell around a simulated planner canvas. Architecture ingest favors DWG; furniture stays mesh + library materials.</p>
+          <h1>Plan a room. Place real products. Get your parts list.</h1>
+          <p class="lede">Choose who you are to see the flow built for you.</p>
           <div class="field">
-            <label for="email">Email</label>
-            <input id="email" type="email" value="alex@example.com" autocomplete="username" />
+            <label for="email">Email (optional)</label>
+            <input id="email" type="email" placeholder="you@example.com" autocomplete="username" aria-describedby="emailHelp" />
+            <p class="muted" id="emailHelp">Nothing is sent or saved.</p>
           </div>
           <div class="steps" aria-label="Flow progress">
             <span class="step-chip now">1 · Role</span>
             <span class="step-chip">2 · Project</span>
             <span class="step-chip">3 · Plan</span>
             <span class="step-chip">4 · Edit</span>
-            <span class="step-chip">5 · BOM</span>
+            <span class="step-chip">5 · Parts list</span>
           </div>
-          <h2 style="font-size:1rem;margin:0 0 0.5rem;">Who are you?</h2>
+          <h2 style="font-size:1rem;margin:0 0 0.5rem;">Who's this for?</h2>
           <div class="role-grid" role="listbox" aria-label="Roles">
-            <button class="role-card" data-role="consumer" role="option"><h3>Regular person</h3><p>Upload a photo/PDF plan, place furniture, share PDF.</p></button>
-            <button class="role-card" data-role="designer" role="option"><h3>Interior designer</h3><p>Templates, materials library, client-ready layout.</p></button>
-            <button class="role-card" data-role="architect" role="option"><h3>Architect</h3><p>DWG import note + hybrid room graph (not native CAD).</p></button>
-            <button class="role-card" data-role="reseller" role="option"><h3>Reseller / ops</h3><p>Catalog SKUs + owned Room Vibez BOM.</p></button>
+            <button class="role-card" data-role="consumer" role="option"><h3>Planning my own space</h3><p>Add a plan, place products, share a PDF.</p></button>
+            <button class="role-card" data-role="designer" role="option"><h3>Interior designer</h3><p>Start from templates, pick finishes, share a client-ready layout.</p></button>
+            <button class="role-card" data-role="architect" role="option"><h3>Architect</h3><p>See how a DWG plan becomes an editable room.</p></button>
+            <button class="role-card" data-role="reseller" role="option"><h3>Reseller or catalog manager</h3><p>Match catalog SKUs to what's placed. Reads as a BOM.</p></button>
           </div>
           <div class="row">
             <button class="primary" id="btnContinueAuth" disabled>Continue</button>
-            <button class="ghost" id="btnSkipDemo">Open demo project</button>
+            <button class="ghost" id="btnSkipDemo">Skip to a demo project</button>
           </div>
         </div>
       </section>
@@ -59,22 +61,21 @@
             <span class="step-chip now">2 · Project</span>
             <span class="step-chip">3 · Plan</span>
             <span class="step-chip">4 · Edit</span>
-            <span class="step-chip">5 · BOM</span>
+            <span class="step-chip">5 · Parts list</span>
           </div>
           <h1>Create a project</h1>
-          <p class="lede">Start blank, from an owned Room Vibez template (CMS stub), or jump to plan upload.</p>
+          <p class="lede">Start blank or from a template.</p>
           <div class="field">
             <label for="projectName">Project name</label>
-            <input id="projectName" type="text" value="Living room — sample" />
+            <input id="projectName" type="text" placeholder="e.g. Living room" />
           </div>
           <div class="role-grid">
-            <button class="role-card" id="tplBlank"><h3>Blank room</h3><p>Empty canvas · manual draw</p></button>
-            <button class="role-card" id="tplStarter"><h3>Template: Warm loft</h3><p>Owned CMS stub · not claimed as Planner template manager</p></button>
-            <button class="role-card unknown-card" disabled title="Unknown / not in public Planner docs"><h3>Planner official template hub</h3><p>Unknown / not in public Planner docs</p></button>
+            <button class="role-card" id="tplBlank"><h3>Blank room</h3><p>Start with an empty room.</p></button>
+            <button class="role-card" id="tplStarter"><h3>Warm loft</h3><p>A furnished starting point.</p></button>
           </div>
           <div class="row">
             <button class="ghost" id="btnBackAuth">Back</button>
-            <button class="primary" id="btnCreateProject">Create &amp; upload plan</button>
+            <button class="primary" id="btnCreateProject">Next: add a plan</button>
           </div>
         </div>
       </section>
@@ -87,13 +88,13 @@
             <span class="step-chip done">2 · Project</span>
             <span class="step-chip now">3 · Plan</span>
             <span class="step-chip">4 · Edit</span>
-            <span class="step-chip">5 · BOM</span>
+            <span class="step-chip">5 · Parts list</span>
           </div>
           <h1>Upload a plan</h1>
-          <p class="lede">Accept DWG / PDF / JPG / PNG. AI recognition is async and illustrative (no SLA). Always allow human confirm or manual draw.</p>
+          <p class="lede">DWG, PDF, JPG or PNG. You'll review the result before editing.</p>
           <div class="upload-zone" id="uploadZone" tabindex="0" role="button" aria-label="Choose floor plan file">
-            <strong>Drop or click to choose a file</strong>
-            <p class="muted">Demo accepts a selection chip — no real file upload.</p>
+            <strong>Choose a file</strong>
+            <p class="muted">This demo doesn't read your file. Pick a type to see the flow.</p>
             <div class="file-chips">
               <button type="button" class="file-chip" data-fmt="DWG">.DWG</button>
               <button type="button" class="file-chip" data-fmt="PDF">.PDF</button>
@@ -103,30 +104,28 @@
             <input class="sr-only" id="fileInput" type="file" accept=".dwg,.pdf,.jpg,.jpeg,.png" />
           </div>
           <div class="panel-card" id="aiCard" hidden>
-            <h3>AI recognition (illustrative)</h3>
-            <p class="muted" id="aiStatus">Queued…</p>
+            <h3>Reading your plan (demo)</h3>
+            <p class="muted" id="aiStatus"></p>
             <div class="progress" aria-hidden="true"><span id="aiBar"></span></div>
-            <p class="muted">Wait times here are fake demo delays — not a vendor SLA.</p>
+            <p class="muted">Demo only. This animation is simulated.</p>
           </div>
           <div class="panel-card" id="confirmCard" hidden>
-            <h3>Human confirm</h3>
-            <p class="muted">Detected ≈ 4.2 m × 5.1 m living room · 2 openings. Review before editing.</p>
+            <h3>Check the result</h3>
+            <p class="muted">Sample result: about 4.2 × 5.1 m living room, 2 openings. Every file gives this same example.</p>
             <div class="row">
-              <label><input type="checkbox" id="confirmDims" /> Dimensions look right</label>
+              <label><input type="checkbox" id="confirmDims" /> I've checked the dimensions</label>
             </div>
             <div class="row" style="margin-top:0.75rem;">
-              <button class="primary" id="btnConfirmPlan" disabled>Confirm &amp; open editor</button>
-              <button id="btnManualDraw">Skip AI · manual draw</button>
+              <button class="primary" id="btnConfirmPlan" disabled>Open editor</button>
+              <button id="btnManualDraw">Draw it myself</button>
             </div>
           </div>
           <div class="panel-card" id="architectNote" hidden>
             <h3>Architect · DWG hybrid</h3>
-            <p class="muted">DWG is accepted for import / AI assist and as architecture source of truth. This prototype does <strong>not</strong> fake native DWG CAD editing. Optional future: ODA Drawings inWEB or Autodesk APS — not in this click-through.</p>
-            <button class="unknown" disabled>Native DWG CAD edit — Unknown / not in public Planner docs as AutoCAD-class</button>
+            <p class="muted"><strong>DWG is import-only here.</strong> You can't edit CAD in this prototype.</p>
           </div>
           <div class="row">
             <button class="ghost" id="btnBackProject">Back</button>
-            <button id="btnManualOnly">Manual draw only</button>
           </div>
         </div>
       </section>
@@ -134,31 +133,26 @@
       <!-- Screen: Editor -->
       <section class="screen" id="screen-editor" aria-label="Room editor">
         <div class="editor">
-          <aside class="sidebar" aria-label="Tools and catalog">
+          <aside class="sidebar" aria-label="Tools and products">
             <h2>Tools</h2>
             <div class="tool-list">
               <button class="tool-btn active" data-tool="select">Select</button>
-              <button class="tool-btn" data-tool="wall">Draw wall</button>
-              <button class="tool-btn" data-tool="place">Place furniture</button>
+              <button class="tool-btn" data-tool="wall">Draw walls</button>
+              <button class="tool-btn" data-tool="place">Place products</button>
             </div>
-            <h2 style="margin-top:1rem;">Catalog</h2>
+            <h2 style="margin-top:1rem;">Products</h2>
             <div class="catalog-list">
               <button class="catalog-item active" data-sku="CHAIR-LOFT-01">
                 <span class="swatch" style="background:linear-gradient(135deg,#8b5a2b 40%,#c4b59a 40% 70%,#6a7c8a 70%);"></span>
-                <span><strong>Loft Chair</strong><br /><span class="muted">CHAIR-LOFT-01 · multi-slot</span></span>
+                <span><strong>Loft Chair</strong><br /><span class="muted">CHAIR-LOFT-01 · 3 finishes</span></span>
               </button>
               <button class="catalog-item" data-sku="TABLE-OAK-02">
                 <span class="swatch" style="background:#a67c52;"></span>
                 <span><strong>Oak Side Table</strong><br /><span class="muted">TABLE-OAK-02</span></span>
               </button>
-              <button class="catalog-item unknown-card" disabled title="Unknown">
-                <span class="swatch" style="background:#ccc;"></span>
-                <span><strong>Live ERP stock</strong><br /><span class="muted">Unknown / not in public Planner docs</span></span>
-              </button>
             </div>
-            <h2 style="margin-top:1rem;">Owned CMS</h2>
-            <button class="tool-btn" id="btnApplyTemplate">Apply starter template</button>
-            <p class="muted" style="margin-top:0.4rem;">Room Vibez template stub — not Planner’s template manager.</p>
+            <h2 style="margin-top:1rem;">Templates</h2>
+            <button class="tool-btn" id="btnApplyTemplate">Add starter products</button>
           </aside>
 
           <div class="canvas-wrap">
@@ -167,14 +161,13 @@
                 <button type="button" class="active" data-mode="2d">2D</button>
                 <button type="button" data-mode="3d">3D</button>
               </div>
-              <button type="button" id="btnLightPreset">Light preset: Soft day</button>
-              <button type="button" id="btnRenderPreset">Render preset: Preview</button>
-              <button type="button" class="unknown" disabled title="Unknown">4K photoreal (usage) — confirm on contract</button>
-              <span class="muted" id="toolHint">Select tool</span>
+              <button type="button" id="btnLightPreset">Lighting: Soft day</button>
+              <button type="button" id="btnRenderPreset">Render style: Preview</button>
+              <span class="muted" id="toolHint">Select a product</span>
             </div>
             <div class="stage" id="stage">
               <div class="plan-2d active" id="view2d">
-                <div class="draw-hint" id="drawHint">Click “Draw wall” then click two corners on the grid (demo places a sample room).</div>
+                <div class="draw-hint" id="drawHint">Pick a tool on the left, then click the plan.</div>
                 <svg class="plan-svg" id="planSvg" viewBox="0 0 800 520" role="img" aria-label="2D floor plan">
                   <polygon class="room-poly" id="roomPoly" points="180,120 620,120 620,400 180,400" />
                   <g id="furnGroup"></g>
@@ -192,92 +185,135 @@
                       <div class="css3d-handle" id="cssHandle"></div>
                     </div>
                   </div>
-                  <p class="muted" style="position:absolute;bottom:1rem;">CSS 3D fallback (Three.js CDN unavailable)</p>
+                  <div class="draw-hint">3D preview shows one sample chair, not your whole room yet.</div>
                 </div>
               </div>
-              <div class="toast" id="toast" role="status"></div>
             </div>
           </div>
 
-          <aside class="inspector" aria-label="Materials and BOM">
+          <aside class="inspector" aria-label="Finishes and parts list">
             <h2>Selection</h2>
             <div class="panel-card">
               <h3 id="selTitle">Nothing selected</h3>
-              <p class="muted" id="selMeta">Place the Loft Chair to edit material slots.</p>
+              <p class="muted" id="selMeta">Place a Loft Chair, then pick it to change its finishes.</p>
             </div>
-            <h2>Materials library</h2>
-            <p class="muted">Library finishes — not embedded in furniture files.</p>
+            <h2>Finishes</h2>
             <div class="panel-card">
-              <h3>Slot: wood</h3>
+              <h3>Wood</h3>
               <div class="mat-grid" data-slot="wood">
                 <button class="mat-btn" data-mat="oak" data-color="#8b5a2b"><div class="swatch" style="background:#8b5a2b"></div>Oak</button>
                 <button class="mat-btn" data-mat="walnut" data-color="#5c3a21"><div class="swatch" style="background:#5c3a21"></div>Walnut</button>
                 <button class="mat-btn" data-mat="ash" data-color="#c2a67a"><div class="swatch" style="background:#c2a67a"></div>Ash</button>
               </div>
-              <h3 style="margin-top:0.75rem;">Slot: plastic</h3>
+              <h3 style="margin-top:0.75rem;">Plastic</h3>
               <div class="mat-grid" data-slot="plastic">
                 <button class="mat-btn" data-mat="slate" data-color="#6a7c8a"><div class="swatch" style="background:#6a7c8a"></div>Slate</button>
                 <button class="mat-btn" data-mat="ink" data-color="#2c333a"><div class="swatch" style="background:#2c333a"></div>Ink</button>
                 <button class="mat-btn" data-mat="mist" data-color="#a8b4bc"><div class="swatch" style="background:#a8b4bc"></div>Mist</button>
               </div>
-              <h3 style="margin-top:0.75rem;">Slot: wool</h3>
+              <h3 style="margin-top:0.75rem;">Wool</h3>
               <div class="mat-grid" data-slot="wool">
                 <button class="mat-btn" data-mat="sand" data-color="#c4b59a"><div class="swatch" style="background:#c4b59a"></div>Sand</button>
                 <button class="mat-btn" data-mat="clay" data-color="#b07d62"><div class="swatch" style="background:#b07d62"></div>Clay</button>
                 <button class="mat-btn" data-mat="sage" data-color="#8fa38a"><div class="swatch" style="background:#8fa38a"></div>Sage</button>
               </div>
             </div>
-            <h2>Room Vibez BOM (owned)</h2>
-            <p class="muted">Not claiming Planner BOM manager — fed by placements.</p>
+            <h2>Parts list</h2>
+            <p class="muted">Updates as you place products.</p>
             <div class="bom-list" id="bomList"></div>
-            <div class="bom-total" id="bomTotal">Total: €0</div>
+            <div class="bom-total" id="bomTotal">Total (placeholder prices): €0</div>
             <div class="row" style="margin-top:0.6rem;">
-              <button class="primary" id="btnOpenBom">Cart / BOM panel</button>
+              <button class="primary" id="btnOpenBom">Open parts list</button>
               <button id="btnSkuList">SKU list</button>
             </div>
-            <button class="unknown" disabled style="width:100%;margin-top:0.5rem;">Planner BOM manager — Unknown / not in public docs</button>
           </aside>
         </div>
       </section>
 
-      <!-- Screen: BOM / SKU / export -->
-      <section class="screen" id="screen-bom" aria-label="BOM and SKU">
+      <!-- Screen: Parts list / SKUs / share -->
+      <section class="screen" id="screen-bom" aria-label="Parts list and SKUs">
         <div class="compose">
           <div class="steps">
             <span class="step-chip done">1 · Role</span>
             <span class="step-chip done">2 · Project</span>
             <span class="step-chip done">3 · Plan</span>
             <span class="step-chip done">4 · Edit</span>
-            <span class="step-chip now">5 · BOM</span>
+            <span class="step-chip now">5 · Parts list</span>
           </div>
-          <h1>Cart / BOM · Room Vibez owned</h1>
-          <p class="lede">Lines below are Room Vibez system-of-record demos. Planner cart events would feed this service in a real embed.</p>
+          <h1>Parts list</h1>
+          <p class="lede">What you've placed, with placeholder prices.</p>
           <div class="panel-card">
-            <h3>BOM lines</h3>
+            <h3>Items</h3>
             <div class="bom-list" id="bomListFull"></div>
-            <div class="bom-total" id="bomTotalFull">Total: €0</div>
+            <div class="bom-total" id="bomTotalFull">Total (placeholder prices): €0</div>
           </div>
           <div class="panel-card">
-            <h3>SKU list</h3>
+            <h3>Catalog SKUs</h3>
             <div class="sku-list" id="skuListFull"></div>
           </div>
           <div class="panel-card">
-            <h3>Share / export</h3>
+            <h3>Share</h3>
             <div class="row">
-              <button id="btnExportPdf">Export floor plan PDF (stub)</button>
-              <button id="btnExportPng">Export PNG (stub)</button>
-              <button id="btnExportGlb">Optional GLB package (stub)</button>
-              <button class="unknown" disabled>CAD export IFC/DWG — Partial / beta in public Planner docs</button>
+              <button id="btnExportPdf">Export plan as PDF</button>
+              <button id="btnExportPng">Export as PNG</button>
+              <button id="btnExportGlb">Export 3D package</button>
             </div>
           </div>
           <div class="row">
             <button class="ghost" id="btnBackEditor">Back to editor</button>
-            <button class="primary" id="btnRestart">Start over</button>
+            <button id="btnRestart">Start over</button>
           </div>
         </div>
       </section>
     </main>
+    <!-- One toast for every screen (it used to sit inside the editor stage, so messages fired on other screens were never seen). -->
+    <div class="toast" id="toast" role="status"></div>
   </div>
+
+  <!-- The ? pop-up. Static authored copy (docs/ux-copy-deck.md §6.3). -->
+  <dialog class="dialog" id="helpDialog" aria-labelledby="helpTitle">
+    <div class="dialog-body">
+      <div class="dialog-head">
+        <h2 id="helpTitle">How this works</h2>
+        <button type="button" class="ghost" id="btnHelpClose" aria-label="Close help">Close</button>
+      </div>
+      <div class="help-tabs" role="tablist" aria-labelledby="helpTitle">
+        <button type="button" role="tab" id="helpTab-walkthrough" aria-controls="helpPanel-walkthrough" aria-selected="true">Walkthrough</button>
+        <button type="button" role="tab" id="helpTab-roles" aria-controls="helpPanel-roles" aria-selected="false" tabindex="-1">Roles</button>
+        <button type="button" role="tab" id="helpTab-simulated" aria-controls="helpPanel-simulated" aria-selected="false" tabindex="-1">What's simulated</button>
+        <button type="button" role="tab" id="helpTab-why" aria-controls="helpPanel-why" aria-selected="false" tabindex="-1">Why it's shaped this way</button>
+      </div>
+      <div class="help-panel" role="tabpanel" id="helpPanel-walkthrough" aria-labelledby="helpTab-walkthrough" tabindex="0">
+        <p>Five steps: choose who you are, create a project, add a plan, edit the room, review the parts list. The chips at the top show where you are.</p>
+      </div>
+      <div class="help-panel" role="tabpanel" id="helpPanel-roles" aria-labelledby="helpTab-roles" tabindex="0" hidden>
+        <p>The role you pick sets the label at the top. For Architect it also shows a note about DWG. The editor is the same for everyone.</p>
+      </div>
+      <div class="help-panel" role="tabpanel" id="helpPanel-simulated" aria-labelledby="helpTab-simulated" tabindex="0" hidden>
+        <p>Nothing is saved or sent. File upload is a demo: any file gives the same sample result, a 4.2 × 5.1 m living room with 2 openings. The 3D view shows one sample chair. Export buttons don't create files yet. Prices in € are placeholders. The look is inspired by planner apps but isn't Planner 5D's product. The 3D preview and fonts load from the web, so you need a connection.</p>
+      </div>
+      <div class="help-panel" role="tabpanel" id="helpPanel-why" aria-labelledby="helpTab-why" tabindex="0" hidden>
+        <ul>
+          <li>A DWG is the architecture source. Furniture stays 3D models plus library materials.</li>
+          <li>The parts list and templates are owned by Room Vibez, not by the planner. In a real embed, planner cart events would feed the parts list.</li>
+          <li>Plan recognition always allows a human check or drawing it yourself.</li>
+          <li>Not claimed: native CAD editing, or any recognition speed guarantee.</li>
+        </ul>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Start over confirmation (docs/ux-copy-deck.md §5). The body text is filled in when it opens. -->
+  <dialog class="dialog" id="restartDialog" aria-labelledby="restartTitle" aria-describedby="restartBody">
+    <div class="dialog-body">
+      <h2 id="restartTitle">Start over?</h2>
+      <p id="restartBody"></p>
+      <div class="row dialog-actions">
+        <button type="button" class="danger" id="btnRestartConfirm">Start over</button>
+        <button type="button" id="btnRestartCancel" autofocus>Keep working</button>
+      </div>
+    </div>
+  </dialog>
   <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
   <script src="app.js"></script>
 </body>

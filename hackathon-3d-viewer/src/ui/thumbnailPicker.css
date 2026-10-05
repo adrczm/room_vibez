@@ -1,0 +1,203 @@
+/* Catalog picker (UX-14, UX-15). Imported by thumbnailPicker.ts.
+   Colours, radii and the font come from the tokens in src/styles.css; the fallbacks are those tokens' values.
+   The view toggle reuses the app's .segmented.cols-2 and the search field reuses .text-input.
+   Sizes (popup 520 px, sheet at 860 px and below, tile and row sizes) are design defaults, not evidence (DT3). */
+
+.tpicker {
+  position: relative;
+  min-width: 0;
+  /* Hooks a host may override per picker. */
+  --tpicker-trigger-visual: 28px;
+}
+
+.tpicker, .tpicker *, .tpicker-popup, .tpicker-popup * { box-sizing: border-box; }
+.tpicker [hidden],
+.tpicker-popup [hidden] { display: none !important; }
+
+/* The native select stays rendered, clipped away: tests still drive it with selectOption().
+   It is 1 px wide but as tall as the trigger, and fully transparent, for the project's own audits:
+   the "controls under 32 px" snippet counts any rendered select by its height, and the target-size
+   audit (gates G24, G25) counts any select that passes checkVisibility({ checkOpacity }). A 1×1 box
+   would be reported as an undersized control although nobody can see, focus or tap it. */
+.tpicker[data-enhanced='true'] > select.tpicker-native {
+  position: absolute; left: 0; top: 0;
+  width: 1px; height: 100%; min-height: 0; margin: 0; padding: 0; border: 0;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; opacity: 0;
+  appearance: none; pointer-events: none;
+}
+
+.tpicker-sr {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
+
+/* ── Trigger ── */
+.tpicker-trigger {
+  display: flex; align-items: center; gap: 8px;
+  width: 100%; min-height: 36px; padding: 3px 10px 3px 4px;
+  font: inherit; color: var(--text, #303030); text-align: left;
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border-strong, #c9cccf); border-radius: var(--radius-sm, 8px);
+  cursor: pointer;
+}
+.tpicker[data-has-visuals='false'] .tpicker-trigger { padding-left: 10px; }
+.tpicker[data-has-visuals='false'] .tpicker-trigger .tpicker-visual { display: none; }
+.tpicker-trigger:hover { background: var(--surface-hover, #f7f7f7); }
+.tpicker-trigger:active { background: var(--bg, #f1f1f1); }
+.tpicker-trigger:focus-visible { outline: 2px solid var(--accent, #008060); outline-offset: 2px; }
+.tpicker-trigger:disabled { opacity: 0.5; cursor: default; }
+.tpicker-trigger .tpicker-visual { width: var(--tpicker-trigger-visual); height: var(--tpicker-trigger-visual); }
+.tpicker-trigger .tpicker-visual[data-kind='swatch'] { border-radius: 50%; }
+
+.tpicker-chevron {
+  flex: 0 0 auto; width: 8px; height: 8px; margin: 0 2px 4px 0;
+  border-right: 2px solid var(--text-muted, #616161); border-bottom: 2px solid var(--text-muted, #616161);
+  transform: rotate(45deg);
+}
+
+/* ── Shared item parts (trigger, tiles, rows) ── */
+.tpicker-visual {
+  flex: 0 0 auto; display: block; overflow: hidden;
+  border: 1px solid var(--border, #e3e3e3); border-radius: 6px;
+  background-color: #ececec;
+  background-size: cover; background-position: center; background-blend-mode: multiply;
+}
+/* Neutral placeholder, shown until an image arrives. Hatched and dashed so it cannot pass for a pale swatch. */
+.tpicker-visual[data-kind='none'] {
+  border-style: dashed; border-color: var(--border-strong, #c9cccf);
+  background-image: repeating-linear-gradient(135deg, #f4f4f4 0 6px, #e6e6e6 6px 12px);
+}
+.tpicker-visual[data-kind='swatch'] { border-color: var(--border-strong, #c9cccf); }
+.tpicker-visual[data-kind='thumb'] { background-color: var(--surface, #ffffff); }
+.tpicker-visual img { display: block; width: 100%; height: 100%; object-fit: contain; }
+
+.tpicker-text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
+/* Long names wrap; they never widen a tile, a row or the trigger. */
+.tpicker-name { font-weight: 550; overflow-wrap: anywhere; }
+.tpicker-sub { font-size: 12px; font-weight: 450; color: var(--text-muted, #616161); overflow-wrap: anywhere; }
+
+/* ── Popup (native popover, top layer) ── */
+.tpicker-popup {
+  position: fixed; inset: auto; margin: 0; padding: 0; box-sizing: border-box;
+  width: min(520px, 100vw - 32px); max-height: 480px; overflow: hidden;
+  color: var(--text, #303030); background: var(--surface, #ffffff);
+  border: 1px solid var(--border-strong, #c9cccf); border-radius: var(--radius, 12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16), 0 1px 2px rgba(0, 0, 0, 0.08);
+  font: 13px/1.45 var(--font, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif);
+  outline: none;
+}
+.tpicker-popup:popover-open { display: flex; flex-direction: column; }
+.tpicker-popup[data-picker-kind='material'] { --tpicker-tile-min: 88px; }
+
+.tpicker-head {
+  flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  padding: 8px; border-bottom: 1px solid var(--border, #e3e3e3);
+}
+.tpicker-title { flex: 1 1 auto; min-width: 0; padding-left: 4px; font-weight: 650; overflow-wrap: anywhere; }
+/* The search field, when shown, takes the header's second row. */
+.tpicker-popup .tpicker-search { flex: 1 1 100%; width: 100%; min-width: 0; min-height: 32px; }
+.tpicker-popup .tpicker-search:focus-visible { outline: 2px solid var(--accent, #008060); outline-offset: 1px; }
+.tpicker-view { flex: 0 0 auto; }
+.tpicker-popup .tpicker-view button { min-height: 32px; padding: 6px 12px; white-space: nowrap; }
+.tpicker-popup .tpicker-view button:hover:not([aria-checked='true']) { color: var(--text, #303030); }
+
+.tpicker-close {
+  flex: 0 0 auto; display: grid; place-items: center; width: 32px; height: 32px; padding: 0;
+  color: var(--text-muted, #616161); background: transparent; border: 0; border-radius: 6px; cursor: pointer;
+}
+.tpicker-close:hover { color: var(--text, #303030); background: var(--surface-hover, #f7f7f7); }
+.tpicker-close:active { background: var(--bg, #f1f1f1); }
+.tpicker-close:focus-visible,
+.tpicker-group:focus-visible { outline: 2px solid var(--accent, #008060); outline-offset: 2px; }
+
+.tpicker-groups { flex: 0 0 auto; display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 8px 0; }
+.tpicker-group {
+  min-height: 32px; padding: 4px 12px; font: inherit; font-size: 12px; font-weight: 550;
+  color: var(--text-muted, #616161); background: var(--surface, #ffffff);
+  border: 1px solid var(--border-strong, #c9cccf); border-radius: 999px; cursor: pointer;
+}
+.tpicker-group:hover { background: var(--surface-hover, #f7f7f7); color: var(--text, #303030); }
+.tpicker-group:active { background: var(--bg, #f1f1f1); }
+/* Checked is shown by fill, border and weight, not by colour alone. */
+.tpicker-group[aria-checked='true'] {
+  color: var(--text, #303030); font-weight: 650;
+  background: var(--accent-soft, #e3f1ec); border-color: var(--accent, #008060);
+}
+
+.tpicker-list {
+  flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  display: grid; align-content: start; gap: 8px; padding: 8px;
+}
+.tpicker-empty { margin: 0; padding: 20px 12px; text-align: center; color: var(--text-muted, #616161); }
+
+.tpicker-option {
+  position: relative; display: flex; min-width: 0;
+  border: 1px solid transparent; border-radius: var(--radius-sm, 8px);
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.tpicker-option:hover { background: var(--surface-hover, #f7f7f7); }
+.tpicker-option:active { background: var(--bg, #f1f1f1); }
+.tpicker-option:focus { outline: none; }
+.tpicker-option:focus-visible { outline: 2px solid var(--accent, #008060); outline-offset: 1px; }
+/* Selected: fill, border, bolder name and a check mark. Name stays --text (11:1 on the soft fill). */
+.tpicker-option[aria-selected='true'] { background: var(--accent-soft, #e3f1ec); border-color: var(--accent, #008060); }
+.tpicker-option[aria-selected='true'] .tpicker-name { font-weight: 650; }
+.tpicker-option[aria-selected='true']::after {
+  content: ''; flex: 0 0 auto; width: 18px; height: 18px; border-radius: 50%;
+  background: var(--accent, #008060)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / 14px no-repeat;
+  box-shadow: 0 0 0 2px var(--surface, #ffffff);
+}
+
+/* Thumbnail view: tiles, picture then name. */
+.tpicker-popup[data-view='grid'] .tpicker-list {
+  grid-template-columns: repeat(auto-fill, minmax(var(--tpicker-tile-min, 96px), 1fr));
+}
+.tpicker-popup[data-view='grid'] .tpicker-option {
+  flex-direction: column; gap: 6px; padding: 6px; text-align: center; border-color: var(--border, #e3e3e3);
+}
+.tpicker-popup[data-view='grid'] .tpicker-option[aria-selected='true'] { border-color: var(--accent, #008060); }
+.tpicker-popup[data-view='grid'] .tpicker-option .tpicker-visual { width: 100%; aspect-ratio: 1 / 1; }
+.tpicker-popup[data-view='grid'] .tpicker-option .tpicker-text { flex: 0 0 auto; }
+.tpicker-popup[data-view='grid'] .tpicker-option[aria-selected='true']::after { position: absolute; top: 10px; right: 10px; }
+
+/* List view: one row per item. A row without an image is text only (no placeholder box). */
+.tpicker-popup[data-view='list'] .tpicker-list { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+.tpicker-popup[data-view='list'] .tpicker-option { align-items: center; gap: 10px; min-height: 36px; padding: 3px 8px; }
+.tpicker-popup[data-view='list'] .tpicker-option:focus-visible { outline-offset: -2px; }
+.tpicker-popup[data-view='list'] .tpicker-option .tpicker-visual { width: 32px; height: 32px; }
+.tpicker-popup[data-view='list'] .tpicker-option .tpicker-visual[data-kind='none'] { display: none; }
+.tpicker-popup[data-view='list'] .tpicker-option .tpicker-visual[data-kind='swatch'] { border-radius: 50%; }
+.tpicker-popup[data-view='list'] .tpicker-option .tpicker-text {
+  flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: 8px;
+}
+
+/* Coarse pointers: 44 px targets (UX-12). Tiles are already larger. */
+@media (pointer: coarse) {
+  .tpicker-trigger { min-height: 44px; }
+  .tpicker-popup[data-view='list'] .tpicker-option { min-height: 44px; }
+  .tpicker-close { width: 44px; height: 44px; }
+  .tpicker-popup .tpicker-group, .tpicker-popup .tpicker-view button, .tpicker-popup .tpicker-search { min-height: 44px; }
+  .tpicker-popup .tpicker-group { min-width: 44px; }
+}
+
+/* 860 px and below: a full-width sheet from the bottom edge (design default, DT3). */
+@media (max-width: 860px) {
+  .tpicker-popup {
+    left: 0 !important; right: 0 !important; top: auto !important; bottom: 0 !important;
+    width: 100%; max-width: none;
+    max-height: min(80vh, 640px) !important; max-height: min(80dvh, 640px) !important;
+    border-width: 1px 0 0; border-radius: var(--radius, 12px) var(--radius, 12px) 0 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .tpicker-popup::backdrop { background: rgba(0, 0, 0, 0.32); }
+}
+
+/* The only animation: a short fade-in, and only when motion is welcome. */
+@media (prefers-reduced-motion: no-preference) {
+  .tpicker-popup:popover-open { opacity: 1; transition: opacity 0.15s ease; }
+  @starting-style {
+    .tpicker-popup:popover-open { opacity: 0; }
+  }
+}

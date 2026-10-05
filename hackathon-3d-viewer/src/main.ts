@@ -208,11 +208,64 @@ function displayUnit(): DisplayUnit {
   return roomUnits.value as DisplayUnit;
 }
 
+/**
+ * The length fields that follow the Units select, with their limits in metres.
+ * The limits are read from the HTML, which is written in metres (the default unit).
+ */
+const LENGTH_FIELDS = [
+  roomLength,
+  roomWidth,
+  roomCeiling,
+  roomThickness,
+  openingWidth,
+  openingHeight,
+  openingSill,
+].map((input) => ({ input, minM: Number(input.min), stepM: Number(input.step) }));
+
+/** Unit the length fields currently show. Tracked so a unit switch can convert what is in them. */
+let fieldUnit: DisplayUnit = 'm';
+
+/** Unit conversion leaves float noise (1.1 m → 110.00000000000001 cm). Trim it at 1e-6 of the unit. */
+const trimNoise = (v: number) => Number(v.toFixed(6));
+
+/** Read a length field as metres. An empty field reads as 0. */
+function fieldMeters(input: HTMLInputElement, unit: DisplayUnit): number {
+  return trimNoise(toMeters(Number(input.value), unit));
+}
+
+function setFieldMeters(input: HTMLInputElement, meters: number, unit: DisplayUnit) {
+  input.value = String(trimNoise(fromMeters(meters, unit)));
+}
+
+/** Express each length field's `min` and `step` in the given unit. */
+function syncLengthFieldLimits(unit: DisplayUnit) {
+  for (const f of LENGTH_FIELDS) {
+    if (unit === 'ft-in') {
+      // Metric limits do not fall on a round grid in decimal feet. Keep the same minimum
+      // (rounded down, so the metric minimum itself still passes) and drop the step grid.
+      f.input.min = String(Math.floor(fromMeters(f.minM, unit) * 100) / 100);
+      f.input.step = 'any';
+    } else {
+      f.input.min = String(trimNoise(fromMeters(f.minM, unit)));
+      f.input.step = String(trimNoise(fromMeters(f.stepM, unit)));
+    }
+  }
+}
+
+/** Units select changed: the fields keep their meaning, so their numbers have to change. */
+function convertLengthFields(from: DisplayUnit, to: DisplayUnit) {
+  for (const { input } of LENGTH_FIELDS) {
+    // An empty field stays empty; converting it would write 0 into it.
+    if (input.value.trim() !== '') setFieldMeters(input, fieldMeters(input, from), to);
+  }
+  syncLengthFieldLimits(to);
+}
+
 function syncOpeningDefaultsFromType() {
   const d = openingType === 'door' ? DEFAULT_DOOR : DEFAULT_WINDOW;
-  openingWidth.value = String(fromMeters(d.width, displayUnit()));
-  openingHeight.value = String(fromMeters(d.height, displayUnit()));
-  openingSill.value = String(fromMeters(d.sill_height, displayUnit()));
+  setFieldMeters(openingWidth, d.width, displayUnit());
+  setFieldMeters(openingHeight, d.height, displayUnit());
+  setFieldMeters(openingSill, d.sill_height, displayUnit());
   viewer?.setOpeningToolDefaults(openingType, d.width);
 }
 
@@ -316,6 +369,9 @@ function renderRoomUi() {
   roomTools.hidden = !has;
   roomPlan.hidden = !has;
   $('room-plan-actions').hidden = !has;
+  // Neither can do anything without a room. ("Download plan PNG" is hidden with its row above.)
+  $<HTMLButtonElement>('btn-save-template-scratch').disabled = !has;
+  $<HTMLButtonElement>('btn-clear-room').disabled = !has;
   if (!has) {
     roomStatus.textContent = 'No room yet — from scratch, import plan, or template.';
     roomStatus.classList.remove('error');
@@ -736,6 +792,7 @@ function setToolButtons(mode: InteractionMode | null) {
 }
 
 function setWorkspace(mode: 'catalog' | 'room') {
+  const changed = workspace !== mode;
   workspace = mode;
   document.body.dataset.workspace = mode;
   workspaceMode.querySelectorAll('button').forEach((b) => {
@@ -754,7 +811,9 @@ function setWorkspace(mode: 'catalog' | 'room') {
     hint.textContent = 'Room editor — build the shell, openings, and place Catalog 3D products.';
     if (roomGraph) {
       viewer?.setInteractionMode('room');
-      viewer?.frameRoom();
+      // Frame the room on arrival from Product only. Framing on every call threw away the
+      // view the user had just orbited to.
+      if (changed) viewer?.frameRoom();
       stageHint.textContent = 'Room · drag to orbit · scroll to zoom · right-drag to pan';
     } else {
       stageHint.textContent = 'Room workspace — create or import a room to edit the shell.';
@@ -768,10 +827,34 @@ function setWorkspace(mode: 'catalog' | 'room') {
 function readOpeningParamsMeters() {
   const u = displayUnit();
   return {
-    width: toMeters(Number(openingWidth.value), u),
-    height: toMeters(Number(openingHeight.value), u),
-    sill_height: toMeters(Number(openingSill.value), u),
+    width: fieldMeters(openingWidth, u),
+    height: fieldMeters(openingHeight, u),
+    sill_height: fieldMeters(openingSill, u),
   };
+}
+
+/** Leave the active room tool (opening, place or draw walls), if one is on. Returns whether one was. */
+function exitRoomTool(): boolean {
+  const mode = viewer?.getInteractionMode();
+  if (mode !== 'opening' && mode !== 'place' && mode !== 'draw-wall') return false;
+  drawSession = null;
+  viewer?.setInteractionMode('room');
+  setToolButtons(null);
+  return true;
+}
+
+/** Input types that take no typed text and do nothing of their own with Esc or undo. */
+const NON_TYPING_INPUT_TYPES = new Set(['checkbox', 'radio', 'button', 'submit', 'reset', 'file', 'range', 'color', 'image']);
+
+/**
+ * True when a key press belongs to the control it came from: a field the user types in, a
+ * select, or anything inside an open dialog. Global shortcuts (undo, redo, Esc) must leave
+ * those alone. A ticked checkbox keeps focus but has no text to undo, so it does not count.
+ */
+function isTypingTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  if (target.isContentEditable || target.closest('select, textarea, dialog')) return true;
+  return target instanceof HTMLInputElement && !NON_TYPING_INPUT_TYPES.has(target.type);
 }
 
 function onRoomPointer(hit: RoomPointerHit | null, mode: InteractionMode) {
@@ -927,14 +1010,14 @@ async function reloadAllPlacements(graph: RoomGraph) {
 
 function onCreateRoom() {
   const u = displayUnit();
-  const presetId = roomPreset.value;
-  const preset = ROOM_PRESETS.find((p) => p.id === presetId);
+  // The preset only names the room. The size always comes from the fields, which the preset
+  // fills in and the user may then edit.
+  const preset = ROOM_PRESETS.find((p) => p.id === roomPreset.value);
   try {
-    const length = preset && presetId !== 'custom' ? preset.length : toMeters(Number(roomLength.value), u);
-    const width = preset && presetId !== 'custom' ? preset.width : toMeters(Number(roomWidth.value), u);
-    const ceilingHeight =
-      preset && presetId !== 'custom' ? preset.ceilingHeight : toMeters(Number(roomCeiling.value), u);
-    const wallThickness = toMeters(Number(roomThickness.value) || fromMeters(DEFAULT_WALL_THICKNESS_M, u), u);
+    const length = fieldMeters(roomLength, u);
+    const width = fieldMeters(roomWidth, u);
+    const ceilingHeight = fieldMeters(roomCeiling, u);
+    const wallThickness = fieldMeters(roomThickness, u);
     const graph = createRectangularRoom({
       length,
       width,
@@ -1668,7 +1751,8 @@ async function boot() {
   $('room-ingress').querySelectorAll('button').forEach((b) => {
     b.addEventListener('click', () => {
       setRoomIngress((b.getAttribute('data-ingress') as 'scratch' | 'import' | 'template') ?? 'scratch');
-      setWorkspace('room');
+      // Only when arriving from Product: inside the Room workspace a tab must not reset the tool.
+      if (workspace !== 'room') setWorkspace('room');
     });
   });
   $('btn-import-plan').addEventListener('click', () => {
@@ -1701,13 +1785,21 @@ async function boot() {
     const preset = ROOM_PRESETS.find((p) => p.id === roomPreset.value);
     if (!preset) return;
     const u = displayUnit();
-    roomLength.value = String(fromMeters(preset.length, u));
-    roomWidth.value = String(fromMeters(preset.width, u));
-    roomCeiling.value = String(fromMeters(preset.ceilingHeight, u));
+    setFieldMeters(roomLength, preset.length, u);
+    setFieldMeters(roomWidth, preset.width, u);
+    setFieldMeters(roomCeiling, preset.ceilingHeight, u);
   });
+  // A size typed by hand is no longer the preset's size, so the preset reads "Custom…".
+  for (const input of [roomLength, roomWidth, roomCeiling]) {
+    input.addEventListener('input', () => {
+      roomPreset.value = 'custom';
+    });
+  }
   roomUnits.addEventListener('change', () => {
-    if (roomGraph) roomGraph = { ...roomGraph, display_unit: displayUnit() };
-    syncOpeningDefaultsFromType();
+    const next = displayUnit();
+    convertLengthFields(fieldUnit, next);
+    fieldUnit = next;
+    if (roomGraph) roomGraph = { ...roomGraph, display_unit: next };
     renderRoomUi();
   });
   $('opening-type').querySelectorAll('button').forEach((b) => {
@@ -1745,25 +1837,28 @@ async function boot() {
   const mjsEnabled = $<HTMLInputElement>('mjs-enabled');
   mjsEnabled.checked = isMjsLoadingEnabled();
   mjsEnabled.addEventListener('change', () => setMjsLoadingEnabled(mjsEnabled.checked));
+  // The three tool buttons read the current mode BEFORE any workspace switch. setWorkspace('room')
+  // puts the viewer back in plain room mode, so reading afterwards always saw the tool as off
+  // and a second click could never switch it off.
   btnOpeningMode.addEventListener('click', () => {
     if (!roomGraph) return;
-    setWorkspace('room');
     const next = viewer?.getInteractionMode() === 'opening' ? 'room' : 'opening';
+    if (workspace !== 'room') setWorkspace('room');
     viewer?.setOpeningToolDefaults(openingType, readOpeningParamsMeters().width);
     viewer?.setInteractionMode(next);
     setToolButtons(next === 'opening' ? 'opening' : null);
   });
   btnPlaceMode.addEventListener('click', () => {
     if (!roomGraph) return;
-    setWorkspace('room');
     const next = viewer?.getInteractionMode() === 'place' ? 'room' : 'place';
+    if (workspace !== 'room') setWorkspace('room');
     viewer?.setInteractionMode(next);
     setToolButtons(next === 'place' ? 'place' : null);
   });
   btnDrawWallMode.addEventListener('click', () => {
     if (!roomGraph) return;
-    setWorkspace('room');
     const next = viewer?.getInteractionMode() === 'draw-wall' ? 'room' : 'draw-wall';
+    if (workspace !== 'room') setWorkspace('room');
     if (next === 'draw-wall') {
       const room = roomGraph.rooms[0];
       drawSession = createDrawSession({
@@ -1781,6 +1876,12 @@ async function boot() {
 
   document.addEventListener('keydown', (e) => {
     if (workspace !== 'room') return;
+    // A key typed into a field belongs to the field: Cmd/Ctrl+Z there undoes the typing, not the room.
+    if (isTypingTarget(e.target)) return;
+    if (e.key === 'Escape') {
+      exitRoomTool();
+      return;
+    }
     const mod = e.metaKey || e.ctrlKey;
     if (!mod) return;
     if (e.key === 'z' && !e.shiftKey) {
@@ -1828,10 +1929,13 @@ async function boot() {
   });
 
   renderPresets();
+  // Every length field below is seeded in the unit the select shows right now.
+  fieldUnit = displayUnit();
+  syncLengthFieldLimits(fieldUnit);
   syncOpeningDefaultsFromType();
   // Seed custom fields from default preset.
   roomPreset.dispatchEvent(new Event('change'));
-  roomThickness.value = String(fromMeters(DEFAULT_WALL_THICKNESS_M, displayUnit()));
+  setFieldMeters(roomThickness, DEFAULT_WALL_THICKNESS_M, fieldUnit);
   mountViewer();
   setRoomIngress('scratch');
   syncUndoRedoButtons();

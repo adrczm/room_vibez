@@ -5,8 +5,53 @@
 import type { Object3D } from 'three';
 import { Box3 } from 'three';
 
-import type { PlacementEntity, RoomGraph, WallEntity } from './roomGraph';
+import type { PlacementEntity, RoomGraph, Vec2, WallEntity } from './roomGraph';
 import { wallLength } from './roomGraph';
+
+function distanceToSegment(p: Vec2, a: Vec2, b: Vec2): number {
+  const dx = b.x - a.x;
+  const dz = b.z - a.z;
+  const len2 = dx * dx + dz * dz;
+  const t = len2 > 0 ? Math.min(1, Math.max(0, ((p.x - a.x) * dx + (p.z - a.z) * dz) / len2)) : 0;
+  return Math.hypot(p.x - (a.x + dx * t), p.z - (a.z + dz * t));
+}
+
+/**
+ * Pure point-in-polygon test in the XZ plane (even-odd rule; any winding, convex or not).
+ * A point on the boundary (within `eps` metres) counts as inside.
+ * Fewer than 3 vertices, or a non-finite point, is never inside.
+ */
+export function pointInFloorPolygon(point: Vec2, polygon: readonly Vec2[], eps = 1e-6): boolean {
+  const n = polygon.length;
+  if (n < 3 || !Number.isFinite(point.x) || !Number.isFinite(point.z)) return false;
+  let inside = false;
+  for (let i = 0, j = n - 1; i < n; j = i++) {
+    const a = polygon[i]!;
+    const b = polygon[j]!;
+    if (distanceToSegment(point, a, b) <= eps) return true;
+    if (a.z > point.z !== b.z > point.z && point.x < ((b.x - a.x) * (point.z - a.z)) / (b.z - a.z) + a.x) {
+      inside = !inside;
+    }
+  }
+  return inside;
+}
+
+/**
+ * Is the XZ point on the floor of the room? Uses `rooms[0].floor_polygon`, the same polygon the
+ * floor mesh, the ceiling and the 2D plan are built from (inner wall faces).
+ * `margin` (metres, default 0) also requires the point to be at least that far from every edge,
+ * e.g. half a footprint, so a product centre is not accepted right against a wall.
+ */
+export function pointInRoom(graph: RoomGraph, point: Vec2, margin = 0): boolean {
+  const polygon = graph.rooms[0]?.floor_polygon;
+  if (!polygon || polygon.length < 3) return false;
+  if (!pointInFloorPolygon(point, polygon)) return false;
+  if (margin <= 0) return true;
+  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+    if (distanceToSegment(point, polygon[i]!, polygon[j]!) < margin) return false;
+  }
+  return true;
+}
 
 export interface CollisionHit {
   kind: 'furniture' | 'wall';

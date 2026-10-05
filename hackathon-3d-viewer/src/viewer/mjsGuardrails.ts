@@ -48,21 +48,46 @@ export function scanMjsSource(source: string): MjsScanResult {
   };
 }
 
-export function formatMjsGuardMessage(scan: MjsScanResult, fileName: string): string {
-  const lines = [
-    `Load trusted .mjs module “${fileName}”?`,
-    '',
-    'This executes JavaScript in the page (not a mesh file). Use only files you trust.',
+/**
+ * The .mjs confirmation, worded as in docs/ux-copy-deck.md §5 ("Load .mjs").
+ * `title` is the dialog title. `paragraphs` is the body in order: the fixed warning, then the scan
+ * line when the scan flagged something, then the not-a-pack line when the source does not look like one.
+ * The deck's button labels are "Load and run" and "Don't load"; those belong to the host's dialog.
+ */
+export function mjsGuardPrompt(scan: MjsScanResult, fileName: string): { title: string; paragraphs: string[] } {
+  const paragraphs = [
+    'An .mjs file is a program, not a model. It runs in this page and can do anything the page can. Only continue if you trust where it came from.',
   ];
-  if (!scan.looksLikeAssetModule) {
-    lines.push('', 'Warning: source does not look like a createAsset / three module.');
-  }
   if (scan.risks.length) {
-    lines.push('', `Static scan flagged: ${scan.risks.join(', ')}.`);
-    lines.push('These patterns are unusual for a furniture pack — proceed only if intentional.');
+    paragraphs.push(`A quick scan flagged: ${scan.risks.join(', ')}. These are unusual for a furniture pack.`);
   }
-  return lines.join('\n');
+  if (!scan.looksLikeAssetModule) {
+    paragraphs.push("This file doesn't look like a furniture pack.");
+  }
+  return { title: `Run code from “${fileName}”?`, paragraphs };
 }
+
+/**
+ * The confirmation as one string, as passed to `confirmFn` in `importModuleFile`:
+ * the first line is the dialog title, then a blank line, then the body paragraphs separated by blank lines.
+ * `parseMjsGuardMessage` splits it back.
+ */
+export function formatMjsGuardMessage(scan: MjsScanResult, fileName: string): string {
+  const { title, paragraphs } = mjsGuardPrompt(scan, fileName);
+  return [title, ...paragraphs].join('\n\n');
+}
+
+/** Split a `formatMjsGuardMessage` string into the dialog title (first line) and body paragraphs (the rest). */
+export function parseMjsGuardMessage(message: string): { title: string; paragraphs: string[] } {
+  const [title = '', ...rest] = message.split('\n');
+  return { title, paragraphs: rest.map((line) => line.trim()).filter((line) => line.length > 0) };
+}
+
+/**
+ * Deck §5: a native `window.confirm` cannot relabel its buttons, so when one is used the body ends with
+ * this sentence. `importModuleFile` appends it only on its `window.confirm` fallback.
+ */
+export const MJS_NATIVE_CONFIRM_HINT = 'Choose OK to load, or Cancel to stop.';
 
 /** localStorage flag: when '0', MJS loads are disabled until re-enabled. */
 export const MJS_ENABLED_KEY = 'catalog3d.mjsEnabled';

@@ -12,6 +12,7 @@ import {
   Mesh,
   MeshStandardMaterial,
   Path,
+  PlaneGeometry,
   Shape,
   ShapeGeometry,
   Vector2,
@@ -19,7 +20,8 @@ import {
   type Material,
 } from 'three';
 
-import type { OpeningEntity, RoomGraph, WallEntity } from './roomGraph';
+import { pointInFloorPolygon } from './roomCollision';
+import type { OpeningEntity, RoomGraph, Vec2, WallEntity } from './roomGraph';
 import { wallLength } from './roomGraph';
 
 /** Floor slab thickness (meters). */
@@ -56,21 +58,38 @@ function wallBasis(wall: WallEntity): { basis: Matrix4; dir: Vector3; inward: Ve
   return { basis, dir, inward, outward };
 }
 
+/** Default shell colours (used when the room has no library material for that surface). */
+export const DEFAULT_WALL_COLOR = '#d8d4cc';
+/**
+ * Darker and warmer than the walls and the stage backgrounds so the floor reads as the floor
+ * (UX-05). Was '#b9b0a2', which rendered within 1.01–1.28:1 of the walls. No target ratio is set
+ * in the project; the measured before/after values are in the fix report.
+ */
+export const DEFAULT_FLOOR_COLOR = '#766b5e';
+
+function defaultWallMaterial(): MeshStandardMaterial {
+  return new MeshStandardMaterial({
+    color: DEFAULT_WALL_COLOR,
+    roughness: 0.92,
+    metalness: 0,
+    side: DoubleSide,
+    name: 'room:wall',
+  });
+}
+
+function defaultFloorMaterial(): MeshStandardMaterial {
+  return new MeshStandardMaterial({
+    color: DEFAULT_FLOOR_COLOR,
+    roughness: 0.85,
+    metalness: 0,
+    name: 'room:floor',
+  });
+}
+
 function defaultMaterials(): RoomMeshMaterials {
   return {
-    wall: new MeshStandardMaterial({
-      color: '#d8d4cc',
-      roughness: 0.92,
-      metalness: 0,
-      side: DoubleSide,
-      name: 'room:wall',
-    }),
-    floor: new MeshStandardMaterial({
-      color: '#b9b0a2',
-      roughness: 0.85,
-      metalness: 0,
-      name: 'room:floor',
-    }),
+    wall: defaultWallMaterial(),
+    floor: defaultFloorMaterial(),
     ceiling: new MeshStandardMaterial({
       color: '#efefef',
       roughness: 0.95,
@@ -135,6 +154,31 @@ export function buildWallMesh(
   mesh.position.set(wall.a.x, 0, wall.a.z);
   mesh.quaternion.setFromRotationMatrix(basis);
 
+  return mesh;
+}
+
+/** Height of a cut wall's footprint above y=0 (its wall is hidden whenever it shows, so nothing is coplanar). */
+export const WALL_FOOTPRINT_LIFT_M = 0.001;
+
+/**
+ * Flat footprint of a wall (length × thickness, on the floor), in the wall's own material.
+ * The viewer shows it only while the cutaway hides that wall, so the strip of floor slab under the
+ * wall reads as "a wall stands here", not as floor. Hidden by default.
+ */
+export function buildWallFootprint(wall: WallEntity, material: MeshStandardMaterial): Mesh {
+  const length = wallLength(wall);
+  const geo = new PlaneGeometry(length, wall.thickness);
+  geo.rotateX(-Math.PI / 2);
+  // Same wall-local frame as buildWallMesh: x along a→b, solid in z ∈ [-thickness, 0].
+  geo.translate(length / 2, WALL_FOOTPRINT_LIFT_M, -wall.thickness / 2);
+  const mesh = new Mesh(geo, material);
+  mesh.name = `wall-footprint:${wall.id}`;
+  mesh.receiveShadow = true;
+  mesh.userData.kind = 'wall-footprint';
+  mesh.userData.wallId = wall.id;
+  mesh.position.set(wall.a.x, 0, wall.a.z);
+  mesh.quaternion.setFromRotationMatrix(wallBasis(wall).basis);
+  mesh.visible = false;
   return mesh;
 }
 
@@ -364,27 +408,76 @@ function buildCeilingMesh(graph: RoomGraph, material: MeshStandardMaterial): Mes
   return mesh;
 }
 
+/** Plane used by the viewer's wall cutaway: a point on the wall's room-side face and the XZ unit normal pointing away from the room. */
+export interface WallCutawayPlane {
+  px: number;
+  pz: number;
+  nx: number;
+  nz: number;
+}
+
+/**
+ * Which way is "away from the room" for this wall? Probes both sides of the wall's midpoint against
+ * the floor polygon, so it does not depend on the a→b direction (imported walls have no fixed winding).
+ * Returns null for a wall with room on both sides (a partition): such a wall is never cut away.
+ * Falls back to the extrusion side when there is no usable polygon or the wall lies outside it.
+ */
+export function wallCutawayPlane(wall: WallEntity, floorPolygon: readonly Vec2[] | undefined): WallCutawayPlane | null {
+  const dx = wall.b.x - wall.a.x;
+  const dz = wall.b.z - wall.a.z;
+  const len = Math.hypot(dx, dz);
+  if (len < 1e-9) return null;
+  // Same side buildWallMesh extrudes to: right of a→b seen from +Y.
+  const ex = dz / len;
+  const ez = -dx / len;
+  const plane = (nx: number, nz: number): WallCutawayPlane => ({ px: wall.a.x, pz: wall.a.z, nx, nz });
+  if (!floorPolygon || floorPolygon.length < 3) return plane(ex, ez);
+  const mx = (wall.a.x + wall.b.x) / 2;
+  const mz = (wall.a.z + wall.b.z) / 2;
+  const probe = Math.min(0.05, len / 4);
+  const roomOnExtrusionSide = pointInFloorPolygon({ x: mx + ex * probe, z: mz + ez * probe }, floorPolygon, 0);
+  const roomOnOtherSide = pointInFloorPolygon({ x: mx - ex * probe, z: mz - ez * probe }, floorPolygon, 0);
+  if (roomOnExtrusionSide && roomOnOtherSide) return null;
+  if (roomOnExtrusionSide) return plane(-ex, -ez);
+  return plane(ex, ez);
+}
+
 export interface BuiltRoomScene {
   root: Group;
   wallMeshes: Map<string, Mesh>;
+  /** Per wall id: the flat footprint shown while the cutaway hides that wall. */
+  wallFootprints: Map<string, Mesh>;
   floor: Mesh | null;
   ceiling: Mesh | null;
   materials: RoomMeshMaterials;
   dispose: () => void;
 }
 
-/** Rebuild an entire room shell Group from the graph. */
-export function buildRoomScene(graph: RoomGraph, mats?: RoomMeshMaterials): BuiltRoomScene {
-  const materials = mats ?? defaultMaterials();
+/**
+ * Rebuild an entire room shell Group from the graph.
+ * `mats` omitted: default wall, floor and (hidden) ceiling materials. `mats` given: a missing `wall`
+ * or `floor` falls back to its default, so a host can override one surface and keep the other;
+ * a missing `ceiling` means no ceiling mesh, as before.
+ */
+export function buildRoomScene(graph: RoomGraph, mats?: Partial<RoomMeshMaterials>): BuiltRoomScene {
+  const materials: RoomMeshMaterials = mats
+    ? { wall: mats.wall ?? defaultWallMaterial(), floor: mats.floor ?? defaultFloorMaterial(), ceiling: mats.ceiling }
+    : defaultMaterials();
   const root = new Group();
   root.name = 'room-shell';
   const wallMeshes = new Map<string, Mesh>();
+  const wallFootprints = new Map<string, Mesh>();
 
+  const floorPolygon = graph.rooms[0]?.floor_polygon;
   for (const wall of graph.walls) {
     const wallOpenings = openingsForWall(graph, wall.id);
     const mesh = buildWallMesh(wall, wallOpenings, materials.wall);
+    mesh.userData.cutaway = wallCutawayPlane(wall, floorPolygon);
     wallMeshes.set(wall.id, mesh);
     root.add(mesh);
+    const footprint = buildWallFootprint(wall, materials.wall);
+    wallFootprints.set(wall.id, footprint);
+    root.add(footprint);
     for (const op of wallOpenings) {
       root.add(buildOpeningPlaceholder(wall, op));
     }
@@ -399,6 +492,7 @@ export function buildRoomScene(graph: RoomGraph, mats?: RoomMeshMaterials): Buil
   return {
     root,
     wallMeshes,
+    wallFootprints,
     floor,
     ceiling,
     materials,

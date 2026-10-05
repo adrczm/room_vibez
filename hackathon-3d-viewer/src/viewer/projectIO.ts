@@ -96,10 +96,60 @@ export async function idbGet<T>(key: string): Promise<T | undefined> {
   return value;
 }
 
-export async function persistProjectToIdb(project: ProjectExport): Promise<void> {
-  await idbSet('project', project);
-  await idbSet('room_graph', project.room_graph);
-  await idbSet('updated_at', project.exported_at);
+/** Keys `persistProjectToIdb` writes. `loadProjectFromIdb` reads only `project`. */
+const PROJECT_IDB_KEYS = ['project', 'room_graph', 'updated_at'] as const;
+
+/**
+ * Writes and clears of the project copy run one after another in call order, so a clear that
+ * follows an export in the same tab always lands after it (the export write is not awaited by the host).
+ */
+let projectIdbQueue: Promise<unknown> = Promise.resolve();
+function enqueueProjectIdb<T>(task: () => Promise<T>): Promise<T> {
+  const run = projectIdbQueue.then(task);
+  projectIdbQueue = run.catch(() => undefined);
+  return run;
+}
+
+export function persistProjectToIdb(project: ProjectExport): Promise<void> {
+  return enqueueProjectIdb(async () => {
+    await idbSet('project', project);
+    await idbSet('room_graph', project.room_graph);
+    await idbSet('updated_at', project.exported_at);
+  });
+}
+
+/**
+ * Delete the project copy that Export project leaves in IndexedDB.
+ *
+ * Why: boot falls back to that copy when browser storage holds no room. Without this, a room the
+ * user cleared comes back on the next reload as it was at the last export, and the templates saved
+ * at that export overwrite the current template list.
+ *
+ * Call it whenever the user deliberately ends up with no room (Clear room; opening a project file
+ * that has no room). Resolves true when the copy is gone, false when IndexedDB is unavailable or the
+ * delete failed. Never rejects.
+ */
+export function clearProjectFromIdb(): Promise<boolean> {
+  return enqueueProjectIdb(async () => {
+    try {
+      const db = await openDb();
+      try {
+        await new Promise<void>((resolve, reject) => {
+          const tx = db.transaction(IDB_STORE, 'readwrite');
+          const store = tx.objectStore(IDB_STORE);
+          for (const key of PROJECT_IDB_KEYS) store.delete(key);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error ?? new Error('idb delete failed'));
+          tx.onabort = () => reject(tx.error ?? new Error('idb delete aborted'));
+        });
+      } finally {
+        db.close();
+      }
+      return true;
+    } catch {
+      return false;
+    }
+  });
 }
 
 export async function loadProjectFromIdb(): Promise<ProjectExport | null> {

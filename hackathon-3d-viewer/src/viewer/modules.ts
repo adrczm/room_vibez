@@ -128,8 +128,12 @@ export async function importModuleFile(
     sourceText?: string;
     /** When false, skip confirm (tests). Default true in browser. */
     confirm?: boolean;
-    /** Injected confirm; defaults to window.confirm. */
-    confirmFn?: (message: string) => boolean;
+    /**
+     * Injected confirm; may be async (a dialog). Receives `formatMjsGuardMessage(...)`: first line is the
+     * dialog title, the rest is the body (`parseMjsGuardMessage` splits it). Resolve true to load.
+     * Defaults to window.confirm, with the deck's "Choose OK to load, or Cancel to stop." appended.
+     */
+    confirmFn?: (message: string) => boolean | Promise<boolean>;
     /** Injected scan (tests). */
     scan?: (source: string) => { ok: boolean; risks: string[]; looksLikeAssetModule: boolean };
     enabled?: boolean;
@@ -143,7 +147,9 @@ export async function importModuleFile(
   if (!isModuleFile(file) && !/\.mjs$/i.test(file.name)) {
     throw new Error('Select a .mjs ES module file');
   }
-  const { isMjsLoadingEnabled, scanMjsSource, formatMjsGuardMessage } = await import('./mjsGuardrails');
+  const { isMjsLoadingEnabled, scanMjsSource, formatMjsGuardMessage, MJS_NATIVE_CONFIRM_HINT } = await import(
+    './mjsGuardrails'
+  );
   if (opts?.enabled === false || (opts?.enabled === undefined && !isMjsLoadingEnabled())) {
     throw new Error('MJS loading is disabled (Catalog 3D → enable trusted .mjs loads)');
   }
@@ -151,10 +157,13 @@ export async function importModuleFile(
   const scan = (opts?.scan ?? scanMjsSource)(raw);
   const needsConfirm = opts?.confirm !== false && typeof window !== 'undefined';
   if (needsConfirm) {
-    const ok = (opts?.confirmFn ?? ((msg: string) => window.confirm(msg)))(
-      formatMjsGuardMessage(scan, file.name),
-    );
-    if (!ok) throw new Error('MJS load cancelled by user');
+    const message = formatMjsGuardMessage(scan, file.name);
+    // Awaited: a dialog-backed confirmFn returns a Promise, and an un-awaited Promise is always truthy.
+    // Only an explicit `true` loads the file.
+    const ok = opts?.confirmFn
+      ? await opts.confirmFn(message)
+      : window.confirm(`${message}\n\n${MJS_NATIVE_CONFIRM_HINT}`);
+    if (ok !== true) throw new Error('MJS load cancelled by user');
   }
   const rewritten = /from\s+['"]three['"]|from\s+['"]three\/addons\//.test(raw);
   const source = rewritten ? rewriteThreeBareImports(raw, urls) : raw;

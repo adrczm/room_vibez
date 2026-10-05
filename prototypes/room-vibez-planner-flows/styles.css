@@ -9,7 +9,7 @@
   --panel-2: #eef1ec;
   --accent: #2f6b4f;
   --accent-2: #1e4d38;
-  --warn: #8a6a1f;
+  --warn: #7a5d1a; /* was #8a6a1f: 4.39:1 on the badge background, under the 4.5:1 that small text needs */
   --danger: #8b3a2f;
   --unknown: #9aa39a;
   --chip: #dfe6df;
@@ -46,6 +46,13 @@ button.primary {
 }
 button.primary:hover { background: var(--accent-2); }
 button.ghost { background: transparent; }
+/* Destructive confirm: critical, and deliberately not the primary green */
+button.danger {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: #fff;
+}
+button.danger:hover { filter: brightness(0.9); }
 button:disabled, .is-disabled {
   opacity: 0.45;
   cursor: not-allowed;
@@ -60,6 +67,7 @@ button.unknown, .unknown-card {
 .app-shell { min-height: 100%; display: flex; flex-direction: column; }
 .topbar {
   display: flex; align-items: center; gap: 1rem;
+  flex-wrap: wrap; row-gap: 0.4rem; /* narrow screens: wrap to a second row instead of pushing the page wider */
   padding: 0.75rem 1.1rem;
   background: rgba(244,246,242,0.92);
   border-bottom: 1px solid var(--line);
@@ -88,6 +96,11 @@ button.unknown, .unknown-card {
   border-radius: 999px;
   padding: 0.25rem 0.7rem;
   color: var(--muted);
+}
+.help-btn {
+  flex: none; width: 32px; height: 32px; padding: 0;
+  border-radius: 50%; font-weight: 600; line-height: 1;
+  margin-left: auto; /* stays at the right end when the top bar wraps */
 }
 .main { flex: 1; display: flex; min-height: 0; }
 
@@ -129,6 +142,7 @@ button.unknown, .unknown-card {
 .role-card.selected { outline: 2px solid var(--accent); background: #e7f2eb; }
 .field { display: grid; gap: 0.35rem; margin-bottom: 0.9rem; }
 .field label { font-size: 0.85rem; color: var(--muted); }
+.field .muted { margin: 0; font-size: 0.85rem; } /* helper line under a field: same size as its label */
 .field input, .field select {
   padding: 0.65rem 0.75rem;
   border-radius: 8px;
@@ -243,13 +257,40 @@ button.unknown, .unknown-card {
   to { transform: rotateX(54deg) rotateZ(-12deg) translateY(-8px); }
 }
 
+/* Fixed to the window so a message shows on whichever screen fired it, and can use the full width for longer sentences. */
 .toast {
-  position: absolute; left: 50%; bottom: 1rem; transform: translateX(-50%);
+  position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 30;
+  width: fit-content; max-width: min(36rem, calc(100% - 2rem)); margin: 0 auto;
   background: var(--ink); color: #f4f6f2; padding: 0.55rem 0.9rem;
-  border-radius: 999px; font-size: 0.85rem; opacity: 0; pointer-events: none;
+  border-radius: 18px; font-size: 0.85rem; text-align: center;
+  opacity: 0; pointer-events: none;
   transition: opacity 200ms ease;
 }
 .toast.show { opacity: 1; }
+
+/* Dialogs: the ? pop-up and the Start over confirmation */
+.dialog {
+  width: min(34rem, calc(100% - 2rem)); max-height: calc(100% - 2rem);
+  padding: 0; overflow: auto;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--panel); color: var(--ink); box-shadow: var(--shadow);
+}
+.dialog::backdrop { background: rgba(26, 34, 28, 0.45); }
+.dialog-body { padding: 1rem 1.1rem 1.1rem; }
+.dialog h2 {
+  font-family: var(--display); font-size: 1.15rem; letter-spacing: -0.02em;
+  margin: 0 0 0.6rem;
+}
+.dialog p { margin: 0 0 0.75rem; line-height: 1.5; }
+.dialog ul { margin: 0 0 0.75rem; padding-left: 1.1rem; line-height: 1.5; }
+.dialog li + li { margin-top: 0.4rem; }
+.dialog-head { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.6rem; }
+.dialog-head h2 { margin: 0; }
+.dialog-actions { justify-content: flex-end; margin-top: 1rem; }
+.help-tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.9rem; }
+.help-tabs [role="tab"] { font-size: 0.85rem; padding: 0.4rem 0.7rem; background: var(--panel-2); }
+.help-tabs [role="tab"][aria-selected="true"] { background: var(--accent); border-color: var(--accent-2); color: #fff; }
+.help-panel { min-height: 9.5rem; }
 
 .panel-card {
   background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
@@ -296,6 +337,7 @@ button.unknown, .unknown-card {
   position: absolute; top: 0.75rem; left: 0.75rem;
   background: rgba(244,246,242,0.95); border: 1px solid var(--line);
   border-radius: 8px; padding: 0.45rem 0.65rem; font-size: 0.8rem;
+  max-width: calc(100% - 1.5rem); /* keep the same margin on the right when the line wraps on a narrow stage */
 }
 
 .sr-only {

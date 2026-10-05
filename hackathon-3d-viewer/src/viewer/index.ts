@@ -1,7 +1,16 @@
-export { RoomVibezViewer, StaleLoadError, type ViewerOptions, type ViewerStatus } from './RoomVibezViewer';
+export { RoomVibezViewer, StaleLoadError, loadProductRoot, type ViewerOptions, type ViewerStatus } from './RoomVibezViewer';
 export { LIGHT_PRESETS, findPreset, type LightPreset } from './presets';
 export { buildPartsList, findMaterial, materialsForSlot, validateProduct } from './library';
-export { discoverSlots, resolveSlotId, bindUntaggedToFallback, ensureMeshNormals, meshesMissingUv } from './slots';
+export {
+  discoverSlots,
+  resolveSlotId,
+  bindUntaggedToFallback,
+  ensureMeshNormals,
+  meshesMissingUv,
+  resolveBindings,
+  type BindingRejectReason,
+  type ResolvedBindings,
+} from './slots';
 export {
   UPLOAD_SLOT_CATEGORIES,
   attachTextureToMaterial,
@@ -125,13 +134,15 @@ export {
   saveGraphAsTemplate,
   type RoomTemplate,
 } from './roomTemplates';
-export { buildRoomScene, buildWallMesh, buildOpeningPlaceholder, meshStandardFromLibrary, floorPolygonBounds, outerFloorPolygon, wallCenterlinePolygon, FLOOR_SLAB_DEPTH_M, FLOOR_TOP_EPS_M, WALL_FOOT_EPS_M, type BuiltRoomScene, type RoomMeshMaterials } from './roomMesh';
+export { buildRoomScene, buildWallMesh, buildWallFootprint, buildOpeningPlaceholder, meshStandardFromLibrary, floorPolygonBounds, outerFloorPolygon, wallCenterlinePolygon, wallCutawayPlane, DEFAULT_FLOOR_COLOR, DEFAULT_WALL_COLOR, FLOOR_SLAB_DEPTH_M, FLOOR_TOP_EPS_M, WALL_FOOT_EPS_M, type BuiltRoomScene, type RoomMeshMaterials, type WallCutawayPlane } from './roomMesh';
 export { RoomHistory } from './roomHistory';
 export {
   checkPlacementCollision,
   footprintFromObject,
   footprintFromPlacement,
   formatCollisionWarn,
+  pointInFloorPolygon,
+  pointInRoom,
   wallFootprint,
   type CollisionReport,
 } from './roomCollision';
@@ -169,5 +180,41 @@ export {
   startUnderlayJob,
   type UnderlayJob,
 } from './planUnderlay';
+export {
+  createThumbnailRenderer,
+  type ThumbnailRenderer,
+  type ThumbnailRendererOptions,
+  type ThumbnailStats,
+} from './thumbnails';
+export {
+  QUARANTINE_STORAGE_KEY,
+  ROOM_SIZE_ERROR_MESSAGE,
+  RoomSizeError,
+  discardQuarantinedRoomGraph,
+  invalidRoomSizeFields,
+  loadPersistedRoomGraphOrQuarantine,
+  quarantinePersistedRoomGraph,
+  readQuarantinedRoomGraph,
+  roomGraphProblem,
+  type PersistedRoomLoad,
+  type QuarantineOutcome,
+  type QuarantineReason,
+  type QuarantinedRoomGraph,
+  type RoomSizeField,
+  type StorageLike,
+} from './roomGraph';
+export {
+  IMPORT_NOT_A_ROOM_MESSAGE,
+  PLAN_SNIFF_BYTES,
+  PlanFileError,
+  checkPlanFile,
+  looksLikeDwg,
+  looksLikeDxf,
+  type PlanFileCheck,
+  type PlanFileKind,
+  type PlanFileRejection,
+} from './dwgImport';
+export { clearProjectFromIdb } from './projectIO';
+export { MJS_NATIVE_CONFIRM_HINT, mjsGuardPrompt, parseMjsGuardMessage } from './mjsGuardrails';
 export type { InteractionMode, RoomPointerHit } from './RoomVibezViewer';
 export type * from './types';
