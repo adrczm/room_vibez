@@ -797,6 +797,12 @@ export const copy = {
       selectedHint: 'Arrow keys to move · R to rotate · Delete to remove',
       /** written. UX-09 item 3: the soft warning after a move. "{what}" as in `roomMessages.placedOverlap`. */
       movedOverlap: '“{name}” overlaps {what}. You can leave it, or move it again.',
+      /**
+       * written (host wave 4). UX-09 item 3 with QA-02 / D-QA1: an arrow-key move that would take a
+       * product's floor point outside the room is refused, as a Place click there is. "{name}" is the
+       * row name. Modelled on `outsideRoom` ("…is outside the room, so nothing was placed.").
+       */
+      movedOutsideRoom: 'That would put “{name}” outside the room, so it stayed where it is.',
     },
 
     // ----- Accessibility (UX-13) --------------------------------------------------------------
@@ -829,6 +835,11 @@ export const copy = {
     // ----- Finishes in the room (UX-16 step 3) ------------------------------------------------
     /** given. UX-16 step 3: state line under the Materials card in the "Place products" step. */
     appliesToNextProduct: 'Applies to the next product you place.',
+    /**
+     * written (host wave 4). UX-16 step 4 ("16b"): the same state line while a placed product is
+     * selected; the swatches then change that product. "{name}" is its row name ("Lounge chair 2").
+     */
+    appliesToSelectedProduct: 'Applies to “{name}”.',
 
     // ----- Placement guard (QA-02, D-QA1) -----------------------------------------------------
     /** written. QA-02: a Place click outside the floor polygon is rejected with this message. */

@@ -416,10 +416,12 @@ test('one product picker: it is in the Product card in Product and in the Place 
   await expect(page.locator('#product-select')).toHaveCount(1);
   await expect(page.locator('#step-place-body #product-picker-slot #product-select')).toBeVisible();
   await expect(page.locator('#catalog-card #product-select')).toHaveCount(0);
-  // No other Product-card control shows in Room (UX-08 done-when).
-  for (const id of ['product-meta', 'slots', 'model-files', 'product-advanced', 'parts-list']) {
+  // No other Product-card control shows in Room (UX-08 done-when). The Materials card is the one
+  // exception since UX-16 step 3 (DT6): it travels with the picker, to right under it.
+  for (const id of ['product-meta', 'model-files', 'product-advanced', 'parts-list']) {
     await expect(page.locator(`#${id}`)).toBeHidden();
   }
+  await expect(page.locator('#step-place-body #materials-card #slots')).toBeVisible();
 
   // A choice made in the room is the product on the turntable back in Product.
   await page.selectOption('#product-select', 'demo-side-table');

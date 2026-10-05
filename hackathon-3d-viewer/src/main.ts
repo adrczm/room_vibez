@@ -63,6 +63,7 @@ import {
   removeOpening,
   removePlacement,
   resolveModuleAsset,
+  resolveBindings,
   resolveModulePackMeta,
   resolvePackColors,
   saveGraphAsTemplate,
@@ -76,6 +77,7 @@ import {
   startImportJob,
   startUnderlayJob,
   toMeters,
+  updatePlacement,
   validateProduct,
   type Catalog,
   type DisplayUnit,
@@ -88,19 +90,29 @@ import {
   type OpeningType,
   type PackStatus,
   type PartsList,
+  type PlacementEntity,
   type Product,
   type RoomGraph,
   type RoomMeshMaterials,
   type RoomPointerHit,
+  type SlotDefinition,
   type SlotReport,
   type TextureMapRole,
   type UnderlayJob,
   type ViewerStatus,
 } from './viewer';
 import { copy, fmt, plural } from './copy';
-import { friendlyError, placedMessage, type FriendlyMessage } from './errors';
+import { friendlyError, movedOverlapMessage, placedMessage, type FriendlyMessage } from './errors';
+import {
+  finishForPlacing,
+  isNudgeKey,
+  nudgedPosition,
+  placementRows,
+  quarterTurn,
+  type PlacementRow,
+} from './placedProducts';
 import { confirmDialog } from './ui/confirmDialog';
-import { dismissNotification, mountNotifier, notify } from './ui/notify';
+import { dismissNotification, mountNotifier, notify as showToast, type NotifyOptions } from './ui/notify';
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 
@@ -169,6 +181,15 @@ const btnExportProject = $<HTMLButtonElement>('btn-export-project');
 const btnAddToRoom = $<HTMLButtonElement>('btn-add-to-room');
 const btnStepRoomChange = $<HTMLButtonElement>('btn-step-room-change');
 const roomSizeAdjust = $<HTMLDetailsElement>('room-size-adjust');
+/**
+ * The Materials card (`#slots`, `#slot-warnings`). One element for both workspaces (UX-16 step 3):
+ * `setWorkspace` puts it after the Product card, or in the "Place products" step.
+ */
+const materialsCard = $('materials-card');
+const catalogCard = $('catalog-card');
+const materialsHomeRoom = $('materials-home-room');
+/** In Room, what a swatch click applies to: the next product placed, or the selected one. */
+const materialsState = $('materials-state');
 
 const roomHistory = new RoomHistory();
 
@@ -196,6 +217,42 @@ const ROOM_STEPS: readonly RoomStep[] = ['room', 'openings', 'place', 'finish'];
 let roomStep: RoomStep = 'room';
 /** Whether the user left "Adjust size" open while a size preset is selected (UX-08 item 4). */
 let sizeAdjustOpen = false;
+
+/**
+ * The placed product the user selected (UX-09 item 2), or null. Set by a click on the product in
+ * the room (no tool on) or on its row; only ever non-null in the Room workspace, with no tool on,
+ * and for a placement that is in the room graph. `selectPlacement` is the one place that sets it.
+ */
+let selectedPlacementId: string | null = null;
+/** The row of the Products list under the pointer. Its product is outlined while it is hovered. */
+let hoveredPlacementId: string | null = null;
+/** The placement the host last asked the engine to outline, so the engine is told only of changes. */
+let outlinedPlacementId: string | null = null;
+/** Text of the last toast a move showed (overlap, or refused at the room's edge), to clear it when the next move is fine. */
+let lastMoveNotice: string | null = null;
+/** Text of the last toast shown at all. Every toast of the app goes through `notify` below. */
+let lastToast: string | null = null;
+
+/** Show a toast on the stage (UX-04), and remember what it said. */
+function notify(message: string, options?: NotifyOptions) {
+  lastToast = message;
+  showToast(message, options);
+}
+/** Placements whose product is not in the catalog and for which the toast has been shown (once per page load). */
+const announcedMissing = new Set<string>();
+/** Swatch clicks the turntable has not finished applying. A product placed now waits for them (never rejects). */
+let slotApplyPending: Promise<void> = Promise.resolve();
+/**
+ * The same clicks, slot id → material id, until the turntable has taken each one (its textures
+ * load first). The Materials card shows these at once, also when it is drawn again meanwhile.
+ */
+const pendingSlotChoices = new Map<string, string>();
+/** Finish changes of placed products are applied to their models one after another, in click order. */
+let finishQueue: Promise<void> = Promise.resolve();
+/** Counts `reloadAllPlacements` runs: a run that is no longer the latest stops. */
+let reloadRun = 0;
+/** What the Materials card showed when it was last rendered (`materialsSignature`). */
+let renderedMaterials = '';
 
 /** Active pack session (product id → meta + live params). */
 interface PackSession {
@@ -535,6 +592,8 @@ function syncSizeFields() {
 function renderRoomUi() {
   roomGraphJson.textContent = roomGraph ? JSON.stringify(roomGraph, null, 2) : 'null';
   const has = !!roomGraph;
+  // The selected product can have gone with the change being shown (delete, undo, clear, replace).
+  if (selectedPlacementId && !roomGraph?.placements.some((p) => p.id === selectedPlacementId)) selectPlacement(null);
   // #room-tools holds the steps and is always shown. What needs a room is hidden or disabled here.
   roomPlan.hidden = !has;
   $('room-plan-actions').hidden = !has;
@@ -576,6 +635,8 @@ function renderRoomUi() {
   renderPlanSvg();
   renderOpeningList();
   renderPlacementList();
+  // The selected product's finish can have changed (a swatch, undo, redo): show the room's truth.
+  syncMaterialsCard();
 }
 
 function renderImportReview() {
@@ -953,24 +1014,317 @@ function renderOpeningList() {
   }
 }
 
+// ------------------------------------------------------------------ placed products (UX-09)
+
+/** The rows of the Products list for the room as it is now: each product named and numbered (UX-09 item 2). */
+function placementRowsNow(): PlacementRow[] {
+  return roomGraph ? placementRows(roomGraph.placements, catalog.products) : [];
+}
+
+/** What the list, and every message, calls a placed product: "Lounge chair (demo) 2". */
+function placementLabel(placementId: string): string | undefined {
+  return placementRowsNow().find((r) => r.id === placementId)?.label;
+}
+
+/**
+ * Re-render a part of the panel without dropping keyboard focus. Rows and swatches are rebuilt on
+ * every room change; the control that had focus is found again by the selector `keyOf` gives for it.
+ */
+function keepingFocus(container: HTMLElement, keyOf: (el: Element) => string | null, render: () => void) {
+  const active = document.activeElement;
+  const key = active && container.contains(active) ? keyOf(active) : null;
+  render();
+  if (key) container.querySelector<HTMLElement>(key)?.focus({ preventScroll: true });
+}
+
+/** Selector of a button of the Products list, from the button as it is now. */
+function placementControlKey(el: Element): string | null {
+  const id = el.closest<HTMLElement>('li[data-placement-id]')?.dataset.placementId;
+  const action = el.closest<HTMLElement>('button[data-action]')?.dataset.action;
+  return id && action ? `li[data-placement-id="${CSS.escape(id)}"] button[data-action="${action}"]` : null;
+}
+
+function placementListButton(action: string, label: string): HTMLButtonElement {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.dataset.action = action;
+  b.textContent = label;
+  return b;
+}
+
+/**
+ * The Products list (UX-09 item 2). One row per placed product: its numbered name, which selects
+ * it, and Delete. The selected row carries `aria-current` and also holds the two Rotate buttons.
+ * A placement whose product is not in the catalog (a model uploaded before a refresh) is not in
+ * the room; its row says so (Copy §6 C) and can only be deleted.
+ * The rows hold no listeners: `initPlacedProductsUi` listens on the list.
+ */
 function renderPlacementList() {
-  placementList.innerHTML = '';
-  if (!roomGraph) return;
-  for (const pl of roomGraph.placements) {
-    const product = catalog.products.find((p) => p.id === pl.product_id);
-    const li = document.createElement('li');
-    li.innerHTML = `<span>${product?.name ?? pl.sku_id}</span>`;
-    const del = document.createElement('button');
-    del.type = 'button';
-    del.textContent = 'Delete';
-    del.addEventListener('click', () => {
-      if (!roomGraph) return;
-      viewer?.detachPlacement(pl.id);
-      applyRoomGraph(removePlacement(roomGraph, pl.id), { frame: false, reloadPlacements: false });
-    });
-    li.appendChild(del);
-    placementList.appendChild(li);
+  const labels = copy.notInDeck.placedProducts;
+  keepingFocus(placementList, placementControlKey, () => {
+    placementList.innerHTML = '';
+    for (const row of placementRowsNow()) {
+      const li = document.createElement('li');
+      li.dataset.placementId = row.id;
+      if (!row.inCatalog) {
+        li.className = 'placement-missing';
+        const text = document.createElement('span');
+        text.textContent = fmt(copy.notInDeck.uploadNotRestored, { name: row.name });
+        li.append(text, placementListButton('delete', copy.common.delete));
+      } else {
+        li.className = 'placement-row';
+        const name = placementListButton('select', row.label);
+        name.className = 'placement-name';
+        li.append(name, placementListButton('delete', copy.common.delete));
+        if (row.id === selectedPlacementId) {
+          li.setAttribute('aria-current', 'true');
+          const actions = document.createElement('span');
+          actions.className = 'placement-actions';
+          actions.append(
+            placementListButton('rotate-left', labels.rotateLeft),
+            placementListButton('rotate-right', labels.rotateRight),
+          );
+          li.appendChild(actions);
+        }
+      }
+      placementList.appendChild(li);
+    }
+  });
+  // A hovered row can have gone with its placement.
+  if (hoveredPlacementId && !roomGraph?.placements.some((p) => p.id === hoveredPlacementId)) {
+    hoveredPlacementId = null;
+    syncPlacementOutline();
   }
+}
+
+/**
+ * The engine outlines one placed product: the one whose row is hovered, else the selected one.
+ * It is told only when that changes (the outline survives a reload of the placements by itself).
+ */
+function syncPlacementOutline() {
+  const want = hoveredPlacementId ?? selectedPlacementId;
+  if (want === outlinedPlacementId) return;
+  outlinedPlacementId = want;
+  viewer?.setPlacementHighlight(want);
+}
+
+/**
+ * Select a placed product, or none (UX-09 item 2). The one place that changes the selection.
+ * Everything that shows it follows from here: the outline in the room, the row's `aria-current`
+ * and Rotate buttons, the Materials card (UX-16 step 4: the selected product's own finish) and
+ * the stage hint with the keys.
+ * A placement that is not in the room (unknown id, or its product is not in the catalog) cannot
+ * be selected; asking for it clears the selection.
+ */
+function selectPlacement(id: string | null, anchor: () => HTMLElement | null = focusedBelowMaterials) {
+  const row = id && workspace === 'room' ? placementRowsNow().find((r) => r.id === id) : undefined;
+  const next = row?.inCatalog ? row.id : null;
+  if (next === selectedPlacementId) return;
+  selectedPlacementId = next;
+  // The Materials card now shows another product, which can have more or fewer slots: the card
+  // changes height, and everything under it in the step would move. `anchor` is what the user
+  // is acting on down there; it stays where it is.
+  keepingInPlace(anchor, () => {
+    syncPlacementOutline();
+    renderPlacementList();
+    syncMaterialsCard();
+  });
+  syncStageState();
+}
+
+/**
+ * Run a change that redraws part of the panel, and keep one element where it is on screen by
+ * scrolling by however far it moved. `anchor` is asked before and after the change, because rows
+ * of the Products list are new elements afterwards. Without this, a click on a row could move
+ * the list from under the pointer and leave "Add to room" there instead.
+ */
+function keepingInPlace(anchor: () => HTMLElement | null, change: () => void) {
+  const before = anchor()?.getBoundingClientRect().top;
+  change();
+  const after = anchor()?.getBoundingClientRect().top;
+  if (before === undefined || after === undefined || Math.abs(after - before) < 1) return;
+  // The panel scrolls on a wide screen; on a narrow one the page does.
+  const scroller = getComputedStyle(panel).overflowY === 'visible' ? window : panel;
+  scroller.scrollBy({ top: after - before, behavior: 'instant' });
+}
+
+/**
+ * The control with keyboard focus, when it is in the "Place products" step under the Materials
+ * card: a row of the list, "Add to room", "Place product". That is what the user is acting on
+ * when the selection changes without a pointer (Esc, Delete) or from one of those buttons.
+ */
+function focusedBelowMaterials(): HTMLElement | null {
+  const el = document.activeElement;
+  if (!(el instanceof HTMLElement) || !materialsHomeRoom.parentElement?.contains(el)) return null;
+  return materialsCard.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING && !materialsCard.contains(el) ? el : null;
+}
+
+/**
+ * Delete a placed product. One history step, so Undo brings it back.
+ * If keyboard focus was on its row, it goes to the row after it, the one before it, or "Add to room".
+ */
+function deletePlacement(placementId: string) {
+  if (!roomGraph?.placements.some((p) => p.id === placementId)) return;
+  const li = placementList.querySelector<HTMLElement>(`li[data-placement-id="${CSS.escape(placementId)}"]`);
+  const hadFocus = !!li && li.contains(document.activeElement);
+  const neighbourId = ((li?.nextElementSibling ?? li?.previousElementSibling) as HTMLElement | null)?.dataset.placementId;
+  viewer?.detachPlacement(placementId);
+  // renderRoomUi (through applyRoomGraph) lets go of the selection if this was the selected one.
+  applyRoomGraph(removePlacement(roomGraph, placementId), { frame: false, reloadPlacements: false });
+  if (!hadFocus) return;
+  const next = neighbourId
+    ? placementList.querySelector<HTMLElement>(`li[data-placement-id="${CSS.escape(neighbourId)}"] button`)
+    : btnAddToRoom;
+  next?.focus({ preventScroll: true });
+}
+
+/**
+ * A toast said by a move is out of date once the next move is fine: close it, unless another
+ * toast has been shown since. (Closing a toast that has already gone does nothing.)
+ */
+function clearMoveNotice() {
+  if (lastMoveNotice && lastToast === lastMoveNotice) dismissNotification();
+  lastMoveNotice = null;
+}
+
+function notifyMove(text: string) {
+  lastMoveNotice = text;
+  notify(text, { kind: 'warning' });
+}
+
+/**
+ * Move and/or turn the selected product (UX-09 item 3). The model in the room is moved in place
+ * (`setPlacementPose`, never `attachPlacement`), then the room graph is updated as one history
+ * step, so Undo reverses exactly this move.
+ *
+ * A move never takes a product out of the room: when the new floor point is outside the floor
+ * polygon (`pointInRoom`, the test a Place click has to pass: QA-02, D-QA1) the product stays
+ * where it is and a toast says so. A product that is already outside (a room saved by an older
+ * build) may be moved freely, so it can be brought back in.
+ * Overlapping a wall or another product is allowed, as when placing; the soft warning follows.
+ */
+function moveSelectedPlacement(change: { position?: { x: number; z: number }; rotationY?: number }) {
+  if (!roomGraph || !viewer || !selectedPlacementId) return;
+  const id = selectedPlacementId;
+  const pl = roomGraph.placements.find((p) => p.id === id);
+  if (!pl) return;
+  const label = placementLabel(id) ?? pl.sku_id;
+  const position = change.position ?? { x: pl.position.x, z: pl.position.z };
+  const rotationY = change.rotationY ?? pl.rotation_y;
+  if (change.position && !pointInRoom(roomGraph, position) && pointInRoom(roomGraph, pl.position)) {
+    notifyMove(fmt(copy.notInDeck.placedProducts.movedOutsideRoom, { name: label }));
+    return;
+  }
+  // False while the product's model is still loading: it is then attached at the pose in the graph.
+  viewer.setPlacementPose(id, position, rotationY);
+  applyRoomGraph(
+    updatePlacement(roomGraph, id, { position: { x: position.x, y: 0, z: position.z }, rotation_y: rotationY }),
+    { frame: false, reloadPlacements: false },
+  );
+  // The same check, with the same boxes, as the warning after placing.
+  const footprint = viewer.getPlacementFootprint(id);
+  const report = footprint && roomGraph ? checkPlacementCollision(roomGraph, footprint, { ignorePlacementId: id }) : null;
+  const warning = report ? movedOverlapMessage(label, report, (o) => placementLabel(o.id) ?? o.label) : null;
+  if (warning) notifyMove(warning);
+  else clearMoveNotice();
+}
+
+/** One arrow-key step: 5 cm, or 25 cm with Shift, along the room's axes (`nudgedPosition`). */
+function nudgeSelectedPlacement(key: string, big: boolean) {
+  const pl = roomGraph?.placements.find((p) => p.id === selectedPlacementId);
+  const position = pl && nudgedPosition(pl.position, key, big);
+  if (position) moveSelectedPlacement({ position });
+}
+
+/** A quarter turn of the selected product about its own floor point. */
+function rotateSelectedPlacement(direction: 'left' | 'right') {
+  const pl = roomGraph?.placements.find((p) => p.id === selectedPlacementId);
+  if (pl) moveSelectedPlacement({ rotationY: quarterTurn(pl.rotation_y, direction) });
+}
+
+/**
+ * Keys that some controls use themselves. With focus on one of them an arrow key belongs to the
+ * control (a slider, a group of radio buttons, a list of options), not to the selected product.
+ */
+function ownsArrowKeys(target: EventTarget | null): boolean {
+  if (!(target instanceof Element)) return false;
+  if (target instanceof HTMLInputElement && (target.type === 'range' || target.type === 'radio')) return true;
+  return !!target.closest('[role=radiogroup], [role=listbox], [role=slider], [role=tablist], [role=menu]');
+}
+
+/**
+ * The keys of the selected product (UX-09 items 3 and 5). Returns true when the key was used.
+ *   Arrow keys          move 5 cm; with Shift 25 cm
+ *   R / Shift+R         rotate right / left by 90°
+ *   Delete, Backspace   remove
+ * The caller has already ruled out typing targets and Ctrl/Cmd combinations.
+ */
+function onSelectedPlacementKey(e: KeyboardEvent): boolean {
+  if (!selectedPlacementId || !roomGraph || e.altKey) return false;
+  if (isNudgeKey(e.key)) {
+    if (ownsArrowKeys(e.target)) return false;
+    nudgeSelectedPlacement(e.key, e.shiftKey);
+    return true;
+  }
+  if (e.key === 'r' || e.key === 'R') {
+    rotateSelectedPlacement(e.shiftKey ? 'left' : 'right');
+    return true;
+  }
+  if (e.key === 'Delete' || e.key === 'Backspace') {
+    deletePlacement(selectedPlacementId);
+    return true;
+  }
+  return false;
+}
+
+/**
+ * A room saved with a product that is no longer in the catalog (a model uploaded before a
+ * refresh; Copy §6 C). The room is shown without it. Say so once per placement, on the stage,
+ * when the room is on the stage; the row in the Products list says it for as long as it is there.
+ */
+function announceMissingProducts() {
+  if (workspace !== 'room' || !roomGraph) return;
+  const missing = placementRowsNow().filter((r) => !r.inCatalog && !announcedMissing.has(r.id));
+  if (!missing.length) return;
+  for (const r of missing) announcedMissing.add(r.id);
+  notify(fmt(copy.notInDeck.uploadNotRestored, { name: missing[0]!.name }), { kind: 'warning' });
+}
+
+/** One-time wiring of the Products list. The rows are rebuilt on every change, so the list itself listens. */
+function initPlacedProductsUi() {
+  placementList.addEventListener('click', (e) => {
+    const target = e.target as Element;
+    const li = target.closest<HTMLElement>('li[data-placement-id]');
+    const id = li?.dataset.placementId;
+    if (!li || !id) return;
+    const action = target.closest<HTMLElement>('button[data-action]')?.dataset.action;
+    if (action === 'delete') {
+      deletePlacement(id);
+    } else if (action === 'rotate-left' || action === 'rotate-right') {
+      rotateSelectedPlacement(action === 'rotate-left' ? 'left' : 'right');
+    } else if (li.classList.contains('placement-row')) {
+      // The name, or anywhere else on the row. A tool that is on is left first: with a tool on,
+      // the canvas and the keys belong to the tool. The row stays under the pointer.
+      exitRoomTool();
+      selectPlacement(id, () =>
+        placementList.querySelector<HTMLElement>(`li[data-placement-id="${CSS.escape(id)}"]`),
+      );
+    }
+  });
+  // Hovering a row outlines its product in the room (UX-09 item 2). The listener is on the document:
+  // the rows are rebuilt under the pointer, and a row that has been replaced gets no "leave" event,
+  // but whatever the pointer goes over next always gets an "over".
+  const hover = (id: string | null) => {
+    if (id === hoveredPlacementId) return;
+    hoveredPlacementId = id;
+    syncPlacementOutline();
+  };
+  document.addEventListener('pointerover', (e) => {
+    if (e.pointerType === 'touch') return; // a tap selects; it is not a hover
+    const li = e.target instanceof Element ? e.target.closest<HTMLElement>('#placement-list li.placement-row') : null;
+    hover(li?.dataset.placementId ?? null);
+  });
+  document.documentElement.addEventListener('pointerleave', () => hover(null));
 }
 
 /**
@@ -981,6 +1335,8 @@ function setToolButtons(mode: InteractionMode | null) {
   btnOpeningMode.setAttribute('aria-pressed', String(mode === 'opening'));
   btnPlaceMode.setAttribute('aria-pressed', String(mode === 'place'));
   btnDrawWallMode.setAttribute('aria-pressed', String(mode === 'draw-wall'));
+  // With a tool on, a click on the canvas and the hint line belong to the tool: let go of the selected product.
+  if (mode === 'opening' || mode === 'place' || mode === 'draw-wall') selectPlacement(null);
   syncStageState();
 }
 
@@ -994,7 +1350,8 @@ function setToolButtons(mode: InteractionMode | null) {
  * `#stage-empty` is the card for the Room workspace with no room (UX-06).
  *
  * The state is read here, not passed in: workspace, room, the engine's interaction mode, the
- * opening type and the selected product. Call it after any of them changes.
+ * opening type, the product chosen in the picker and the placed product that is selected. Call it
+ * after any of them changes.
  */
 function syncStageState() {
   const inRoom = workspace === 'room';
@@ -1007,6 +1364,8 @@ function syncStageState() {
     hint = openingType === 'window' ? copy.stageHints.addOpeningWindow : copy.stageHints.addOpeningDoor;
   else if (tool === 'place') hint = fmt(copy.stageHints.placeProduct, { product: currentProduct?.name ?? '' });
   else if (tool === 'draw-wall') hint = copy.stageHints.drawWalls;
+  // A placed product is selected (UX-09): the hint gives its keys.
+  else if (selectedPlacementId) hint = copy.notInDeck.placedProducts.selectedHint;
   else hint = copy.stageHints.roomIdle;
   stageHint.textContent = hint;
   if (tool) stageHint.dataset.tool = tool;
@@ -1030,6 +1389,15 @@ function setWorkspace(mode: 'catalog' | 'room') {
   // The one product picker goes where it is used: the Product card, or the "Place products" step.
   const pickerHome = $(mode === 'room' ? 'product-picker-home-room' : 'product-picker-home-catalog');
   if (productPickerSlot.parentElement !== pickerHome) pickerHome.appendChild(productPickerSlot);
+  // So does the one Materials card (UX-16 step 3): right after the Product card, or under the picker
+  // in the "Place products" step. Moved, never copied.
+  if (mode === 'room') {
+    if (materialsCard.parentElement !== materialsHomeRoom) materialsHomeRoom.appendChild(materialsCard);
+  } else if (catalogCard.nextElementSibling !== materialsCard) {
+    catalogCard.after(materialsCard);
+  }
+  // A placed product is selected in the room only. Leaving the room lets go of it.
+  if (mode !== 'room') selectPlacement(null);
   const hint = $('workspace-mode-hint');
   if (mode === 'catalog') {
     hint.textContent = 'Product turntable — inspect GLB, materials, and packs.';
@@ -1054,6 +1422,10 @@ function setWorkspace(mode: 'catalog' | 'room') {
   // already at the top, and the stage is only brought into view on a real switch.
   scrollPanelToTop();
   if (changed) revealStage();
+  // The card says what its swatches apply to in this workspace (its state line shows in Room only).
+  renderSlots();
+  // Arriving in a room that was saved with a product the catalog no longer has: say so now.
+  if (changed) announceMissingProducts();
 }
 
 function readOpeningParamsMeters() {
@@ -1080,12 +1452,13 @@ const NON_TYPING_INPUT_TYPES = new Set(['checkbox', 'radio', 'button', 'submit',
 
 /**
  * True when a key press belongs to the control it came from: a field the user types in, a
- * select, or anything inside an open dialog. Global shortcuts (undo, redo, Esc) must leave
- * those alone. A ticked checkbox keeps focus but has no text to undo, so it does not count.
+ * select, or anything inside an open dialog or pop-up (`popover`: it closes itself on Esc and
+ * may use the arrow keys). Global shortcuts (undo, redo, Esc, the keys of a selected product) must
+ * leave those alone. A ticked checkbox keeps focus but has no text to undo, so it does not count.
  */
 function isTypingTarget(target: EventTarget | null): boolean {
   if (!(target instanceof HTMLElement)) return false;
-  if (target.isContentEditable || target.closest('select, textarea, dialog')) return true;
+  if (target.isContentEditable || target.closest('select, textarea, dialog, [popover]')) return true;
   return target instanceof HTMLInputElement && !NON_TYPING_INPUT_TYPES.has(target.type);
 }
 
@@ -1093,6 +1466,12 @@ function onRoomPointer(hit: RoomPointerHit | null, mode: InteractionMode) {
   if (!roomGraph || !viewer) return;
   // Everything said from here on is about a click on the canvas, so it is said on the canvas
   // (the stage toast), not in the panel's #room-status.
+  if (mode === 'room') {
+    // No tool on (UX-09 item 2): a click on a placed product selects it; a click anywhere else
+    // (floor, wall, outside the room) lets go of the selection. A drag orbits and never gets here.
+    selectPlacement(hit?.kind === 'placement' && hit.placementId ? hit.placementId : null);
+    return;
+  }
   if (mode === 'opening') {
     if (!hit || hit.kind !== 'wall' || !hit.wallId || hit.offsetAlongWall == null) {
       notify(copy.roomMessages.clickWall, { kind: 'warning' });
@@ -1278,26 +1657,61 @@ function findSpotInRoom(graph: RoomGraph, root: Object3D): PlacementPose | null 
 /** "Add to room" clicks run one after another: each search has to see what the one before it placed. */
 let addToRoomQueue: Promise<void> = Promise.resolve();
 
-/** "Add to room" (UX-08 item 3): place the selected product with no pointer. Also the keyboard and touch path. */
-function onAddToRoom() {
-  addToRoomQueue = addToRoomQueue.then(addCurrentProductToRoom).catch((err) => console.error(err));
+/**
+ * The finish a product is placed with (UX-16 step 2): the choices the Materials card shows for
+ * the next product, read from the turntable (`viewer.getSlots()`), once every swatch click made
+ * so far has been applied there. Call it at the moment the user asks to place: what the card
+ * showed then is what the product gets, whatever they click while its model loads.
+ */
+async function finishToPlace(product: Product): Promise<Record<string, string>> {
+  // Nothing is chosen for a product that keeps its own materials: it is saved with its defaults, as before.
+  if (keepsOwnMaterials(product)) return finishForPlacing(product, null, library);
+  await slotApplyPending;
+  const shown = viewer ? { productId: viewer.getPartsList()?.productId, slots: viewer.getSlots() } : null;
+  return finishForPlacing(product, shown, library);
 }
 
-async function addCurrentProductToRoom() {
-  if (!roomGraph || !viewer) return;
+/**
+ * UX-16: "a pack or `preserveMaterials` product keeps its own materials". In the room such a
+ * product is the model it came with. A pack is included whatever its flag says: on the turntable
+ * its colours come from the pack's own controls, which are not part of what a placement saves (D3),
+ * so library materials on its placed model would show a finish nobody chose.
+ */
+function keepsOwnMaterials(product: Product): boolean {
+  return !!product.preserveMaterials || !!product.pack;
+}
+
+/** Put a finish on a product model that is in the room, or about to be. A product that keeps its own materials is left alone. */
+async function applyFinish(v: RoomVibezViewer, root: Object3D, product: Product, bindings: Record<string, string>) {
+  if (!keepsOwnMaterials(product)) await v.applySlotBindings(root, product, bindings);
+}
+
+/** "Add to room" (UX-08 item 3): place the selected product with no pointer. Also the keyboard and touch path. */
+function onAddToRoom() {
+  // What the click asks for is fixed now: the product in the picker, with the finish for the next product.
   const product = currentProduct;
+  // Placing a new product lets go of the selected one, so the Materials card shows what is being
+  // placed. The button stays under the pointer for the next click.
+  selectPlacement(null, () => btnAddToRoom);
+  const finish = finishToPlace(product);
+  addToRoomQueue = addToRoomQueue.then(() => addProductToRoom(product, finish)).catch((err) => console.error(err));
+}
+
+async function addProductToRoom(product: Product, finishAsked: Promise<Record<string, string>>) {
+  if (!roomGraph || !viewer) return;
   if (!product?.glb && product.sourceKind !== 'mjs-module') {
     notify(copy.roomMessages.noModel, { kind: 'warning' });
     return;
   }
   try {
+    const finish = await finishAsked;
     // The model is loaded first: the search needs the product's size. The same root is then placed.
     const root = await loadPlacementRoot(product);
     // The room can have been cleared or replaced while the model loaded.
     if (!roomGraph || !viewer) return;
     const pose = findSpotInRoom(roomGraph, root);
     if (!pose) throw new Error('No point of the room floor to place on');
-    await placeCurrentProduct(pose.x, pose.z, { product, root, pose });
+    await placeCurrentProduct(pose.x, pose.z, { product, root, pose, finish });
   } catch (err) {
     notifyProblem(friendlyError(err, { where: 'place', name: product.name }));
   }
@@ -1309,12 +1723,16 @@ async function addCurrentProductToRoom() {
  * cannot put a product outside the room either.
  *
  * `prepared` is for "Add to room", which has already loaded the product's model to measure it and
- * has chosen the pose: the product, root and pose are then taken as given.
+ * has chosen the pose and read the finish: the product, root, pose and finish are then taken as given.
+ *
+ * The finish (UX-16 step 2) is the one the Materials card shows for the next product at the
+ * moment of the click. It is saved in the placement's `slot_bindings` (the only thing saved about
+ * it: D3) and put on the model before the model goes into the room.
  */
 async function placeCurrentProduct(
   x: number,
   z: number,
-  prepared?: { product: Product; root: Object3D; pose: PlacementPose },
+  prepared?: { product: Product; root: Object3D; pose: PlacementPose; finish: Record<string, string> },
 ) {
   if (!roomGraph || !viewer) return;
   if (!pointInRoom(roomGraph, { x, z })) {
@@ -1326,12 +1744,17 @@ async function placeCurrentProduct(
     notify(copy.roomMessages.noModel, { kind: 'warning' });
     return;
   }
+  // (Nothing is selected here: the Place tool and "Add to room" both let go of the selection.)
   notify(fmt(copy.roomMessages.placing, { name: product.name }));
   try {
+    const v = viewer;
     const { x: px, z: pz, rotationY } = prepared?.pose ?? placementPose(roomGraph, x, z);
+    const slot_bindings = prepared?.finish ?? (await finishToPlace(product));
     const root = prepared?.root ?? (await loadPlacementRoot(product));
-    const slot_bindings: Record<string, string> = {};
-    for (const s of product.slots) slot_bindings[s.id] = s.default;
+    // UX-16, the one rule: the finish goes on before the product goes into the room.
+    await applyFinish(v, root, product, slot_bindings);
+    // The room can have been cleared, or the 3D view restarted, while the model and its textures loaded.
+    if (!roomGraph || viewer !== v) return;
     const next = addPlacement(roomGraph, {
       sku_id: product.sku,
       asset_ref: product.glb,
@@ -1342,16 +1765,12 @@ async function placeCurrentProduct(
       slot_bindings,
     });
     const placed = next.placements[next.placements.length - 1]!;
-    viewer.attachPlacement(placed.id, root, { x: px, z: pz }, rotationY);
+    v.attachPlacement(placed.id, root, { x: px, z: pz }, rotationY);
     applyRoomGraph(next, { frame: false, reloadPlacements: false });
     const fp = footprintFromObject(root);
     const report = checkPlacementCollision(roomGraph, fp, { ignorePlacementId: placed.id });
     // An overlap warns and never blocks. An overlapped product is named as its list row names it.
-    const graph = roomGraph;
-    const msg = placedMessage(product.name, report, (o) => {
-      const other = graph.placements.find((p) => p.id === o.id);
-      return catalog.products.find((p) => p.id === other?.product_id)?.name ?? other?.sku_id ?? o.label;
-    });
+    const msg = placedMessage(product.name, report, (o) => placementLabel(o.id) ?? o.label);
     notify(msg.text, { kind: msg.overlap ? 'warning' : 'success' });
   } catch (err) {
     notifyProblem(friendlyError(err, { where: 'place', name: product.name }));
@@ -1368,19 +1787,83 @@ async function loadPlacementRoot(product: Product): Promise<import('three').Obje
   return gltf.scene.clone(true);
 }
 
+/**
+ * Build every placed product of the room again from the room graph: after a reload of the page,
+ * undo, redo, or a room that was opened or replaced. Each model gets its saved finish
+ * (`slot_bindings`, UX-16 step 2) before it goes into the room.
+ *
+ * Models load one after another, and the room can change meanwhile. A run stops as soon as a
+ * newer run has started or the 3D view was restarted; and each product is attached where, and
+ * with the finish, the room graph gives it at that moment, not when the run began.
+ *
+ * A placement whose product is not in the catalog (a model uploaded before a refresh) cannot be
+ * rebuilt. It stays in the graph and in the list, where its row says so, and a toast says it once
+ * (`announceMissingProducts`).
+ */
 async function reloadAllPlacements(graph: RoomGraph) {
   if (!viewer) return;
-  viewer.clearAllPlacements();
-  for (const pl of graph.placements) {
-    const product = catalog.products.find((p) => p.id === pl.product_id);
+  const v = viewer;
+  const run = ++reloadRun;
+  const stale = () => run !== reloadRun || viewer !== v;
+  v.clearAllPlacements();
+  for (const { id, product_id } of graph.placements) {
+    const product = catalog.products.find((p) => p.id === product_id);
     if (!product) continue;
     try {
       const root = await loadPlacementRoot(product);
-      viewer.attachPlacement(pl.id, root, { x: pl.position.x, z: pl.position.z }, pl.rotation_y);
+      if (stale()) return;
+      const saved = roomGraph?.placements.find((p) => p.id === id);
+      if (!saved) continue; // deleted while its model loaded
+      await applyFinish(v, root, product, saved.slot_bindings);
+      if (stale()) return;
+      const now = roomGraph?.placements.find((p) => p.id === id);
+      if (!now) continue;
+      v.attachPlacement(id, root, { x: now.position.x, z: now.position.z }, now.rotation_y);
+      // Its finish was changed while the textures loaded: bring the model up to date.
+      if (JSON.stringify(now.slot_bindings) !== JSON.stringify(saved.slot_bindings)) queueFinishSync(id);
     } catch (err) {
-      console.warn('Failed to reload placement', pl.id, err);
+      console.warn('Failed to reload placement', id, err);
     }
   }
+  // After whatever the caller says about the room it has just shown ("Opened project …").
+  await Promise.resolve();
+  if (!stale()) announceMissingProducts();
+}
+
+/**
+ * Bring a placed product's model up to date with the finish the room graph holds for it. Queued:
+ * textures load asynchronously, and two changes applied out of order would leave the model with
+ * the older one. A product whose model is not in the room yet is skipped: `reloadAllPlacements`
+ * attaches it with the finish in the graph.
+ */
+function queueFinishSync(placementId: string) {
+  finishQueue = finishQueue
+    .then(async () => {
+      const v = viewer;
+      const pl = roomGraph?.placements.find((p) => p.id === placementId);
+      const product = pl && catalog.products.find((p) => p.id === pl.product_id);
+      const root = v?.getPlacementRoot(placementId);
+      if (v && pl && product && root) await applyFinish(v, root, product, pl.slot_bindings);
+    })
+    .catch((err) => console.error(err));
+}
+
+/**
+ * Change one slot of a placed product (UX-16 step 4, "16b"). The room graph is updated first, as
+ * one history step (so Undo takes exactly this change back, and the card and the saved room agree
+ * at once); the model then follows.
+ */
+function setPlacementFinish(placementId: string, slotId: string, materialId: string) {
+  const pl = roomGraph?.placements.find((p) => p.id === placementId);
+  const product = pl && catalog.products.find((p) => p.id === pl.product_id);
+  if (!roomGraph || !pl || !product) return;
+  const current = resolveBindings(product, pl.slot_bindings, library).bindings;
+  if (current[slotId] === materialId) return;
+  applyRoomGraph(updatePlacement(roomGraph, placementId, { slot_bindings: { ...current, [slotId]: materialId } }), {
+    frame: false,
+    reloadPlacements: false,
+  });
+  queueFinishSync(placementId);
 }
 
 async function onCreateRoom() {
@@ -1425,6 +1908,9 @@ function mountViewer() {
     // Product (catalog mode) is not affected by this option.
     hideProductInEmptyRoom: true,
   });
+  // A new engine has no outline yet: give it the selected product's again ("Restart 3D view").
+  outlinedPlacementId = null;
+  syncPlacementOutline();
   if (roomGraph) {
     // Restore shell/placements into the viewer, but do not force Room mode when
     // Product is the active workspace (cold load must still show catalog demos).
@@ -1451,6 +1937,8 @@ async function loadProduct(product: Product, opts?: { onRootReady?: (root: Objec
   }${packNote}`;
   slotsEl.innerHTML = '';
   warningsEl.innerHTML = '';
+  // Swatch clicks still on their way belonged to the product that was on the turntable.
+  pendingSlotChoices.clear();
   for (const p of validateProduct(product, library)) console.warn('[catalog]', p);
   try {
     await viewer!.loadProduct(product, opts);
@@ -1465,48 +1953,157 @@ async function loadProduct(product: Product, opts?: { onRootReady?: (root: Objec
   }
 }
 
-function renderSlots() {
-  slotsEl.innerHTML = '';
-  for (const slot of viewer!.getSlots()) {
-    const current = findMaterial(library, slot.materialId);
-    const wrap = document.createElement('div');
-    wrap.className = 'slot';
-    wrap.dataset.slot = slot.def.id;
-    wrap.innerHTML = `
-      <div class="slot-head">
-        <span class="slot-label">${slot.def.label}</span>
-        <span class="slot-value" data-role="value">${current?.name ?? slot.materialId}</span>
-      </div>
-      <div class="swatches" role="group" aria-label="${slot.def.label} materials"></div>
-      <div class="slot-meta">material_slot_id: <code>${slot.def.id}</code> · ${slot.meshCount} mesh(es) · via ${slot.sources.join(', ')}</div>`;
-    const swatches = wrap.querySelector('.swatches')!;
-    for (const mat of materialsForSlot(library, slot.def)) {
-      const b = document.createElement('button');
-      b.className = 'swatch';
-      b.title = `${mat.name} (${mat.sku})`;
-      b.setAttribute('aria-label', mat.name);
-      b.setAttribute('aria-pressed', String(mat.id === slot.materialId));
-      b.dataset.material = mat.id;
-      b.style.backgroundColor = mat.color;
-      if (mat.map) b.style.backgroundImage = `url(${mat.map})`;
-      b.addEventListener('click', async () => {
-        if (currentProduct.preserveMaterials) {
-          warningsEl.innerHTML =
-            '<div class="warning">Pack / module keeps embedded or MJS-driven materials — library swatches do not replace them (use MJS params when mapping allows).</div>';
-          return;
-        }
-        swatches.querySelectorAll('.swatch').forEach((s) => s.setAttribute('aria-pressed', String(s === b)));
-        wrap.querySelector('[data-role=value]')!.textContent = mat.name;
-        try {
-          await viewer!.setSlotMaterial(slot.def.id, mat.id);
-        } catch (err) {
-          console.error(err);
-        }
-      });
-      swatches.appendChild(b);
+/** What the Materials card is about: the product in the picker, or one placed product. */
+type MaterialsTarget =
+  | { kind: 'next' }
+  | { kind: 'placement'; placement: PlacementEntity; product: Product; label: string };
+
+/**
+ * What decides what the Materials card shows (UX-16 steps 3 and 4).
+ *  - A placed product is selected (Room only): the slots of THAT product, which need not be the
+ *    one in the picker, with the finish saved for it. A swatch changes that placed product.
+ *  - Otherwise: the slots of the product in the picker, as it is loaded on the turntable. In
+ *    Product that is the product on the stage. In Room the turntable is hidden and the choice is
+ *    the finish of the next product placed; products already in the room are not touched.
+ */
+function materialsTarget(): MaterialsTarget {
+  if (workspace === 'room' && selectedPlacementId && roomGraph) {
+    const placement = roomGraph.placements.find((p) => p.id === selectedPlacementId);
+    const product = placement && catalog.products.find((p) => p.id === placement.product_id);
+    if (placement && product) {
+      return { kind: 'placement', placement, product, label: placementLabel(placement.id) ?? product.name };
     }
-    slotsEl.appendChild(wrap);
   }
+  return { kind: 'next' };
+}
+
+/** Changes whenever the card has to be drawn again because of the room: the target, its name, its finish. */
+function materialsSignature(target: MaterialsTarget): string {
+  return target.kind === 'placement'
+    ? JSON.stringify([workspace, target.placement.id, target.label, target.placement.slot_bindings, library.materials.length])
+    : JSON.stringify([workspace, 'next']);
+}
+
+/**
+ * Draw the Materials card again if the room has changed what it should show: another product was
+ * selected or none, or the selected product's finish changed (a swatch, undo, redo).
+ * Changes on the turntable side (another product loaded, a texture added) call `renderSlots`.
+ */
+function syncMaterialsCard() {
+  if (materialsSignature(materialsTarget()) !== renderedMaterials) renderSlots();
+}
+
+/** Selector of a swatch, from the swatch as it is now (`keepingFocus`). */
+function swatchKey(el: Element): string | null {
+  const slot = el.closest<HTMLElement>('.slot[data-slot]')?.dataset.slot;
+  const material = el.closest<HTMLElement>('.swatch[data-material]')?.dataset.material;
+  return slot && material
+    ? `.slot[data-slot="${CSS.escape(slot)}"] .swatch[data-material="${CSS.escape(material)}"]`
+    : null;
+}
+
+function renderSlots() {
+  const target = materialsTarget();
+  renderedMaterials = materialsSignature(target);
+  // In Room the card says what a swatch applies to (UX-16 steps 3 and 4). In Product it is the
+  // product on the stage and needs no line.
+  const inRoom = workspace === 'room';
+  const about = target.kind === 'placement' ? target.product : currentProduct;
+  materialsState.hidden = !inRoom;
+  materialsState.textContent = !inRoom
+    ? ''
+    : about && keepsOwnMaterials(about)
+      ? // In the room this product is the model it came with: the swatches change nothing there.
+        copy.slotWarnings.keepsOwnMaterials
+      : target.kind === 'placement'
+        ? fmt(copy.notInDeck.appliesToSelectedProduct, { name: target.label })
+        : copy.notInDeck.appliesToNextProduct;
+  // The warnings under the swatches are about the model on the turntable, not about a placed product.
+  warningsEl.hidden = target.kind === 'placement';
+
+  const turntable = viewer?.getSlots() ?? [];
+  const metaOf = (s: (typeof turntable)[number]) =>
+    `material_slot_id: <code>${s.def.id}</code> · ${s.meshCount} mesh(es) · via ${s.sources.join(', ')}`;
+  let rows: { def: SlotDefinition; materialId: string; meta: string | null }[];
+  if (target.kind === 'placement') {
+    // What is on the placed model: the saved finish, with the default wherever a saved entry cannot be used.
+    const bindings = resolveBindings(target.product, target.placement.slot_bindings, library).bindings;
+    // The line under each row of swatches is about the model. When the picker holds this same
+    // product, the turntable has the same model and the line is the same, so the card does not
+    // change height between "next product" and "this product". For another product it is left out.
+    const sameModel = viewer?.getPartsList()?.productId === target.product.id;
+    rows = target.product.slots.map((def) => {
+      const onTurntable = sameModel ? turntable.find((s) => s.def.id === def.id) : undefined;
+      return { def, materialId: bindings[def.id] ?? def.default, meta: onTurntable ? metaOf(onTurntable) : null };
+    });
+  } else {
+    rows = turntable.map((s) => ({
+      def: s.def,
+      materialId: pendingSlotChoices.get(s.def.id) ?? s.materialId,
+      meta: metaOf(s),
+    }));
+  }
+
+  keepingFocus(slotsEl, swatchKey, () => {
+    slotsEl.innerHTML = '';
+    for (const row of rows) {
+      const current = findMaterial(library, row.materialId);
+      const wrap = document.createElement('div');
+      wrap.className = 'slot';
+      wrap.dataset.slot = row.def.id;
+      wrap.innerHTML = `
+      <div class="slot-head">
+        <span class="slot-label">${row.def.label}</span>
+        <span class="slot-value" data-role="value">${current?.name ?? row.materialId}</span>
+      </div>
+      <div class="swatches" role="group" aria-label="${row.def.label} materials"></div>${
+        row.meta ? `\n      <div class="slot-meta">${row.meta}</div>` : ''
+      }`;
+      const swatches = wrap.querySelector('.swatches')!;
+      for (const mat of materialsForSlot(library, row.def)) {
+        const b = document.createElement('button');
+        b.className = 'swatch';
+        b.title = `${mat.name} (${mat.sku})`;
+        b.setAttribute('aria-label', mat.name);
+        b.setAttribute('aria-pressed', String(mat.id === row.materialId));
+        b.dataset.material = mat.id;
+        b.style.backgroundColor = mat.color;
+        if (mat.map) b.style.backgroundImage = `url(${mat.map})`;
+        b.addEventListener('click', () => {
+          if (target.kind === 'placement') {
+            // The selected placed product (UX-16 step 4). The room graph changes, and the card is
+            // drawn again from it (renderRoomUi → syncMaterialsCard).
+            if (keepsOwnMaterials(target.product)) {
+              notify(copy.slotWarnings.keepsOwnMaterials, { kind: 'warning' });
+              return;
+            }
+            setPlacementFinish(target.placement.id, row.def.id, mat.id);
+            return;
+          }
+          if (currentProduct.preserveMaterials) {
+            warningsEl.innerHTML =
+              '<div class="warning">Pack / module keeps embedded or MJS-driven materials — library swatches do not replace them (use MJS params when mapping allows).</div>';
+            return;
+          }
+          swatches.querySelectorAll('.swatch').forEach((s) => s.setAttribute('aria-pressed', String(s === b)));
+          wrap.querySelector('[data-role=value]')!.textContent = mat.name;
+          // The turntable takes a moment (textures load). A product placed meanwhile waits for it
+          // (`finishToPlace`), so it gets the finish the card shows.
+          pendingSlotChoices.set(row.def.id, mat.id);
+          const applied = viewer!
+            .setSlotMaterial(row.def.id, mat.id)
+            .catch((err) => console.error(err))
+            .then(() => {
+              // Unless a later click on this slot has taken its place.
+              if (pendingSlotChoices.get(row.def.id) === mat.id) pendingSlotChoices.delete(row.def.id);
+            });
+          slotApplyPending = Promise.all([slotApplyPending, applied]).then(() => undefined);
+        });
+        swatches.appendChild(b);
+      }
+      slotsEl.appendChild(wrap);
+    }
+  });
 }
 
 function renderWarnings(report: SlotReport) {
@@ -1813,6 +2410,10 @@ async function reapplyMaterialIfBound(materialId: string) {
         console.error(err);
       }
     }
+  }
+  // Placed products that wear this material get the changed version too.
+  for (const pl of roomGraph?.placements ?? []) {
+    if (Object.values(pl.slot_bindings).includes(materialId)) queueFinishSync(pl.id);
   }
 }
 
@@ -2160,14 +2761,17 @@ function initPanelUi() {
   btnAddToRoom.textContent = labels.addToRoom;
 
   for (const step of ROOM_STEPS) {
-    const { toggle, title } = stepParts(step);
+    const { el, toggle } = stepParts(step);
     toggle.querySelector('.step-name')!.textContent = labels.steps[step];
     // One step is open at a time, so the toggle of the open step has nothing to do.
     toggle.addEventListener('click', () => {
       if (roomStep === step) return;
       setRoomStep(step);
-      // The steps above may just have folded and moved this heading: keep it in view.
-      title.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+      // The steps above may just have folded and moved this step. Bring the whole step into view
+      // when it fits, its heading at the top when it does not ("nearest" does both). With the
+      // Materials card in it, "Place products" no longer fits under its heading where it opens:
+      // "Add to room" would be below the fold.
+      el.scrollIntoView({ block: 'nearest', behavior: 'instant' });
     });
   }
   // "Change" on the step-1 summary reopens step 1. The link hides itself, so focus goes to the heading.
@@ -2186,6 +2790,7 @@ function initPanelUi() {
     sizeAdjustOpen = !roomSizeAdjust.open;
   });
   btnAddToRoom.addEventListener('click', () => onAddToRoom());
+  initPlacedProductsUi();
 }
 
 async function boot() {
@@ -2212,6 +2817,9 @@ async function boot() {
   productSelect.addEventListener('change', () => {
     const p = catalog.products.find((x) => x.id === productSelect.value);
     if (!p) return;
+    // Choosing a product is about the next one to place: let go of the placed product that is
+    // selected, so the Materials card shows the finish of the product just chosen.
+    selectPlacement(null);
     if (activePack && activePack.productId !== p.id) {
       // Keep pack session in memory but hide params for other products
       packParamsEl.hidden = true;
@@ -2337,6 +2945,9 @@ async function boot() {
     if (!roomGraph) return;
     const next = viewer?.getInteractionMode() === 'place' ? 'room' : 'place';
     if (workspace !== 'room') setWorkspace('room');
+    // The tool lets go of the selected product (setToolButtons). Done here first, so that this
+    // button stays under the pointer if the Materials card above it changes height.
+    if (next === 'place') selectPlacement(null, () => btnPlaceMode);
     viewer?.setInteractionMode(next);
     setToolButtons(next === 'place' ? 'place' : null);
   });
@@ -2364,11 +2975,16 @@ async function boot() {
     // A key typed into a field belongs to the field: Cmd/Ctrl+Z there undoes the typing, not the room.
     if (isTypingTarget(e.target)) return;
     if (e.key === 'Escape') {
-      exitRoomTool();
+      // A tool that is on is left first. With no tool on, Esc lets go of the selected product.
+      if (!exitRoomTool()) selectPlacement(null);
       return;
     }
     const mod = e.metaKey || e.ctrlKey;
-    if (!mod) return;
+    if (!mod) {
+      // UX-09 items 3 and 5: the keys of the selected product (arrows, R, Delete).
+      if (onSelectedPlacementKey(e)) e.preventDefault();
+      return;
+    }
     if (e.key === 'z' && !e.shiftKey) {
       e.preventDefault();
       onUndo();

@@ -429,7 +429,8 @@ test('Place mode answers on the stage: fixed tool labels, a state chip, a toast 
   // The same spot again: allowed, with the overlap warning.
   await page.mouse.click(floorPx.x, floorPx.y);
   await expect.poll(placements, { timeout: 15_000 }).toBe(2);
-  await expect(page.locator(TOAST_TEXT)).toContainText('It overlaps “Lounge chair (demo)”.');
+  // The product it overlaps is named as its row in the Products list names it (rows are numbered: UX-09).
+  await expect(page.locator(TOAST_TEXT)).toContainText('It overlaps “Lounge chair (demo) 1”.');
   await expect(toast).toHaveAttribute('data-kind', 'warning');
 
   // Undo is said on the stage as well.

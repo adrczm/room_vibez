@@ -137,6 +137,13 @@ body[data-viewer-status='error'] .stage-empty { display: none; }
 /* The product picker moves between the Product card and the "Place products" step (UX-08 item 3). */
 .product-picker-home:empty { display: none; }
 .step-body .product-picker-home { margin-top: 8px; }
+/* So does the Materials card (UX-16 step 3). Inside the step it is a card within the Room card:
+   a plain outlined block, no second shadow. */
+.materials-home:empty { display: none; }
+.step-body .materials-home { margin-top: 8px; }
+.step-body #materials-card { padding: 10px; border-radius: var(--radius-sm); box-shadow: none; }
+/* What the swatches apply to, in Room: the next product placed, or the selected one. */
+.materials-state { margin: -4px 0 10px; }
 
 /* What a closed disclosure holds is not rendered at all. Chrome only skips its painting
    (content-visibility), which leaves the controls inside it with a layout box: a file input in the
@@ -332,6 +339,21 @@ body[data-viewer-status='error'] .stage-empty { display: none; }
   font: inherit; font-size: 11px; padding: 2px 8px; border-radius: 6px; border: 1px solid var(--border-strong);
   background: var(--surface); cursor: pointer;
 }
+/* The Products list (UX-09 item 2). A row is its numbered name, which selects the product, and
+   Delete. The row of the selected product is marked by `aria-current`: an accent edge and fill,
+   a heavier name, and a second line with the two Rotate buttons. */
+.room-list li.placement-row { flex-wrap: wrap; border: 1px solid transparent; cursor: pointer; }
+.room-list li.placement-row:hover { border-color: var(--border-strong); }
+.room-list li.placement-row[aria-current] { background: var(--accent-soft); border-color: var(--accent); }
+.room-list button.placement-name {
+  flex: 1 1 auto; min-width: 0; padding: 2px 0; border: 0; border-radius: 4px; background: none;
+  font-size: 12px; color: var(--text); text-align: left; overflow-wrap: anywhere;
+}
+.room-list li[aria-current] button.placement-name { font-weight: 650; }
+.placement-actions { flex: 1 0 100%; display: flex; flex-wrap: wrap; gap: 6px; }
+/* A placement whose product is no longer in the catalog: the row carries the explanation. */
+.room-list li.placement-missing { align-items: flex-start; background: #fff8db; color: #4f4700; border: 1px solid #f0e3a6; }
+.room-list li.placement-missing span { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
 .room-plan {
   margin-top: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm);
   background: #fafafa; min-height: 140px; display: grid; place-items: center; overflow: hidden;

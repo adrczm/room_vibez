@@ -80,8 +80,14 @@
             <p id="product-meta" class="muted small"></p>
           </div>
 
+          <!--
+            The Materials card is ONE element used by both workspaces (UX-16 step 3). main.ts moves it
+            between this place (right after #catalog-card) and #materials-home-room in the Room
+            "Place products" step. #materials-state says what a swatch applies to there; it is hidden in Product.
+          -->
           <div class="card" id="materials-card">
             <h2>Material slots</h2>
+            <p id="materials-state" class="materials-state muted small" hidden></p>
             <div id="slots"></div>
             <div id="slot-warnings"></div>
           </div>
@@ -413,7 +419,8 @@
               <p class="muted small">Select a Catalog product, then click the floor. Door/window openings use procedural placeholder meshes — not catalog SKUs.</p>
               <!-- The product picker lives here while the Room workspace is active (see #product-picker-home-catalog). -->
               <div id="product-picker-home-room" class="product-picker-home"></div>
-              <!-- UX-16 step 3 (a later change): the Materials card (#materials-card) is shown here, under the picker. -->
+              <!-- UX-16 step 3: the Materials card (#materials-card) lives here while the Room workspace is active. -->
+              <div id="materials-home-room" class="materials-home"></div>
               <label class="field checkbox-field">
                 <input id="place-wall-snap" type="checkbox" />
                 <span>Snap placement to nearest wall</span>

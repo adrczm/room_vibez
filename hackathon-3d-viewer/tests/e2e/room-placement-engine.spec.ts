@@ -3,7 +3,8 @@
  * - UX-09 (engine part): `placement` hits in mode `room` only, setPlacementPose, setPlacementHighlight,
  *   getPlacementRoot.
  * - UX-16 step 1: applySlotBindings puts library materials on a placed product.
- * The host in this build does not call these yet; they are driven through `window.__rv.viewer()`.
+ * These tests drive the engine directly through `window.__rv.viewer()`. The host calls the same
+ * methods since host wave 4 (selection, finishes): see placed-products.spec.ts for that side.
  */
 import { expect, test, type Page } from '@playwright/test';
 
@@ -132,7 +133,7 @@ test('UX-09 engine: placement hits, pose changes and the highlight', async ({ pa
   expect(hits[0]!.hit).toMatchObject({ kind: 'placement', placementId: chair });
   expect(hits[1]!.hit.kind).toBe('floor');
   expect(hits[2]!.hit).toBeNull();
-  expect((await placementIds(page)).length).toBe(2); // the unchanged host ignores mode `room` clicks
+  expect((await placementIds(page)).length).toBe(2); // a mode `room` click selects or deselects; it never places
 
   // --- setPlacementPose keeps the same root (no dispose, no reload)
   const pose = await page.evaluate((id) => {
@@ -280,10 +281,12 @@ test('UX-16 step 1: applySlotBindings puts the chosen finish on a placed product
       { id, productId, bindings, extra },
     );
 
-  // Before: what the unchanged host places (QA correction C4): the GLB's grey placeholders.
+  // Before: what the host places. Since UX-16 step 2 that is the product's finish (here the default
+  // one), no longer the GLB's grey placeholders of QA correction C4.
   const before = await meshes(chair);
   expect(before.length).toBe(14);
-  expect(before.every((m) => m.libraryId === null && m.map === null)).toBe(true);
+  expect(bySlot(before)).toEqual({ frame: ['wood-oak'], handles: ['plastic-black'], pillow: ['wool-cream'] });
+  expect(before.some((m) => m.color === '#e7e7e7')).toBe(false);
 
   // Walnut frame, defaults elsewhere.
   expect(await apply(chair, 'demo-lounge-chair', { frame: 'wood-walnut' })).toEqual({
