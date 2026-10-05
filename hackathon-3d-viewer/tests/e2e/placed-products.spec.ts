@@ -385,7 +385,9 @@ test('UX-09: rows are numbered per product; a product is selected by a real clic
   const heightBefore = await cardHeight();
   await page.mouse.click(pointer.x, pointer.y);
   expect(await selection(page)).toMatchObject({ row: [chair1], outline: chair1, outlines: 1, hint: SELECTED_HINT });
-  expect(Math.abs((await cardHeight()) - heightBefore)).toBeGreaterThan(20); // the card did change height
+  // The card did change height. Only by about 6 px since swatches carry names (UX-15): two slots
+  // and three slots now both lay out as four rows of tiles. It was more than 20 px before that.
+  expect(Math.abs((await cardHeight()) - heightBefore)).toBeGreaterThan(2);
   expect(await rowAt(pointer)).toBe(chair1);
   await page.hover(`${ROWS}:nth-child(3) .placement-name`);
   expect(await selection(page)).toMatchObject({ row: [chair1], outline: table });

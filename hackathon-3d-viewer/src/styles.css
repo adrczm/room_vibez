@@ -137,6 +137,14 @@ body[data-viewer-status='error'] .stage-empty { display: none; }
 /* The product picker moves between the Product card and the "Place products" step (UX-08 item 3). */
 .product-picker-home:empty { display: none; }
 .step-body .product-picker-home { margin-top: 8px; }
+/* When "Place products" is taller than the panel, the panel starts at the picker (main.ts). The
+   picker then sits 6 px under the room toolbar, so that no sliver of the line above it shows. */
+.step-body .product-picker-slot { scroll-margin-top: -6px; }
+/* The product picker's trigger shows the selected product's thumbnail once one has been drawn
+   (the first time the pop-up is opened in the thumbnail view; never while the picker is set to
+   List). Until then it shows the name alone, as a list row without an image does: no empty box. */
+.tpicker[data-picker-for='product-select'] .tpicker-trigger .tpicker-visual[data-kind='none'] { display: none; }
+.tpicker[data-picker-for='product-select'] .tpicker-trigger:has(> .tpicker-visual[data-kind='none']) { padding-left: 10px; }
 /* So does the Materials card (UX-16 step 3). Inside the step it is a card within the Room card:
    a plain outlined block, no second shadow. */
 .materials-home:empty { display: none; }
@@ -219,6 +227,26 @@ body[data-viewer-status='error'] .stage-empty { display: none; }
   background-size: cover; background-blend-mode: multiply; position: relative;
 }
 .swatch[aria-pressed='true'] { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--accent); }
+/* UX-15 step 6: each slot swatch is a tile, the round button with its name on one line under it.
+   A tile is as wide as its name (at least 44 px), so a name is cut short only when it is wider
+   than the whole row; the tooltip and the slot's heading still carry it in full.
+   The 6 px gap keeps the name clear of the selected swatch's ring. */
+.swatch-tile {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  min-width: 44px; max-width: 100%; cursor: pointer;
+}
+.swatch-tile .swatch { flex: 0 0 auto; }
+.swatch-name {
+  max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  font-size: 12px; line-height: 1.3; font-weight: 450; color: var(--text-muted);
+}
+/* The selected swatch is marked by its ring; its name follows in the text colour. (Not in a
+   heavier weight: that would change the tile's width and could re-wrap the row on every click.) */
+.swatch[aria-pressed='true'] + .swatch-name { color: var(--text); }
+/* UX-12 / UX-15 step 6: a 44 px target for fingers. */
+@media (pointer: coarse) {
+  .swatches .swatch { width: 44px; height: 44px; }
+}
 
 .segmented { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 3px; background: var(--bg); border-radius: var(--radius-sm); }
 .segmented.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }

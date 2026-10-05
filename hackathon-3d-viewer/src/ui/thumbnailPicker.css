@@ -18,11 +18,15 @@
    It is 1 px wide but as tall as the trigger, and fully transparent, for the project's own audits:
    the "controls under 32 px" snippet counts any rendered select by its height, and the target-size
    audit (gates G24, G25) counts any select that passes checkVisibility({ checkOpacity }). A 1×1 box
-   would be reported as an undersized control although nobody can see, focus or tap it. */
+   would be reported as an undersized control although nobody can see, focus or tap it.
+   No `clip-path` here: a box that is clipped away has no visible part for an IntersectionObserver,
+   so `expect(select).toBeInViewport()` reported ratio 0 wherever the select was (found when the
+   picker was mounted in the app: placed-products.spec.ts checks that `#product-select` is in view).
+   `opacity: 0` alone keeps it unseen. */
 .tpicker[data-enhanced='true'] > select.tpicker-native {
   position: absolute; left: 0; top: 0;
   width: 1px; height: 100%; min-height: 0; margin: 0; padding: 0; border: 0;
-  overflow: hidden; clip-path: inset(50%); white-space: nowrap; opacity: 0;
+  overflow: hidden; white-space: nowrap; opacity: 0;
   appearance: none; pointer-events: none;
 }
 

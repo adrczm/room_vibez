@@ -33,6 +33,7 @@ import {
   clearProjectFromIdb,
   confirmImportToRoomGraph,
   createRectangularRoom,
+  createThumbnailRenderer,
   defaultsFromMeta,
   deleteTemplate,
   downloadTextFile,
@@ -49,6 +50,7 @@ import {
   isPdfPlanFile,
   isRasterPlanFile,
   loadPersistedRoomGraph,
+  loadProductRoot,
   loadProjectFromIdb,
   loadTemplates,
   materialsForSlot,
@@ -98,6 +100,8 @@ import {
   type SlotDefinition,
   type SlotReport,
   type TextureMapRole,
+  type ThumbnailRenderer,
+  type ThumbnailStats,
   type UnderlayJob,
   type ViewerStatus,
 } from './viewer';
@@ -113,6 +117,14 @@ import {
 } from './placedProducts';
 import { confirmDialog } from './ui/confirmDialog';
 import { dismissNotification, mountNotifier, notify as showToast, type NotifyOptions } from './ui/notify';
+import {
+  buildMaterialItems,
+  buildProductItems,
+  createThumbnailPicker,
+  readStoredView,
+  type PickerStrings,
+  type ThumbnailPicker,
+} from './ui/thumbnailPicker';
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 
@@ -253,6 +265,30 @@ let finishQueue: Promise<void> = Promise.resolve();
 let reloadRun = 0;
 /** What the Materials card showed when it was last rendered (`materialsSignature`). */
 let renderedMaterials = '';
+
+/**
+ * The catalog pickers (UX-14, UX-15): a drop-down with a thumbnail view and a list view, on the
+ * product select and on the three long material selects. Each native select stays in the page as
+ * the state holder and keeps its options, its value and its `change` listeners. A picker has to be
+ * told with `sync()` whenever code changes its select's options or value: that fires no `change`.
+ * Created once, by `initPickers`; null until then, and the calls below are written for that.
+ */
+let productPicker: ThumbnailPicker | null = null;
+let wallMaterialPicker: ThumbnailPicker | null = null;
+let floorMaterialPicker: ThumbnailPicker | null = null;
+let textureTargetPicker: ThumbnailPicker | null = null;
+/**
+ * The one offscreen renderer of product thumbnails (UX-14 step 5): a second WebGL context beside
+ * the 3D view's. Created with the first thumbnail asked for; freed with the 3D view (`resetThumbnails`).
+ */
+let thumbnails: ThumbnailRenderer | null = null;
+/**
+ * True once the product picker has asked for a thumbnail, that is, once its pop-up has been open
+ * in the thumbnail view. Until then nothing is drawn and no second WebGL context exists: the
+ * first drawing blocks the page for over two seconds under software rendering (measured), which
+ * a page load must not pay for.
+ */
+let thumbnailsInUse = false;
 
 /** Active pack session (product id → meta + live params). */
 interface PackSession {
@@ -486,6 +522,9 @@ function populateMaterialSelects() {
   }
   if (keepWall && library.materials.some((m) => m.id === keepWall)) roomWallMaterial.value = keepWall;
   if (keepFloor && library.materials.some((m) => m.id === keepFloor)) roomFloorMaterial.value = keepFloor;
+  // New options and, possibly, another value: the pickers read both again.
+  wallMaterialPicker?.sync();
+  floorMaterialPicker?.sync();
 }
 
 function syncMaterialSelectsFromGraph() {
@@ -494,6 +533,9 @@ function syncMaterialSelectsFromGraph() {
   if (!room) return;
   roomWallMaterial.value = room.wall_material_id ?? '';
   roomFloorMaterial.value = room.floor_material_id ?? '';
+  // Set in code (undo, redo, a room opened or replaced), so no `change` told the pickers.
+  wallMaterialPicker?.sync();
+  floorMaterialPicker?.sync();
 }
 
 function setRoomIngress(mode: 'scratch' | 'import' | 'template') {
@@ -1245,11 +1287,14 @@ function rotateSelectedPlacement(direction: 'left' | 'right') {
 /**
  * Keys that some controls use themselves. With focus on one of them an arrow key belongs to the
  * control (a slider, a group of radio buttons, a list of options), not to the selected product.
+ * That includes the trigger of a catalog picker (`aria-haspopup`): Arrow Down or Up on it opens
+ * its pop-up, and must not also move the selected product. (Inside the open pop-up the keys never
+ * get this far: see `isTypingTarget`.)
  */
 function ownsArrowKeys(target: EventTarget | null): boolean {
   if (!(target instanceof Element)) return false;
   if (target instanceof HTMLInputElement && (target.type === 'range' || target.type === 'radio')) return true;
-  return !!target.closest('[role=radiogroup], [role=listbox], [role=slider], [role=tablist], [role=menu]');
+  return !!target.closest('[role=radiogroup], [role=listbox], [role=slider], [role=tablist], [role=menu], [aria-haspopup]');
 }
 
 /**
@@ -1943,6 +1988,9 @@ async function loadProduct(product: Product, opts?: { onRootReady?: (root: Objec
   try {
     await viewer!.loadProduct(product, opts);
     renderSlots();
+    // The product is on the turntable. The picker's trigger gets its image, if thumbnails are in
+    // use and it has none yet (never waited for; see showSelectedProductThumb).
+    showSelectedProductThumb();
     if (activePack?.productId === product.id) renderPackParams();
     else if (!product.pack) {
       packParamsEl.hidden = true;
@@ -2061,6 +2109,15 @@ function renderSlots() {
       }`;
       const swatches = wrap.querySelector('.swatches')!;
       for (const mat of materialsForSlot(library, row.def)) {
+        // UX-15 step 6: the swatches stay inline buttons, and each one carries its name on one
+        // line under it. The tile is a <label>, so a click on the name presses its button. The
+        // button is named by its `aria-label`, so the visible copy of the name is not read twice.
+        const tile = document.createElement('label');
+        tile.className = 'swatch-tile';
+        const name = document.createElement('span');
+        name.className = 'swatch-name';
+        name.setAttribute('aria-hidden', 'true');
+        name.textContent = mat.name;
         const b = document.createElement('button');
         b.className = 'swatch';
         b.title = `${mat.name} (${mat.sku})`;
@@ -2099,7 +2156,8 @@ function renderSlots() {
             });
           slotApplyPending = Promise.all([slotApplyPending, applied]).then(() => undefined);
         });
-        swatches.appendChild(b);
+        tile.append(b, name);
+        swatches.appendChild(tile);
       }
       slotsEl.appendChild(wrap);
     }
@@ -2269,6 +2327,8 @@ async function onPackParamChange(key: string, value: unknown, geometry: boolean)
     product.preserveMaterials = !(activePack.status.mappingMode === 'slots' && wantsSplit);
     activePack.bakedZones = resolvePackColors(activePack.meta, activePack.params);
     registerModuleFactory(product.id, () => factory(activePack!.params));
+    // The model is built again with other parameters: its thumbnail is out of date. `loadProduct` draws the new one.
+    invalidateProductThumb(product.id, false);
     await loadProduct(product, {
       onRootReady: (root) => {
         if (!activePack) return;
@@ -2293,6 +2353,9 @@ async function onPackParamChange(key: string, value: unknown, geometry: boolean)
 
   const result = applyPackAppearance(root, activePack.meta, activePack.params, activePack.status, activePack.bakedZones);
   activePack.bakedZones = result.toZones;
+  // A module's model is built from the parameters, so its thumbnail follows them. (A pack that
+  // came with a .glb is drawn from that file, as it is placed in the room: these colours are not in it.)
+  if (currentProduct.sourceKind === 'mjs-module') invalidateProductThumb(activePack.productId);
   packStatusEl.classList.remove('error');
   packStatusEl.textContent =
     activePack.status.mappingMode === 'vertex-colors'
@@ -2363,6 +2426,151 @@ function renderPresets() {
   }
 }
 
+// ------------------------------------------------------------------ catalog pickers (UX-14, UX-15)
+
+/**
+ * The thumbnail renderer, created when the first thumbnail is asked for. It loads a product's
+ * model the way the turntable does (`loadProductRoot`: GLB, multi-file glTF, or a module's
+ * `createAsset`) and shows it in its DEFAULT finish (UX-14 step 5): the slot defaults from the
+ * catalog, whatever is chosen on the Materials card. A pack, or a product that keeps its own
+ * materials, is drawn as its model comes (`applyFinish` leaves it alone).
+ */
+function thumbnailRenderer(): ThumbnailRenderer {
+  thumbnails ??= createThumbnailRenderer({
+    loadRoot: loadProductRoot,
+    applyFinish: (root, product) => {
+      // The library materials are built by the 3D view (it holds the texture cache).
+      if (!viewer) throw new Error('The 3D view is not running');
+      return applyFinish(viewer, root, product, {});
+    },
+  });
+  return thumbnails;
+}
+
+/**
+ * One product's thumbnail, for the product picker (its `requestThumb`). Resolves with the image
+ * URL, or with null when it could not be drawn: the tile then keeps its placeholder, and nothing
+ * is shown in the image's place. `product.thumbnailUrl` wins over drawing; drawn images are cached
+ * per product id by the renderer, which draws one at a time.
+ */
+function requestProductThumb(productId: string): Promise<string | null> | undefined {
+  const product = catalog.products.find((p) => p.id === productId);
+  if (!product || !viewer) return undefined;
+  const renderer = thumbnailRenderer();
+  return renderer.render(product).catch((err) => {
+    // "Restart 3D view" drops the drawings that were under way; that is not a failure.
+    if (thumbnails === renderer) console.warn(`[thumbnail] ${productId}:`, err);
+    return null;
+  });
+}
+
+/**
+ * The picker's trigger shows the selected product's image when there is one. Images are drawn for
+ * the tiles the pop-up shows in the thumbnail view, and the selected product is among those; but
+ * a product can become the selected one without its tile ever being shown (a model just added, a
+ * select set in code, "Restart 3D view"). This draws that one image.
+ *
+ * It does nothing until the thumbnail view has been used (`thumbnailsInUse`), and nothing while
+ * the picker is set to List: the list view is the path that draws no image at all (UX-14 step 2b).
+ * Called after a product has loaded on the turntable, and never waited for.
+ */
+function showSelectedProductThumb() {
+  const id = currentProduct?.id;
+  if (!id || !productPicker || !thumbnailsInUse || readStoredView('product') === 'list') return;
+  void requestProductThumb(id)?.then((url) => {
+    if (url) productPicker?.setThumb(id, url);
+  });
+}
+
+/**
+ * Forget a product's thumbnail because the product's own look has changed (UX-14 step 5). Its
+ * tile shows the placeholder until it is drawn again: at once for the product in the trigger
+ * (unless the caller is about to load that product, which draws it: `redraw` false), otherwise
+ * when its tile is next shown in the thumbnail view.
+ */
+function invalidateProductThumb(productId: string, redraw = true) {
+  thumbnails?.invalidate(productId);
+  productPicker?.setThumb(productId, null);
+  if (redraw && productId === currentProduct?.id) showSelectedProductThumb();
+}
+
+/**
+ * A library material has changed (a normal or roughness map was added to it). A thumbnail shows
+ * the default finish, so the products whose default finish uses that material are drawn again.
+ */
+function invalidateThumbsUsingMaterial(materialId: string) {
+  for (const p of catalog.products) {
+    if (!keepsOwnMaterials(p) && p.slots.some((s) => s.default === materialId)) invalidateProductThumb(p.id);
+  }
+}
+
+/**
+ * Free the thumbnail renderer together with the 3D view ("Restart 3D view"), and forget what it
+ * drew. A new renderer is created with the next thumbnail asked for, so there is never more than
+ * one thumbnail WebGL context. Drawings under way are dropped (the renderer rejects them).
+ */
+function resetThumbnails() {
+  thumbnails?.dispose();
+  thumbnails = null;
+  for (const p of catalog.products) productPicker?.setThumb(p.id, null);
+}
+
+/**
+ * Mount the four catalog pickers (UX-14, UX-15). Each wraps its select where the select is, so the
+ * product picker sits inside `#product-picker-slot` and travels with it between the workspaces,
+ * and the texture-target picker stays inside `#texture-target-wrap`, which the map role shows and
+ * hides. Needs the catalog and the library, and runs before the selects are filled.
+ * Every string comes from `copy`; the tiles carry a thumbnail or swatch and a name, and nothing
+ * the data does not have (UX-14 step 4).
+ */
+function initPickers() {
+  const s = copy.notInDeck.picker;
+  const shared = {
+    close: s.close,
+    viewGroupLabel: s.viewLabel,
+    viewThumbnails: s.thumbnails,
+    viewList: s.list,
+    groupTabsLabel: s.groupTabsLabel,
+    allGroups: s.allGroups,
+  };
+  const productStrings: PickerStrings = { ...shared, searchPlaceholder: s.searchProducts, noMatches: s.noProductsMatch };
+  const materialStrings: PickerStrings = { ...shared, searchPlaceholder: s.searchMaterials, noMatches: s.noMaterialsMatch };
+
+  productPicker = createThumbnailPicker({
+    select: productSelect,
+    label: s.productLabel,
+    viewKey: 'product',
+    strings: productStrings,
+    // Thumbnail and name; "your upload" under the name of a product the user added.
+    getItems: () => buildProductItems(catalog.products, { uploadSublabel: copy.productCard.yourUpload }),
+    // Asked only while the pop-up is open in the thumbnail view, for a tile that is on screen and has no image.
+    requestThumb: (id) => {
+      thumbnailsInUse = true;
+      return requestProductThumb(id);
+    },
+    alignTo: panel,
+  });
+
+  // Materials: a CSS swatch (colour and map, as the slot swatches are drawn) and the name. The
+  // tabs are the materials' categories, named with the deck's words for them where it has one.
+  const categoryNames: Record<string, string> = copy.productCard.textureCategories;
+  const formatGroup = (category: string) => categoryNames[category] ?? category;
+  const materialPicker = (select: HTMLSelectElement, label: string, defaultLabel?: string) =>
+    createThumbnailPicker({
+      select,
+      label,
+      viewKey: 'material',
+      strings: materialStrings,
+      getItems: () => buildMaterialItems(library.materials, defaultLabel === undefined ? {} : { defaultLabel }),
+      formatGroup,
+      alignTo: panel,
+    });
+  // Wall and floor start with "Default" (value ''): the room's own surface, no library material.
+  wallMaterialPicker = materialPicker(roomWallMaterial, copy.roomTools.wallsLabel, s.defaultMaterial);
+  floorMaterialPicker = materialPicker(roomFloorMaterial, copy.roomTools.floorLabel, s.defaultMaterial);
+  textureTargetPicker = materialPicker(textureTarget, copy.productCard.textureAddToMaterialLabel);
+}
+
 function refreshProductSelect(selectId?: string) {
   const keep = selectId ?? productSelect.value;
   productSelect.innerHTML = '';
@@ -2371,6 +2579,8 @@ function refreshProductSelect(selectId?: string) {
     productSelect.add(opt);
   }
   if (keep && catalog.products.some((p) => p.id === keep)) productSelect.value = keep;
+  // New options and a value set in code: the picker reads both again.
+  productPicker?.sync();
 }
 
 function refreshTextureTargetOptions() {
@@ -2380,6 +2590,7 @@ function refreshTextureTargetOptions() {
     textureTarget.add(new Option(`${m.name} (${m.category})`, m.id));
   }
   if (keep && library.materials.some((m) => m.id === keep)) textureTarget.value = keep;
+  textureTargetPicker?.sync();
 }
 
 function renderUserMaterials() {
@@ -2679,6 +2890,7 @@ async function onAddTexture() {
       const { objectUrl } = attachTextureToMaterial(target, file, role);
       sessionUrls.push(objectUrl);
       await reapplyMaterialIfBound(target.id);
+      invalidateThumbsUsingMaterial(target.id);
       renderSlots();
       renderUserMaterials();
       textureStatus.textContent = `Attached ${role === 'normalMap' ? 'normal' : 'roughness'} map to “${target.name}”`;
@@ -2747,6 +2959,13 @@ function initStageUi() {
   }
 }
 
+/** True when the bottom of an element of the panel is under the lower edge of what can be seen of the panel. */
+function belowTheFold(el: HTMLElement): boolean {
+  // The panel scrolls on a wide screen; on a narrow one the page does.
+  const fold = getComputedStyle(panel).overflowY === 'visible' ? window.innerHeight : panel.getBoundingClientRect().bottom;
+  return el.getBoundingClientRect().bottom > fold;
+}
+
 /**
  * One-time wiring of the side panel's structure (UX-07, UX-08): the labels of the new controls
  * (all from `copy`, so index.html leaves them empty), the steps, "Adjust size" and "Add to room".
@@ -2772,6 +2991,14 @@ function initPanelUi() {
       // Materials card in it, "Place products" no longer fits under its heading where it opens:
       // "Add to room" would be below the fold.
       el.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+      // With a name under every swatch (UX-15 step 6) the Materials card is taller, and on a
+      // 900 px high window "Place products" no longer fits under its heading: "Place product"
+      // was below the fold again. When that is so, the panel starts at the picker instead. The
+      // step is opened to choose a product, its finish, and place it; the picker, the Materials
+      // card and the two buttons are what has to be on screen, and the heading gives way.
+      if (step === 'place' && belowTheFold(btnPlaceMode)) {
+        productPickerSlot.scrollIntoView({ block: 'start', behavior: 'instant' });
+      }
     });
   }
   // "Change" on the step-1 summary reopens step 1. The link hides itself, so focus goes to the heading.
@@ -2811,6 +3038,8 @@ async function boot() {
   roomHistory.reset(roomGraph);
   // A room restored from the last visit: step 1 is done, so the Room workspace opens on the next step.
   if (roomGraph) roomStep = 'openings';
+  // The pickers go on the selects before the selects are filled; filling them tells the pickers.
+  initPickers();
   populateMaterialSelects();
 
   refreshProductSelect(catalog.products[0]?.id);
@@ -3000,6 +3229,9 @@ async function boot() {
     const packSnapshot = activePack;
     const mode = viewer?.getInteractionMode() ?? 'catalog';
     viewer?.dispose();
+    // The thumbnail renderer goes with the 3D view. `loadProduct` below asks for the trigger's image
+    // again, from a new renderer; the other tiles are drawn again when they are next shown.
+    resetThumbnails();
     mountViewer();
     await loadProduct(currentProduct, {
       onRootReady: (root) => {
@@ -3062,6 +3294,15 @@ declare global {
       simulateRoomPointer: (hit: RoomPointerHit | null, mode: InteractionMode) => void;
       /** Test helper: start mock fixture import. */
       startFixtureImport: () => Promise<void>;
+      /** Test helper: the catalog pickers, e.g. to call `sync()` after setting a select's value in code. */
+      pickers: () => {
+        product: ThumbnailPicker | null;
+        wall: ThumbnailPicker | null;
+        floor: ThumbnailPicker | null;
+        textureTarget: ThumbnailPicker | null;
+      };
+      /** Test helper: the thumbnail renderer's counters, or null while no renderer exists. */
+      thumbnails: () => ThumbnailStats | null;
     };
   }
 }
@@ -3075,6 +3316,13 @@ window.__rv = {
   importJob: () => importJob,
   simulateRoomPointer: (hit, mode) => onRoomPointer(hit, mode),
   startFixtureImport: () => onStartImport(null, true),
+  pickers: () => ({
+    product: productPicker,
+    wall: wallMaterialPicker,
+    floor: floorMaterialPicker,
+    textureTarget: textureTargetPicker,
+  }),
+  thumbnails: () => thumbnails?.stats() ?? null,
 };
 
 boot().catch((err) => {
@@ -3082,4 +3330,11 @@ boot().catch((err) => {
   setStatus('error', String(err?.message ?? err));
 });
 
-if (import.meta.hot) import.meta.hot.dispose(() => viewer?.dispose());
+if (import.meta.hot) {
+  import.meta.hot.dispose(() => {
+    viewer?.dispose();
+    thumbnails?.dispose();
+    // Each picker puts its select back as it found it, so a module that runs again can mount afresh.
+    for (const picker of [productPicker, wallMaterialPicker, floorMaterialPicker, textureTargetPicker]) picker?.destroy();
+  });
+}

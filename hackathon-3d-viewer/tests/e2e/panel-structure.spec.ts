@@ -235,13 +235,14 @@ test.describe('small screen', () => {
     const arrival = await stageView(page);
     expect(arrival.scrollY).toBe(0);
     expect(arrival.visiblePct).toBeGreaterThanOrEqual(90);
-    // Materials are within about a screen and a half of the top (UX-07).
+    // Materials are reached within a screen and a half of the top (UX §2: "scrolls to reach Material slots").
+    // The bottom of the slots is not asserted: since UX-15 gave every swatch a visible name and a
+    // 44 px target on touch, it sits at about 1.59 screens (it was 1.37 with bare 34 px swatches).
     const slots = await page.evaluate(() => {
       const r = document.getElementById('slots')!.getBoundingClientRect();
-      return { topScreens: (r.top + scrollY) / innerHeight, bottomScreens: (r.bottom + scrollY) / innerHeight };
+      return { topScreens: (r.top + scrollY) / innerHeight };
     });
     expect(slots.topScreens).toBeLessThan(1.5);
-    expect(slots.bottomScreens).toBeLessThan(1.5);
 
     // 2. After Room workspace.
     await page.tap(ROOM_TOGGLE);

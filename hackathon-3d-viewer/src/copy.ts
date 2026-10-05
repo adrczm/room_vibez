@@ -830,6 +830,17 @@ export const copy = {
       noMaterialsMatch: 'No materials match.',
       /** given. UX-15 step 1: the first wall and floor item, value ''. Today's option text. */
       defaultMaterial: 'Default',
+      /**
+       * written (host wave 5). UX-15 step 1: the material pickers show one tab per category
+       * ("group tabs"). The tab that shows every category. The category tabs themselves use
+       * `productCard.textureCategories` (deck §3.4).
+       */
+      allGroups: 'All',
+      /**
+       * written (host wave 5). UX-15 step 1: accessible name of that row of tabs (never visible).
+       * The deck's word for a material's group (§3.4, the Add texture field "Category").
+       */
+      groupTabsLabel: 'Category',
     },
 
     // ----- Finishes in the room (UX-16 step 3) ------------------------------------------------
