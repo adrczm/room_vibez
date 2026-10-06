@@ -1,0 +1,192 @@
+{
+ "bug1_confirmTick": {
+  "before": {
+   "checked": false,
+   "confirmEnabled": false
+  },
+  "ticked": {
+   "checked": true,
+   "confirmEnabled": true
+  },
+  "during": {
+   "cardHidden": true,
+   "checked": false,
+   "confirmDisabledProp": true
+  },
+  "afterChip": {
+   "checked": false,
+   "confirmEnabled": false
+  },
+  "afterFileInput": {
+   "checked": false,
+   "confirmEnabled": false,
+   "status": "Ready to review."
+  }
+ },
+ "bug2_skipDemoRole": {
+  "consumer": {
+   "pillBefore": "Consumer",
+   "pillAfter": "Consumer",
+   "screen": "screen-editor",
+   "toast": "Drawing from scratch.",
+   "selectedCard": "consumer"
+  },
+  "designer": {
+   "pillBefore": "Interior designer",
+   "pillAfter": "Interior designer",
+   "screen": "screen-editor",
+   "toast": "Drawing from scratch.",
+   "selectedCard": "designer"
+  },
+  "architect": {
+   "pillBefore": "Architect",
+   "pillAfter": "Architect",
+   "screen": "screen-editor",
+   "toast": "Drawing from scratch.",
+   "selectedCard": "architect"
+  },
+  "reseller": {
+   "pillBefore": "Reseller / ops",
+   "pillAfter": "Reseller / ops",
+   "screen": "screen-editor",
+   "toast": "Drawing from scratch.",
+   "selectedCard": "reseller"
+  },
+  "none": {
+   "pillBefore": "No account needed",
+   "pillAfter": "Interior designer",
+   "screen": "screen-editor",
+   "toast": "No role picked, so the demo opens as Interior designer.",
+   "selectedCard": "designer"
+  }
+ },
+ "bug3_starter": {
+  "furnitureCountAfterEachClick": [
+   0,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "buttonLabelAfterEachClick": [
+   "Add starter products",
+   "Starter products added",
+   "Starter products added",
+   "Starter products added",
+   "Starter products added",
+   "Starter products added"
+  ],
+  "totalAfterEachClick": [
+   "Total (placeholder prices): €0",
+   "Total (placeholder prices): €428",
+   "Total (placeholder prices): €428",
+   "Total (placeholder prices): €428",
+   "Total (placeholder prices): €428",
+   "Total (placeholder prices): €428"
+  ],
+  "disabledAtEnd": true,
+  "toast": "Starter products added."
+ },
+ "side_toastOnBomScreen": {
+  "screen": "screen-bom",
+  "text": "PDF export isn't available yet.",
+  "hasShowClass": true,
+  "rects": 1,
+  "box": [
+   536,
+   748,
+   209,
+   36
+  ],
+  "opacity": "1",
+  "inInnerText": true
+ },
+ "side_uploadZoneKeyboard": {
+  "enterOpensPicker": true,
+  "spaceOpensPicker": true,
+  "label": "Choose a file"
+ },
+ "side_startOver": {
+  "restartClass": null,
+  "nativeDialogs": [],
+  "htmlDialogOpen": true,
+  "screenAfter": "screen-bom"
+ },
+ "side_overflow375_plainViewport": {
+  "auth": {
+   "screen": "screen-auth",
+   "innerWidth": 375,
+   "scrollWidth": 375,
+   "overflowX": 0,
+   "offenders": []
+  },
+  "project": {
+   "screen": "screen-project",
+   "innerWidth": 375,
+   "scrollWidth": 375,
+   "overflowX": 0,
+   "offenders": []
+  },
+  "upload": {
+   "screen": "screen-upload",
+   "innerWidth": 375,
+   "scrollWidth": 375,
+   "overflowX": 0,
+   "offenders": []
+  },
+  "realPointerClickWorks": true,
+  "editor": {
+   "screen": "screen-editor",
+   "innerWidth": 375,
+   "scrollWidth": 375,
+   "overflowX": 0,
+   "offenders": []
+  },
+  "bom": {
+   "screen": "screen-bom",
+   "innerWidth": 375,
+   "scrollWidth": 375,
+   "overflowX": 0,
+   "offenders": []
+  }
+ },
+ "side_overflow375_mobileEmulation": {
+  "auth": {
+   "screen": "screen-auth",
+   "innerWidth": 375,
+   "scrollWidth": 375,
+   "overflowX": 0,
+   "offenders": []
+  },
+  "project": {
+   "screen": "screen-project",
+   "innerWidth": 375,
+   "scrollWidth": 375,
+   "overflowX": 0,
+   "offenders": []
+  },
+  "upload": {
+   "screen": "screen-upload",
+   "innerWidth": 375,
+   "scrollWidth": 375,
+   "overflowX": 0,
+   "offenders": []
+  },
+  "realPointerClickWorks": true,
+  "editor": {
+   "screen": "screen-editor",
+   "innerWidth": 375,
+   "scrollWidth": 375,
+   "overflowX": 0,
+   "offenders": []
+  },
+  "bom": {
+   "screen": "screen-bom",
+   "innerWidth": 375,
+   "scrollWidth": 375,
+   "overflowX": 0,
+   "offenders": []
+  }
+ }
+}

@@ -1,0 +1,569 @@
+{
+  "added": [
+    {
+      "s": "Prototype · nothing is saved",
+      "inDeck": true
+    },
+    {
+      "s": "No account needed",
+      "inDeck": true
+    },
+    {
+      "s": "No project yet",
+      "inDeck": true
+    },
+    {
+      "s": "?",
+      "inDeck": true
+    },
+    {
+      "s": "Plan a room. Place real products. Get your parts list.",
+      "inDeck": true
+    },
+    {
+      "s": "Choose who you are to see the flow built for you.",
+      "inDeck": true
+    },
+    {
+      "s": "Email (optional)",
+      "inDeck": true
+    },
+    {
+      "s": "Nothing is sent or saved.",
+      "inDeck": true
+    },
+    {
+      "s": "5 · Parts list",
+      "inDeck": true
+    },
+    {
+      "s": "Who's this for?",
+      "inDeck": true
+    },
+    {
+      "s": "Planning my own space",
+      "inDeck": true
+    },
+    {
+      "s": "Add a plan, place products, share a PDF.",
+      "inDeck": true
+    },
+    {
+      "s": "Start from templates, pick finishes, share a client-ready layout.",
+      "inDeck": true
+    },
+    {
+      "s": "See how a DWG plan becomes an editable room.",
+      "inDeck": true
+    },
+    {
+      "s": "Reseller or catalog manager",
+      "inDeck": true
+    },
+    {
+      "s": "Match catalog SKUs to what's placed. Reads as a BOM.",
+      "inDeck": true
+    },
+    {
+      "s": "Skip to a demo project",
+      "inDeck": true
+    },
+    {
+      "s": "Start blank or from a template.",
+      "inDeck": true
+    },
+    {
+      "s": "Start with an empty room.",
+      "inDeck": true
+    },
+    {
+      "s": "Warm loft",
+      "inDeck": true
+    },
+    {
+      "s": "A furnished starting point.",
+      "inDeck": true
+    },
+    {
+      "s": "Next: add a plan",
+      "inDeck": true
+    },
+    {
+      "s": "DWG, PDF, JPG or PNG. You'll review the result before editing.",
+      "inDeck": true
+    },
+    {
+      "s": "Choose a file",
+      "inDeck": true
+    },
+    {
+      "s": "This demo doesn't read your file. Pick a type to see the flow.",
+      "inDeck": true
+    },
+    {
+      "s": "Reading your plan (demo)",
+      "inDeck": true
+    },
+    {
+      "s": "Demo only. This animation is simulated.",
+      "inDeck": true
+    },
+    {
+      "s": "Check the result",
+      "inDeck": true
+    },
+    {
+      "s": "Sample result: about 4.2 × 5.1 m living room, 2 openings. Every file gives this same example.",
+      "inDeck": true
+    },
+    {
+      "s": "I've checked the dimensions",
+      "inDeck": true
+    },
+    {
+      "s": "Open editor",
+      "inDeck": true
+    },
+    {
+      "s": "Draw it myself",
+      "inDeck": true
+    },
+    {
+      "s": "DWG is import-only here.",
+      "inDeck": true
+    },
+    {
+      "s": "You can't edit CAD in this prototype.",
+      "inDeck": true
+    },
+    {
+      "s": "Draw walls",
+      "inDeck": true
+    },
+    {
+      "s": "Place products",
+      "inDeck": true
+    },
+    {
+      "s": "Products",
+      "inDeck": true
+    },
+    {
+      "s": "CHAIR-LOFT-01 · 3 finishes",
+      "inDeck": true
+    },
+    {
+      "s": "Templates",
+      "inDeck": true
+    },
+    {
+      "s": "Add starter products",
+      "inDeck": true
+    },
+    {
+      "s": "Lighting: Soft day",
+      "inDeck": true
+    },
+    {
+      "s": "Render style: Preview",
+      "inDeck": true
+    },
+    {
+      "s": "Select a product",
+      "inDeck": true
+    },
+    {
+      "s": "Pick a tool on the left, then click the plan.",
+      "inDeck": true
+    },
+    {
+      "s": "3D preview shows one sample chair, not your whole room yet.",
+      "inDeck": true
+    },
+    {
+      "s": "Place a Loft Chair, then pick it to change its finishes.",
+      "inDeck": true
+    },
+    {
+      "s": "Finishes",
+      "inDeck": true
+    },
+    {
+      "s": "Wood",
+      "inDeck": true
+    },
+    {
+      "s": "Plastic",
+      "inDeck": true
+    },
+    {
+      "s": "Wool",
+      "inDeck": true
+    },
+    {
+      "s": "Parts list",
+      "inDeck": true
+    },
+    {
+      "s": "Updates as you place products.",
+      "inDeck": true
+    },
+    {
+      "s": "Total (placeholder prices): €0",
+      "inDeck": false
+    },
+    {
+      "s": "Open parts list",
+      "inDeck": true
+    },
+    {
+      "s": "What you've placed, with placeholder prices.",
+      "inDeck": true
+    },
+    {
+      "s": "Items",
+      "inDeck": true
+    },
+    {
+      "s": "Catalog SKUs",
+      "inDeck": true
+    },
+    {
+      "s": "Share",
+      "inDeck": true
+    },
+    {
+      "s": "Export plan as PDF",
+      "inDeck": true
+    },
+    {
+      "s": "Export as PNG",
+      "inDeck": true
+    },
+    {
+      "s": "Export 3D package",
+      "inDeck": true
+    },
+    {
+      "s": "How this works",
+      "inDeck": true
+    },
+    {
+      "s": "Close",
+      "inDeck": false
+    },
+    {
+      "s": "Walkthrough",
+      "inDeck": true
+    },
+    {
+      "s": "Roles",
+      "inDeck": true
+    },
+    {
+      "s": "What's simulated",
+      "inDeck": true
+    },
+    {
+      "s": "Why it's shaped this way",
+      "inDeck": true
+    },
+    {
+      "s": "Five steps: choose who you are, create a project, add a plan, edit the room, review the parts list. The chips at the top show where you are.",
+      "inDeck": true
+    },
+    {
+      "s": "The role you pick sets the label at the top. For Architect it also shows a note about DWG. The editor is the same for everyone.",
+      "inDeck": true
+    },
+    {
+      "s": "Nothing is saved or sent. File upload is a demo: any file gives the same sample result, a 4.2 × 5.1 m living room with 2 openings. The 3D view shows one sample chair. Export buttons don't create files yet. Prices in € are placeholders. The look is inspired by planner apps but isn't Planner 5D's product. The 3D preview and fonts load from the web, so you need a connection.",
+      "inDeck": true
+    },
+    {
+      "s": "A DWG is the architecture source. Furniture stays 3D models plus library materials.",
+      "inDeck": true
+    },
+    {
+      "s": "The parts list and templates are owned by Room Vibez, not by the planner. In a real embed, planner cart events would feed the parts list.",
+      "inDeck": true
+    },
+    {
+      "s": "Plan recognition always allows a human check or drawing it yourself.",
+      "inDeck": true
+    },
+    {
+      "s": "Not claimed: native CAD editing, or any recognition speed guarantee.",
+      "inDeck": true
+    },
+    {
+      "s": "Start over?",
+      "inDeck": true
+    },
+    {
+      "s": "Keep working",
+      "inDeck": true
+    },
+    {
+      "s": "[title] How this works",
+      "inDeck": true
+    },
+    {
+      "s": "[aria-label] Help: how this works",
+      "inDeck": true
+    },
+    {
+      "s": "[placeholder] you@example.com",
+      "inDeck": true
+    },
+    {
+      "s": "[placeholder] e.g. Living room",
+      "inDeck": true
+    },
+    {
+      "s": "[aria-label] Tools and products",
+      "inDeck": false
+    },
+    {
+      "s": "[aria-label] Finishes and parts list",
+      "inDeck": false
+    },
+    {
+      "s": "[aria-label] Parts list and SKUs",
+      "inDeck": false
+    },
+    {
+      "s": "[aria-label] Close help",
+      "inDeck": false
+    },
+    {
+      "s": "No account needed",
+      "inDeck": true
+    },
+    {
+      "s": "Warm loft",
+      "inDeck": true
+    },
+    {
+      "s": "Template added.",
+      "inDeck": true
+    },
+    {
+      "s": "Reading your ${state.fmt || \"file\"}…",
+      "inDeck": true
+    },
+    {
+      "s": "Finding walls…",
+      "inDeck": true
+    },
+    {
+      "s": "Building the room…",
+      "inDeck": true
+    },
+    {
+      "s": "Ready to review.",
+      "inDeck": true
+    },
+    {
+      "s": "Drawing from scratch.",
+      "inDeck": true
+    },
+    {
+      "s": "Plan confirmed.",
+      "inDeck": true
+    },
+    {
+      "s": "Place a Loft Chair, then pick it to change its finishes.",
+      "inDeck": true
+    },
+    {
+      "s": "${cap(k)}: ${cap(v.id)}",
+      "inDeck": true
+    },
+    {
+      "s": "Total (placeholder prices): €${total}",
+      "inDeck": true
+    },
+    {
+      "s": "Select a Loft Chair to change its finishes.",
+      "inDeck": true
+    },
+    {
+      "s": "${cap(slot)} changed to ${cap(matId)}.",
+      "inDeck": true
+    },
+    {
+      "s": "3D preview needs an internet connection. Showing a simple version instead.",
+      "inDeck": true
+    },
+    {
+      "s": "Your browser can't run full 3D. Showing a simple version instead.",
+      "inDeck": true
+    },
+    {
+      "s": "3D preview shows one sample chair, not your whole room yet.",
+      "inDeck": true
+    },
+    {
+      "s": "No role picked, so the demo opens as ${ROLE_LABELS.designer}.",
+      "inDeck": false
+    },
+    {
+      "s": "Click the plan to draw walls. The demo always draws the same room shape.",
+      "inDeck": true
+    },
+    {
+      "s": "Click the plan to place “${state.names[state.selectedSku]}”",
+      "inDeck": true
+    },
+    {
+      "s": "Select a product",
+      "inDeck": true
+    },
+    {
+      "s": "Walls updated (sample shape).",
+      "inDeck": true
+    },
+    {
+      "s": "Render style:",
+      "inDeck": true
+    },
+    {
+      "s": "Render style set to ${state.renderPreset}. It doesn't change the image yet.",
+      "inDeck": true
+    },
+    {
+      "s": "Starter products added",
+      "inDeck": true
+    },
+    {
+      "s": "Starter products added.",
+      "inDeck": true
+    },
+    {
+      "s": "PDF export isn't available yet.",
+      "inDeck": true
+    },
+    {
+      "s": "PNG export isn't available yet.",
+      "inDeck": true
+    },
+    {
+      "s": "3D package export isn't available yet.",
+      "inDeck": true
+    },
+    {
+      "s": "This clears your project and ${n} ${plural(n, \"placed item\", \"placed items\")}.",
+      "inDeck": true
+    }
+  ],
+  "removed": [
+    "Simulated Planner 5D–style UI (not official)",
+    "Not signed in",
+    "No project",
+    "Plan rooms. Place real products. Own the BOM.",
+    "Pick a persona to walk the Room Vibez shell around a simulated planner canvas. Architecture ingest favors DWG; furniture stays mesh + library materials.",
+    "Email",
+    "5 · BOM",
+    "Who are you?",
+    "Regular person",
+    "Upload a photo/PDF plan, place furniture, share PDF.",
+    "Templates, materials library, client-ready layout.",
+    "DWG import note + hybrid room graph (not native CAD).",
+    "Catalog SKUs + owned Room Vibez BOM.",
+    "Open demo project",
+    "Start blank, from an owned Room Vibez template (CMS stub), or jump to plan upload.",
+    "Empty canvas · manual draw",
+    "Template: Warm loft",
+    "Owned CMS stub · not claimed as Planner template manager",
+    "Planner official template hub",
+    "Unknown / not in public Planner docs",
+    "Create & upload plan",
+    "Accept DWG / PDF / JPG / PNG. AI recognition is async and illustrative (no SLA). Always allow human confirm or manual draw.",
+    "Drop or click to choose a file",
+    "Demo accepts a selection chip — no real file upload.",
+    "AI recognition (illustrative)",
+    "Queued…",
+    "Wait times here are fake demo delays — not a vendor SLA.",
+    "Human confirm",
+    "Detected ≈ 4.2 m × 5.1 m living room · 2 openings. Review before editing.",
+    "Dimensions look right",
+    "Confirm & open editor",
+    "Skip AI · manual draw",
+    "DWG is accepted for import / AI assist and as architecture source of truth. This prototype does",
+    "not",
+    "fake native DWG CAD editing. Optional future: ODA Drawings inWEB or Autodesk APS — not in this click-through.",
+    "Native DWG CAD edit — Unknown / not in public Planner docs as AutoCAD-class",
+    "Manual draw only",
+    "Draw wall",
+    "Place furniture",
+    "Catalog",
+    "CHAIR-LOFT-01 · multi-slot",
+    "Live ERP stock",
+    "Owned CMS",
+    "Apply starter template",
+    "Room Vibez template stub — not Planner’s template manager.",
+    "Light preset: Soft day",
+    "Render preset: Preview",
+    "4K photoreal (usage) — confirm on contract",
+    "Select tool",
+    "Click “Draw wall” then click two corners on the grid (demo places a sample room).",
+    "CSS 3D fallback (Three.js CDN unavailable)",
+    "Place the Loft Chair to edit material slots.",
+    "Materials library",
+    "Library finishes — not embedded in furniture files.",
+    "Slot: wood",
+    "Slot: plastic",
+    "Slot: wool",
+    "Room Vibez BOM (owned)",
+    "Not claiming Planner BOM manager — fed by placements.",
+    "Total: €0",
+    "Cart / BOM panel",
+    "Planner BOM manager — Unknown / not in public docs",
+    "Cart / BOM · Room Vibez owned",
+    "Lines below are Room Vibez system-of-record demos. Planner cart events would feed this service in a real embed.",
+    "BOM lines",
+    "Share / export",
+    "Export floor plan PDF (stub)",
+    "Export PNG (stub)",
+    "Optional GLB package (stub)",
+    "CAD export IFC/DWG — Partial / beta in public Planner docs",
+    "[title] This UI evokes a planner chrome for click-through research; it is not Planner 5D’s official product UI.",
+    "[value] alex@example.com",
+    "[value] Living room — sample",
+    "[title] Unknown / not in public Planner docs",
+    "[aria-label] Tools and catalog",
+    "[title] Unknown",
+    "[aria-label] Materials and BOM",
+    "[aria-label] BOM and SKU",
+    "Warm loft (owned CMS)",
+    "Owned CMS template applied (stub)",
+    "Recognizing ${state.fmt || \"file\"}… (illustrative delay)",
+    "Detecting walls… (demo)",
+    "Building editable room… (demo)",
+    "Draft ready — confirm dimensions",
+    "Manual draw path — AI skipped",
+    "Plan confirmed — opening editor",
+    "Total: €${total}",
+    "Select a multi-slot chair first",
+    "${slot} → ${matId}",
+    "Three.js CDN unavailable — CSS 3D fallback (network needed for CDN)",
+    "WebGL unavailable — CSS 3D fallback",
+    "WebGL context missing — CSS 3D fallback",
+    "Three.js CDN preview — network required for script load",
+    "Click canvas to place sample walls",
+    "Click canvas to place selected SKU",
+    "Select furniture",
+    "Click canvas to place",
+    "Walls updated (demo polygon)",
+    "Light preset:",
+    "Light preset →",
+    "Render preset:",
+    "Render preset →",
+    "(preview only)",
+    "Owned CMS starter contents applied",
+    "PDF export stub — consumer share path",
+    "PNG export stub",
+    "Optional GLB package stub (runtime target)"
+  ]
+}

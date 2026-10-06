@@ -1,0 +1,15 @@
+run-e2e: specs from /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/ws-data against http://127.0.0.1:18782; run dir /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.0DEVlz
+
+Running 9 tests using 1 worker
+
+  ✓  1 tests/e2e/dwg-plan-import.spec.ts:18:5 › DWG plan import: mock fixture → confirm → immediate room + template (17.4s)
+  ✓  2 tests/e2e/missing-features.spec.ts:15:5 › missing features: undo, materials, snap, export, underlay path (11.6s)
+  ✓  3 tests/e2e/room-from-scratch.spec.ts:12:5 › room from scratch: create, opening cutout, place catalog GLB (12.3s)
+  ✓  4 tests/e2e/viewer.spec.ts:24:5 › viewer loads, swaps slot materials, switches presets, remounts cleanly (12.4s)
+  ✓  5 tests/e2e/viewer.spec.ts:98:5 › mobile layout has no horizontal scroll (5.1s)
+  ✓  6 tests/e2e/model-display-cold-load.spec.ts:77:5 › cold load shows demo GLB pixels + meshes even with persisted roomGraph (19.4s)
+  ✓  7 tests/e2e/model-display-cold-load.spec.ts:142:5 › cold load without persistence shows lounge chair (5.3s)
+  ✓  8 tests/e2e/model-display.spec.ts:44:5 › product GLB visible after room create → Product workspace (19.2s)
+  ✓  9 tests/e2e/room-floor-extent.spec.ts:22:5 › room floor outer footprint matches walls and ground is hidden (14.8s)
+
+  9 passed (2.0m)

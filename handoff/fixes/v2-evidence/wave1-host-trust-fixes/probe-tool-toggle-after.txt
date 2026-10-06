@@ -1,0 +1,53 @@
+run-audit: probe-tool-toggle.mjs against http://127.0.0.1:18777 (/Users/adrian/Desktop/Room Vibez/v2/hackathon-3d-viewer); output in /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/out-h1
+{
+ "place": {
+  "afterFirstClick": "place",
+  "afterSecondClick": "room",
+  "afterThirdClick": "place",
+  "canToggleOff": true
+ },
+ "opening": {
+  "afterFirstClick": "opening",
+  "afterSecondClick": "room",
+  "afterThirdClick": "opening",
+  "canToggleOff": true
+ },
+ "draw-wall": {
+  "afterFirstClick": "draw-wall",
+  "afterSecondClick": "room",
+  "afterThirdClick": "draw-wall",
+  "canToggleOff": true
+ },
+ "stateAfterCyclingAllThree": {
+  "mode": "draw-wall",
+  "place": "false",
+  "opening": "false",
+  "draw": "true",
+  "elevationDeg": 21.2
+ },
+ "afterProductThenRoom": {
+  "mode": "room",
+  "place": "false",
+  "opening": "false",
+  "draw": "false",
+  "elevationDeg": 21.2
+ },
+ "afterOrbit": {
+  "mode": "room",
+  "place": "false",
+  "opening": "false",
+  "draw": "false",
+  "elevationDeg": 49.1
+ },
+ "afterClickingPlaceButton": {
+  "mode": "place",
+  "place": "true",
+  "opening": "false",
+  "draw": "false",
+  "elevationDeg": 54.9
+ },
+ "ingressTabClick": {
+  "elevationBefore": 90,
+  "elevationAfter": 90
+ }
+}

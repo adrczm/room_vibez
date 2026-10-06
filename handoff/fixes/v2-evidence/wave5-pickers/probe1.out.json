@@ -1,0 +1,109 @@
+{
+ "pickers": [
+  {
+   "for": "product-select",
+   "enhanced": "true",
+   "parent": "product-picker-slot",
+   "trigger": "Lounge chair (demo)\nProduct",
+   "selectVisible": true
+  },
+  {
+   "for": "texture-target",
+   "enhanced": "true",
+   "parent": "texture-target-wrap",
+   "trigger": "",
+   "selectVisible": false
+  },
+  {
+   "for": "room-wall-material",
+   "enhanced": "true",
+   "parent": "field",
+   "trigger": "DefaultWalls",
+   "selectVisible": false
+  },
+  {
+   "for": "room-floor-material",
+   "enhanced": "true",
+   "parent": "field",
+   "trigger": "DefaultFloor",
+   "selectVisible": false
+  }
+ ],
+ "triggerThumbMs": 25,
+ "stats1": {
+  "contextAlive": true,
+  "contextsCreated": 1,
+  "renders": 1,
+  "cached": 1,
+  "pending": 0,
+  "lastRenderMs": 2679.2999999523163,
+  "geometries": 11,
+  "textures": 4
+ },
+ "popup": {
+  "open": true,
+  "view": "grid",
+  "rect": [
+   904,
+   186,
+   520,
+   236
+  ],
+  "options": [
+   {
+    "id": "demo-lounge-chair",
+    "text": "Lounge chair (demo)",
+    "kind": "thumb",
+    "sel": "true"
+   },
+   {
+    "id": "demo-side-table",
+    "text": "Side table (demo)",
+    "kind": "thumb",
+    "sel": "false"
+   }
+  ]
+ },
+ "stats2": {
+  "contextAlive": true,
+  "contextsCreated": 1,
+  "renders": 2,
+  "cached": 2,
+  "pending": 0,
+  "lastRenderMs": 985.8999999761581,
+  "geometries": 11,
+  "textures": 5
+ },
+ "afterPick": {
+  "value": "demo-side-table",
+  "slots": 2,
+  "trigger": "Side table (demo)\nProduct",
+  "focus": "tpicker-trigger"
+ },
+ "room": {
+  "slotParent": "product-picker-home-room",
+  "pickers": 1,
+  "popups": 4
+ },
+ "wall": {
+  "open": true,
+  "view": "grid",
+  "title": "Walls",
+  "groups": [
+   "All",
+   "Wood",
+   "Plastic",
+   "Textile",
+   "Stone",
+   "Metal"
+  ],
+  "options": 14,
+  "native": 14
+ },
+ "wallPicked": {
+  "graph": "wood-walnut",
+  "value": "wood-walnut",
+  "trigger": "Walnut\nWalls"
+ },
+ "errors": []
+}

@@ -1,0 +1,106 @@
+run-e2e: specs from /Users/adrian/Desktop/Room Vibez/v2/hackathon-3d-viewer against http://127.0.0.1:18777; run dir /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.yEQ5Tb
+
+Running 60 tests using 1 worker
+
+  ✓   1 tests/e2e/catalog-pickers.spec.ts:101:5 › UX-14: the product picker opens a tile grid over the stage; picking a tile changes the select, the turntable and the Materials card (9.8s)
+  ✓   2 tests/e2e/catalog-pickers.spec.ts:158:5 › UX-14: keyboard only: open, arrow to a tile, Enter selects, Esc closes, focus returns to the trigger (3.4s)
+  ✓   3 tests/e2e/catalog-pickers.spec.ts:186:5 › UX-14: a select set in code shows in the trigger after sync(); selectOption keeps the trigger in step by itself (3.1s)
+  ✓   4 tests/e2e/catalog-pickers.spec.ts:209:5 › UX-14 step 2b: List shows one row per item and selects the same way; the choice survives a reload, per picker kind; the list view draws no thumbnail (14.1s)
+  ✓   5 tests/e2e/catalog-pickers.spec.ts:282:5 › UX-14 step 2b: with localStorage.setItem throwing from before load, nothing throws and the view choice holds for the session (5.9s)
+  ✓   6 tests/e2e/catalog-pickers.spec.ts:304:5 › UX-14: a model the user adds appears in the grid with "your upload" and a placeholder, then its thumbnail (6.6s)
+  ✓   7 tests/e2e/catalog-pickers.spec.ts:348:5 › thumbnails: real images in the default finish; one thumbnail WebGL context beside the 3D view; thumbnailUrl wins; Restart 3D view leaves pickers, thumbnails and Materials working (13.0s)
+  ✓   8 tests/e2e/catalog-pickers.spec.ts:446:5 › UX-15: wall and floor pickers show swatches, names and category tabs; a pick goes through the existing handler; the native selects keep 14 options (6.6s)
+  ✓   9 tests/e2e/catalog-pickers.spec.ts:516:5 › UX-15: the texture-target picker stays inside #texture-target-wrap and follows the map role; a new texture appears in every material picker; category and role stay native (4.2s)
+  ✓  10 tests/e2e/catalog-pickers.spec.ts:570:5 › UX-15 step 6: slot swatches stay inline buttons and each shows its name on one line; the tooltip keeps "Name (SKU)"; Materials still need no panel scroll at 1440×900 (4.1s)
+  ✓  11 tests/e2e/catalog-pickers.spec.ts:626:5 › wave 4 interplay: with a placed product selected, arrows, Enter and Esc inside a picker do not move or deselect it; Esc closes the picker only (5.5s)
+  ✓  12 tests/e2e/catalog-pickers.spec.ts:716:7 › at 375×812 with a touch screen › the product picker is a full-width sheet: 30 products in the list view, no horizontal scroll, 44 px rows and swatches (3.8s)
+  ✓  13 tests/e2e/dwg-plan-import.spec.ts:18:5 › DWG plan import: mock fixture → confirm → immediate room + template (9.7s)
+  ✓  14 tests/e2e/feedback-and-guards.spec.ts:126:5 › Room workspace with no room: empty stage, a card with four ways to start, the right hint; Product is unaffected (4.0s)
+  ✓  15 tests/e2e/feedback-and-guards.spec.ts:202:5 › Clear room asks first: Keep room changes nothing; confirming empties the room, stays in Room, and a reload after an Export stays empty (6.2s)
+  ✓  16 tests/e2e/feedback-and-guards.spec.ts:271:5 › replacing a room that has work in it asks first; an untouched room is replaced without a question; Delete template asks (7.5s)
+  ✓  17 tests/e2e/feedback-and-guards.spec.ts:349:5 › Place mode answers on the stage: fixed tool labels, a state chip, a toast for a missed click, and nothing is placed outside the room (8.5s)
+  ✓  18 tests/e2e/feedback-and-guards.spec.ts:459:5 › a project file can be opened in the Room workspace before any room exists, and its placed product comes back (11.1s)
+  ✓  19 tests/e2e/feedback-and-guards.spec.ts:508:5 › choosing only a wall finish leaves the floor as it was, and the other way round (4.6s)
+  ✓  20 tests/e2e/missing-features.spec.ts:15:5 › missing features: undo, materials, snap, export, underlay path (11.1s)
+  ✓  21 tests/e2e/panel-structure.spec.ts:112:5 › only the active workspace is rendered: the A2 check passes in every state, and no tab stop is in the hidden group (4.1s)
+  ✓  22 tests/e2e/panel-structure.spec.ts:170:5 › Product on arrival at 1440×900: Materials need no panel scroll, the light presets are on the stage, and a switch starts the panel at its top (5.6s)
+  ✘  23 tests/e2e/panel-structure.spec.ts:231:7 › small screen › 375×812 (QA-03): the 3D view is on screen on arrival, after Room workspace and after Create room (4.0s)
+  ✓  24 tests/e2e/panel-structure.spec.ts:271:5 › the Room workspace is four steps, one open at a time; Create room opens the next step and moves focus to its heading (11.1s)
+  ✓  25 tests/e2e/panel-structure.spec.ts:406:5 › one product picker: it is in the Product card in Product and in the Place products step in Room, and keeps its choice (4.0s)
+  ✓  26 tests/e2e/panel-structure.spec.ts:440:5 › Add to room places the selected product inside the room with no pointer: centre first, then a free spot; also from the keyboard (5.4s)
+  ✓  27 tests/e2e/panel-structure.spec.ts:511:5 › Add to room in an L-shaped room: the centre of its bounds is not on the floor, the product still lands on it (4.8s)
+  ✓  28 tests/e2e/panel-structure.spec.ts:542:5 › the room toolbar: Import project with or without a room; Undo, Redo and Export project only with one; one file input (6.5s)
+  ✓  29 tests/e2e/panel-structure.spec.ts:609:5 › an open toast does not block the canvas: a real click on the floor under it places the product, and its close button still works (5.4s)
+  ✓  30 tests/e2e/placed-products.spec.ts:171:5 › UX-16: a product is placed with the finish the Materials card shows, by Add to room and by a click on the floor (6.4s)
+  ✓  31 tests/e2e/placed-products.spec.ts:239:5 › UX-16: the finish survives undo, redo and a reload of the page (9.4s)
+  ✓  32 tests/e2e/placed-products.spec.ts:271:5 › UX-16 step 3: one Materials card, after the Product card in Product and under the picker in the Place products step (5.1s)
+  ✘  33 tests/e2e/placed-products.spec.ts:340:5 › UX-09: rows are numbered per product; a product is selected by a real click on it and from its row (5.1s)
+  ✓  34 tests/e2e/placed-products.spec.ts:426:5 › UX-09: rotate, nudge and delete the selected product by key and by button; Undo reverses each step (18.8s)
+  ✓  35 tests/e2e/placed-products.spec.ts:561:5 › UX-16 step 4: with a placed product selected, the Materials card shows and changes that product; Undo reverses it (11.4s)
+  ✓  36 tests/e2e/placed-products.spec.ts:637:5 › Copy §6 C: a room saved with an uploaded model says, after a refresh, that the model was not placed back (11.1s)
+  ✓  37 tests/e2e/room-floor-visible.spec.ts:91:7 › floor is visible on arrival at 1440×900 (no camera input) (6.0s)
+  ✓  38 tests/e2e/room-floor-visible.spec.ts:91:7 › floor is visible on arrival at 375×812 (no camera input) (5.0s)
+  ✓  39 tests/e2e/room-floor-visible.spec.ts:132:5 › cutaway is what uncovers the near floor; hidden walls and their openings do not catch clicks (7.8s)
+  ✓  40 tests/e2e/room-floor-visible.spec.ts:194:5 › a ceiling switched on by the host is hidden while the camera is above it (6.6s)
+  ✓  41 tests/e2e/room-from-scratch.spec.ts:12:5 › room from scratch: create, opening cutout, place catalog GLB (9.7s)
+  ✓  42 tests/e2e/room-place-bounds.spec.ts:29:5 › place mode: void and under-wall clicks add nothing, a floor click places inside the room (8.2s)
+  ✓  43 tests/e2e/room-place-bounds.spec.ts:114:5 › a pick in the same tick as a room rebuild is tested against the rebuilt room (5.6s)
+  ✓  44 tests/e2e/room-placement-engine.spec.ts:95:5 › UX-09 engine: placement hits, pose changes and the highlight (10.3s)
+  ✓  45 tests/e2e/room-placement-engine.spec.ts:237:5 › UX-16 step 1: applySlotBindings puts the chosen finish on a placed product (6.8s)
+  ✓  46 tests/e2e/room-product-stage.spec.ts:72:5 › QA-05: picking a product with a room on stage leaves the camera alone (8.4s)
+  ✓  47 tests/e2e/room-product-stage.spec.ts:124:5 › QA-05: a product loaded off stage is framed as soon as the turntable is shown again (6.3s)
+  ✓  48 tests/e2e/room-product-stage.spec.ts:143:5 › UX-06 engine: without the opt-in, a room mode with no room still shows the product (4.7s)
+  ✓  49 tests/e2e/room-product-stage.spec.ts:165:5 › UX-06 engine: with the opt-in, an empty Room stage has no product; Product always has it (8.3s)
+  ✓  50 tests/e2e/trust-fixes.spec.ts:76:5 › room tools: a second click switches the tool off, Esc leaves it, and neither a tool nor a tab moves the camera (4.4s)
+  ✓  51 tests/e2e/trust-fixes.spec.ts:147:5 › room size: the fields win over the preset, and typing in one flips the preset to Custom (2.7s)
+  ✓  52 tests/e2e/trust-fixes.spec.ts:169:5 › room units: switching to cm converts the fields and their limits; the walls are still 0.12 m thick (2.9s)
+  ✓  53 tests/e2e/trust-fixes.spec.ts:218:5 › Cmd/Ctrl+Z typed in a field undoes the typing, not the room (4.5s)
+  ✓  54 tests/e2e/trust-fixes.spec.ts:253:5 › nothing marked hidden is displayed, and room-only buttons wait for a room (2.7s)
+  ✓  55 tests/e2e/viewer.spec.ts:24:5 › viewer loads, swaps slot materials, switches presets, remounts cleanly (9.4s)
+  ✓  56 tests/e2e/viewer.spec.ts:98:5 › mobile layout has no horizontal scroll (2.3s)
+  ✓  57 tests/e2e/model-display-cold-load.spec.ts:77:5 › cold load shows demo GLB pixels + meshes even with persisted roomGraph (10.2s)
+  ✓  58 tests/e2e/model-display-cold-load.spec.ts:142:5 › cold load without persistence shows lounge chair (2.9s)
+  ✓  59 tests/e2e/model-display.spec.ts:44:5 › product GLB visible after room create → Product workspace (11.7s)
+  ✓  60 tests/e2e/room-floor-extent.spec.ts:22:5 › room floor outer footprint matches walls and ground is hidden (9.3s)
+
+
+  1) tests/e2e/panel-structure.spec.ts:231:7 › small screen › 375×812 (QA-03): the 3D view is on screen on arrival, after Room workspace and after Create room 
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 1.5
+    Received:   1.5853794642857142
+
+      242 |     });
+      243 |     expect(slots.topScreens).toBeLessThan(1.5);
+    > 244 |     expect(slots.bottomScreens).toBeLessThan(1.5);
+          |                                 ^
+      245 |
+      246 |     // 2. After Room workspace.
+      247 |     await page.tap(ROOM_TOGGLE);
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.yEQ5Tb/tests/e2e/panel-structure.spec.ts:244:33
+
+    Error Context: tests/e2e/screenshots/panel-structure-small-scre-76e5b-space-and-after-Create-room/error-context.md
+
+  2) tests/e2e/placed-products.spec.ts:340:5 › UX-09: rows are numbered per product; a product is selected by a real click on it and from its row 
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 20
+    Received:   6.03125
+
+      386 |   await page.mouse.click(pointer.x, pointer.y);
+      387 |   expect(await selection(page)).toMatchObject({ row: [chair1], outline: chair1, outlines: 1, hint: SELECTED_HINT });
+    > 388 |   expect(Math.abs((await cardHeight()) - heightBefore)).toBeGreaterThan(20); // the card did change height
+          |                                                         ^
+      389 |   expect(await rowAt(pointer)).toBe(chair1);
+      390 |   await page.hover(`${ROWS}:nth-child(3) .placement-name`);
+      391 |   expect(await selection(page)).toMatchObject({ row: [chair1], outline: table });
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.yEQ5Tb/tests/e2e/placed-products.spec.ts:388:57
+
+    Error Context: tests/e2e/screenshots/placed-products-UX-09-rows-f0c7c-lick-on-it-and-from-its-row/error-context.md
+
+  2 failed
+    tests/e2e/panel-structure.spec.ts:231:7 › small screen › 375×812 (QA-03): the 3D view is on screen on arrival, after Room workspace and after Create room 
+    tests/e2e/placed-products.spec.ts:340:5 › UX-09: rows are numbered per product; a product is selected by a real click on it and from its row 
+  58 passed (7.1m)

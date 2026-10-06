@@ -1,0 +1,15 @@
+import { launch, fresh } from './lib.mjs';
+const browser = await launch();
+const { ctx, page, errors } = await fresh(browser, { settle: 0, viewport: { width: 1280, height: 800 } });
+await page.click('#workspace-mode button[data-mode=room]');
+await page.evaluate(() => { window.__log = []; const d = document.getElementById('room-size-adjust'); d.addEventListener('toggle', (e) => window.__log.push(`toggle open=${d.open} preset=${document.getElementById('room-preset').value} old=${e.oldState} new=${e.newState}`)); document.getElementById('room-preset').addEventListener('change', () => window.__log.push('change→' + document.getElementById('room-preset').value + ' open=' + d.open)); });
+const st = async (label) => console.log(label, await page.evaluate(() => ({ open: document.getElementById('room-size-adjust').open, preset: document.getElementById('room-preset').value, log: window.__log.splice(0) })));
+await page.click('#room-more > summary');
+await page.click('#room-more > summary');
+await page.selectOption('#room-preset', 'custom'); await st('custom');
+await page.selectOption('#room-preset', 'studio'); await st('studio');
+await page.click('#room-size-adjust > summary'); await st('clicked summary');
+await page.selectOption('#room-preset', 'living'); await st('living');
+await page.waitForTimeout(300); await st('later');
+console.log(errors);
+await browser.close();

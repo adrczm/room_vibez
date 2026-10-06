@@ -1,0 +1,20 @@
+// QA-02 after-measure, same questions as audit-viewer.mjs section S05 (place-mode grid + real void click), unedited host.
+import { chromium } from '/private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/ws-engine/node_modules/playwright/index.mjs';
+const browser = await chromium.launch({ channel: 'chrome', args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+const page = await ctx.newPage();
+await page.goto('http://127.0.0.1:18781/');
+await page.waitForFunction(() => document.body.dataset.viewerStatus === 'ready', null, { timeout: 60000 });
+await page.waitForTimeout(2000);
+await page.locator('#workspace-mode button[data-mode=room]').click(); await page.waitForTimeout(1200);
+await page.selectOption('#room-preset', 'living'); await page.click('#btn-create-room'); await page.waitForFunction(() => !!window.__rv.roomGraph()); await page.waitForTimeout(1200);
+await page.click('#btn-place-mode'); await page.waitForTimeout(500);
+const grid = await page.evaluate(() => { const v = window.__rv.viewer(); const r = v.canvas.getBoundingClientRect(); const poly = window.__rv.roomGraph().rooms[0].floor_polygon; const xs = poly.map((p) => p.x), zs = poly.map((p) => p.z); const N = 21; const o = { mode: v.getInteractionMode(), inside: 0, outside: 0, wall: 0, none: 0 }; for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) { const h = v.raycastRoom(r.left + ((i + 0.5) * r.width) / N, r.top + ((j + 0.5) * r.height) / N); if (!h) o.none++; else if (h.kind === 'wall') o.wall++; else if (h.point.x > Math.min(...xs) && h.point.x < Math.max(...xs) && h.point.z > Math.min(...zs) && h.point.z < Math.max(...zs)) o.inside++; else o.outside++; } const pct = (n) => +((n / (N * N)) * 100).toFixed(1); return { ...o, insidePct: pct(o.inside), outsidePct: pct(o.outside), wallPct: pct(o.wall), nonePct: pct(o.none) }; });
+const voidCell = await page.evaluate(() => { const c = document.querySelector('#viewer-host canvas').getBoundingClientRect(); return { x: c.left + 40, y: c.bottom - 60 }; });
+await page.mouse.click(voidCell.x, voidCell.y); await page.waitForTimeout(1200);
+const afterVoid = await page.evaluate(() => ({ placements: window.__rv.roomGraph().placements.length, status: document.getElementById('room-status').innerText, isError: document.getElementById('room-status').classList.contains('error') }));
+const c = await page.evaluate(() => { const r = document.querySelector('#viewer-host canvas').getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; });
+await page.mouse.click(c.x, c.y); await page.waitForTimeout(1500);
+const afterCentre = await page.evaluate(() => { const g = window.__rv.roomGraph(); const p = g.placements[g.placements.length - 1]; const poly = g.rooms[0].floor_polygon; const xs = poly.map((q) => q.x), zs = poly.map((q) => q.z); return { placements: g.placements.length, last: p ? { x: +p.position.x.toFixed(2), z: +p.position.z.toFixed(2) } : null, placedOutsideRoom: p ? (p.position.x < Math.min(...xs) || p.position.x > Math.max(...xs) || p.position.z < Math.min(...zs) || p.position.z > Math.max(...zs)) : null, status: document.getElementById('room-status').innerText }; });
+console.log(JSON.stringify({ placeModeGrid: grid, voidClick: afterVoid, canvasCentreClick: afterCentre }, null, 1));
+await browser.close();

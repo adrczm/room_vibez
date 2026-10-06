@@ -1,0 +1,32 @@
+import { chromium } from '/Users/adrian/Desktop/Room Vibez/hackathon-3d-viewer/node_modules/playwright/index.mjs';
+const browser = await chromium.launch({ channel: 'chrome', args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+const page = await ctx.newPage();
+await page.goto('http://127.0.0.1:18767/');
+await page.waitForFunction(() => document.body.dataset.viewerStatus === 'ready');
+await page.waitForTimeout(2000);
+const st = (label) => page.evaluate((label) => { const v = window.__rv.viewer(); const c = v.camera.position; return { step: label, mode: v.getInteractionMode(), pressed: document.getElementById('btn-place-mode').getAttribute('aria-pressed'), hint: document.getElementById('stage-hint').innerText.slice(0, 40), cam: [c.x, c.y, c.z].map((n) => +n.toFixed(2)), turntableVisible: v.turntable.visible, shellVisible: v.roomBuilt?.root?.visible, placements: window.__rv.roomGraph()?.placements.length ?? null, status: document.getElementById('room-status').innerText.slice(0, 60), workspace: document.body.dataset.workspace }; }, label);
+const log = [];
+await page.locator('#workspace-mode button[data-mode=room]').click(); await page.waitForTimeout(1200);
+await page.selectOption('#room-preset', 'living'); await page.click('#btn-create-room'); await page.waitForFunction(() => !!window.__rv.roomGraph()); await page.waitForTimeout(1200);
+log.push(await st('room created'));
+await page.click('#btn-place-mode'); await page.waitForTimeout(500);
+log.push(await st('place mode on'));
+await page.evaluate(() => window.__rv.simulateRoomPointer({ kind: 'floor', point: { x: 0, y: 0, z: 0 } }, 'place')); await page.waitForTimeout(1500);
+log.push(await st('chair placed'));
+await page.selectOption('#product-select', 'demo-side-table'); await page.waitForTimeout(1500);
+log.push(await st('picked side table in the product select'));
+await page.click('#btn-place-mode'); await page.waitForTimeout(600);
+log.push(await st('clicked Place button once more (expect: off)'));
+await page.click('#btn-place-mode'); await page.waitForTimeout(600);
+log.push(await st('clicked Place button again'));
+// Does picking a product while in plain Room mode change what is on stage?
+await page.click('#btn-place-mode').catch(() => {}); await page.waitForTimeout(400);
+await page.selectOption('#product-select', 'demo-lounge-chair'); await page.waitForTimeout(1500);
+log.push(await st('picked lounge chair again'));
+// swatch click in Room mode: does it affect the placed chair or the hidden turntable product?
+await page.click('.slot[data-slot=frame] .swatch[data-material=wood-walnut]'); await page.waitForTimeout(800);
+const mats = await page.evaluate(() => { const v = window.__rv.viewer(); const s = (root) => { const o = {}; root.traverse((m) => { if (m.isMesh) o[m.material.name] = (o[m.material.name] || 0) + 1; }); return o; }; return { turntableProduct: s(v.getModelRoot()), placed: [...v.placementRoots.values()].map(s), turntableVisible: v.turntable.visible }; });
+log.push({ step: 'clicked Walnut swatch while in Room workspace', ...mats });
+console.log(JSON.stringify(log, null, 1));
+await browser.close();

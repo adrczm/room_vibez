@@ -1,0 +1,22 @@
+
+ RUN  v5.0.3 /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/ws-copy
+
+stdout | tests/unit/zz-probe3.test.ts > probe
+TRI ["No .mtl in selection — geometry loads with default materials; slots from object names or surface fallback","Meshes without UVs — textured library materials will look flat: (unnamed)","No usemtl / named groups / sidecar — bound whole model to surface slot"] 1 obj-fallback-surface
+
+stdout | tests/unit/zz-probe3.test.ts > probe
+STOOL ["MTL failed to parse — loading geometry without materials (document is not defined)","Slots from usemtl/groups + sidecar: top, legs"] 2 2 obj-usemtl (top, legs)
+
+stdout | tests/unit/zz-probe3.test.ts > probe
+STOOL-noPNG 2 ms ["MTL failed to parse — loading geometry without materials (document is not defined)","MTL references missing textures (not in upload): wood.png","Slots from usemtl/groups: top, legs"]
+
+stdout | tests/unit/zz-probe3.test.ts > probe
+SIDECAR-ONLY ["No .mtl in selection — geometry loads with default materials; slots from object names or surface fallback","Meshes without UVs — textured library materials will look flat: seat","Slots from usemtl/groups + sidecar: cushion"] obj-usemtl (cushion)
+
+ ✓ tests/unit/zz-probe3.test.ts > probe 15ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  16:15:30
+   Duration  421ms (transform 55%, import 31%, tests 10%, worker 5%)
+

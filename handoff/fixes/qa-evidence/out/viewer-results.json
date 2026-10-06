@@ -1,0 +1,2102 @@
+{
+  "S01": {
+    "name": "Product workspace, fresh load, 1440x900: panel metrics",
+    "observed": {
+      "viewport": [
+        1440,
+        900
+      ],
+      "mode": "catalog",
+      "panelClientH": 781,
+      "panelScrollH": 3036,
+      "panelScrollTop": 2,
+      "slotsTopInPanel": 1766,
+      "presetsTopInPanel": 2635,
+      "roomCardH": 874,
+      "catalogCardH": 824,
+      "visibleFileInputs": [
+        "model-files",
+        "pack-files",
+        "pack-glb-mate",
+        "module-file",
+        "texture-file"
+      ],
+      "controlsUnder32px": [
+        "button \"Product\" 120x31",
+        "button \"Room workspace\" 120x31",
+        "button \"From scratch\" 99x31",
+        "button \"Import plan\" 99x31",
+        "button \"From template\" 99x31",
+        "summary \"Room graph JSON\" 310x17"
+      ],
+      "overflowX": 0,
+      "docScrollH": 900,
+      "dimmedRoomCardOpacity": "0.72",
+      "firstPanelChild": "div#room-card \"Room workspace MVP Three create paths → \"",
+      "panelWidth": 340,
+      "stage": [
+        1052,
+        781
+      ],
+      "title": "Catalog 3D",
+      "stageHint": "Drag to spin product · scroll to zoom · right-drag / two-finger to pan",
+      "workspaceHint": "Product turntable — inspect GLB, materials, and packs.",
+      "errors": []
+    }
+  },
+  "S02": {
+    "name": "Room workspace with no room: scroll position, stage content, hints",
+    "observed": {
+      "viewport": [
+        1440,
+        900
+      ],
+      "mode": "room",
+      "panelClientH": 765,
+      "panelScrollH": 3036,
+      "panelScrollTop": 128,
+      "slotsTopInPanel": 1766,
+      "presetsTopInPanel": 2635,
+      "roomCardH": 874,
+      "catalogCardH": 824,
+      "visibleFileInputs": [
+        "model-files",
+        "pack-files",
+        "pack-glb-mate",
+        "module-file",
+        "texture-file"
+      ],
+      "controlsUnder32px": [
+        "button \"Product\" 120x31",
+        "button \"Room workspace\" 120x31",
+        "button \"From scratch\" 99x31",
+        "button \"Import plan\" 99x31",
+        "button \"From template\" 99x31",
+        "summary \"Room graph JSON\" 310x17"
+      ],
+      "overflowX": 0,
+      "docScrollH": 900,
+      "turntableVisible": true,
+      "interactionMode": "catalog",
+      "stageHint": "Room · drag to orbit · scroll to zoom · right-drag to pan",
+      "workspaceHint": "Room editor — build the shell, openings, and place Catalog 3D products.",
+      "roomStatus": "No room yet — from scratch, import plan, or template.",
+      "clearRoomButtonVisibleWithNoRoom": true,
+      "saveTemplateVisibleWithNoRoom": true,
+      "roomCardHeaderInView": false,
+      "ingressTabsInView": false,
+      "saveTemplateWithNoRoom": {
+        "text": "Create or load a room first.",
+        "isError": true
+      },
+      "errors": []
+    }
+  },
+  "S03": {
+    "name": "UX-01 reproduce: preset Small bedroom + Length typed 6 -> Create room",
+    "observed": {
+      "presetBefore": "small-bedroom",
+      "presetAfter": "small-bedroom",
+      "fieldLengthAfter": "6",
+      "room": {
+        "name": "Small bedroom",
+        "lengthX": 3,
+        "widthZ": 3,
+        "ceiling": 2.7,
+        "wallThickness": 0.12,
+        "walls": 4,
+        "openings": 0,
+        "placements": 0,
+        "bounds": {
+          "minX": -1.5,
+          "maxX": 1.5,
+          "minZ": -1.5,
+          "maxZ": 1.5
+        }
+      },
+      "status": "Small bedroom · 3.00 m × 3.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored"
+    }
+  },
+  "S04": {
+    "name": "Room exists (Living 5x4), 1440x900: panel metrics and distances",
+    "observed": {
+      "viewport": [
+        1440,
+        900
+      ],
+      "mode": "room",
+      "panelClientH": 765,
+      "panelScrollH": 3832,
+      "panelScrollTop": 109,
+      "slotsTopInPanel": 2562,
+      "presetsTopInPanel": 3431,
+      "roomCardH": 1670,
+      "catalogCardH": 824,
+      "visibleFileInputs": [
+        "project-file",
+        "model-files",
+        "pack-files",
+        "pack-glb-mate",
+        "module-file",
+        "texture-file"
+      ],
+      "controlsUnder32px": [
+        "button \"Product\" 120x31",
+        "button \"Room workspace\" 120x31",
+        "button \"From scratch\" 99x31",
+        "button \"Import plan\" 99x31",
+        "button \"From template\" 99x31",
+        "button \"Door\" 99x31",
+        "button \"Window\" 99x31",
+        "summary \"Room graph JSON\" 310x17"
+      ],
+      "overflowX": 0,
+      "docScrollH": 900,
+      "projectFileDisplay": "block",
+      "projectFileHasHiddenAttr": true,
+      "projectFileHeight": 20,
+      "tops": {
+        "room-ingress": 97,
+        "room-preset": 283,
+        "btn-create-room": 540,
+        "btn-clear-room": 581,
+        "room-status": 621,
+        "room-plan": 668,
+        "btn-undo": 924,
+        "btn-export-project": 965,
+        "room-wall-material": 1083,
+        "btn-draw-wall-mode": 1189,
+        "opening-type": 1259,
+        "btn-opening-mode": 1422,
+        "place-wall-snap": 1562,
+        "btn-place-mode": 1585,
+        "placement-list": 1626,
+        "catalog-card": 1682,
+        "product-select": 1726,
+        "slots": 2562,
+        "presets": 3431
+      },
+      "statusToPlaceBtnPx": 964,
+      "placeBtnToProductSelectPx": 141,
+      "catalogCardOpacityInRoomMode": "0.72",
+      "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored",
+      "stageHint": "Room · drag to orbit · scroll to zoom · right-drag to pan",
+      "undoDisabled": true
+    }
+  },
+  "S05": {
+    "name": "UX-05 reproduce: floor visibility on arrival (raycast grid) + real mouse Place clicks",
+    "observed": {
+      "small-bedroom": {
+        "room": {
+          "lengthX": 3,
+          "widthZ": 3
+        },
+        "roomMode": {
+          "counts": {
+            "none": 294,
+            "wall": 147
+          },
+          "total": 441,
+          "floorPct": 0,
+          "centreHit": "wall",
+          "cameraElevationDeg": 21.2,
+          "ceilingVisible": false,
+          "rows": [
+            ".....................",
+            ".....................",
+            ".....................",
+            "........WWWWW........",
+            "....WWWWWWWWWWWWW....",
+            "....WWWWWWWWWWWWW....",
+            "....WWWWWWWWWWWW.....",
+            "....WWWWWWWWWWWW.....",
+            "....WWWWWWWWWWWW.....",
+            "....WWWWWWWWWWWW.....",
+            ".....WWWWWWWWWWW.....",
+            ".....WWWWWWWWWWW.....",
+            ".....WWWWWWWWWWW.....",
+            ".....WWWWWWWWWWW.....",
+            ".....WWWWWWWWWW......",
+            ".......WWWWWWW.......",
+            "........WWWWW........",
+            "..........WW.........",
+            ".....................",
+            ".....................",
+            "....................."
+          ]
+        }
+      },
+      "living": {
+        "room": {
+          "lengthX": 5,
+          "widthZ": 4
+        },
+        "roomMode": {
+          "counts": {
+            "none": 189,
+            "wall": 252
+          },
+          "total": 441,
+          "floorPct": 0,
+          "centreHit": "wall",
+          "cameraElevationDeg": 21.2,
+          "ceilingVisible": false,
+          "rows": [
+            ".....................",
+            ".....................",
+            ".....................",
+            "....WWWWWWWWWWW......",
+            ".WWWWWWWWWWWWWWWWWWW.",
+            ".WWWWWWWWWWWWWWWWWWW.",
+            ".WWWWWWWWWWWWWWWWWWW.",
+            ".WWWWWWWWWWWWWWWWWWW.",
+            "..WWWWWWWWWWWWWWWWW..",
+            "..WWWWWWWWWWWWWWWWW..",
+            "..WWWWWWWWWWWWWWWWW..",
+            "..WWWWWWWWWWWWWWWWW..",
+            "..WWWWWWWWWWWWWWWWW..",
+            "..WWWWWWWWWWWWWWWWW..",
+            "...WWWWWWWWWWWWWWW...",
+            ".....WWWWWWWWWWWWW...",
+            "......WWWWWWWWWWW....",
+            ".......WWWWWWWWW.....",
+            ".........WWWWWWW.....",
+            "..........WWWWW......",
+            "...........WWW......."
+          ]
+        },
+        "placeMode": {
+          "afterToggle": {
+            "pressed": "true",
+            "btnLabel": "Place mode on — click the floor",
+            "stageHint": "Place mode · click floor to drop the selected product · orbit to look",
+            "panelScrollTop": 905,
+            "roomStatusVisibleInPanel": false,
+            "roomStatusOffsetAbovePanelTopPx": 249,
+            "cursor": "crosshair"
+          },
+          "gridCounts": {
+            "none": 73,
+            "wall": 252,
+            "floor": 116
+          },
+          "floorPct": 26.3,
+          "centreClick": {
+            "status": "Click the floor inside the room to place furniture.",
+            "isError": true,
+            "placements": 0,
+            "statusVisibleInPanel": false,
+            "anyVisibleFeedbackOnStage": [
+              "div.stage-toolbar \"Reset camera Dispose & remount\"",
+              "button#btn-reset \"Reset camera\"",
+              "button#btn-remount \"Dispose & remount\"",
+              "p#stage-hint \"Place mode · click floor to drop the sel\""
+            ]
+          },
+          "voidClick": {
+            "voidHit": {
+              "kind": "floor",
+              "x": -0.48,
+              "z": 3.74
+            },
+            "placementsBefore": 0,
+            "status": "Placed “Lounge chair (demo)” on the floor",
+            "placements": 1,
+            "last": {
+              "x": -0.48,
+              "z": 3.74
+            },
+            "bounds": {
+              "minX": -2.5,
+              "maxX": 2.5,
+              "minZ": -2,
+              "maxZ": 2
+            },
+            "placedOutsideRoom": true
+          },
+          "floorClick": "no visible in-room floor cell on arrival"
+        }
+      },
+      "studio": {
+        "room": {
+          "lengthX": 6,
+          "widthZ": 4
+        },
+        "roomMode": {
+          "counts": {
+            "none": 153,
+            "wall": 287,
+            "floor": 1
+          },
+          "total": 441,
+          "floorPct": 0.2,
+          "centreHit": "wall",
+          "cameraElevationDeg": 21.2,
+          "ceilingVisible": false,
+          "rows": [
+            ".....................",
+            ".....................",
+            ".....................",
+            "...WWWWWWWWWWWW......",
+            "WWWWWWWWWWWWWWWWWWWWW",
+            ".WWWWWWWWWWWWWWWWWWWW",
+            ".WWWWWWWWWWWWWWWWWWWW",
+            ".WWWWWWWWWWWWWWWWWWWW",
+            ".WWWWWWWWWWWWWWWWWWWW",
+            ".WWWWWWWWWWWWWWWWWWWW",
+            ".WWWWWWWWWWWWWWWWWWWW",
+            ".WWWWWWWWWWWWWWWWWWWW",
+            ".WWWWWWWWWWWWWWWWWWW.",
+            "..WWWWWWWWWWWWWWWWWW.",
+            "...WWWWWWWWWWWWWWWWW.",
+            ".....WWWWWWWWWWWWWWF.",
+            "......WWWWWWWWWWWWW..",
+            ".......WWWWWWWWWWW...",
+            ".........WWWWWWWWW...",
+            "..........WWWWWWW....",
+            "...........WWWWWW...."
+          ]
+        }
+      }
+    }
+  },
+  "S06": {
+    "name": "UX-10 verify: does a finish chosen in Product carry into the room? Placed vs turntable materials",
+    "observed": {
+      "slotsBefore": [
+        [
+          "frame",
+          "wood-oak"
+        ],
+        [
+          "handles",
+          "plastic-black"
+        ],
+        [
+          "pillow",
+          "wool-cream"
+        ]
+      ],
+      "turntableDefault": {
+        "lib:wood-oak | #ffffff | map:wood-oak.png": 10,
+        "lib:plastic-black | #1e1e1e | map:none": 2,
+        "lib:wool-cream | #efe6d4 | map:wool-knit.png": 2
+      },
+      "slotsAfterSwatch": [
+        [
+          "frame",
+          "wood-walnut"
+        ],
+        [
+          "handles",
+          "plastic-black"
+        ],
+        [
+          "pillow",
+          "wool-terracotta"
+        ]
+      ],
+      "turntableAfterSwatch": {
+        "lib:wood-walnut | #ffffff | map:wood-walnut.png": 10,
+        "lib:plastic-black | #1e1e1e | map:none": 2,
+        "lib:wool-terracotta | #c4704f | map:wool-knit.png": 2
+      },
+      "placedRootMaterials": [
+        {
+          "placeholder_frame | #e7e7e7 | map:none": 10,
+          "placeholder_handles | #e7e7e7 | map:none": 2,
+          "placeholder_pillow | #e7e7e7 | map:none": 2
+        }
+      ],
+      "storedSlotBindings": {
+        "frame": "wood-oak",
+        "handles": "plastic-black",
+        "pillow": "wool-cream"
+      },
+      "placedAt": {
+        "x": 2.5,
+        "y": 0,
+        "z": 2
+      }
+    }
+  },
+  "S07": {
+    "name": "UX-03 reproduce: Clear room with a placed chair",
+    "observed": {
+      "button": {
+        "clearW": 310,
+        "createW": 310,
+        "gapBelowCreatePx": 8,
+        "clearBg": "rgb(255, 255, 255)",
+        "clearColor": "rgb(48, 48, 48)"
+      },
+      "confirmDialogShown": false,
+      "after": {
+        "workspace": "catalog",
+        "roomGraph": null,
+        "undoVisible": false,
+        "roomStatus": "No room yet — from scratch, import plan, or template."
+      },
+      "afterUndoKeys": {
+        "roomGraphRestored": false
+      }
+    }
+  },
+  "S08": {
+    "name": "K1 reproduce: switch units to cm with defaults, then Create room",
+    "observed": {
+      "fieldsInMeters": {
+        "room-length": "3",
+        "room-width": "3",
+        "room-ceiling": "2.7",
+        "room-thickness": "0.12"
+      },
+      "fieldsAfterSwitchToCm": {
+        "room-length": "3",
+        "room-width": "3",
+        "room-ceiling": "2.7",
+        "room-thickness": "0.12"
+      },
+      "fieldLabels": [
+        "Length (X)",
+        "Width (Z)",
+        "Ceiling height",
+        "Wall thickness"
+      ],
+      "room": {
+        "name": "Small bedroom",
+        "lengthX": 3,
+        "widthZ": 3,
+        "ceiling": 2.7,
+        "wallThickness": 0.0012,
+        "walls": 4,
+        "openings": 0,
+        "placements": 0,
+        "bounds": {
+          "minX": -1.5,
+          "maxX": 1.5,
+          "minZ": -1.5,
+          "maxZ": 1.5
+        }
+      },
+      "status": "Small bedroom · 300 cm × 300 cm · ceiling 270 cm · 0 opening(s) · 0 placement(s) · authored"
+    }
+  },
+  "S09": {
+    "name": "Mobile 375x812 (touch): metrics, tool/canvas separation, touch scroll over canvas",
+    "observed": {
+      "product": {
+        "viewport": [
+          375,
+          812
+        ],
+        "mode": "catalog",
+        "panelClientH": 168,
+        "panelScrollH": 3162,
+        "panelScrollTop": 0,
+        "slotsTopInPanel": 1891,
+        "presetsTopInPanel": 2760,
+        "roomCardH": 1000,
+        "catalogCardH": 824,
+        "visibleFileInputs": [
+          "model-files",
+          "pack-files",
+          "pack-glb-mate",
+          "module-file",
+          "texture-file"
+        ],
+        "controlsUnder32px": [
+          "button \"Product\" 162x31",
+          "button \"Room workspace\" 162x31",
+          "button \"From scratch\" 100x31",
+          "button \"Import plan\" 100x31",
+          "button \"From template\" 100x31",
+          "summary \"Room graph JSON\" 313x17"
+        ],
+        "overflowX": 0,
+        "docScrollH": 3794,
+        "topbarH": 149,
+        "stage": {
+          "top": 161,
+          "h": 455,
+          "w": 343
+        },
+        "slotsPageY": 2523,
+        "screensToSlots": 3.11,
+        "productSelectPageY": 1687,
+        "presetsPageY": 3392
+      },
+      "canvasShareOfFirstViewport": 0.56,
+      "touchSwipeScrollDeltaPx": {
+        "overCanvas": 325,
+        "overPanel": 306,
+        "inLeft6pxGutter": 235
+      },
+      "room": {
+        "viewport": [
+          375,
+          812
+        ],
+        "mode": "room",
+        "panelClientH": 152,
+        "panelScrollH": 4083,
+        "panelScrollTop": 0,
+        "slotsTopInPanel": 2812,
+        "presetsTopInPanel": 3681,
+        "roomCardH": 1920,
+        "catalogCardH": 824,
+        "visibleFileInputs": [
+          "project-file",
+          "model-files",
+          "pack-files",
+          "pack-glb-mate",
+          "module-file",
+          "texture-file"
+        ],
+        "controlsUnder32px": [
+          "button \"Product\" 162x31",
+          "button \"Room workspace\" 162x31",
+          "button \"From scratch\" 100x31",
+          "button \"Import plan\" 100x31",
+          "button \"From template\" 100x31",
+          "button \"Door\" 100x31",
+          "button \"Window\" 100x31",
+          "summary \"Room graph JSON\" 313x17"
+        ],
+        "overflowX": 0,
+        "docScrollH": 4730,
+        "scrollYAfterCreate": 648,
+        "placeBtnPageY": 2483,
+        "roomStatusPageY": 1395,
+        "openingBtnPageY": 2320,
+        "productSelectPageY": 2624,
+        "stageBottomPageY": 616,
+        "placeBtnBelowStageBottomPx": 1867,
+        "screensBetweenCanvasAndPlaceBtn": 2.3,
+        "canvasVisibleWhenPlaceBtnInView": false
+      },
+      "pointerCoarse": true,
+      "targetsUnder44": 59,
+      "targetsUnder24": [
+        {
+          "el": "input#project-file[file] \"Import project JSON\"",
+          "w": 313,
+          "h": 20
+        },
+        {
+          "el": "input#place-wall-snap[checkbox] \"on\"",
+          "w": 13,
+          "h": 13
+        },
+        {
+          "el": "summary \"Room graph JSON\"",
+          "w": 313,
+          "h": 17
+        },
+        {
+          "el": "input#model-files[file] \"Upload GLB, glTF, or OBJ package\"",
+          "w": 313,
+          "h": 20
+        },
+        {
+          "el": "input#pack-files[file] \"Load MJS and optional GLB pack\"",
+          "w": 313,
+          "h": 20
+        },
+        {
+          "el": "input#pack-glb-mate[file] \"Pack mate GLB\"",
+          "w": 313,
+          "h": 20
+        },
+        {
+          "el": "input#module-file[file] \"Load ES module .mjs\"",
+          "w": 313,
+          "h": 20
+        },
+        {
+          "el": "input#mjs-enabled[checkbox] \"on\"",
+          "w": 13,
+          "h": 13
+        },
+        {
+          "el": "input#texture-file[file] \"Upload texture image\"",
+          "w": 313,
+          "h": 20
+        }
+      ],
+      "targetsTotal": 62
+    }
+  },
+  "S10": {
+    "name": "Keyboard: tab order, focus indicators, radio groups, canvas",
+    "observed": {
+      "totalTabStopsProductMode": 28,
+      "stopsBeforeProductSelect": 0,
+      "stopsBeforeFirstSwatch": 6,
+      "stopIndex": {
+        "roomToggle": 0,
+        "createRoom": 0,
+        "productSelect": 1,
+        "firstSwatch": 7,
+        "firstPreset": 25
+      },
+      "stopsInDimmedRoomCardWhileInProductMode": 0,
+      "outlineKinds": {
+        "solid 2px rgb(0, 128, 96) off:2px": 20,
+        "auto 1px rgb(0, 95, 204) off:0px": 7,
+        "auto 1px rgb(0, 95, 204) off:2px": 1
+      },
+      "focusStopsWithoutVisibleOutline": [
+        "input#model-files[file] \"Upload GLB, glTF, or OBJ package\"",
+        "input#pack-files[file] \"Load MJS and optional GLB pack\"",
+        "input#pack-glb-mate[file] \"Pack mate GLB\"",
+        "input#module-file[file] \"Load ES module .mjs\"",
+        "input#texture-file[file] \"Upload texture image\"",
+        "input#texture-name[text]",
+        "pre#parts-list \"{ \"stub\": true, \"productId\": \"demo-loung\""
+      ],
+      "order": [
+        "select#product-select \"Lounge chair (demo) Side table (demo)\"",
+        "input#model-files[file] \"Upload GLB, glTF, or OBJ package\"",
+        "input#pack-files[file] \"Load MJS and optional GLB pack\"",
+        "input#pack-glb-mate[file] \"Pack mate GLB\"",
+        "input#module-file[file] \"Load ES module .mjs\"",
+        "input#mjs-enabled[checkbox] \"on\"",
+        "button.swatch \"Natural oak\"",
+        "button.swatch \"Walnut\"",
+        "button.swatch \"Black stained ash\"",
+        "button.swatch \"Matte black PP\"",
+        "button.swatch \"Gloss white ABS\"",
+        "button.swatch \"Sage PP\"",
+        "button.swatch \"Brushed brass\"",
+        "button.swatch \"Powder-coat black\"",
+        "button.swatch \"Chrome\"",
+        "button.swatch \"Wool — cream\"",
+        "button.swatch \"Wool — terracotta\"",
+        "button.swatch \"Wool — forest\"",
+        "input#texture-file[file] \"Upload texture image\"",
+        "input#texture-name[text]",
+        "select#texture-category \"wood textile plastic stone metal\"",
+        "select#texture-role \"baseColor (new material) normal → existi\"",
+        "select#texture-target \"Natural oak (wood) Walnut (wood) Black s\"",
+        "button#btn-add-texture \"Add to library\"",
+        "button \"Studio soft\"",
+        "button \"Warm interior\"",
+        "button \"Neutral (no IBL)\"",
+        "pre#parts-list \"{ \"stub\": true, \"productId\": \"demo-loung\""
+      ],
+      "radioArrowRight": {
+        "active": "button \"Product\"",
+        "workspace": "catalog",
+        "checked": [
+          "catalog:true:tabindex=null",
+          "room:false:tabindex=null"
+        ]
+      },
+      "radioSpaceSwitchesTo": "room",
+      "canvas": {
+        "tabindex": null,
+        "role": null,
+        "ariaLabel": null,
+        "testid": "viewer-canvas",
+        "stageLabel": "3D viewer"
+      },
+      "escapeLeavesPlaceMode_ariaPressedAfterEsc": "true"
+    }
+  },
+  "S11": {
+    "name": "Accessibility structure (DOM facts)",
+    "observed": {
+      "lang": "en",
+      "h1": 0,
+      "headings": [
+        "H2 Room workspace MVP",
+        "H3 From scratch",
+        "H3 Shell materials",
+        "H3 Draw walls",
+        "H3 Openings",
+        "H3 Place furniture",
+        "H2 Product",
+        "H2 Material slots",
+        "H2 Add texture",
+        "H2 Light preset",
+        "H2 Parts list stub · onPartListUpdate"
+      ],
+      "landmarks": [
+        "header",
+        "nav[Workspace]",
+        "main",
+        "section[3D viewer]",
+        "aside"
+      ],
+      "asideHasLabel": false,
+      "roleStatusCount": 11,
+      "roleStatusVisibleNow": [
+        "p#workspace-mode-hint \"Room editor — build the shell, openings,\"",
+        "p#room-status \"Living · 5.00 m × 4.00 m · ceiling 2.70 \"",
+        "p#model-upload-status",
+        "p#pack-upload-status",
+        "p#module-upload-status",
+        "p#texture-upload-status"
+      ],
+      "ariaLiveExplicit": 0,
+      "roleAlertCount": 0,
+      "fieldsWithoutAccessibleName": [],
+      "fieldsNamedOnlyByAriaLabelDifferentFromVisibleLabel": [
+        "select#room-units \"meters (m) centimeters (cm) feet (decima\" aria-label=\"Display units\" visible=\"Units\nmeters (m)\ncentimeters (cm)\nfeet (decimal) / ft-in labels\"",
+        "select#room-preset \"Small bedroom 3×3 m Living 5×4 m Studio \" aria-label=\"Room size preset\" visible=\"Preset\nSmall bedroom 3×3 m\nLiving 5×4 m\nStudio 6×4 m\nCustom…\"",
+        "input#plan-file[file] \"Upload DWG, DXF, candidates JSON, raster\" aria-label=\"Upload DWG, DXF, candidates JSON, raster underlay, or PDF\" visible=\"Plan file (.dwg / .dxf / .json / .png / .jpg / .pdf)\"",
+        "select#room-wall-material \"Default Natural oak Walnut Black stained\" aria-label=\"Wall material\" visible=\"Wall material\nDefault\nNatural oak\nWalnut\nBlack stained ash\nMatte black PP\nGloss white ABS\nSage PP\nWool — cream\nWool — terracotta\nWool — forest\nWhite marble\nBrushed brass\nPowder-coat black\nChrome\"",
+        "select#room-floor-material \"Default Natural oak Walnut Black stained\" aria-label=\"Floor material\" visible=\"Floor material\nDefault\nNatural oak\nWalnut\nBlack stained ash\nMatte black PP\nGloss white ABS\nSage PP\nWool — cream\nWool — terracotta\nWool — forest\nWhite marble\nBrushed brass\nPowder-coat black\nChrome\"",
+        "input#model-files[file] \"Upload GLB, glTF, or OBJ package\" aria-label=\"Upload GLB, glTF, or OBJ package\" visible=\"Add 3D model\"",
+        "input#pack-files[file] \"Load MJS and optional GLB pack\" aria-label=\"Load MJS and optional GLB pack\" visible=\"Load pack (.mjs + .glb)\"",
+        "input#pack-glb-mate[file] \"Pack mate GLB\" aria-label=\"Pack mate GLB\" visible=\"Or attach pack-mate GLB\"",
+        "input#module-file[file] \"Load ES module .mjs\" aria-label=\"Load ES module .mjs\" visible=\"Load module (.mjs only)\"",
+        "select#texture-category \"wood textile plastic stone metal\" aria-label=\"Texture category\" visible=\"Category\nwood\ntextile\nplastic\nstone\nmetal\"",
+        "select#texture-role \"baseColor (new material) normal → existi\" aria-label=\"Texture map role\" visible=\"Map role\nbaseColor (new material)\nnormal → existing\nroughness → existing\"",
+        "select#texture-target \"Natural oak (wood) Walnut (wood) Black s\" aria-label=\"Target library material\" visible=\"Target material\nNatural oak (wood)\nWalnut (wood)\nBlack stained ash (wood)\nMatte black PP (plastic)\nGloss white ABS (plastic)\nSage PP (plastic)\nWool — cream (textile)\nWool — terracotta (textile)\nWool — forest (textile)\nWhite marble (stone)\nBrushed brass (metal)\nPowder-coat black (metal)\nChrome (metal)\""
+      ],
+      "duplicateIds": [],
+      "radiogroups": [
+        {
+          "id": "workspace-mode",
+          "named": true,
+          "radios": 2,
+          "rovingTabindex": false
+        },
+        {
+          "id": "room-ingress",
+          "named": true,
+          "radios": 3,
+          "rovingTabindex": false
+        },
+        {
+          "id": "opening-type",
+          "named": true,
+          "radios": 2,
+          "rovingTabindex": false
+        },
+        {
+          "id": "presets",
+          "named": true,
+          "radios": 3,
+          "rovingTabindex": false
+        }
+      ],
+      "buttonsWithoutText": [],
+      "swatchNames": [
+        {
+          "ariaLabel": "Natural oak",
+          "title": "Natural oak (STUB-MAT-WOOD-OAK)",
+          "pressed": "true"
+        },
+        {
+          "ariaLabel": "Walnut",
+          "title": "Walnut (STUB-MAT-WOOD-WAL)",
+          "pressed": "false"
+        },
+        {
+          "ariaLabel": "Black stained ash",
+          "title": "Black stained ash (STUB-MAT-WOOD-BLK)",
+          "pressed": "false"
+        }
+      ],
+      "imagesWithoutAlt": 0,
+      "planSvg": {
+        "role": "img",
+        "ariaLabel": "2D room plan",
+        "title": false
+      },
+      "titleOnlyHelp": [
+        "button#btn-remount \"Dispose & remount\" title=\"Dispose and recreate the viewer (SPA lifecycle demo)\"",
+        "button#btn-undo \"Undo\" title=\"Undo (Ctrl/Cmd+Z)\"",
+        "button#btn-redo \"Redo\" title=\"Redo (Ctrl/Cmd+Shift+Z)\"",
+        "button.swatch \"Natural oak\" title=\"Natural oak (STUB-MAT-WOOD-OAK)\"",
+        "button.swatch \"Walnut\" title=\"Walnut (STUB-MAT-WOOD-WAL)\"",
+        "button.swatch \"Black stained ash\" title=\"Black stained ash (STUB-MAT-WOOD-BLK)\"",
+        "button.swatch \"Matte black PP\" title=\"Matte black PP (STUB-MAT-PL-BLK)\"",
+        "button.swatch \"Gloss white ABS\" title=\"Gloss white ABS (STUB-MAT-PL-WHT)\"",
+        "button.swatch \"Sage PP\" title=\"Sage PP (STUB-MAT-PL-SGE)\"",
+        "button.swatch \"Brushed brass\" title=\"Brushed brass (STUB-MAT-MT-BRS)\"",
+        "button.swatch \"Powder-coat black\" title=\"Powder-coat black (STUB-MAT-MT-BLK)\"",
+        "button.swatch \"Chrome\" title=\"Chrome (STUB-MAT-MT-CHR)\""
+      ],
+      "metaViewport": "width=device-width, initial-scale=1.0",
+      "toolButtonsPressedAttr": [
+        "btn-place-mode:false",
+        "btn-opening-mode:false",
+        "btn-draw-wall-mode:false"
+      ]
+    }
+  },
+  "S12": {
+    "name": "Text contrast (WCAG 1.4.3) and non-text contrast (1.4.11), per state",
+    "observed": {
+      "productMode": {
+        "textElements": 93,
+        "failing": 16,
+        "failingGroups": [
+          {
+            "pair": "#848484 on #f8f8f8 = 3.54:1 (13px/550, opacity 0.78, over canvas: backdrop approximated)",
+            "count": 1,
+            "examples": [
+              "div#viewer-overlay \"Loading…\""
+            ]
+          },
+          {
+            "pair": "#898989 on #f1f1f1 = 3.08:1 (11px/550, opacity 0.72)",
+            "count": 1,
+            "examples": [
+              "span.badge.subtle \"MVP\""
+            ]
+          },
+          {
+            "pair": "#898989 on #fbfbfb = 3.37:1 (12px/450, opacity 0.72)",
+            "count": 3,
+            "examples": [
+              "p.muted.small \"Three create paths → same owned room gra\"",
+              "p.muted.small \"Rectangular shell → door/window cutouts \"",
+              "p#room-status \"No room yet — from scratch, import plan,\""
+            ]
+          },
+          {
+            "pair": "#898989 on #f1f1f1 = 3.08:1 (12px/550, opacity 0.72)",
+            "count": 2,
+            "examples": [
+              "button \"Import plan\"",
+              "button \"From template\""
+            ]
+          },
+          {
+            "pair": "#898989 on #fbfbfb = 3.37:1 (11px/550, opacity 0.72)",
+            "count": 7,
+            "examples": [
+              "span \"Units\"",
+              "span \"Preset\"",
+              "span \"Length (X)\"",
+              "span \"Width (Z)\""
+            ]
+          },
+          {
+            "pair": "#fbfbfb on #43a089 = 3.07:1 (13px/550, opacity 0.72)",
+            "count": 1,
+            "examples": [
+              "button#btn-create-room \"Create room\""
+            ]
+          },
+          {
+            "pair": "#898989 on #fbfbfb = 3.37:1 (12px/550, opacity 0.72)",
+            "count": 1,
+            "examples": [
+              "summary \"Room graph JSON\""
+            ]
+          }
+        ],
+        "lowestPassing": [
+          "#ffffff on #008060 = 4.93:1 (1)",
+          "#616161 on #f1f1f1 = 5.48:1 (4)",
+          "#666666 on #fbfbfb = 5.55:1 (13)",
+          "#616161 on #ffffff = 6.19:1 (37)"
+        ]
+      },
+      "nonText": {
+        "inputBoundaries": [
+          {
+            "el": "#product-select",
+            "border": "#c9cccf",
+            "fill": "#ffffff",
+            "outside": "#ffffff",
+            "borderVsOutside": 1.61,
+            "fillVsOutside": 1
+          },
+          {
+            "el": "#texture-name",
+            "border": "#c9cccf",
+            "fill": "#ffffff",
+            "outside": "#ffffff",
+            "borderVsOutside": 1.61,
+            "fillVsOutside": 1
+          },
+          {
+            "el": "#btn-reset",
+            "border": "#c9cccf",
+            "fill": "#ffffff",
+            "outside": "#ffffff",
+            "borderVsOutside": 1.61,
+            "fillVsOutside": 1
+          },
+          {
+            "el": ".swatch",
+            "border": "#c9cccf",
+            "fill": "#ffffff",
+            "outside": "#ffffff",
+            "borderVsOutside": 1.61,
+            "fillVsOutside": 1
+          }
+        ],
+        "focusRingAccentVsWhite": 4.93,
+        "focusRingAccentVsPageBg": 4.37,
+        "segmentedSelectedFillVsTrack": 1.13,
+        "segmentedSelectedText": "rgb(48, 48, 48)",
+        "segmentedUnselectedText": "rgb(97, 97, 97)",
+        "segmentedSelectedVsUnselectedTextRatio": 2.13,
+        "placeholder": {
+          "fg": "#757575",
+          "bg": "#ffffff",
+          "ratio": 4.61
+        },
+        "swatchPressedRing": "box-shadow 2px surface + 2px accent (accent vs white = see focusRingAccentVsWhite)"
+      },
+      "roomModeWithRoomPlaceOn": {
+        "textElements": 118,
+        "failing": 20,
+        "failingGroups": [
+          {
+            "pair": "#008060 on #e3f1ec = 4.24:1 (13px/550)",
+            "count": 1,
+            "examples": [
+              "button#btn-place-mode \"Place mode on — click the floor\""
+            ]
+          },
+          {
+            "pair": "#898989 on #fbfbfb = 3.37:1 (12px/450, opacity 0.72)",
+            "count": 15,
+            "examples": [
+              "p#product-meta \"STUB-SKU-CHAIR-001 · slots tagged via gl\"",
+              "p.muted.small.upload-hint \"Adds to the product list (does not repla\"",
+              "code \".glb\"",
+              "code \".gltf\""
+            ]
+          },
+          {
+            "pair": "#898989 on #fbfbfb = 3.37:1 (12px/700, opacity 0.72)",
+            "count": 2,
+            "examples": [
+              "strong \"OBJ\"",
+              "strong \"Load pack\""
+            ]
+          },
+          {
+            "pair": "#898989 on #fbfbfb = 3.37:1 (12px/550, opacity 0.72)",
+            "count": 1,
+            "examples": [
+              "label.upload-label.pack-mate-label \"Or attach pack-mate GLB\""
+            ]
+          },
+          {
+            "pair": "#898989 on #fbfbfb = 3.37:1 (11px/550, opacity 0.72)",
+            "count": 1,
+            "examples": [
+              "span \"Enable .mjs module loading (trusted file\""
+            ]
+          }
+        ],
+        "lowestPassing": [
+          "#ffffff on #008060 = 4.93:1 (2)",
+          "#616161 on #f1f1f1 = 5.48:1 (8)",
+          "#666666 on #fbfbfb = 5.55:1 (5)",
+          "#616161 on #ffffff = 6.19:1 (37)"
+        ]
+      },
+      "pressedToolButton": {
+        "fg": "#008060",
+        "bg": "#e3f1ec",
+        "ratio": 4.24
+      },
+      "errorStatus": {
+        "text": "Click the floor inside the room to place furniture.",
+        "fg": "#8e1f0b",
+        "bg": "#ffffff",
+        "ratio": 8.93,
+        "errorVsNormalTextColorRatio": 1.44,
+        "hasIconOrPrefix": false,
+        "role": "status"
+      },
+      "importReview": {
+        "textElements": 134,
+        "failing": 19,
+        "failingGroups": [
+          {
+            "pair": "#898989 on #fbfbfb = 3.37:1 (12px/450, opacity 0.72)",
+            "count": 15,
+            "examples": [
+              "p#product-meta \"STUB-SKU-CHAIR-001 · slots tagged via gl\"",
+              "p.muted.small.upload-hint \"Adds to the product list (does not repla\"",
+              "code \".glb\"",
+              "code \".gltf\""
+            ]
+          },
+          {
+            "pair": "#898989 on #fbfbfb = 3.37:1 (12px/700, opacity 0.72)",
+            "count": 2,
+            "examples": [
+              "strong \"OBJ\"",
+              "strong \"Load pack\""
+            ]
+          },
+          {
+            "pair": "#898989 on #fbfbfb = 3.37:1 (12px/550, opacity 0.72)",
+            "count": 1,
+            "examples": [
+              "label.upload-label.pack-mate-label \"Or attach pack-mate GLB\""
+            ]
+          },
+          {
+            "pair": "#898989 on #fbfbfb = 3.37:1 (11px/550, opacity 0.72)",
+            "count": 1,
+            "examples": [
+              "span \"Enable .mjs module loading (trusted file\""
+            ]
+          }
+        ],
+        "lowestPassing": [
+          "#ffffff on #008060 = 4.93:1 (3)",
+          "#616161 on #f1f1f1 = 5.48:1 (9)",
+          "#666666 on #fbfbfb = 5.55:1 (5)",
+          "#616161 on #ffffff = 6.19:1 (35)"
+        ]
+      }
+    }
+  },
+  "S13": {
+    "name": "prefers-reduced-motion: is the smooth panel scroll / card transition still animated?",
+    "observed": {
+      "noPreference": {
+        "mediaQueryReduce": false,
+        "panelScrollTopSamples_40msApart": [
+          2255,
+          2255,
+          2246,
+          2246,
+          1982,
+          1690,
+          1304,
+          1009,
+          1009,
+          109
+        ],
+        "distinctIntermediateValues": 7,
+        "cardTransitionDuration": "0.15s, 0.15s, 0.15s"
+      },
+      "reduce": {
+        "mediaQueryReduce": true,
+        "panelScrollTopSamples_40msApart": [
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          2271,
+          2262,
+          111
+        ],
+        "distinctIntermediateValues": 4,
+        "cardTransitionDuration": "0.15s, 0.15s, 0.15s"
+      },
+      "cssHasReducedMotionQuery": false
+    }
+  },
+  "S14": {
+    "name": "Responsive sweep: overflow, clipping, layout per width (Product, then Room with a room)",
+    "observed": {
+      "product": [
+        {
+          "w": 1920,
+          "h": 1080,
+          "overflowX": 0,
+          "pageScrollsVertically": false,
+          "cols": "1532px 340px",
+          "topbarH": 87,
+          "stage": "1532x961",
+          "stageAspect": 1.59,
+          "toggleW": 249,
+          "panelW": 340,
+          "panelClientH": 961,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 1440,
+          "h": 900,
+          "overflowX": 0,
+          "pageScrollsVertically": false,
+          "cols": "1052px 340px",
+          "topbarH": 87,
+          "stage": "1052x781",
+          "stageAspect": 1.35,
+          "toggleW": 249,
+          "panelW": 340,
+          "panelClientH": 781,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 1280,
+          "h": 800,
+          "overflowX": 0,
+          "pageScrollsVertically": false,
+          "cols": "892px 340px",
+          "topbarH": 87,
+          "stage": "892x681",
+          "stageAspect": 1.31,
+          "toggleW": 249,
+          "panelW": 340,
+          "panelClientH": 681,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 1024,
+          "h": 768,
+          "overflowX": 0,
+          "pageScrollsVertically": false,
+          "cols": "636px 340px",
+          "topbarH": 87,
+          "stage": "636x649",
+          "stageAspect": 0.98,
+          "toggleW": 249,
+          "panelW": 340,
+          "panelClientH": 649,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 900,
+          "h": 700,
+          "overflowX": 0,
+          "pageScrollsVertically": false,
+          "cols": "512px 340px",
+          "topbarH": 87,
+          "stage": "512x581",
+          "stageAspect": 0.88,
+          "toggleW": 249,
+          "panelW": 340,
+          "panelClientH": 581,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 861,
+          "h": 700,
+          "overflowX": 0,
+          "pageScrollsVertically": false,
+          "cols": "473px 340px",
+          "topbarH": 87,
+          "stage": "473x581",
+          "stageAspect": 0.81,
+          "toggleW": 249,
+          "panelW": 340,
+          "panelClientH": 581,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 860,
+          "h": 700,
+          "overflowX": 0,
+          "pageScrollsVertically": true,
+          "cols": "828px",
+          "topbarH": 87,
+          "stage": "828x392",
+          "stageAspect": 2.11,
+          "toggleW": 249,
+          "panelW": 828,
+          "panelClientH": 181,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 768,
+          "h": 1024,
+          "overflowX": 0,
+          "pageScrollsVertically": true,
+          "cols": "736px",
+          "topbarH": 87,
+          "stage": "736x573",
+          "stageAspect": 1.28,
+          "toggleW": 249,
+          "panelW": 736,
+          "panelClientH": 324,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 721,
+          "h": 800,
+          "overflowX": 0,
+          "pageScrollsVertically": true,
+          "cols": "689px",
+          "topbarH": 87,
+          "stage": "689x448",
+          "stageAspect": 1.54,
+          "toggleW": 249,
+          "panelW": 689,
+          "panelClientH": 225,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 720,
+          "h": 450,
+          "overflowX": 0,
+          "pageScrollsVertically": true,
+          "cols": "688px",
+          "topbarH": 149,
+          "stage": "688x252",
+          "stageAspect": 2.73,
+          "toggleW": 335,
+          "panelW": 688,
+          "panelClientH": 9,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 640,
+          "h": 400,
+          "overflowX": 0,
+          "pageScrollsVertically": true,
+          "cols": "608px",
+          "topbarH": 149,
+          "stage": "608x224",
+          "stageAspect": 2.71,
+          "toggleW": 335,
+          "panelW": 608,
+          "panelClientH": 0,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 480,
+          "h": 800,
+          "overflowX": 0,
+          "pageScrollsVertically": true,
+          "cols": "448px",
+          "topbarH": 149,
+          "stage": "448x448",
+          "stageAspect": 1,
+          "toggleW": 335,
+          "panelW": 448,
+          "panelClientH": 163,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 375,
+          "h": 812,
+          "overflowX": 0,
+          "pageScrollsVertically": true,
+          "cols": "343px",
+          "topbarH": 149,
+          "stage": "343x455",
+          "stageAspect": 0.75,
+          "toggleW": 335,
+          "panelW": 343,
+          "panelClientH": 168,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 320,
+          "h": 568,
+          "overflowX": 33,
+          "pageScrollsVertically": true,
+          "cols": "336.781px",
+          "topbarH": 165,
+          "stage": "337x318",
+          "stageAspect": 1.06,
+          "toggleW": 288,
+          "panelW": 337,
+          "panelClientH": 45,
+          "offenders": [
+            "section.stage.card \"Loading… Reset camera Dispose & remount \"",
+            "div#viewer-host",
+            "canvas",
+            "p#stage-hint \"Drag to spin product · scroll to zoom · \"",
+            "aside.panel \"Room workspace MVP Three create paths → \"",
+            "div#room-card \"Room workspace MVP Three create paths → \""
+          ],
+          "clipped": []
+        }
+      ],
+      "room": [
+        {
+          "w": 1920,
+          "h": 1080,
+          "overflowX": 0,
+          "pageScrollsVertically": false,
+          "cols": "1532px 340px",
+          "topbarH": 103,
+          "stage": "1532x945",
+          "stageAspect": 1.62,
+          "toggleW": 249,
+          "panelW": 340,
+          "panelClientH": 945,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 1440,
+          "h": 900,
+          "overflowX": 0,
+          "pageScrollsVertically": false,
+          "cols": "1052px 340px",
+          "topbarH": 103,
+          "stage": "1052x765",
+          "stageAspect": 1.37,
+          "toggleW": 249,
+          "panelW": 340,
+          "panelClientH": 765,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 1280,
+          "h": 800,
+          "overflowX": 0,
+          "pageScrollsVertically": false,
+          "cols": "892px 340px",
+          "topbarH": 103,
+          "stage": "892x665",
+          "stageAspect": 1.34,
+          "toggleW": 249,
+          "panelW": 340,
+          "panelClientH": 665,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 1024,
+          "h": 768,
+          "overflowX": 0,
+          "pageScrollsVertically": false,
+          "cols": "636px 340px",
+          "topbarH": 103,
+          "stage": "636x633",
+          "stageAspect": 1,
+          "toggleW": 249,
+          "panelW": 340,
+          "panelClientH": 633,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 900,
+          "h": 700,
+          "overflowX": 0,
+          "pageScrollsVertically": false,
+          "cols": "512px 340px",
+          "topbarH": 103,
+          "stage": "512x565",
+          "stageAspect": 0.91,
+          "toggleW": 249,
+          "panelW": 340,
+          "panelClientH": 565,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 861,
+          "h": 700,
+          "overflowX": 0,
+          "pageScrollsVertically": false,
+          "cols": "473px 340px",
+          "topbarH": 103,
+          "stage": "473x565",
+          "stageAspect": 0.84,
+          "toggleW": 249,
+          "panelW": 340,
+          "panelClientH": 565,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 860,
+          "h": 700,
+          "overflowX": 0,
+          "pageScrollsVertically": true,
+          "cols": "828px",
+          "topbarH": 103,
+          "stage": "828x392",
+          "stageAspect": 2.11,
+          "toggleW": 249,
+          "panelW": 828,
+          "panelClientH": 165,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 768,
+          "h": 1024,
+          "overflowX": 0,
+          "pageScrollsVertically": true,
+          "cols": "736px",
+          "topbarH": 103,
+          "stage": "736x573",
+          "stageAspect": 1.28,
+          "toggleW": 249,
+          "panelW": 736,
+          "panelClientH": 308,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 721,
+          "h": 800,
+          "overflowX": 0,
+          "pageScrollsVertically": true,
+          "cols": "689px",
+          "topbarH": 103,
+          "stage": "689x448",
+          "stageAspect": 1.54,
+          "toggleW": 249,
+          "panelW": 689,
+          "panelClientH": 209,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 720,
+          "h": 450,
+          "overflowX": 0,
+          "pageScrollsVertically": true,
+          "cols": "688px",
+          "topbarH": 149,
+          "stage": "688x252",
+          "stageAspect": 2.73,
+          "toggleW": 335,
+          "panelW": 688,
+          "panelClientH": 9,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 640,
+          "h": 400,
+          "overflowX": 0,
+          "pageScrollsVertically": true,
+          "cols": "608px",
+          "topbarH": 149,
+          "stage": "608x224",
+          "stageAspect": 2.71,
+          "toggleW": 335,
+          "panelW": 608,
+          "panelClientH": 0,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 480,
+          "h": 800,
+          "overflowX": 0,
+          "pageScrollsVertically": true,
+          "cols": "448px",
+          "topbarH": 149,
+          "stage": "448x448",
+          "stageAspect": 1,
+          "toggleW": 335,
+          "panelW": 448,
+          "panelClientH": 163,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 375,
+          "h": 812,
+          "overflowX": 0,
+          "pageScrollsVertically": true,
+          "cols": "343px",
+          "topbarH": 165,
+          "stage": "343x455",
+          "stageAspect": 0.75,
+          "toggleW": 335,
+          "panelW": 343,
+          "panelClientH": 152,
+          "offenders": [],
+          "clipped": []
+        },
+        {
+          "w": 320,
+          "h": 568,
+          "overflowX": 33,
+          "pageScrollsVertically": true,
+          "cols": "336.781px",
+          "topbarH": 165,
+          "stage": "337x318",
+          "stageAspect": 1.06,
+          "toggleW": 288,
+          "panelW": 337,
+          "panelClientH": 45,
+          "offenders": [
+            "section.stage.card \"Loading… Reset camera Dispose & remount \"",
+            "div#viewer-host",
+            "canvas",
+            "p#stage-hint \"Room · drag to orbit · scroll to zoom · \"",
+            "aside.panel \"Room workspace MVP Three create paths → \"",
+            "div#room-card \"Room workspace MVP Three create paths → \""
+          ],
+          "clipped": []
+        }
+      ]
+    }
+  },
+  "S15": {
+    "name": "Interaction states: hover, disabled, pressed, active",
+    "observed": {
+      "hover": [
+        {
+          "sel": "#btn-reset",
+          "changes": [
+            "bg: rgb(255, 255, 255) -> rgb(247, 247, 247)"
+          ]
+        },
+        {
+          "sel": "#btn-add-texture",
+          "changes": [
+            "bg: rgb(0, 128, 96) -> rgb(0, 110, 82)"
+          ]
+        },
+        {
+          "sel": "#workspace-mode button[data-mode=room]",
+          "changes": []
+        },
+        {
+          "sel": ".swatch[aria-pressed=false]",
+          "changes": []
+        },
+        {
+          "sel": "#product-select",
+          "changes": []
+        },
+        {
+          "sel": "#texture-name",
+          "changes": []
+        },
+        {
+          "sel": "#placement-list li button",
+          "changes": []
+        }
+      ],
+      "disabled": {
+        "undoDisabledAttr": true,
+        "undo": {
+          "bg": "rgb(255, 255, 255)",
+          "color": "rgb(48, 48, 48)",
+          "border": "rgb(201, 204, 207)",
+          "opacity": "1",
+          "cursor": "pointer",
+          "shadow": "rgba(26, 26, 26, 0.07) 0px 1px 0px 0px, rgba(0, 0, 0, 0.05) "
+        },
+        "enabledSibling": {
+          "bg": "rgb(255, 255, 255)",
+          "color": "rgb(48, 48, 48)",
+          "border": "rgb(201, 204, 207)",
+          "opacity": "1",
+          "cursor": "pointer",
+          "shadow": "rgba(26, 26, 26, 0.07) 0px 1px 0px 0px, rgba(0, 0, 0, 0.05) "
+        },
+        "visuallyIdentical": true
+      },
+      "placementDeleteButton": {
+        "w": 52,
+        "h": 22,
+        "font": "11px",
+        "text": "Delete"
+      },
+      "pressed": {
+        "before": {
+          "bg": "rgb(255, 255, 255)",
+          "color": "rgb(48, 48, 48)",
+          "border": "rgb(201, 204, 207)",
+          "opacity": "1",
+          "cursor": "pointer",
+          "shadow": "rgba(26, 26, 26, 0.07) 0px 1px 0px 0px, rgba(0, 0, 0, 0.05) "
+        },
+        "after": {
+          "bg": "rgb(227, 241, 236)",
+          "color": "rgb(0, 128, 96)",
+          "border": "rgb(0, 128, 96)",
+          "opacity": "1",
+          "cursor": "pointer",
+          "shadow": "rgba(26, 26, 26, 0.07) 0px 1px 0px 0px, rgba(0, 0, 0, 0.05) "
+        },
+        "labelAfter": "Place mode on — click the floor"
+      },
+      "cssHasActiveRule": false
+    }
+  },
+  "S16": {
+    "name": "Content: empty, error, loading and long-content states",
+    "observed": {
+      "badGlb": {
+        "text": "Could not load model (broken.glb): Unexpected token 'h', \"this is not a glb\" is not valid JSON",
+        "isError": true,
+        "color": "rgb(142, 31, 11)"
+      },
+      "fbx": {
+        "text": "Select a .glb, .gltf, or .obj file (include .mtl + textures with OBJ when available)",
+        "isError": true,
+        "color": "rgb(142, 31, 11)"
+      },
+      "textureNoFile": {
+        "text": "Choose an image first",
+        "isError": true,
+        "color": "rgb(142, 31, 11)"
+      },
+      "emptyRoomStatus": {
+        "text": "No room yet — from scratch, import plan, or template.",
+        "isError": false,
+        "color": "rgb(97, 97, 97)"
+      },
+      "emptyTemplates": {
+        "text": "No templates yet — import a plan and choose “Save as template”.",
+        "isError": false,
+        "color": "rgb(97, 97, 97)"
+      },
+      "importNoFile": {
+        "text": "Choose a plan file, or use Load mock fixture.",
+        "isError": true,
+        "color": "rgb(142, 31, 11)"
+      },
+      "importPdf": {
+        "text": "PDF plan ingest needs a rasterizer (e.g. pdf.js) or a pre-rendered PNG/JPG. Upload PNG/JPG for underlay confirm.",
+        "isError": true,
+        "color": "rgb(142, 31, 11)"
+      },
+      "garbageDwg": {
+        "status": {
+          "text": "Job import_muv705og_2 · source dwg:garbage.dwg · scale ×1.000",
+          "isError": false,
+          "color": "rgb(97, 97, 97)"
+        },
+        "banner": "[mock_fixture] ODA available: no — Uploaded DWG kept as SourceAsset (sha256 d7abbd3c7fdc…). ODA Drawings SDK / APS farm not available — wall/opening candidates are the labeled mock fixture, not entity-parsed from this file.",
+        "walls": [
+          "wc_s · 5.00 m · A-WALL\nAccepted",
+          "wc_e · 4.00 m · A-WALL\nAccepted",
+          "wc_n · 5.00 m · A-WALL\nAccepted",
+          "wc_w · 4.00 m · A-WALL\nAccepted"
+        ]
+      },
+      "blankLength": {
+        "text": "Room size must be positive (length, width, ceiling height, wall thickness)",
+        "isError": true,
+        "color": "rgb(142, 31, 11)"
+      },
+      "longTemplateTitle": {
+        "liScrollW": 922,
+        "liClientW": 310,
+        "liRight": 1409,
+        "cardRight": 1424,
+        "spillsOutOfCardPx": -15,
+        "panelScrollW": 937,
+        "panelClientW": 340,
+        "buttonsRight": 2021,
+        "viewportW": 1440,
+        "docOverflowX": 0,
+        "status": "1 template(s) in local CMS (catalog3d.roomTemplates)."
+      },
+      "loadingOverlayText": "Loading… (static: index.html:34 and main.ts setStatus)"
+    }
+  },
+  "S17": {
+    "name": "Aesthetic consistency: computed type/spacing/radius/height inventory + styles.css static parse",
+    "observed": {
+      "computed": {
+        "fontSizes": {
+          "12px": 45,
+          "11px": 31,
+          "13px": 26,
+          "14px": 1
+        },
+        "fontWeights": {
+          "400": 13,
+          "450": 22,
+          "550": 47,
+          "600": 6,
+          "650": 13,
+          "700": 2
+        },
+        "fontFamiliesResolved": {
+          "-apple-system": 88,
+          "monospace": 14,
+          "ui-monospace": 1
+        },
+        "textColors": {
+          "#616161": 64,
+          "#303030": 36,
+          "#ffffff": 2,
+          "#000000": 1
+        },
+        "controlHeights": {
+          "button 33px": 14,
+          "button.swatch 34px": 12,
+          "select 34px": 8,
+          "button.segmented 31px": 7,
+          "input[number] 35px": 7,
+          "input[file] 20px": 6,
+          "button.segmented 49px": 3,
+          "input[text] 35px": 2,
+          "button.room-list 22px": 1,
+          "summary 17px": 1
+        },
+        "radii": {
+          "8px": 37,
+          "6px": 13,
+          "50%": 12,
+          "12px": 7,
+          "999px": 2
+        },
+        "roomCardLeftEdges": {
+          "1099": 33,
+          "1166": 1,
+          "1222": 1,
+          "1258": 4
+        },
+        "roomCardButtonWidths": [
+          {
+            "id": "btn-save-template-scratch",
+            "w": 218,
+            "primary": false
+          },
+          {
+            "id": "btn-create-room",
+            "w": 310,
+            "primary": true
+          },
+          {
+            "id": "btn-clear-room",
+            "w": 310,
+            "primary": false
+          },
+          {
+            "id": "btn-download-plan",
+            "w": 150,
+            "primary": false
+          },
+          {
+            "id": "btn-undo",
+            "w": 59,
+            "primary": false
+          },
+          {
+            "id": "btn-redo",
+            "w": 58,
+            "primary": false
+          },
+          {
+            "id": "btn-export-project",
+            "w": 115,
+            "primary": false
+          },
+          {
+            "id": "btn-import-project",
+            "w": 115,
+            "primary": false
+          },
+          {
+            "id": "btn-draw-wall-mode",
+            "w": 132,
+            "primary": false
+          },
+          {
+            "id": "btn-opening-mode",
+            "w": 190,
+            "primary": false
+          },
+          {
+            "id": "btn-place-mode",
+            "w": 196,
+            "primary": false
+          }
+        ],
+        "roomCardContentWidth": 310,
+        "fullWidthButtons": [
+          "btn-create-room",
+          "btn-clear-room"
+        ],
+        "autoWidthButtons": [
+          "btn-save-template-scratch:218",
+          "btn-download-plan:150",
+          "btn-undo:59",
+          "btn-redo:58",
+          "btn-export-project:115",
+          "btn-import-project:115",
+          "btn-draw-wall-mode:132",
+          "btn-opening-mode:190",
+          "btn-place-mode:196"
+        ],
+        "nativeFileInputsVisible": 6,
+        "badges": [
+          "MVP",
+          "stub · onPartListUpdate"
+        ]
+      },
+      "cssStatic": {
+        "tokens": [
+          "--bg: #f1f1f1",
+          "--surface: #ffffff",
+          "--surface-hover: #f7f7f7",
+          "--border: #e3e3e3",
+          "--border-strong: #c9cccf",
+          "--text: #303030",
+          "--text-muted: #616161",
+          "--accent: #008060",
+          "--accent-soft: #e3f1ec",
+          "--critical: #8e1f0b",
+          "--critical-soft: #fee9e8",
+          "--radius: 12px",
+          "--radius-sm: 8px",
+          "--shadow: 0 1px 0 rgba(26, 26, 26, 0.07), 0 1px 2px rgba(0, 0, 0, 0.05)",
+          "--font: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif"
+        ],
+        "spacingPxValuesUsed": {
+          "2": 4,
+          "3": 1,
+          "4": 5,
+          "6": 10,
+          "7": 4,
+          "8": 29,
+          "10": 18,
+          "12": 10,
+          "14": 3,
+          "16": 5
+        },
+        "spacingDistinct": 10,
+        "spacingOff4pxGrid": [
+          "2",
+          "3",
+          "6",
+          "7",
+          "10",
+          "14"
+        ],
+        "fontSizeDecls": {
+          "11": 10,
+          "12": 13,
+          "13": 1,
+          "14": 1
+        },
+        "fontShorthand": [
+          "13px/1.45 var(--font)",
+          "inherit",
+          "inherit",
+          "inherit",
+          "inherit",
+          "inherit",
+          "11px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace",
+          "inherit"
+        ],
+        "fontWeightDecls": {
+          "450": 2,
+          "550": 9,
+          "600": 2,
+          "650": 6
+        },
+        "radiusDecls": {
+          "999px": 1,
+          "var(--radius)": 1,
+          "6px": 6,
+          "var(--radius-sm)": 8,
+          "50%": 1
+        },
+        "rawHexOutsideRoot": {
+          "#f1f1f1": 1,
+          "#fff": 2,
+          "#006e52": 1,
+          "#fff8db": 2,
+          "#4f4700": 2,
+          "#f0e3a6": 1,
+          "#f0b6ae": 1,
+          "#fafafa": 2,
+          "#fff6e8": 1,
+          "#e8c48a": 1,
+          "#5c3d10": 1
+        },
+        "rawHexDistinct": 11,
+        "rawHexUses": 15,
+        "rawRgba": [
+          "rgba(241, 241, 241, 0.6)",
+          "rgba(255, 255, 255, 0.85)"
+        ],
+        "transitions": [
+          "opacity 0.2s",
+          "border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease"
+        ],
+        "mediaQueries": [
+          "@media (max-width: 720px)",
+          "@media (max-width: 860px)"
+        ],
+        "darkModeSupport": false,
+        "colorSchemeDecl": true,
+        "inlineStylesInMainTs": 6
+      }
+    }
+  },
+  "S18": {
+    "name": "WCAG 1.4.12 text-spacing override: clipped or overlapping text?",
+    "observed": {
+      "clippedBefore": [],
+      "clippedAfter": [],
+      "overflowX": 0,
+      "segmentedButtons": [
+        {
+          "t": "From scratch",
+          "clipped": false,
+          "wraps": true
+        },
+        {
+          "t": "Import plan",
+          "clipped": false,
+          "wraps": true
+        },
+        {
+          "t": "From template",
+          "clipped": false,
+          "wraps": true
+        },
+        {
+          "t": "Studio soft",
+          "clipped": false,
+          "wraps": true
+        },
+        {
+          "t": "Warm interior",
+          "clipped": false,
+          "wraps": true
+        },
+        {
+          "t": "Neutral (no IBL)",
+          "clipped": false,
+          "wraps": true
+        }
+      ]
+    }
+  },
+  "S19": {
+    "name": "Static helper-text word count in index.html (validates the \"284 words\" figure)",
+    "observed": {
+      "paragraphsWithStaticText": 14,
+      "allWords": 304,
+      "panelOnlyParagraphs": 12,
+      "panelOnlyWords": 285,
+      "allWordsSkippingArrows": 300,
+      "excludingDynamicStatusLines": 285,
+      "perParagraph": [
+        {
+          "id": "workspace-mode-hint",
+          "inPanel": false,
+          "words": 7,
+          "wordsAlsoSkippingArrows": 7,
+          "text": "Product turntable — inspect GLB, materials, and packs."
+        },
+        {
+          "id": "stage-hint",
+          "inPanel": false,
+          "words": 12,
+          "wordsAlsoSkippingArrows": 12,
+          "text": "Drag to spin product · scroll to zoom · right-drag / two-fin"
+        },
+        {
+          "id": null,
+          "inPanel": true,
+          "words": 27,
+          "wordsAlsoSkippingArrows": 25,
+          "text": "Three create paths → same owned room graph → Catalog 3D GLB "
+        },
+        {
+          "id": null,
+          "inPanel": true,
+          "words": 8,
+          "wordsAlsoSkippingArrows": 6,
+          "text": "Rectangular shell → door/window cutouts → place furniture."
+        },
+        {
+          "id": "import-oda-note",
+          "inPanel": true,
+          "words": 57,
+          "wordsAlsoSkippingArrows": 57,
+          "text": "Upload DWG/DXF (kept as SourceAsset), a JSON candidates payl"
+        },
+        {
+          "id": null,
+          "inPanel": true,
+          "words": 11,
+          "wordsAlsoSkippingArrows": 11,
+          "text": "Instantiate a saved room-graph seed (clone). Templates are n"
+        },
+        {
+          "id": "template-status",
+          "inPanel": true,
+          "words": 11,
+          "wordsAlsoSkippingArrows": 11,
+          "text": "No templates yet — import a plan and choose “Save as templat"
+        },
+        {
+          "id": "room-status",
+          "inPanel": true,
+          "words": 8,
+          "wordsAlsoSkippingArrows": 8,
+          "text": "No room yet — create a size to start."
+        },
+        {
+          "id": null,
+          "inPanel": true,
+          "words": 15,
+          "wordsAlsoSkippingArrows": 15,
+          "text": "Click floor corners to trace an orthogonal polygon; click ne"
+        },
+        {
+          "id": null,
+          "inPanel": true,
+          "words": 17,
+          "wordsAlsoSkippingArrows": 17,
+          "text": "Select a Catalog product, then click the floor. Door/window "
+        },
+        {
+          "id": null,
+          "inPanel": true,
+          "words": 54,
+          "wordsAlsoSkippingArrows": 54,
+          "text": "Adds to the product list (does not replace demos). Prefer se"
+        },
+        {
+          "id": null,
+          "inPanel": true,
+          "words": 41,
+          "wordsAlsoSkippingArrows": 41,
+          "text": "Polyfork-style pack: prefer multi-select name.mjs + sibling "
+        },
+        {
+          "id": null,
+          "inPanel": true,
+          "words": 14,
+          "wordsAlsoSkippingArrows": 14,
+          "text": "Same as pack without GLB. Prefer Load pack when the sibling "
+        },
+        {
+          "id": null,
+          "inPanel": true,
+          "words": 22,
+          "wordsAlsoSkippingArrows": 22,
+          "text": "Uploads go into the materials library, then apply via slot s"
+        }
+      ]
+    }
+  },
+  "S20": {
+    "name": "Cold reload with a saved room: lands on Product with the chair; console errors across the run",
+    "observed": {
+      "workspace": "catalog",
+      "roomRestored": true,
+      "turntableVisible": true,
+      "anyNoticeThatARoomIsSaved": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored",
+      "roomStatusVisibleWithoutScroll": true,
+      "consoleAndPageErrorsAcrossWholeRun": [
+        "CONSOLE: Error: Could not load model (broken.glb): Unexpected token 'h', \"this is not a glb\" is not valid JSON\n    at createProductFromModelFiles (http://127.0.0.1:18767/src/viewer/uploads.ts:82:9)\n    at asyn",
+        "CONSOLE: Error: Select a .glb, .gltf, or .obj file (include .mtl + textures with OBJ when available)\n    at createProductFromModelFiles (http://127.0.0.1:18767/src/viewer/uploads.ts:64:9)\n    at onModelFilesSe"
+      ]
+    }
+  }
+}

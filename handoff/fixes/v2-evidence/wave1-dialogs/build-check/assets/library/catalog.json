@@ -1,0 +1,29 @@
+{
+  "$comment": "Demo catalog (stand-in for SKU + material_slot tables). Slot definitions live here, not in the GLB; the GLB only carries slot ids.",
+  "version": 1,
+  "products": [
+    {
+      "id": "demo-lounge-chair",
+      "sku": "STUB-SKU-CHAIR-001",
+      "name": "Lounge chair (demo)",
+      "glb": "/assets/models/lounge-chair.glb",
+      "slotTagging": "gltf-extras",
+      "slots": [
+        { "id": "frame",   "label": "Frame",   "allowedCategories": ["wood"],    "default": "wood-oak" },
+        { "id": "handles", "label": "Handles", "allowedCategories": ["plastic", "metal"], "default": "plastic-black" },
+        { "id": "pillow",  "label": "Pillow",  "allowedCategories": ["textile"], "default": "wool-cream" }
+      ]
+    },
+    {
+      "id": "demo-side-table",
+      "sku": "STUB-SKU-TABLE-001",
+      "name": "Side table (demo)",
+      "glb": "/assets/models/side-table.glb",
+      "slotTagging": "node-name",
+      "slots": [
+        { "id": "top",  "label": "Top",  "allowedCategories": ["wood", "stone"], "default": "stone-marble" },
+        { "id": "legs", "label": "Legs", "allowedCategories": ["metal", "wood"],  "default": "metal-brass" }
+      ]
+    }
+  ]
+}

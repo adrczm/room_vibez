@@ -1,0 +1,114 @@
+{
+  "failures": 0,
+  "out": {
+    "a11y: closed card exposes one button named \"Product Lounge chair (demo)\" and no combobox (the select is hidden from the tree)": {
+      "pass": true,
+      "value": "- heading \"Product\" [level=2] | - button \"Product Lounge chair (demo)\": Lounge chair (demo) Product | - paragraph | - button \"Add test upload\""
+    },
+    "a11y: popup is a dialog named by its title, with a View radiogroup, a group radiogroup, and a listbox of options with one selected": {
+      "pass": true,
+      "value": "see console"
+    },
+    "a11y: trigger aria-expanded is true while open": {
+      "pass": true,
+      "value": "true"
+    },
+    "focus ring: a keyboard-focused tile has a 2px solid accent outline": {
+      "pass": true,
+      "value": {
+        "el": "wood-oak",
+        "outline": "2px solid rgb(0, 128, 96)",
+        "focusVisible": true
+      }
+    },
+    "modal dialog: showModal() closes an open picker and aria-expanded follows": {
+      "pass": true,
+      "value": {
+        "popupOpen": false,
+        "expanded": "false"
+      }
+    },
+    "CSS order: with src/styles.css loaded after the picker CSS, the measured picker styles are identical": {
+      "pass": true,
+      "value": {
+        "sheetOrder": [
+          "picker css",
+          "styles.css"
+        ],
+        "before": {
+          "select": [
+            1,
+            36
+          ],
+          "viewButton": [
+            "32px",
+            "6px",
+            "12px",
+            "nowrap"
+          ],
+          "viewToggleCols": 2,
+          "searchFlex": "100%",
+          "trigger": [
+            310,
+            36
+          ],
+          "popupWidth": 520,
+          "popupDisplay": "flex"
+        },
+        "after": {
+          "select": [
+            1,
+            36
+          ],
+          "viewButton": [
+            "32px",
+            "6px",
+            "12px",
+            "nowrap"
+          ],
+          "viewToggleCols": 2,
+          "searchFlex": "100%",
+          "trigger": [
+            310,
+            36
+          ],
+          "popupWidth": 520,
+          "popupDisplay": "flex"
+        }
+      }
+    },
+    "contrast: every text pair the picker adds is >= 4.5:1": {
+      "pass": true,
+      "value": {
+        "name (--text) on selected fill (--accent-soft)": 11.35,
+        "sublabel (--text-muted) on selected fill": 5.33,
+        "sublabel (--text-muted) on white": 6.19,
+        "sublabel (--text-muted) on hover fill": 5.78,
+        "sublabel (--text-muted) on pressed fill (--bg)": 5.48,
+        "checked group tab text (--text) on --accent-soft": 11.35,
+        "selected border / check badge (--accent) on white": 4.93,
+        "selected border (--accent) against its own fill (--accent-soft)": 4.24,
+        "white check on the accent badge": 4.93,
+        "focus ring (--accent) on white": 4.93,
+        "trigger / popup border (--border-strong) on white [same token as .select]": 1.61
+      }
+    },
+    "no page errors": {
+      "pass": true,
+      "value": []
+    }
+  },
+  "contrast": {
+    "name (--text) on selected fill (--accent-soft)": 11.35,
+    "sublabel (--text-muted) on selected fill": 5.33,
+    "sublabel (--text-muted) on white": 6.19,
+    "sublabel (--text-muted) on hover fill": 5.78,
+    "sublabel (--text-muted) on pressed fill (--bg)": 5.48,
+    "checked group tab text (--text) on --accent-soft": 11.35,
+    "selected border / check badge (--accent) on white": 4.93,
+    "selected border (--accent) against its own fill (--accent-soft)": 4.24,
+    "white check on the accent badge": 4.93,
+    "focus ring (--accent) on white": 4.93,
+    "trigger / popup border (--border-strong) on white [same token as .select]": 1.61
+  }
+}

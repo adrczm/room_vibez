@@ -1,0 +1,20 @@
+[surfaced=true] tab labels match deck: true ["Start here","Product","Room","Files & saving","How it's built"]
+[surfaced=true] Topic options match deck: true
+[surfaced=true] title: "How Catalog 3D works"
+[surfaced=true] tab 1 (Start here): IDENTICAL · 107 words in deck, 107 rendered
+[surfaced=true] tab 2 (Product): IDENTICAL · 180 words in deck, 180 rendered
+[surfaced=true] tab 3 (Room): IDENTICAL · 292 words in deck, 292 rendered
+[surfaced=true] tab 4 (Files & saving): IDENTICAL · 334 words in deck, 334 rendered
+[surfaced=true] tab 5 (How it's built): IDENTICAL · 433 words in deck, 433 rendered
+[surfaced=true] deck sentence present: true; interim absent: true
+[surfaced=false] tab labels match deck: true ["Start here","Product","Room","Files & saving","How it's built"]
+[surfaced=false] Topic options match deck: true
+[surfaced=false] title: "How Catalog 3D works"
+[surfaced=false] tab 1 (Start here): IDENTICAL · 107 words in deck, 107 rendered
+[surfaced=false] tab 2 (Product): IDENTICAL · 180 words in deck, 180 rendered
+[surfaced=false] tab 3 (Room): IDENTICAL · 292 words in deck, 292 rendered
+[surfaced=false] tab 4 (Files & saving): IDENTICAL · 339 words in deck, 339 rendered
+[surfaced=false] tab 5 (How it's built): IDENTICAL · 433 words in deck, 433 rendered
+[surfaced=false] interim sentence present: true; deck sentence absent: true
+[surfaced=false] "Use Export project to keep your work." appears 1 time(s)
+ALL CONTENT CHECKS PASSED

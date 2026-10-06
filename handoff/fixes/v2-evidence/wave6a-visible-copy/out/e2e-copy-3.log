@@ -1,0 +1,20 @@
+run-e2e: specs from /Users/adrian/Desktop/Room Vibez/v2/hackathon-3d-viewer against http://127.0.0.1:18777; run dir /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.V47huy
+
+Running 14 tests using 1 worker
+
+  ✓   1 tests/e2e/copy-pass.spec.ts:72:5 › the ? pop-up: opens only when asked, closes three ways, keeps focus in and gives it back, follows the workspace (6.7s)
+  ✓   2 tests/e2e/copy-pass.spec.ts:184:5 › each "Why?" link opens the pop-up on its section and takes focus back when it closes (3.2s)
+  ✓   3 tests/e2e/copy-pass.spec.ts:229:5 › the ? pop-up at 375 px: a Topic select replaces the tabs and nothing scrolls sideways (2.3s)
+  ✓   4 tests/e2e/copy-pass.spec.ts:267:5 › the two honesty pins: one friendly line on screen, the technical sentence kept in a collapsed "Technical details" (2.9s)
+  ✓   5 tests/e2e/copy-pass.spec.ts:372:7 › QA-10: the top bar keeps its height when the workspace changes, at 1440 px (2.5s)
+  ✓   6 tests/e2e/copy-pass.spec.ts:372:7 › QA-10: the top bar keeps its height when the workspace changes, at 1024 px (2.1s)
+  ✓   7 tests/e2e/copy-pass.spec.ts:372:7 › QA-10: the top bar keeps its height when the workspace changes, at 375 px (2.1s)
+  ✓   8 tests/e2e/copy-pass.spec.ts:398:5 › QA-14: the accessible name of each labelled field is its visible label (2.6s)
+  ✓   9 tests/e2e/copy-pass.spec.ts:451:5 › the labels that end in a unit follow the Units select (3.1s)
+  ✓  10 tests/e2e/copy-pass.spec.ts:499:5 › static words come from the deck: labels, badges, options; the removed paragraphs are gone; no team vocabulary on screen (3.6s)
+  ✓  11 tests/e2e/copy-pass.spec.ts:665:5 › a slot swatch keeps its name and tooltip whatever is pressed (aria-pressed carries the state) (2.3s)
+  ✓  12 tests/e2e/copy-pass.spec.ts:691:7 › the stage overlay says what failed, in the deck's words (Copy Phase 1 step 8) › the viewer could not start: it does not say "model" (300ms)
+  ✓  13 tests/e2e/copy-pass.spec.ts:701:7 › the stage overlay says what failed, in the deck's words (Copy Phase 1 step 8) › the product's model could not be loaded: it says so, without the raw error (1.4s)
+  ✓  14 tests/e2e/copy-pass.spec.ts:712:7 › the stage overlay says what failed, in the deck's words (Copy Phase 1 step 8) › the browser has no 3D: the software-3D launcher is the one named (249ms)
+
+  14 passed (37.4s)

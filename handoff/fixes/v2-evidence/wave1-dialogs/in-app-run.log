@@ -1,0 +1,53 @@
+
+===== real app, 1280x800 =====
+      viewer status ready: true
+PASS  ? button in the real top bar: 28 x 28, 16 px from the right edge, no horizontal scroll  [{"topbar":87,"btn":[28,28],"rightGap":16,"navRight":1220,"btnLeft":1236,"sameRowAsNav":true,"overflowX":0,"newHiddenLeaks":0}]
+PASS  wide: top bar height unchanged by the ?; Workspace switch still beside it  [topbar 87 → 87px; nav right 1264 → 1220]
+      top bar height: 87px before, 87px with the ? button
+PASS  the components add no [hidden] element that still displays  [app's own before: ["room-plan","room-plan-actions","project-file","pack-params","texture-target-wrap"]]
+PASS  real app: first open Start here; then Product in the Product workspace; Room after the real switch  [start, product, workspace=room → room]
+PASS  real app: Ctrl+Z / Cmd+Z with the pop-up open do not reach document keydown listeners  [[]]
+PASS  real app: Esc closes and focus returns to the ? button  [btn-help]
+PASS  closed pop-up (still in the DOM) adds nothing to document.body.innerText, so the Copy §8 vocabulary check stays valid  [{"dialogInDom":true,"dialogOpen":false,"bodyHasTitle":false,"bodyHasTab5":false,"bodyHasDevNote":false}]
+      stage out of view before the toast check: false (stage top was 119px)
+PASS  real stage, warning: inside the stage, painted on top, clear of the real toolbar and hint  [{"box":[29,704,265,36],"stage":[892,665],"inside":true,"coversToolbar":false,"coversHint":false,"hintHeight":24,"toolbarHeight":33,"gapAboveHint":9,"gapBelowToolbar":539,"onTop":true,"opacity":"1","hintText":"Room · drag to orbit · scroll to zoom · right-drag to pan"}]
+PASS  real stage, error: inside the stage, painted on top, clear of the real toolbar and hint  [{"box":[29,686,420,54],"stage":[892,665],"inside":true,"coversToolbar":false,"coversHint":false,"hintHeight":24,"toolbarHeight":33,"gapAboveHint":9,"gapBelowToolbar":521,"onTop":true,"opacity":"1","hintText":"Room · drag to orbit · scroll to zoom · right-drag to pan"}]
+PASS  notify("") closes the toast
+PASS  real page: confirm resolves false on Esc
+PASS  no page errors
+
+===== real app, 1440x900 =====
+      viewer status ready: true
+PASS  ? button in the real top bar: 28 x 28, 16 px from the right edge, no horizontal scroll  [{"topbar":87,"btn":[28,28],"rightGap":16,"navRight":1380,"btnLeft":1396,"sameRowAsNav":true,"overflowX":0,"newHiddenLeaks":0}]
+PASS  wide: top bar height unchanged by the ?; Workspace switch still beside it  [topbar 87 → 87px; nav right 1424 → 1380]
+      top bar height: 87px before, 87px with the ? button
+PASS  the components add no [hidden] element that still displays  [app's own before: ["room-plan","room-plan-actions","project-file","pack-params","texture-target-wrap"]]
+PASS  real app: first open Start here; then Product in the Product workspace; Room after the real switch  [start, product, workspace=room → room]
+PASS  real app: Ctrl+Z / Cmd+Z with the pop-up open do not reach document keydown listeners  [[]]
+PASS  real app: Esc closes and focus returns to the ? button  [btn-help]
+PASS  closed pop-up (still in the DOM) adds nothing to document.body.innerText, so the Copy §8 vocabulary check stays valid  [{"dialogInDom":true,"dialogOpen":false,"bodyHasTitle":false,"bodyHasTab5":false,"bodyHasDevNote":false}]
+      stage out of view before the toast check: false (stage top was 119px)
+PASS  real stage, warning: inside the stage, painted on top, clear of the real toolbar and hint  [{"box":[29,804,265,36],"stage":[1052,765],"inside":true,"coversToolbar":false,"coversHint":false,"hintHeight":24,"toolbarHeight":33,"gapAboveHint":9,"gapBelowToolbar":639,"onTop":true,"opacity":"1","hintText":"Room · drag to orbit · scroll to zoom · right-drag to pan"}]
+PASS  real stage, error: inside the stage, painted on top, clear of the real toolbar and hint  [{"box":[29,786,420,54],"stage":[1052,765],"inside":true,"coversToolbar":false,"coversHint":false,"hintHeight":24,"toolbarHeight":33,"gapAboveHint":9,"gapBelowToolbar":621,"onTop":true,"opacity":"1","hintText":"Room · drag to orbit · scroll to zoom · right-drag to pan"}]
+PASS  notify("") closes the toast
+PASS  real page: confirm resolves false on Esc
+PASS  no page errors
+
+===== real app, 375x812 =====
+      viewer status ready: true
+PASS  ? button in the real top bar: 28 x 28, 16 px from the right edge, no horizontal scroll  [{"topbar":157,"btn":[28,28],"rightGap":16,"navRight":359,"btnLeft":331,"sameRowAsNav":false,"overflowX":0,"newHiddenLeaks":0}]
+PASS  narrow: top bar still wraps; ? on the brand row  [topbar 149 → 157px]
+      top bar height: 149px before, 157px with the ? button
+PASS  the components add no [hidden] element that still displays  [app's own before: ["room-plan","room-plan-actions","project-file","pack-params","texture-target-wrap"]]
+PASS  real app: first open Start here; then Product in the Product workspace; Room after the real switch  [start, product, workspace=room → room]
+PASS  real app: Ctrl+Z / Cmd+Z with the pop-up open do not reach document keydown listeners  [[]]
+PASS  real app: Esc closes and focus returns to the ? button  [btn-help]
+PASS  closed pop-up (still in the DOM) adds nothing to document.body.innerText, so the Copy §8 vocabulary check stays valid  [{"dialogInDom":true,"dialogOpen":false,"bodyHasTitle":false,"bodyHasTab5":false,"bodyHasDevNote":false}]
+      stage out of view before the toast check: true (stage top was -452px)
+PASS  real stage, warning: inside the stage, painted on top, clear of the real toolbar and hint  [{"box":[29,356,265,36],"stage":[343,455],"inside":true,"coversToolbar":false,"coversHint":false,"hintHeight":24,"toolbarHeight":33,"gapAboveHint":9,"gapBelowToolbar":329,"onTop":true,"opacity":"1","hintText":"Room · drag to orbit · scroll to zoom · right-drag to pan"}]
+PASS  real stage, error: inside the stage, painted on top, clear of the real toolbar and hint  [{"box":[29,338,317,54],"stage":[343,455],"inside":true,"coversToolbar":false,"coversHint":false,"hintHeight":24,"toolbarHeight":33,"gapAboveHint":9,"gapBelowToolbar":311,"onTop":true,"opacity":"1","hintText":"Room · drag to orbit · scroll to zoom · right-drag to pan"}]
+PASS  notify("") closes the toast
+PASS  real page: confirm resolves false on Esc
+PASS  no page errors
+
+ALL IN-APP CHECKS PASSED

@@ -1,0 +1,303 @@
+[
+  {
+    "id": "V01",
+    "name": "Custom room: zero / negative / empty / 1e9 / tiny / negative ceiling (text input cannot be typed into a number field, so it is not tested)",
+    "observed": {
+      "cases": [
+        {
+          "input": "0|0|0",
+          "roomAfter": null,
+          "msg": "Room size must be positive (length, width, ceiling height, wall thickness)",
+          "isError": true,
+          "viewer": "ready"
+        },
+        {
+          "input": "-3|4|2.7",
+          "roomAfter": null,
+          "msg": "Room size must be positive (length, width, ceiling height, wall thickness)",
+          "isError": true,
+          "viewer": "ready"
+        },
+        {
+          "input": "||",
+          "roomAfter": null,
+          "msg": "Room size must be positive (length, width, ceiling height, wall thickness)",
+          "isError": true,
+          "viewer": "ready"
+        },
+        {
+          "input": "1e9|1e9|2.7",
+          "roomAfter": {
+            "walls": 4,
+            "rooms": 1,
+            "ceiling": 2.7
+          },
+          "msg": "Custom room · 1000000000.00 m × 1000000000.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · a",
+          "isError": false,
+          "viewer": "ready"
+        },
+        {
+          "input": "0.001|0.001|0.001",
+          "roomAfter": {
+            "walls": 4,
+            "rooms": 1,
+            "ceiling": 0.001
+          },
+          "msg": "Custom room · 0.00 m × 0.00 m · ceiling 0.00 m · 0 opening(s) · 0 placement(s) · authored",
+          "isError": false,
+          "viewer": "ready"
+        },
+        {
+          "input": "3|3|-1",
+          "roomAfter": {
+            "walls": 4,
+            "rooms": 1,
+            "ceiling": 0.001
+          },
+          "msg": "Room size must be positive (length, width, ceiling height, wall thickness)",
+          "isError": true,
+          "viewer": "ready"
+        }
+      ],
+      "errors": []
+    }
+  },
+  {
+    "id": "V02a",
+    "name": "Corrupt catalog3d.roomGraph = [[[",
+    "observed": {
+      "appReady": true,
+      "room": null,
+      "templateListText": null,
+      "errors": []
+    }
+  },
+  {
+    "id": "V02b",
+    "name": "Corrupt catalog3d.roomGraph = {\"walls\":null,\"rooms\":\"x\"}",
+    "observed": {
+      "appReady": true,
+      "room": null,
+      "templateListText": null,
+      "errors": []
+    }
+  },
+  {
+    "id": "V02c",
+    "name": "Corrupt catalog3d.roomGraph = {\"schema_version\":1,\"rooms\":[{\"id\":\"r\",\"",
+    "observed": {
+      "appReady": false,
+      "room": {
+        "walls": 1,
+        "rooms": 1,
+        "ceiling": "tall"
+      },
+      "templateListText": null,
+      "errors": [
+        "CONSOLE: TypeError: Cannot read properties of undefined (reading 'x')\n    at renderRoomUi (http://127.0.0.1:18767/src/main.ts?t=1791197479381:211:52)\n    at boot (http:/"
+      ]
+    }
+  },
+  {
+    "id": "V03a",
+    "name": "Corrupt catalog3d.roomTemplates = {bad",
+    "observed": {
+      "appReady": true,
+      "room": null,
+      "templateListText": "",
+      "errors": []
+    }
+  },
+  {
+    "id": "V03b",
+    "name": "Corrupt catalog3d.roomTemplates = [1,null,{\"x\":1},\"str\"]",
+    "observed": {
+      "appReady": true,
+      "room": null,
+      "templateListText": "",
+      "errors": [
+        "PAGEERROR: Cannot read properties of undefined (reading 'walls')"
+      ]
+    }
+  },
+  {
+    "id": "V04",
+    "name": "Import project JSON: garbage / wrong schema / empty / NaN walls (does the existing room survive?)",
+    "observed": {
+      "before": {
+        "walls": 4,
+        "rooms": 1,
+        "ceiling": 2.7
+      },
+      "out": [
+        {
+          "file": "not-json.json",
+          "msg": "Import failed: Unexpected token 'h', \"this is not json\" is not valid JSON",
+          "isError": true,
+          "roomStillThere": true
+        },
+        {
+          "file": "wrong-schema.json",
+          "msg": "Import failed: Unsupported project schema_version (expected 1)",
+          "isError": true,
+          "roomStillThere": true
+        },
+        {
+          "file": "array.json",
+          "msg": "Import failed: Unsupported project schema_version (expected 1)",
+          "isError": true,
+          "roomStillThere": true
+        },
+        {
+          "file": "empty.json",
+          "msg": "Import failed: Unexpected end of JSON input",
+          "isError": true,
+          "roomStillThere": true
+        },
+        {
+          "file": "nan-walls.json",
+          "msg": "Import failed: room_graph failed normalizeRoomGraph",
+          "isError": true,
+          "roomStillThere": true
+        }
+      ],
+      "errors": []
+    }
+  },
+  {
+    "id": "V05",
+    "name": "Broken / empty / mislabeled model uploads",
+    "observed": {
+      "optsBefore": 2,
+      "out": [
+        {
+          "file": "broken.glb",
+          "msg": "Could not load model (broken.glb): Unexpected token '\u0000', \"\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b \u000b\" is not valid JSON",
+          "isError": true,
+          "optionsNow": 2,
+          "viewer": "ready"
+        },
+        {
+          "file": "empty.glb",
+          "msg": "Could not load model (empty.glb): Invalid typed array length: 4",
+          "isError": true,
+          "optionsNow": 2,
+          "viewer": "ready"
+        },
+        {
+          "file": "garbage.obj",
+          "msg": "OBJ has no meshes: garbage.obj",
+          "isError": true,
+          "optionsNow": 2,
+          "viewer": "ready"
+        },
+        {
+          "file": "no-faces.obj",
+          "msg": "OBJ has no meshes: no-faces.obj",
+          "isError": true,
+          "optionsNow": 2,
+          "viewer": "ready"
+        },
+        {
+          "file": "renamed.txt.glb",
+          "msg": "Could not load model (renamed.txt.glb): Unexpected token '<', \"<html>not \"... is not valid JSON",
+          "isError": true,
+          "optionsNow": 2,
+          "viewer": "ready"
+        }
+      ],
+      "errors": [
+        "CONSOLE: Error: Could not load model (broken.glb): Unexpected token '\u0000', \"\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b\" is not valid JSON\n    at createProductFromModelFiles (http://127.0.0.1:18767/src/",
+        "CONSOLE: Error: Could not load model (empty.glb): Invalid typed array length: 4\n    at createProductFromModelFiles (http://127.0.0.1:18767/src/viewer/uploads.ts:82:9)\n  ",
+        "CONSOLE: Error: OBJ has no meshes: garbage.obj\n    at createProductFromObjPackage (http://127.0.0.1:18767/src/viewer/objImport.ts:389:9)\n    at async onModelFilesSelecte",
+        "CONSOLE: Error: OBJ has no meshes: no-faces.obj\n    at createProductFromObjPackage (http://127.0.0.1:18767/src/viewer/objImport.ts:389:9)\n    at async onModelFilesSelect"
+      ]
+    }
+  },
+  {
+    "id": "V06",
+    "name": "40 rapid workspace toggles + product switches",
+    "observed": {
+      "ready": true,
+      "canvases": 1,
+      "errors": []
+    }
+  },
+  {
+    "id": "V07",
+    "name": "Undo/redo with no room",
+    "observed": {
+      "undoDisabled": true,
+      "redoDisabled": true,
+      "errors": []
+    }
+  },
+  {
+    "id": "V08",
+    "name": "Garbage bytes named .dwg through \"Import plan\"",
+    "observed": {
+      "importStatus": "Job import_muv50lgt_2 · source dwg:garbage.dwg · scale ×1.000",
+      "banner": "[mock_fixture] ODA available: no — Uploaded DWG kept as SourceAsset (sha256 fa14310963bf…). ODA Drawings SDK / APS farm not available — wall/opening candidates are the labeled mock fixture, not entity",
+      "walls": "wc_s · 5.00 m · A-WALL\nAccepted\nwc_e · 4.00 m · A-WALL\nAccepted\nwc_n · 5.00 m · A-WALL\nAccepted\nwc_w",
+      "errors": []
+    }
+  },
+  {
+    "id": "V08b",
+    "name": ".exe through \"Import plan\"",
+    "observed": {
+      "importStatus": "Job import_muv50mb0_4 · source mock_fixture:setup.exe · scale ×1.000",
+      "accept": ".dwg,.dxf,.json,.candidates.json,.png,.jpg,.jpeg,.webp,.pdf,application/json,application/octet-stream,image/png,image/jpeg,image/webp,application/pdf"
+    }
+  },
+  {
+    "id": "V09",
+    "name": ".mjs with network call: flag off, then flag on (confirm dialog dismissed = refuse)",
+    "observed": {
+      "enabledByDefault": true,
+      "statusWhenOff": "MJS load cancelled by user",
+      "dialogs": [
+        {
+          "type": "confirm",
+          "message": "Load trusted .mjs module “evil.mjs”?\n\nThis executes JavaScript in the page (not a mesh file). Use only files you trust.\n\nStatic scan flagged: fetch(, absolute http(s) URL in source.\nThese patterns are unusual for a furniture pack — proceed only if intentional."
+        },
+        {
+          "type": "confirm",
+          "message": "Load trusted .mjs module “evil2.mjs”?\n\nThis executes JavaScript in the page (not a mesh file). Use only files you trust.\n\nStatic scan flagged: fetch(, absolute http(s) URL in source.\nThese patterns are unusual for a furniture pack — proceed only if intentional."
+        }
+      ],
+      "statusAfterDismiss": "MJS load cancelled by user"
+    }
+  },
+  {
+    "id": "V10",
+    "name": "localStorage full / blocked while editing a room",
+    "observed": {
+      "roomCreated": {
+        "walls": 4,
+        "rooms": 1,
+        "ceiling": 2.7
+      },
+      "statusText": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored",
+      "anyWarningMentionsSave": true
+    }
+  },
+  {
+    "id": "V11",
+    "name": "Mobile 375px horizontal overflow (px): catalog vs room workspace",
+    "observed": {
+      "catalog": 0,
+      "roomWithPlan": 0
+    }
+  },
+  {
+    "id": "V12",
+    "name": "Canvas keyboard/a11y affordances",
+    "observed": {
+      "tabindex": null,
+      "ariaLabel": null,
+      "role": null,
+      "hostAria": null
+    }
+  }
+]

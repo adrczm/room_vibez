@@ -1,0 +1,144 @@
+{
+ "QA01_tools": {
+  "arrival": {
+   "mode": "room",
+   "workspace": "room",
+   "place": "false",
+   "opening": "false",
+   "draw": "false",
+   "elevationDeg": 21.16,
+   "camDist": 8
+  },
+  "place": {
+   "modes": [
+    "place",
+    "room",
+    "place"
+   ],
+   "pressed": [
+    "true",
+    "false",
+    "true"
+   ]
+  },
+  "opening": {
+   "modes": [
+    "opening",
+    "room",
+    "opening"
+   ],
+   "pressed": [
+    "true",
+    "false",
+    "true"
+   ]
+  },
+  "draw-wall": {
+   "modes": [
+    "draw-wall",
+    "room",
+    "draw-wall"
+   ],
+   "pressed": [
+    "true",
+    "false",
+    "true"
+   ]
+  },
+  "afterCycling": {
+   "mode": "room",
+   "workspace": "room",
+   "place": "false",
+   "opening": "false",
+   "draw": "false",
+   "elevationDeg": 21.16,
+   "camDist": 8
+  },
+  "orbitThenTool": {
+   "place": {
+    "framedDeg": 21.16,
+    "orbitedDeg": 68.3,
+    "afterToolDeg": 68.32,
+    "deltaDeg": 0.02,
+    "modeAfter": "place"
+   },
+   "opening": {
+    "framedDeg": 21.16,
+    "orbitedDeg": 68.28,
+    "afterToolDeg": 68.32,
+    "deltaDeg": 0.04,
+    "modeAfter": "opening"
+   },
+   "draw-wall": {
+    "framedDeg": 21.16,
+    "orbitedDeg": 68.27,
+    "afterToolDeg": 68.31,
+    "deltaDeg": 0.04,
+    "modeAfter": "draw-wall"
+   }
+  },
+  "escFromButtonFocus": {
+   "mode": "room",
+   "workspace": "room",
+   "place": "false",
+   "opening": "false",
+   "draw": "false",
+   "elevationDeg": 68.32,
+   "camDist": 8
+  },
+  "placeOnBeforeEsc": "place",
+  "activeElementAfterToolClick": "btn-place-mode",
+  "escInPlace": {
+   "mode": "room",
+   "workspace": "room",
+   "place": "false",
+   "opening": "false",
+   "draw": "false",
+   "elevationDeg": 68.33,
+   "camDist": 8
+  },
+  "ingressTab": {
+   "before": 68.19,
+   "after": 68.27,
+   "deltaDeg": 0.08,
+   "ingress": "template"
+  },
+  "ingressTabWhilePlaceOn": {
+   "mode": "place",
+   "workspace": "room",
+   "place": "true",
+   "opening": "false",
+   "draw": "false",
+   "elevationDeg": 68.31,
+   "camDist": 8
+  },
+  "inProduct": {
+   "mode": "catalog",
+   "workspace": "catalog",
+   "place": "false",
+   "opening": "false",
+   "draw": "false",
+   "elevationDeg": 19.81,
+   "camDist": 1.996
+  },
+  "productThenRoom": {
+   "mode": "room",
+   "workspace": "room",
+   "place": "false",
+   "opening": "false",
+   "draw": "false",
+   "elevationDeg": 21.16,
+   "camDist": 8
+  },
+  "toolFromProduct": {
+   "mode": "place",
+   "workspace": "room",
+   "place": "true",
+   "opening": "false",
+   "draw": "false",
+   "elevationDeg": 21.16,
+   "camDist": 8
+  },
+  "errors": []
+ }
+}

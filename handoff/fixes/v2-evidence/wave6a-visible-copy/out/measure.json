@@ -1,0 +1,811 @@
+{
+  "words": {
+    "deckRows": {
+      "1 #workspace-mode-hint": {
+        "text": "Spin a product and try materials.",
+        "words": 6
+      },
+      "2 #stage-hint": {
+        "text": "Drag to spin · scroll to zoom · right-drag to pan",
+        "words": 9
+      },
+      "5 #import-oda-note (visible line, with Why?)": {
+        "text": "Best with a PNG or JPG. DWG/DXF shows a sample result for now. PDF isn't supported yet. Why?",
+        "words": 18
+      },
+      "7 #template-status": {
+        "text": "No templates yet. Save a room to reuse it.",
+        "words": 9
+      },
+      "10 Add 3D model hint": {
+        "text": ".glb works best. OBJ and glTF also work.",
+        "words": 8
+      },
+      "11 Load pack hint": {
+        "text": "Select both files together. Runs code — only load files you trust.",
+        "words": 11
+      },
+      "12 Load module hint": {
+        "text": "Use Load pack if you also have the .glb.",
+        "words": 9
+      },
+      "13 Add texture hint": {
+        "text": "PNG, JPEG or WebP. Gone when you refresh.",
+        "words": 8
+      },
+      "14 #room-status (no room)": {
+        "text": "No room yet. Pick a way to start below.",
+        "words": 9
+      },
+      "new Parts list note (with Why?)": {
+        "text": "Placeholder SKUs · no prices Why?",
+        "words": 5
+      }
+    },
+    "deckRowsTotal": 92,
+    "allNonEmptyP": [
+      {
+        "id": "workspace-mode-hint",
+        "text": "Spin a product and try materials.",
+        "words": 6,
+        "inSidebar": false,
+        "rendered": true
+      },
+      {
+        "id": "overlay-message",
+        "text": "Loading…",
+        "words": 1,
+        "inSidebar": false,
+        "rendered": true
+      },
+      {
+        "id": "stage-empty-body",
+        "text": "Pick a way to start.",
+        "words": 5,
+        "inSidebar": false,
+        "rendered": false
+      },
+      {
+        "id": "stage-hint",
+        "text": "Drag to spin · scroll to zoom · right-drag to pan",
+        "words": 9,
+        "inSidebar": false,
+        "rendered": true
+      },
+      {
+        "id": "product-meta",
+        "text": "STUB-SKU-CHAIR-001",
+        "words": 1,
+        "inSidebar": true,
+        "rendered": true
+      },
+      {
+        "id": "muted small upload-hint",
+        "text": ".glb works best. OBJ and glTF also work.",
+        "words": 8,
+        "inSidebar": true,
+        "rendered": true
+      },
+      {
+        "id": "muted small upload-hint",
+        "text": "PNG, JPEG or WebP. Gone when you refresh.",
+        "words": 8,
+        "inSidebar": true,
+        "rendered": false
+      },
+      {
+        "id": "muted small upload-hint",
+        "text": "Select both files together. Runs code — only load files you trust.",
+        "words": 11,
+        "inSidebar": true,
+        "rendered": false
+      },
+      {
+        "id": "muted small upload-hint",
+        "text": "Use Load pack if you also have the .glb.",
+        "words": 9,
+        "inSidebar": true,
+        "rendered": false
+      },
+      {
+        "id": "parts-note",
+        "text": "Placeholder SKUs · no prices Why?",
+        "words": 5,
+        "inSidebar": true,
+        "rendered": true
+      },
+      {
+        "id": "room-status",
+        "text": "No room yet. Pick a way to start below.",
+        "words": 9,
+        "inSidebar": true,
+        "rendered": false
+      },
+      {
+        "id": "ingress-badge",
+        "text": "Sample only",
+        "words": 2,
+        "inSidebar": true,
+        "rendered": false
+      },
+      {
+        "id": "import-note-line",
+        "text": "Best with a PNG or JPG. DWG/DXF shows a sample result for now. PDF isn't supported yet. Why?",
+        "words": 18,
+        "inSidebar": true,
+        "rendered": false
+      },
+      {
+        "id": "muted small list-nudge",
+        "text": "Leave out anything that doesn't belong.",
+        "words": 6,
+        "inSidebar": true,
+        "rendered": false
+      },
+      {
+        "id": "template-status",
+        "text": "No templates yet. Save a room to reuse it.",
+        "words": 9,
+        "inSidebar": true,
+        "rendered": false
+      }
+    ],
+    "allPTotal": 107,
+    "sidebarPTotal": 86,
+    "renderedPTotal": 30
+  },
+  "f5": [
+    {
+      "id": "product-select",
+      "visibleLabel": "(none)",
+      "accessibleName": "Product",
+      "ok": null
+    },
+    {
+      "id": "project-file",
+      "visibleLabel": "(none)",
+      "accessibleName": "Import project",
+      "ok": null
+    },
+    {
+      "id": "",
+      "visibleLabel": "(none)",
+      "accessibleName": "Search products",
+      "ok": null
+    },
+    {
+      "id": "",
+      "visibleLabel": "(none)",
+      "accessibleName": "Search materials",
+      "ok": null
+    },
+    {
+      "id": "",
+      "visibleLabel": "(none)",
+      "accessibleName": "Search materials",
+      "ok": null
+    },
+    {
+      "id": "",
+      "visibleLabel": "(none)",
+      "accessibleName": "Search materials",
+      "ok": null
+    }
+  ],
+  "six": [
+    {
+      "id": "plan-file",
+      "ariaLabel": null,
+      "ariaHidden": null,
+      "label": "Plan file"
+    },
+    {
+      "id": "model-files",
+      "ariaLabel": null,
+      "ariaHidden": null,
+      "label": "Add 3D model"
+    },
+    {
+      "id": "pack-files",
+      "ariaLabel": null,
+      "ariaHidden": null,
+      "label": "Load pack (.mjs + .glb)"
+    },
+    {
+      "id": "pack-glb-mate",
+      "ariaLabel": null,
+      "ariaHidden": null,
+      "label": "Or add the .glb on its own"
+    },
+    {
+      "id": "module-file",
+      "ariaLabel": null,
+      "ariaHidden": null,
+      "label": "Load module (.mjs only)"
+    },
+    {
+      "id": "texture-target",
+      "ariaLabel": null,
+      "ariaHidden": "true",
+      "label": "Add to material"
+    }
+  ],
+  "vocab": {
+    "product": {
+      "test": true,
+      "count": 6,
+      "matches": [
+        {
+          "match": "STUB",
+          "line": "STUB-SKU-CHAIR-001"
+        },
+        {
+          "match": "stub",
+          "line": "\"stub\": true,"
+        },
+        {
+          "match": "STUB",
+          "line": "\"productSku\": \"STUB-SKU-CHAIR-001\","
+        },
+        {
+          "match": "STUB",
+          "line": "\"materialSku\": \"STUB-MAT-WOOD-OAK\","
+        },
+        {
+          "match": "STUB",
+          "line": "\"materialSku\": \"STUB-MAT-PL-BLK\","
+        },
+        {
+          "match": "STUB",
+          "line": "\"materialSku\": \"STUB-MAT-WL-CRM\","
+        }
+      ],
+      "sPlurals": []
+    },
+    "roomEmpty": {
+      "test": false,
+      "count": 0,
+      "matches": [],
+      "sPlurals": []
+    },
+    "importTabNoReview": {
+      "test": false,
+      "count": 0,
+      "matches": [],
+      "sPlurals": []
+    },
+    "importReview": {
+      "test": false,
+      "count": 0,
+      "matches": [],
+      "sPlurals": []
+    },
+    "importReviewAfterToggle": {
+      "test": false,
+      "count": 0,
+      "matches": [],
+      "sPlurals": []
+    },
+    "importReviewTechnicalOpen": {
+      "test": true,
+      "count": 4,
+      "matches": [
+        {
+          "match": "fixture",
+          "line": "[mock_fixture] ODA available: no — ODA Drawings / APS Model Derivative not available on this machine. Candidates are a labeled mock fixture — not parsed from re"
+        },
+        {
+          "match": "Candidates",
+          "line": "[mock_fixture] ODA available: no — ODA Drawings / APS Model Derivative not available on this machine. Candidates are a labeled mock fixture — not parsed from re"
+        },
+        {
+          "match": "mock",
+          "line": "[mock_fixture] ODA available: no — ODA Drawings / APS Model Derivative not available on this machine. Candidates are a labeled mock fixture — not parsed from re"
+        },
+        {
+          "match": "fixture",
+          "line": "[mock_fixture] ODA available: no — ODA Drawings / APS Model Derivative not available on this machine. Candidates are a labeled mock fixture — not parsed from re"
+        }
+      ],
+      "sPlurals": []
+    },
+    "roomAfterCreate": {
+      "test": false,
+      "count": 0,
+      "matches": [],
+      "sPlurals": [
+        "opening(s)",
+        "placement(s)"
+      ]
+    },
+    "roomWithProduct": {
+      "test": false,
+      "count": 0,
+      "matches": [],
+      "sPlurals": [
+        "opening(s)",
+        "placement(s)"
+      ]
+    }
+  },
+  "pressed": {
+    "productBefore": [
+      {
+        "key": "wood-oak",
+        "label": "Natural oak",
+        "pressed": "true"
+      },
+      {
+        "key": "wood-walnut",
+        "label": "Walnut",
+        "pressed": "false"
+      },
+      {
+        "key": "wood-black",
+        "label": "Black stained ash",
+        "pressed": "false"
+      },
+      {
+        "key": "plastic-black",
+        "label": "Matte black PP",
+        "pressed": "true"
+      },
+      {
+        "key": "plastic-white",
+        "label": "Gloss white ABS",
+        "pressed": "false"
+      },
+      {
+        "key": "plastic-green",
+        "label": "Sage PP",
+        "pressed": "false"
+      },
+      {
+        "key": "metal-brass",
+        "label": "Brushed brass",
+        "pressed": "false"
+      },
+      {
+        "key": "metal-black",
+        "label": "Powder-coat black",
+        "pressed": "false"
+      },
+      {
+        "key": "metal-chrome",
+        "label": "Chrome",
+        "pressed": "false"
+      },
+      {
+        "key": "wool-cream",
+        "label": "Wool — cream",
+        "pressed": "true"
+      },
+      {
+        "key": "wool-terracotta",
+        "label": "Wool — terracotta",
+        "pressed": "false"
+      },
+      {
+        "key": "wool-forest",
+        "label": "Wool — forest",
+        "pressed": "false"
+      }
+    ],
+    "productAfterSwatch": [
+      {
+        "key": "wood-oak",
+        "label": "Natural oak",
+        "pressed": "false"
+      },
+      {
+        "key": "wood-walnut",
+        "label": "Walnut",
+        "pressed": "true"
+      },
+      {
+        "key": "wood-black",
+        "label": "Black stained ash",
+        "pressed": "false"
+      },
+      {
+        "key": "plastic-black",
+        "label": "Matte black PP",
+        "pressed": "true"
+      },
+      {
+        "key": "plastic-white",
+        "label": "Gloss white ABS",
+        "pressed": "false"
+      },
+      {
+        "key": "plastic-green",
+        "label": "Sage PP",
+        "pressed": "false"
+      },
+      {
+        "key": "metal-brass",
+        "label": "Brushed brass",
+        "pressed": "false"
+      },
+      {
+        "key": "metal-black",
+        "label": "Powder-coat black",
+        "pressed": "false"
+      },
+      {
+        "key": "metal-chrome",
+        "label": "Chrome",
+        "pressed": "false"
+      },
+      {
+        "key": "wool-cream",
+        "label": "Wool — cream",
+        "pressed": "true"
+      },
+      {
+        "key": "wool-terracotta",
+        "label": "Wool — terracotta",
+        "pressed": "false"
+      },
+      {
+        "key": "wool-forest",
+        "label": "Wool — forest",
+        "pressed": "false"
+      }
+    ],
+    "reviewBefore": [
+      {
+        "key": "wc_s:true",
+        "label": "Included",
+        "pressed": "true"
+      },
+      {
+        "key": "wc_s:false",
+        "label": "Left out",
+        "pressed": "false"
+      },
+      {
+        "key": "wc_e:true",
+        "label": "Included",
+        "pressed": "true"
+      },
+      {
+        "key": "wc_e:false",
+        "label": "Left out",
+        "pressed": "false"
+      },
+      {
+        "key": "wc_n:true",
+        "label": "Included",
+        "pressed": "true"
+      },
+      {
+        "key": "wc_n:false",
+        "label": "Left out",
+        "pressed": "false"
+      },
+      {
+        "key": "wc_w:true",
+        "label": "Included",
+        "pressed": "true"
+      },
+      {
+        "key": "wc_w:false",
+        "label": "Left out",
+        "pressed": "false"
+      },
+      {
+        "key": "oc_door:true",
+        "label": "Included",
+        "pressed": "true"
+      },
+      {
+        "key": "oc_door:false",
+        "label": "Left out",
+        "pressed": "false"
+      },
+      {
+        "key": "oc_win:true",
+        "label": "Included",
+        "pressed": "true"
+      },
+      {
+        "key": "oc_win:false",
+        "label": "Left out",
+        "pressed": "false"
+      },
+      {
+        "key": "rc_main:true",
+        "label": "Included",
+        "pressed": "true"
+      },
+      {
+        "key": "rc_main:false",
+        "label": "Left out",
+        "pressed": "false"
+      },
+      {
+        "key": "btn-draw-wall-mode",
+        "label": "Draw walls",
+        "pressed": "false"
+      }
+    ],
+    "reviewAfter": [
+      {
+        "key": "wc_s:true",
+        "label": "Included",
+        "pressed": "false"
+      },
+      {
+        "key": "wc_s:false",
+        "label": "Left out",
+        "pressed": "true"
+      },
+      {
+        "key": "wc_e:true",
+        "label": "Included",
+        "pressed": "true"
+      },
+      {
+        "key": "wc_e:false",
+        "label": "Left out",
+        "pressed": "false"
+      },
+      {
+        "key": "wc_n:true",
+        "label": "Included",
+        "pressed": "true"
+      },
+      {
+        "key": "wc_n:false",
+        "label": "Left out",
+        "pressed": "false"
+      },
+      {
+        "key": "wc_w:true",
+        "label": "Included",
+        "pressed": "true"
+      },
+      {
+        "key": "wc_w:false",
+        "label": "Left out",
+        "pressed": "false"
+      },
+      {
+        "key": "oc_door:true",
+        "label": "Included",
+        "pressed": "true"
+      },
+      {
+        "key": "oc_door:false",
+        "label": "Left out",
+        "pressed": "false"
+      },
+      {
+        "key": "oc_win:true",
+        "label": "Included",
+        "pressed": "true"
+      },
+      {
+        "key": "oc_win:false",
+        "label": "Left out",
+        "pressed": "false"
+      },
+      {
+        "key": "rc_main:true",
+        "label": "Included",
+        "pressed": "true"
+      },
+      {
+        "key": "rc_main:false",
+        "label": "Left out",
+        "pressed": "false"
+      },
+      {
+        "key": "btn-draw-wall-mode",
+        "label": "Draw walls",
+        "pressed": "false"
+      }
+    ],
+    "toolsOff": [
+      {
+        "key": "wood-oak",
+        "label": "Natural oak",
+        "pressed": "false"
+      },
+      {
+        "key": "wood-walnut",
+        "label": "Walnut",
+        "pressed": "true"
+      },
+      {
+        "key": "wood-black",
+        "label": "Black stained ash",
+        "pressed": "false"
+      },
+      {
+        "key": "plastic-black",
+        "label": "Matte black PP",
+        "pressed": "true"
+      },
+      {
+        "key": "plastic-white",
+        "label": "Gloss white ABS",
+        "pressed": "false"
+      },
+      {
+        "key": "plastic-green",
+        "label": "Sage PP",
+        "pressed": "false"
+      },
+      {
+        "key": "metal-brass",
+        "label": "Brushed brass",
+        "pressed": "false"
+      },
+      {
+        "key": "metal-black",
+        "label": "Powder-coat black",
+        "pressed": "false"
+      },
+      {
+        "key": "metal-chrome",
+        "label": "Chrome",
+        "pressed": "false"
+      },
+      {
+        "key": "wool-cream",
+        "label": "Wool — cream",
+        "pressed": "true"
+      },
+      {
+        "key": "wool-terracotta",
+        "label": "Wool — terracotta",
+        "pressed": "false"
+      },
+      {
+        "key": "wool-forest",
+        "label": "Wool — forest",
+        "pressed": "false"
+      },
+      {
+        "key": "btn-place-mode",
+        "label": "Place product",
+        "pressed": "false"
+      }
+    ],
+    "placeOn": [
+      {
+        "key": "wood-oak",
+        "label": "Natural oak",
+        "pressed": "false"
+      },
+      {
+        "key": "wood-walnut",
+        "label": "Walnut",
+        "pressed": "true"
+      },
+      {
+        "key": "wood-black",
+        "label": "Black stained ash",
+        "pressed": "false"
+      },
+      {
+        "key": "plastic-black",
+        "label": "Matte black PP",
+        "pressed": "true"
+      },
+      {
+        "key": "plastic-white",
+        "label": "Gloss white ABS",
+        "pressed": "false"
+      },
+      {
+        "key": "plastic-green",
+        "label": "Sage PP",
+        "pressed": "false"
+      },
+      {
+        "key": "metal-brass",
+        "label": "Brushed brass",
+        "pressed": "false"
+      },
+      {
+        "key": "metal-black",
+        "label": "Powder-coat black",
+        "pressed": "false"
+      },
+      {
+        "key": "metal-chrome",
+        "label": "Chrome",
+        "pressed": "false"
+      },
+      {
+        "key": "wool-cream",
+        "label": "Wool — cream",
+        "pressed": "true"
+      },
+      {
+        "key": "wool-terracotta",
+        "label": "Wool — terracotta",
+        "pressed": "false"
+      },
+      {
+        "key": "wool-forest",
+        "label": "Wool — forest",
+        "pressed": "false"
+      },
+      {
+        "key": "btn-place-mode",
+        "label": "Place product",
+        "pressed": "true"
+      }
+    ],
+    "openingOn": [
+      {
+        "key": "btn-opening-mode",
+        "label": "Add opening",
+        "pressed": "true"
+      }
+    ],
+    "drawOn": [
+      {
+        "key": "btn-draw-wall-mode",
+        "label": "Draw walls",
+        "pressed": "true"
+      }
+    ]
+  },
+  "errors": [],
+  "pressedSummary": {
+    "buttonsSeen": 29,
+    "renamed": [],
+    "statesSeen": {
+      "productBefore": [
+        "wood-oak=Natural oak",
+        "plastic-black=Matte black PP",
+        "wool-cream=Wool — cream"
+      ],
+      "productAfterSwatch": [
+        "wood-walnut=Walnut",
+        "plastic-black=Matte black PP",
+        "wool-cream=Wool — cream"
+      ],
+      "reviewBefore": [
+        "wc_s:true=Included",
+        "wc_e:true=Included",
+        "wc_n:true=Included",
+        "wc_w:true=Included",
+        "oc_door:true=Included",
+        "oc_win:true=Included",
+        "rc_main:true=Included"
+      ],
+      "reviewAfter": [
+        "wc_s:false=Left out",
+        "wc_e:true=Included",
+        "wc_n:true=Included",
+        "wc_w:true=Included",
+        "oc_door:true=Included",
+        "oc_win:true=Included",
+        "rc_main:true=Included"
+      ],
+      "toolsOff": [
+        "wood-walnut=Walnut",
+        "plastic-black=Matte black PP",
+        "wool-cream=Wool — cream"
+      ],
+      "placeOn": [
+        "wood-walnut=Walnut",
+        "plastic-black=Matte black PP",
+        "wool-cream=Wool — cream",
+        "btn-place-mode=Place product"
+      ],
+      "openingOn": [
+        "btn-opening-mode=Add opening"
+      ],
+      "drawOn": [
+        "btn-draw-wall-mode=Draw walls"
+      ]
+    }
+  }
+}

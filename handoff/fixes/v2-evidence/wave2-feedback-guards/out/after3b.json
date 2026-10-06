@@ -1,0 +1,46 @@
+{
+ "openingTooWide": {
+  "text": "That opening doesn't fit on this wall (wall is 5.00 m long). Make it narrower or click nearer the middle.",
+  "kind": "warning",
+  "role": "status",
+  "openings": 0,
+  "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored"
+ },
+ "openingTooTall": {
+  "text": "That opening is taller than the wall (2.70 m).",
+  "kind": "warning",
+  "role": "status"
+ },
+ "drawThree": {
+  "text": "3 corners. Click the first one to close.",
+  "kind": "info",
+  "role": "status"
+ },
+ "drawCloseTooFew": {
+  "text": "Add at least 3 corners before closing.",
+  "kind": "warning",
+  "role": "status",
+  "mode": "draw-wall",
+  "walls": 4
+ },
+ "drawFour": {
+  "text": "4 corners. Click the first one to close.",
+  "kind": "info",
+  "role": "status"
+ },
+ "drawClosed": {
+  "text": "Room closed · 4 walls.",
+  "kind": "success",
+  "role": "status",
+  "mode": "room",
+  "hint": "Drag to orbit · scroll to zoom · right-drag to pan",
+  "walls": 4,
+  "pressed": "false",
+  "roomStatus": "Freeform room · 3.00 m × 2.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored"
+ },
+ "errors": [
+  "console: [opening-add] Error: Opening exceeds wall length (5.00 m)\n    at addOpening (http://127.0.0.1:18777/src/viewer/roomGraph.ts?t=1791207138280:452:24)\n    at Object.onRoomPointer (http://127.0.0.1:18777/src/main.ts?t=1791209026831:853:17)\n    at RoomVibezViewer.onPointerUp (http://127.0.0.1:18777/src/viewer/RoomVibezViewer.ts?t=1791208076792:139:29)",
+  "console: [opening-add] Error: Opening exceeds wall height (2.70 m)\n    at addOpening (http://127.0.0.1:18777/src/viewer/roomGraph.ts?t=1791207138280:452:24)\n    at Object.onRoomPointer (http://127.0.0.1:18777/src/main.ts?t=1791209026831:853:17)\n    at RoomVibezViewer.onPointerUp (http://127.0.0.1:18777/src/viewer/RoomVibezViewer.ts?t=1791208076792:139:29)",
+  "console: [draw-walls] Error: Need at least 3 corners to close a room\n    at commitDrawSession (http://127.0.0.1:18777/src/viewer/freeformWalls.ts?t=1791207138280:73:28)\n    at Object.onRoomPointer (http://127.0.0.1:18777/src/main.ts?t=1791209026831:905:19)\n    at RoomVibezViewer.onPointerUp (http://127.0.0.1:18777/src/viewer/RoomVibezViewer.ts?t=1791208076792:139:29)"
+ ]
+}

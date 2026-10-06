@@ -1,0 +1,28 @@
+// Uploaded model and pack: how tall is the Materials card with labelled tiles, and without (switched off in the page)?
+import { launch, BASE } from './lib.mjs';
+const browser = await launch();
+const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+const page = await ctx.newPage();
+page.on('dialog', (d) => d.accept());
+await page.goto(BASE);
+const ready = () => page.waitForSelector('body[data-viewer-status="ready"]', { timeout: 60000 });
+await ready();
+const card = () => page.evaluate(() => ({ slots: document.querySelectorAll('.slot').length, tilesPerSlot: [...document.querySelectorAll('.slot')].map((s) => s.querySelectorAll('.swatch').length), rowBlocks: [...document.querySelectorAll('#slots .swatches')].map((e) => Math.round(e.getBoundingClientRect().height)), cardH: Math.round(document.getElementById('materials-card').getBoundingClientRect().height) }));
+const out = {};
+const glb = await page.request.get(BASE + 'assets/models/side-table.glb');
+await page.setInputFiles('#model-files', { name: 'my-table.glb', mimeType: 'model/gltf-binary', buffer: await glb.body() });
+await page.waitForFunction(() => window.__rv.catalog().products.some((p) => p.userAdded));
+await ready(); await page.waitForTimeout(500);
+out.uploadWithNames = await card();
+const tag = await page.addStyleTag({ content: '.swatch-tile{display:contents!important}.swatch-name{display:none!important}' });
+out.uploadNamesOff = await card();
+await tag.evaluate((n) => n.remove());
+await page.click('#product-advanced-summary');
+await page.setInputFiles('#pack-files', ['/Users/adrian/Desktop/Room Vibez/models/core-rulebook-4aedc7.mjs', '/Users/adrian/Desktop/Room Vibez/models/core-rulebook-4aedc7.glb']);
+await page.waitForFunction(() => !!window.__rv.pack(), null, { timeout: 30000 });
+await ready(); await page.waitForTimeout(800);
+out.packWithNames = await card();
+await page.addStyleTag({ content: '.swatch-tile{display:contents!important}.swatch-name{display:none!important}' });
+out.packNamesOff = await card();
+for (const [k, v] of Object.entries(out)) console.log(k, JSON.stringify(v));
+await browser.close();

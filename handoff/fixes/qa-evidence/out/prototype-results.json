@@ -1,0 +1,253 @@
+{
+  "P01": {
+    "name": "Auth screen 1440x900: structure, contrast, targets, external requests, keyboard",
+    "observed": {
+      "facts": {
+        "screen": "screen-auth",
+        "overflowX": 0,
+        "offenders": [],
+        "headings": [
+          "H1 Plan rooms. Place real products. Own the BOM.",
+          "H2 Who are you?",
+          "H3 Regular person",
+          "H3 Interior designer",
+          "H3 Architect",
+          "H3 Reseller / ops"
+        ],
+        "fontSizes": {
+          "16.0px": 8,
+          "11.5px": 7,
+          "13.6px": 5,
+          "12.5px": 2,
+          "18.4px": 1,
+          "48.0px": 1
+        },
+        "fontFamilies": {
+          "\"IBM Plex Sans\"": 22,
+          "Fraunces": 2
+        },
+        "fontsLoaded": [
+          "Fraunces",
+          "IBM Plex Sans"
+        ],
+        "brand": "Room Vibez",
+        "title": "Room Vibez — Planner flows prototype"
+      },
+      "contrast": {
+        "textElements": 25,
+        "failing": 3,
+        "failingExcludingDisabled": 2,
+        "groups": [
+          {
+            "pair": "#8a6a1f on #f7efd6 = 4.39:1 (11.5px)",
+            "count": 2,
+            "examples": [
+              "span.sim-badge \"Simulated Planner 5D–style UI (not offic\"",
+              "p.sim-badge \"Click-through prototype · no real accoun\""
+            ]
+          },
+          {
+            "pair": "#edf2ed on #95b2a2 = 2.03:1 (16px, disabled control, opacity 0.45)",
+            "count": 1,
+            "examples": [
+              "button#btnContinueAuth \"Continue\""
+            ]
+          }
+        ]
+      },
+      "targetsUnder24": [],
+      "targetsUnder44": 3,
+      "targetsTotal": 7,
+      "tabOrder": [
+        "input#email \"alex@example.com\" [auto 1px]",
+        "button.role-card \"Regular person Upload a photo/PDF plan, \" [auto 1px]",
+        "button.role-card \"Interior designer Templates, materials l\" [auto 1px]",
+        "button.role-card \"Architect DWG import note + hybrid room \" [auto 1px]",
+        "button.role-card \"Reseller / ops Catalog SKUs + owned Room\" [auto 1px]",
+        "button#btnSkipDemo \"Open demo project\" [auto 1px]"
+      ],
+      "externalHostsRequested": [
+        "fonts.googleapis.com",
+        "unpkg.com",
+        "fonts.gstatic.com"
+      ],
+      "failedRequests": [],
+      "errors": []
+    }
+  },
+  "P02": {
+    "name": "Editor screen 1440x900 (via \"Open demo project\")",
+    "observed": {
+      "facts": {
+        "screen": "screen-editor",
+        "overflowX": 0,
+        "offenders": [],
+        "headings": [
+          "H2 TOOLS",
+          "H2 CATALOG",
+          "H2 OWNED CMS",
+          "H2 SELECTION",
+          "H3 Loft Chair",
+          "H2 MATERIALS LIBRARY",
+          "H3 Slot: wood",
+          "H3 Slot: plastic",
+          "H3 Slot: wool",
+          "H2 ROOM VIBEZ BOM (OWNED)"
+        ],
+        "fontSizes": {
+          "16.0px": 18,
+          "13.1px": 9,
+          "12.0px": 9,
+          "12.5px": 8,
+          "15.2px": 4,
+          "18.4px": 1,
+          "11.5px": 1,
+          "12.8px": 1,
+          "13.6px": 1
+        },
+        "fontFamilies": {
+          "\"IBM Plex Sans\"": 51,
+          "Fraunces": 1
+        },
+        "fontsLoaded": [
+          "Fraunces",
+          "IBM Plex Sans"
+        ],
+        "brand": "Room Vibez",
+        "title": "Room Vibez — Planner flows prototype"
+      },
+      "rolePillAfterSkipDemo": "Interior designer",
+      "contrast": {
+        "textElements": 52,
+        "failing": 5,
+        "failingExcludingDisabled": 1,
+        "groups": [
+          {
+            "pair": "#8a6a1f on #f7efd6 = 4.39:1 (11.5px)",
+            "count": 1,
+            "examples": [
+              "span.sim-badge \"Simulated Planner 5D–style UI (not offic\""
+            ]
+          },
+          {
+            "pair": "#afb6af on #f1f4ef = 1.87:1 (16px, disabled control, opacity 0.45)",
+            "count": 1,
+            "examples": [
+              "strong \"Live ERP stock\""
+            ]
+          },
+          {
+            "pair": "#afb6af on #f1f4ef = 1.87:1 (13.1px, disabled control, opacity 0.45)",
+            "count": 1,
+            "examples": [
+              "span.muted \"Unknown / not in public Planner docs\""
+            ]
+          },
+          {
+            "pair": "#afb6af on #f4f6f2 = 1.91:1 (16px, disabled control, opacity 0.45)",
+            "count": 2,
+            "examples": [
+              "button.unknown \"4K photoreal (usage) — confirm on contra\"",
+              "button.unknown \"Planner BOM manager — Unknown / not in p\""
+            ]
+          }
+        ]
+      },
+      "targetsUnder24": [],
+      "targetsUnder32": [],
+      "targetsTotal": 24,
+      "bom": {
+        "facts": {
+          "screen": "screen-bom",
+          "overflowX": 0,
+          "offenders": [],
+          "headings": [
+            "H1 Cart / BOM · Room Vibez owned",
+            "H3 BOM lines",
+            "H3 SKU list",
+            "H3 Share / export"
+          ],
+          "fontSizes": {
+            "16.0px": 14,
+            "11.5px": 6,
+            "15.2px": 3,
+            "13.1px": 3,
+            "12.5px": 2,
+            "18.4px": 1,
+            "48.0px": 1
+          },
+          "fontFamilies": {
+            "\"IBM Plex Sans\"": 28,
+            "Fraunces": 2
+          },
+          "fontsLoaded": [
+            "Fraunces",
+            "IBM Plex Sans"
+          ],
+          "brand": "Room Vibez",
+          "title": "Room Vibez — Planner flows prototype"
+        },
+        "contrast": {
+          "textElements": 30,
+          "failing": 2,
+          "failingExcludingDisabled": 1,
+          "groups": [
+            {
+              "pair": "#8a6a1f on #f7efd6 = 4.39:1 (11.5px)",
+              "count": 1,
+              "examples": [
+                "span.sim-badge \"Simulated Planner 5D–style UI (not offic\""
+              ]
+            },
+            {
+              "pair": "#b5bbb7 on #ffffff = 1.96:1 (16px, disabled control, opacity 0.45)",
+              "count": 1,
+              "examples": [
+                "button.unknown \"CAD export IFC/DWG — Partial / beta in p\""
+              ]
+            }
+          ]
+        },
+        "restart": {
+          "className": "primary",
+          "bg": "rgb(47, 107, 79)",
+          "color": "rgb(244, 250, 246)"
+        }
+      },
+      "errors": []
+    }
+  },
+  "P03": {
+    "name": "Mobile 375x812: horizontal overflow per screen",
+    "observed": {
+      "auth": {
+        "overflowX": 0,
+        "offenders": [],
+        "skipDemoButton": {
+          "rect": [
+            123,
+            941,
+            168,
+            40
+          ],
+          "viewport": [
+            502,
+            1087
+          ],
+          "elementAtCentreAndCorners": [
+            "button",
+            "button",
+            "button"
+          ],
+          "pageScrollX": 0,
+          "mainOverflow": "visible"
+        }
+      },
+      "editor": {
+        "screen": "screen-editor",
+        "overflowX": 0,
+        "offenders": []
+      }
+    }
+  }
+}

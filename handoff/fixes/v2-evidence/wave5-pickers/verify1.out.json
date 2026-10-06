@@ -1,0 +1,130 @@
+{
+ "contextsAtLoad": {
+  "live": 1,
+  "all": 1,
+  "stats": null
+ },
+ "a2": {
+  "productNoRoom": [],
+  "roomNoRoom": [],
+  "roomWithRoom": [],
+  "roomPlaceStep": [],
+  "productWithRoom": []
+ },
+ "triggerAtLoad": {
+  "text": "Lounge chair (demo) | Product",
+  "img": false,
+  "kind": "none",
+  "expanded": "false",
+  "focused": false
+ },
+ "keyboard": {
+  "afterOpen": {
+   "focusId": "demo-lounge-chair",
+   "role": "option",
+   "view": "grid"
+  },
+  "afterRight": "demo-side-table",
+  "afterEnter": {
+   "value": "demo-side-table",
+   "slots": 2,
+   "open": false,
+   "trigger": {
+    "text": "Side table (demo) | Product",
+    "img": false,
+    "kind": "none",
+    "expanded": "false",
+    "focused": true
+   }
+  },
+  "reopenedFocus": "demo-side-table",
+  "afterEsc": {
+   "open": false,
+   "trigger": {
+    "text": "Side table (demo) | Product",
+    "img": true,
+    "kind": "thumb",
+    "expanded": "false",
+    "focused": true
+   },
+   "value": "demo-side-table"
+  }
+ },
+ "contextsAfterGrid": {
+  "live": 2,
+  "all": 2,
+  "stats": {
+   "contextAlive": true,
+   "contextsCreated": 1,
+   "renders": 2,
+   "cached": 2,
+   "pending": 0,
+   "lastRenderMs": 514.9000000357628,
+   "geometries": 11,
+   "textures": 5
+  }
+ },
+ "sync": {
+  "beforeSync": "Side table (demo) | Product",
+  "afterSync": {
+   "text": "Lounge chair (demo) | Product",
+   "img": true,
+   "kind": "thumb",
+   "expanded": "false",
+   "focused": true
+  }
+ },
+ "roomPicker": {
+  "slotParent": "product-picker-home-room",
+  "selects": 1,
+  "triggers": 1
+ },
+ "roomPopup": {
+  "rect": [
+   904,
+   217,
+   1424,
+   453
+  ],
+  "panel": [
+   1084,
+   119,
+   1424,
+   884
+  ],
+  "side": "below",
+  "layout": "anchored",
+  "cornersOnTop": [
+   true,
+   true,
+   false,
+   false
+  ],
+  "view": "grid",
+  "imgs": 2
+ },
+ "roomPick": {
+  "value": "demo-side-table",
+  "slots": 2
+ },
+ "backInProduct": {
+  "slotParent": "product-picker-home-catalog",
+  "value": "demo-side-table",
+  "slots": 2
+ },
+ "contextsEndA": {
+  "live": 2,
+  "all": 2,
+  "stats": {
+   "contextAlive": true,
+   "contextsCreated": 1,
+   "renders": 2,
+   "cached": 2,
+   "pending": 0,
+   "lastRenderMs": 514.9000000357628,
+   "geometries": 11,
+   "textures": 5
+  }
+ },
+ "errorsA": []
+}

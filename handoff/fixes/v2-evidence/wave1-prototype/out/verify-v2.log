@@ -1,0 +1,154 @@
+PASS  labels:1-auth (nothing picked): innerText has no research label  []
+PASS  labels:1-auth (nothing picked): no retired vocabulary (Cart, furniture, Drop, Manual draw…)  []
+PASS  labels:1-auth (nothing picked): handoff §8 team-vocabulary regex is false  []
+PASS  auth: top-bar badge
+PASS  auth: honesty badge kept
+PASS  auth: pills
+PASS  auth: email is empty with placeholder and helper
+PASS  auth: BOM appears once, in the reseller card only
+PASS  brand unchanged
+PASS  labels:1-auth (architect picked): innerText has no research label  []
+PASS  labels:1-auth (architect picked): no retired vocabulary (Cart, furniture, Drop, Manual draw…)  []
+PASS  labels:1-auth (architect picked): handoff §8 team-vocabulary regex is false  []
+PASS  labels:2-project: innerText has no research label  []
+PASS  labels:2-project: no retired vocabulary (Cart, furniture, Drop, Manual draw…)  []
+PASS  labels:2-project: handoff §8 team-vocabulary regex is false  []
+PASS  project: name is empty with placeholder
+PASS  project: no disabled controls left
+PASS  toast: Template added. (visible on the upload screen)
+PASS  labels:3-upload (before a file): innerText has no research label  []
+PASS  labels:3-upload (before a file): no retired vocabulary (Cart, furniture, Drop, Manual draw…)  []
+PASS  labels:3-upload (before a file): handoff §8 team-vocabulary regex is false  []
+PASS  upload: zone label has no "Drop"  "Choose a file\n\nThis demo doesn't read your file. Pick a type to see the flow.\n\n.DWG\n.PDF\n.JPG\n.PNG"
+PASS  upload: architect note shows the deck sentence
+PASS  upload: no disabled controls and no #btnManualOnly
+PASS  upload: a type chip does not open the file picker
+PASS  upload: recognition statuses are the deck strings  ["Reading your DWG…","Finding walls…","Building the room…","Ready to review."]
+PASS  labels:3-upload (result shown, architect): innerText has no research label  []
+PASS  labels:3-upload (result shown, architect): no retired vocabulary (Cart, furniture, Drop, Manual draw…)  []
+PASS  labels:3-upload (result shown, architect): handoff §8 team-vocabulary regex is false  []
+PASS  upload: exactly one "Draw it myself" button
+PASS  upload: confirm disabled until ticked
+PASS  state bug 1: new file unticks and re-disables straight away
+PASS  upload: status names the new type
+PASS  state bug 1: still unticked and disabled when the new result shows
+PASS  toast: Plan confirmed.
+PASS  labels:4-editor (2D, template chair): innerText has no research label  []
+PASS  labels:4-editor (2D, template chair): no retired vocabulary (Cart, furniture, Drop, Manual draw…)  []
+PASS  labels:4-editor (2D, template chair): handoff §8 team-vocabulary regex is false  []
+PASS  editor: role and project pills
+PASS  editor: no disabled controls before the starter is used
+PASS  editor: tool hint default
+PASS  editor: wall hint
+PASS  toast: Walls updated (sample shape).
+PASS  editor: place hint names the product (tool button)
+PASS  editor: place hint names the product (product click)
+PASS  toast: Placed Oak Side Table (unchanged)
+PASS  editor: table selection meta
+PASS  toast: finish with no matching product
+PASS  toast: Placed Loft Chair (unchanged)
+PASS  editor: chair selection meta  "CHAIR-LOFT-01 · Wood: Oak · Plastic: Slate · Wool: Sand"
+PASS  toast: finish changes  ["Wood changed to Walnut.","Wood changed to Ash.","Wood changed to Oak.","Plastic changed to Ink.","Plastic changed to Mist.","Plastic changed to Slate.","Wool changed to Clay.","Wool changed to Sage.","Wool changed to Sand."]
+PASS  toast + label: lighting  [["Lighting: Gallery","Lighting: Gallery."],["Lighting: Evening warm","Lighting: Evening warm."],["Lighting: Soft day","Lighting: Soft day."]]
+PASS  toast + label: render style kept, with the honest toast  [["Render style: Contrast+","Render style set to Contrast+. It doesn't change the image yet."],["Render style: Neutral commerce","Render style set to Neutral commerce. It doesn't change the image yet."],["Render style: Preview","Render style set to Preview. It doesn't change the image yet."]]
+PASS  editor: #btnRenderPreset is enabled and visible
+PASS  toast: Starter products added.
+PASS  state bug 3: starter products added once only  {"before":3,"after1":4,"after5":4,"label":"Starter products added"}
+PASS  labels:4-editor (2D, products placed, starter used): innerText has no research label  []
+PASS  labels:4-editor (2D, products placed, starter used): no retired vocabulary (Cart, furniture, Drop, Manual draw…)  []
+PASS  labels:4-editor (2D, products placed, starter used): handoff §8 team-vocabulary regex is false  []
+PASS  3D caption (Three.js loaded), inside the window with products placed  {"threeLoaded":true,"canvas":true,"caption":"3D preview shows one sample chair, not your whole room yet.","captionInWindow":true,"fallbackHidden":true}
+PASS  labels:4-editor (3D): innerText has no research label  []
+PASS  labels:4-editor (3D): no retired vocabulary (Cart, furniture, Drop, Manual draw…)  []
+PASS  labels:4-editor (3D): handoff §8 team-vocabulary regex is false  []
+PASS  labels:5-parts list: innerText has no research label  []
+PASS  labels:5-parts list: no retired vocabulary (Cart, furniture, Drop, Manual draw…)  []
+PASS  labels:5-parts list: handoff §8 team-vocabulary regex is false  []
+PASS  total line in both places  {"sideTotal":"Total (placeholder prices): €856","fullTotal":"Total (placeholder prices): €856"}
+PASS  parts list: headings  ["Parts list","Items","Catalog SKUs","Share"]
+PASS  parts list: no disabled controls
+PASS  toast + label: exports, and the toast is visible on this screen  [["Export plan as PDF","PDF export isn't available yet.",true],["Export as PNG","PNG export isn't available yet.",true],["Export 3D package","3D package export isn't available yet.",true]]
+PASS  SKU list button opens the parts list screen
+PASS  Start over button is secondary (not the primary green)  {"className":"","bg":"rgb(255, 255, 255)","color":"rgb(26, 34, 28)"}
+PASS  Start over: confirmation opens (keyboard), with the deck words and the count  {"placed":4,"open":true,"modal":true,"title":"Start over?","body":"This clears your project and 4 placed items.","buttons":["Start over","Keep working"],"confirmBg":"rgb(139, 58, 47)","confirmColor":"rgb(255, 255, 255)","cancelBg":"rgb(255, 255, 255)","focus":"btnRestartCancel","labelledby":"restartTitle","describedby":"restartBody"}
+PASS  Start over: destructive button is critical, not primary; focus starts on Keep working  {"open":true,"modal":true,"title":"Start over?","body":"This clears your project and 4 placed items.","buttons":["Start over","Keep working"],"confirmBg":"rgb(139, 58, 47)","confirmColor":"rgb(255, 255, 255)","cancelBg":"rgb(255, 255, 255)","focus":"btnRestartCancel","labelledby":"restartTitle","describedby":"restartBody"}
+PASS  Start over: no native confirm()/alert() used  []
+PASS  Start over: Esc keeps everything and returns focus
+PASS  Start over: Keep working keeps everything and returns focus
+PASS  Start over: confirming clears the project
+PASS  no page errors on the long path  []
+PASS  toast: Drawing from scratch.
+PASS  editor: empty selection and list wording
+PASS  labels:4-editor (empty): innerText has no research label  []
+PASS  labels:4-editor (empty): no retired vocabulary (Cart, furniture, Drop, Manual draw…)  []
+PASS  labels:4-editor (empty): handoff §8 team-vocabulary regex is false  []
+PASS  labels:5-parts list (empty): innerText has no research label  []
+PASS  labels:5-parts list (empty): no retired vocabulary (Cart, furniture, Drop, Manual draw…)  []
+PASS  labels:5-parts list (empty): handoff §8 team-vocabulary regex is false  []
+PASS  parts list: empty wording in the full list
+PASS  Start over: count wording for 0 and 1  {"zero":"This clears your project and 0 placed items.","one":"This clears your project and 1 placed item."}
+PASS  labels:4-editor (skip to demo, no role): innerText has no research label  []
+PASS  labels:4-editor (skip to demo, no role): no retired vocabulary (Cart, furniture, Drop, Manual draw…)  []
+PASS  labels:4-editor (skip to demo, no role): handoff §8 team-vocabulary regex is false  []
+PASS  state bug 2: Skip to a demo project keeps the chosen role  {"consumer":"Consumer -> Consumer","designer":"Interior designer -> Interior designer","architect":"Architect -> Architect","reseller":"Reseller / ops -> Reseller / ops","none":"No account needed -> Interior designer"}
+PASS  state bug 2: with no role it defaults to Interior designer and says so  {"before":"No account needed","after":"Interior designer","toast":"No role picked, so the demo opens as Interior designer.","toastVisible":true,"toastsInOrder":["No role picked, so the demo opens as Interior designer."],"screen":"screen-editor","project":"Untitled"}
+PASS  3D fallback (blocked): toast and caption  {"toast":"3D preview needs an internet connection. Showing a simple version instead.","fallbackVisible":true,"caption":"3D preview shows one sample chair, not your whole room yet.","captionInWindow":true,"errors":[]}
+PASS  labels:4-editor (3D fallback): innerText has no research label  []
+PASS  labels:4-editor (3D fallback): no retired vocabulary (Cart, furniture, Drop, Manual draw…)  []
+PASS  labels:4-editor (3D fallback): handoff §8 team-vocabulary regex is false  []
+PASS  3D fallback (throws): toast and caption  {"toast":"Your browser can't run full 3D. Showing a simple version instead.","fallbackVisible":true,"caption":"3D preview shows one sample chair, not your whole room yet.","captionInWindow":true,"errors":[]}
+PASS  3D fallback (nocontext): toast and caption  {"toast":"Your browser can't run full 3D. Showing a simple version instead.","fallbackVisible":true,"caption":"3D preview shows one sample chair, not your whole room yet.","captionInWindow":true,"errors":[]}
+PASS  ?: button has an accessible name and tooltip  {"text":"?","title":"How this works","ariaLabel":"Help: how this works","haspopup":"dialog","size":[32,32],"inTopbar":true}
+PASS  ?: never opens by itself
+PASS  ?: closed dialog text is not in innerText
+PASS  ?: reachable with Tab  {"reached":true,"tabPresses":1}
+PASS  ?: Enter opens a modal dialog with focus inside  {"open":true,"modal":true,"title":"How this works","focusInside":true,"focus":"btnHelpClose","tabs":["Walkthrough|true|0","Roles|false|-1","What's simulated|false|-1","Why it's shaped this way|false|-1"],"closeName":"Close help"}
+PASS  ?: four tabs, first selected, roving tabindex  ["Walkthrough|true|0","Roles|false|-1","What's simulated|false|-1","Why it's shaped this way|false|-1"]
+PASS  ?: Tab stays inside the dialog  ["helpTab-walkthrough","helpPanel-walkthrough","BODY","btnHelpClose","helpTab-walkthrough","helpPanel-walkthrough","BODY","btnHelpClose","helpTab-walkthrough","helpPanel-walkthrough","BODY","btnHelpClose","helpTab-walkthrough","helpPanel-walkthrough"]
+PASS  ?: arrow keys move through the four tabs (with wrap, Home, End), one panel at a time, focus follows  {"wrapped":"Walkthrough","wrappedBack":"Why it's shaped this way","home":"Walkthrough","end":"Why it's shaped this way"}
+PASS  ?: every paragraph and bullet is in deck §6.3 word for word  []
+PASS  ?: Esc closes and focus returns to the ?
+PASS  ?: Space opens it again, on the tab last used
+PASS  ?: its Close button closes and focus returns to the ?
+PASS  ?: click on the backdrop closes and focus returns
+PASS  ?: click inside the dialog does not close it
+PASS  ?: tabs also work by click
+PASS  ?: opens from the editor and the parts list too
+PASS  ?: no page errors  []
+PASS  ?: fits at 375 px with no horizontal scroll  {"overflowX":0,"dialog":[19,226,337,361],"dialogScrollW":0,"tabsOffscreen":0}
+PASS  no "(s)" plurals on any screen
+PASS  BOM only ever appears on the role screen (reseller card)  {"1-auth (nothing picked)":1,"1-auth (architect picked)":1,"2-project":0,"3-upload (before a file)":0,"3-upload (result shown, architect)":0,"4-editor (2D, template chair)":0,"4-editor (2D, products placed, starter used)":0,"4-editor (3D)":0,"5-parts list":0,"4-editor (empty)":0,"5-parts list (empty)":0,"4-editor (skip to demo, no role)":0,"4-editor (3D fallback)":0}
+
+Visible strings that are not in the deck (30 of 126):
+  Click-through prototype · no real accounts
+  Create a project
+  Loft test
+  .DWG
+  .PDF
+  .JPG
+  .PNG
+  Architect · DWG hybrid
+  Oak Side Table
+  TABLE-OAK-02
+  Walnut
+  Ash
+  Ink
+  Mist
+  Clay
+  Sage
+  CHAIR-LOFT-01 × 1
+  €249
+  Total (placeholder prices): €249
+  Click the plan to place “Loft Chair”
+  TABLE-OAK-02 · Wood: Oak
+  CHAIR-LOFT-01 × 2
+  TABLE-OAK-02 × 2
+  €358
+  Total (placeholder prices): €856
+  €179
+  Back to editor
+  Untitled
+  Total (placeholder prices): €0
+  No role picked, so the demo opens as Interior designer.
+
+120/120 checks passed

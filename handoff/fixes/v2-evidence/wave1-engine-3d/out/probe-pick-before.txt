@@ -1,0 +1,131 @@
+run-audit: probe-product-pick-camera.mjs against http://127.0.0.1:18781 (/private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/ws-engine); output in /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/out-engine
+[
+ {
+  "step": "room created",
+  "mode": "room",
+  "pressed": "false",
+  "hint": "Room · drag to orbit · scroll to zoom · ",
+  "cam": [
+   4.72,
+   3.83,
+   5.77
+  ],
+  "turntableVisible": false,
+  "shellVisible": true,
+  "placements": 0,
+  "status": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 0",
+  "workspace": "room"
+ },
+ {
+  "step": "place mode on",
+  "mode": "place",
+  "pressed": "true",
+  "hint": "Place mode · click floor to drop the sel",
+  "cam": [
+   4.72,
+   3.83,
+   5.77
+  ],
+  "turntableVisible": false,
+  "shellVisible": true,
+  "placements": 0,
+  "status": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 0",
+  "workspace": "room"
+ },
+ {
+  "step": "chair placed",
+  "mode": "place",
+  "pressed": "true",
+  "hint": "Place mode · click floor to drop the sel",
+  "cam": [
+   4.72,
+   3.83,
+   5.77
+  ],
+  "turntableVisible": false,
+  "shellVisible": true,
+  "placements": 1,
+  "status": "Placed “Lounge chair (demo)” on the floor",
+  "workspace": "room"
+ },
+ {
+  "step": "picked side table in the product select",
+  "mode": "place",
+  "pressed": "true",
+  "hint": "Place mode · click floor to drop the sel",
+  "cam": [
+   0.78,
+   0.74,
+   1.04
+  ],
+  "turntableVisible": false,
+  "shellVisible": true,
+  "placements": 1,
+  "status": "Placed “Lounge chair (demo)” on the floor",
+  "workspace": "room"
+ },
+ {
+  "step": "clicked Place button once more (expect: off)",
+  "mode": "place",
+  "pressed": "true",
+  "hint": "Place mode · click floor to drop the sel",
+  "cam": [
+   4.72,
+   3.83,
+   5.77
+  ],
+  "turntableVisible": false,
+  "shellVisible": true,
+  "placements": 1,
+  "status": "Placed “Lounge chair (demo)” on the floor",
+  "workspace": "room"
+ },
+ {
+  "step": "clicked Place button again",
+  "mode": "place",
+  "pressed": "true",
+  "hint": "Place mode · click floor to drop the sel",
+  "cam": [
+   4.72,
+   3.83,
+   5.77
+  ],
+  "turntableVisible": false,
+  "shellVisible": true,
+  "placements": 1,
+  "status": "Placed “Lounge chair (demo)” on the floor",
+  "workspace": "room"
+ },
+ {
+  "step": "picked lounge chair again",
+  "mode": "place",
+  "pressed": "true",
+  "hint": "Place mode · click floor to drop the sel",
+  "cam": [
+   1.13,
+   1.15,
+   1.5
+  ],
+  "turntableVisible": false,
+  "shellVisible": true,
+  "placements": 1,
+  "status": "Placed “Lounge chair (demo)” on the floor",
+  "workspace": "room"
+ },
+ {
+  "step": "clicked Walnut swatch while in Room workspace",
+  "turntableProduct": {
+   "lib:wood-walnut": 10,
+   "lib:plastic-black": 2,
+   "lib:wool-cream": 2
+  },
+  "placed": [
+   {
+    "placeholder_frame": 10,
+    "placeholder_handles": 2,
+    "placeholder_pillow": 2
+   }
+  ],
+  "turntableVisible": false
+ }
+]

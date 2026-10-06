@@ -1,0 +1,502 @@
+{
+ "label": "before",
+ "at": "2026-10-05T14:33:37.985Z",
+ "1440x900": {
+  "productFresh": {
+   "ux": {
+    "viewport": [
+     1440,
+     900
+    ],
+    "mode": "catalog",
+    "panelClientH": 781,
+    "panelScrollH": 2720,
+    "slotsTopInPanel": 1511,
+    "visibleFileInputs": 5,
+    "visibleFileInputIds": [
+     "model-files",
+     "pack-files",
+     "pack-glb-mate",
+     "module-file",
+     "texture-file"
+    ],
+    "controlsUnder32px": 6,
+    "overflowX": 0,
+    "scrollbarMode": "overlay (0px)",
+    "panelScrollTop": 654,
+    "pageScrollY": 0,
+    "docScrollH": 900,
+    "topbarH": 87
+   },
+   "a2": {
+    "workspace": "catalog",
+    "rendered": [
+     "btn-create-room",
+     "room-preset"
+    ]
+   },
+   "materials": {
+    "slotCount": 3,
+    "slotsFullyVisible": false,
+    "scrollNeededFirstSwatchRow": 137,
+    "scrollNeededAllSlots": 379,
+    "screensToSlotsTop": 1.07,
+    "screensToSlotsBottom": 1.4
+   },
+   "stage": {
+    "scrollY": 0,
+    "canvasVisiblePct": 100,
+    "stageTop": 103,
+    "stageH": 781
+   },
+   "tabStops": {
+    "total": 43,
+    "inInactiveGroup": 12,
+    "inHiddenSubtree": 0,
+    "first": "button \"Product\"",
+    "order": [
+     "-: button \"Product\"",
+     "-: button \"Room workspace\"",
+     "-: button#btn-reset \"Reset camera\"",
+     "-: button#btn-remount \"Dispose & remount\"",
+     "room!: button \"From scratch\"",
+     "room!: button \"Import plan\"",
+     "room!: button \"From template\"",
+     "room!: select#room-units \"meters (m) centimeters (cm) \"",
+     "room!: select#room-preset \"Small bedroom 3×3 m Living 5\"",
+     "room!: input#room-length \"3\"",
+     "room!: input#room-width \"3\"",
+     "room!: input#room-ceiling \"2.7\"",
+     "room!: input#room-thickness \"0.12\"",
+     "room!: input#template-title",
+     "room!: button#btn-create-room \"Create room\"",
+     "room!: summary \"Room graph JSON\"",
+     "catalog: select#product-select \"Lounge chair (demo) Side tab\"",
+     "catalog: input#model-files \"Upload GLB, glTF, or OBJ pac\"",
+     "catalog: input#pack-files \"Load MJS and optional GLB pa\"",
+     "catalog: input#pack-glb-mate \"Pack mate GLB\"",
+     "catalog: input#module-file \"Load ES module .mjs\"",
+     "catalog: input#mjs-enabled \"on\"",
+     "-: button \"Natural oak\"",
+     "-: button \"Walnut\"",
+     "-: button \"Black stained ash\"",
+     "-: button \"Matte black PP\"",
+     "-: button \"Gloss white ABS\"",
+     "-: button \"Sage PP\"",
+     "-: button \"Brushed brass\"",
+     "-: button \"Powder-coat black\"",
+     "-: button \"Chrome\"",
+     "-: button \"Wool — cream\"",
+     "-: button \"Wool — terracotta\"",
+     "-: button \"Wool — forest\"",
+     "-: input#texture-file \"Upload texture image\"",
+     "-: input#texture-name",
+     "-: select#texture-category \"wood textile plastic stone m\"",
+     "-: select#texture-role \"baseColor (new material) nor\"",
+     "-: button#btn-add-texture \"Add to library\"",
+     "-: button \"Studio soft\"",
+     "-: button \"Warm interior\"",
+     "-: button \"Neutral (no IBL)\"",
+     "-: pre#parts-list \"{ \"stub\": true, \"productId\":\""
+    ]
+   }
+  },
+  "roomNoRoom": {
+   "ux": {
+    "viewport": [
+     1440,
+     900
+    ],
+    "mode": "room",
+    "panelClientH": 765,
+    "panelScrollH": 2720,
+    "slotsTopInPanel": 1511,
+    "visibleFileInputs": 5,
+    "visibleFileInputIds": [
+     "model-files",
+     "pack-files",
+     "pack-glb-mate",
+     "module-file",
+     "texture-file"
+    ],
+    "controlsUnder32px": 6,
+    "overflowX": 0,
+    "scrollbarMode": "overlay (0px)",
+    "panelScrollTop": 0,
+    "pageScrollY": 0,
+    "docScrollH": 900,
+    "topbarH": 103
+   },
+   "a2": {
+    "workspace": "room",
+    "rendered": [
+     "model-files",
+     "pack-files",
+     "module-file",
+     "texture-file"
+    ]
+   },
+   "stage": {
+    "scrollY": 0,
+    "canvasVisiblePct": 100,
+    "stageTop": 119,
+    "stageH": 765
+   }
+  },
+  "roomWithRoom": {
+   "ux": {
+    "viewport": [
+     1440,
+     900
+    ],
+    "mode": "room",
+    "panelClientH": 765,
+    "panelScrollH": 3679,
+    "slotsTopInPanel": 2470,
+    "visibleFileInputs": 5,
+    "visibleFileInputIds": [
+     "model-files",
+     "pack-files",
+     "pack-glb-mate",
+     "module-file",
+     "texture-file"
+    ],
+    "controlsUnder32px": 8,
+    "overflowX": 0,
+    "scrollbarMode": "overlay (0px)",
+    "panelScrollTop": 0,
+    "pageScrollY": 0,
+    "docScrollH": 900,
+    "topbarH": 103
+   },
+   "a2": {
+    "workspace": "room",
+    "rendered": [
+     "model-files",
+     "pack-files",
+     "module-file",
+     "texture-file"
+    ]
+   },
+   "stage": {
+    "scrollY": 0,
+    "canvasVisiblePct": 100,
+    "stageTop": 119,
+    "stageH": 765
+   },
+   "tabStops": {
+    "total": 59,
+    "inInactiveGroup": 6,
+    "inHiddenSubtree": 0,
+    "first": "button \"Product\"",
+    "order": [
+     "-: button \"Product\"",
+     "-: button \"Room workspace\"",
+     "-: button#btn-reset \"Reset camera\"",
+     "-: button#btn-remount \"Dispose & remount\"",
+     "room: button \"From scratch\"",
+     "room: button \"Import plan\"",
+     "room: button \"From template\"",
+     "room: select#room-units \"meters (m) centimeters (cm) \"",
+     "room: select#room-preset \"Small bedroom 3×3 m Living 5\"",
+     "room: input#room-length \"5\"",
+     "room: input#room-width \"4\"",
+     "room: input#room-ceiling \"2.7\"",
+     "room: input#room-thickness \"0.12\"",
+     "room: input#template-title",
+     "room: button#btn-save-template-scratch \"Save current room as templat\"",
+     "room: button#btn-create-room \"Create room\"",
+     "room: button#btn-download-plan \"Download plan PNG\"",
+     "room: button#btn-clear-room \"Clear room\"",
+     "room: button#btn-export-project \"Export project\"",
+     "room: button#btn-import-project \"Import project\"",
+     "room: select#room-wall-material \"Default Natural oak Walnut B\"",
+     "room: select#room-floor-material \"Default Natural oak Walnut B\"",
+     "room: button#btn-draw-wall-mode \"Draw walls\"",
+     "room: button \"Door\"",
+     "room: button \"Window\"",
+     "room: input#opening-width \"0.9\"",
+     "room: input#opening-height \"2.1\"",
+     "room: input#opening-sill \"0\"",
+     "room: button#btn-opening-mode \"Add opening\"",
+     "room: input#place-wall-snap \"on\"",
+     "room: button#btn-place-mode \"Place product\"",
+     "room: summary \"Room graph JSON\"",
+     "catalog!: select#product-select \"Lounge chair (demo) Side tab\"",
+     "catalog!: input#model-files \"Upload GLB, glTF, or OBJ pac\"",
+     "catalog!: input#pack-files \"Load MJS and optional GLB pa\"",
+     "catalog!: input#pack-glb-mate \"Pack mate GLB\"",
+     "catalog!: input#module-file \"Load ES module .mjs\"",
+     "catalog!: input#mjs-enabled \"on\"",
+     "-: button \"Natural oak\"",
+     "-: button \"Walnut\"",
+     "-: button \"Black stained ash\"",
+     "-: button \"Matte black PP\"",
+     "-: button \"Gloss white ABS\"",
+     "-: button \"Sage PP\"",
+     "-: button \"Brushed brass\"",
+     "-: button \"Powder-coat black\"",
+     "-: button \"Chrome\"",
+     "-: button \"Wool — cream\"",
+     "-: button \"Wool — terracotta\"",
+     "-: button \"Wool — forest\"",
+     "-: input#texture-file \"Upload texture image\"",
+     "-: input#texture-name",
+     "-: select#texture-category \"wood textile plastic stone m\"",
+     "-: select#texture-role \"baseColor (new material) nor\"",
+     "-: button#btn-add-texture \"Add to library\"",
+     "-: button \"Studio soft\"",
+     "-: button \"Warm interior\"",
+     "-: button \"Neutral (no IBL)\"",
+     "-: pre#parts-list \"{ \"stub\": true, \"productId\":\""
+    ]
+   }
+  },
+  "productWithRoom": {
+   "ux": {
+    "viewport": [
+     1440,
+     900
+    ],
+    "mode": "catalog",
+    "panelClientH": 781,
+    "panelScrollH": 3679,
+    "slotsTopInPanel": 2470,
+    "visibleFileInputs": 5,
+    "visibleFileInputIds": [
+     "model-files",
+     "pack-files",
+     "pack-glb-mate",
+     "module-file",
+     "texture-file"
+    ],
+    "controlsUnder32px": 8,
+    "overflowX": 0,
+    "scrollbarMode": "overlay (0px)",
+    "panelScrollTop": 1633,
+    "pageScrollY": 0,
+    "docScrollH": 900,
+    "topbarH": 87
+   },
+   "a2": {
+    "workspace": "catalog",
+    "rendered": [
+     "btn-create-room",
+     "room-preset",
+     "btn-import-project",
+     "btn-export-project",
+     "btn-clear-room",
+     "btn-draw-wall-mode",
+     "btn-opening-mode",
+     "btn-place-mode",
+     "room-wall-material"
+    ]
+   },
+   "materials": {
+    "slotCount": 3,
+    "slotsFullyVisible": false,
+    "scrollNeededFirstSwatchRow": 116,
+    "scrollNeededAllSlots": 359,
+    "screensToSlotsTop": 1.04,
+    "screensToSlotsBottom": 1.38
+   },
+   "stage": {
+    "scrollY": 0,
+    "canvasVisiblePct": 100,
+    "stageTop": 103,
+    "stageH": 781
+   }
+  },
+  "errors": []
+ },
+ "375x812": {
+  "productFresh": {
+   "ux": {
+    "viewport": [
+     375,
+     812
+    ],
+    "mode": "catalog",
+    "panelClientH": 168,
+    "panelScrollH": 2845,
+    "slotsTopInPanel": 1637,
+    "visibleFileInputs": 5,
+    "visibleFileInputIds": [
+     "model-files",
+     "pack-files",
+     "pack-glb-mate",
+     "module-file",
+     "texture-file"
+    ],
+    "controlsUnder32px": 6,
+    "overflowX": 0,
+    "scrollbarMode": "overlay (0px)",
+    "panelScrollTop": 0,
+    "pageScrollY": 1400,
+    "docScrollH": 3477,
+    "topbarH": 149
+   },
+   "a2": {
+    "workspace": "catalog",
+    "rendered": [
+     "btn-create-room",
+     "room-preset"
+    ]
+   },
+   "materials": {
+    "slotCount": 3,
+    "slotsFullyVisible": false,
+    "scrollNeededFirstSwatchRow": 117,
+    "scrollNeededAllSlots": 360,
+    "screensToSlotsTop": 2.79,
+    "screensToSlotsBottom": 3.17
+   },
+   "stage": {
+    "scrollY": 1400,
+    "canvasVisiblePct": 0,
+    "stageTop": -1239,
+    "stageH": 455
+   }
+  },
+  "roomNoRoom": {
+   "ux": {
+    "viewport": [
+     375,
+     812
+    ],
+    "mode": "room",
+    "panelClientH": 152,
+    "panelScrollH": 2845,
+    "slotsTopInPanel": 1637,
+    "visibleFileInputs": 5,
+    "visibleFileInputIds": [
+     "model-files",
+     "pack-files",
+     "pack-glb-mate",
+     "module-file",
+     "texture-file"
+    ],
+    "controlsUnder32px": 6,
+    "overflowX": 0,
+    "scrollbarMode": "overlay (0px)",
+    "panelScrollTop": 0,
+    "pageScrollY": 0,
+    "docScrollH": 3493,
+    "topbarH": 165
+   },
+   "a2": {
+    "workspace": "room",
+    "rendered": [
+     "model-files",
+     "pack-files",
+     "module-file",
+     "texture-file"
+    ]
+   },
+   "stage": {
+    "scrollY": 0,
+    "canvasVisiblePct": 100,
+    "stageTop": 177,
+    "stageH": 455
+   }
+  },
+  "roomWithRoom": {
+   "ux": {
+    "viewport": [
+     375,
+     812
+    ],
+    "mode": "room",
+    "panelClientH": 152,
+    "panelScrollH": 3929,
+    "slotsTopInPanel": 2720,
+    "visibleFileInputs": 5,
+    "visibleFileInputIds": [
+     "model-files",
+     "pack-files",
+     "pack-glb-mate",
+     "module-file",
+     "texture-file"
+    ],
+    "controlsUnder32px": 8,
+    "overflowX": 0,
+    "scrollbarMode": "overlay (0px)",
+    "panelScrollTop": 0,
+    "pageScrollY": 604,
+    "docScrollH": 4577,
+    "topbarH": 165
+   },
+   "a2": {
+    "workspace": "room",
+    "rendered": [
+     "model-files",
+     "pack-files",
+     "module-file",
+     "texture-file"
+    ]
+   },
+   "stage": {
+    "scrollY": 604,
+    "canvasVisiblePct": 6,
+    "stageTop": -427,
+    "stageH": 455
+   }
+  },
+  "productWithRoom": {
+   "ux": {
+    "viewport": [
+     375,
+     812
+    ],
+    "mode": "catalog",
+    "panelClientH": 168,
+    "panelScrollH": 3929,
+    "slotsTopInPanel": 2720,
+    "visibleFileInputs": 5,
+    "visibleFileInputIds": [
+     "model-files",
+     "pack-files",
+     "pack-glb-mate",
+     "module-file",
+     "texture-file"
+    ],
+    "controlsUnder32px": 8,
+    "overflowX": 0,
+    "scrollbarMode": "overlay (0px)",
+    "panelScrollTop": 0,
+    "pageScrollY": 2484,
+    "docScrollH": 4560,
+    "topbarH": 149
+   },
+   "a2": {
+    "workspace": "catalog",
+    "rendered": [
+     "btn-create-room",
+     "room-preset",
+     "btn-import-project",
+     "btn-export-project",
+     "btn-clear-room",
+     "btn-draw-wall-mode",
+     "btn-opening-mode",
+     "btn-place-mode",
+     "room-wall-material"
+    ]
+   },
+   "materials": {
+    "slotCount": 3,
+    "slotsFullyVisible": false,
+    "scrollNeededFirstSwatchRow": 117,
+    "scrollNeededAllSlots": 359,
+    "screensToSlotsTop": 4.13,
+    "screensToSlotsBottom": 4.5
+   },
+   "stage": {
+    "scrollY": 2484,
+    "canvasVisiblePct": 0,
+    "stageTop": -2323,
+    "stageH": 455
+   }
+  },
+  "errors": []
+ }
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "label": "Sample plan (mock extract)",
+  "units_guess": "m",
+  "scale_hint": {
+    "wall_candidate_id": "wc_s",
+    "length_m": 5,
+    "label": "South wall length"
+  },
+  "walls": [
+    {
+      "id": "wc_s",
+      "a": { "x": -2.5, "z": -2 },
+      "b": { "x": 2.5, "z": -2 },
+      "thickness": 0.12,
+      "height": 2.7,
+      "accepted": true,
+      "source_layer": "A-WALL"
+    },
+    {
+      "id": "wc_e",
+      "a": { "x": 2.5, "z": -2 },
+      "b": { "x": 2.5, "z": 2 },
+      "thickness": 0.12,
+      "height": 2.7,
+      "accepted": true,
+      "source_layer": "A-WALL"
+    },
+    {
+      "id": "wc_n",
+      "a": { "x": 2.5, "z": 2 },
+      "b": { "x": -2.5, "z": 2 },
+      "thickness": 0.12,
+      "height": 2.7,
+      "accepted": true,
+      "source_layer": "A-WALL"
+    },
+    {
+      "id": "wc_w",
+      "a": { "x": -2.5, "z": 2 },
+      "b": { "x": -2.5, "z": -2 },
+      "thickness": 0.12,
+      "height": 2.7,
+      "accepted": true,
+      "source_layer": "A-WALL"
+    }
+  ],
+  "openings": [
+    {
+      "id": "oc_door",
+      "wall_candidate_id": "wc_s",
+      "type": "door",
+      "offset_along_wall": 1.8,
+      "width": 0.9,
+      "height": 2.1,
+      "sill_height": 0,
+      "accepted": true,
+      "inferred": true,
+      "source_block": "DOOR-36"
+    },
+    {
+      "id": "oc_win",
+      "wall_candidate_id": "wc_n",
+      "type": "window",
+      "offset_along_wall": 1.5,
+      "width": 1.2,
+      "height": 1.2,
+      "sill_height": 0.9,
+      "accepted": true,
+      "inferred": true,
+      "source_block": "WIN-48"
+    }
+  ],
+  "rooms": [
+    {
+      "id": "rc_main",
+      "name": "Imported living",
+      "floor_polygon": [
+        { "x": -2.5, "z": -2 },
+        { "x": 2.5, "z": -2 },
+        { "x": 2.5, "z": 2 },
+        { "x": -2.5, "z": 2 }
+      ],
+      "ceiling_height": 2.7,
+      "wall_candidate_ids": ["wc_s", "wc_e", "wc_n", "wc_w"],
+      "accepted": true
+    }
+  ],
+  "preview_svg": "/fixtures/dwg-import/sample-plan.preview.svg",
+  "extract": {
+    "path": "mock_fixture",
+    "oda_available": false,
+    "note": "ODA Drawings / APS Model Derivative not available on this machine. Candidates are a labeled mock fixture — not parsed from real DWG entity data. Do not treat as AutoCAD-class fidelity."
+  }
+}

@@ -1,0 +1,14 @@
+import { chromium } from '../../hackathon-3d-viewer/node_modules/playwright/index.mjs';
+const b = await chromium.launch({ channel: 'chrome', args: ['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist'] });
+const p = await (await b.newContext({ viewport: { width: 1280, height: 900 } })).newPage();
+await p.goto('http://127.0.0.1:18767/');
+await p.waitForFunction(() => document.body.getAttribute('data-viewer-status') === 'ready');
+await p.locator('#workspace-mode button[data-mode=room]').click();
+const snap = async (tag) => console.log(tag, JSON.stringify(await p.evaluate(() => ({ unit: document.querySelector('#room-units').value, thickness: document.querySelector('#room-thickness').value, thicknessLabel: document.querySelector('label[for=room-thickness]')?.textContent?.trim(), preset: document.querySelector('#room-preset').value, length: document.querySelector('#room-length').value }))));
+console.log('unit options', JSON.stringify(await p.$$eval('#room-units option', (o) => o.map((x) => x.value + '=' + x.textContent.trim()))));
+await snap('m');
+await p.selectOption('#room-units', 'cm'); await snap('after cm');
+await p.selectOption('#room-preset', 'living'); await p.click('#btn-create-room'); await p.waitForTimeout(300);
+console.log('living@cm thickness(m)=', await p.evaluate(() => window.__rv.roomGraph().walls[0].thickness));
+await p.selectOption('#room-units', 'ft-in'); await snap('after ft-in');
+await b.close();

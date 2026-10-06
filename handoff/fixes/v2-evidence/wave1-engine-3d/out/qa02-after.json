@@ -1,0 +1,27 @@
+{
+ "placeModeGrid": {
+  "mode": "place",
+  "inside": 71,
+  "outside": 0,
+  "wall": 72,
+  "none": 298,
+  "insidePct": 16.1,
+  "outsidePct": 0,
+  "wallPct": 16.3,
+  "nonePct": 67.6
+ },
+ "voidClick": {
+  "placements": 0,
+  "status": "Click the floor inside the room to place furniture.",
+  "isError": true
+ },
+ "canvasCentreClick": {
+  "placements": 1,
+  "last": {
+   "x": -0.6,
+   "z": -0.73
+  },
+  "placedOutsideRoom": false,
+  "status": "Placed “Lounge chair (demo)” on the floor"
+ }
+}

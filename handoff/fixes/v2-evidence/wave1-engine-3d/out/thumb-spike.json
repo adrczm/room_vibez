@@ -1,0 +1,257 @@
+{
+ "contexts_boot": {
+  "created": 1,
+  "live": [
+   {
+    "inDocument": true,
+    "size": "1050x779"
+   }
+  ]
+ },
+ "viewerWood_before": 1072,
+ "contexts_afterCreate_beforeFirstRender": {
+  "created": 1,
+  "live": [
+   {
+    "inDocument": true,
+    "size": "1050x779"
+   }
+  ]
+ },
+ "render_chair_cold": {
+  "ms": 2476.8,
+  "px": "192x192",
+  "bytes": 21003,
+  "opaquePct": 25.4,
+  "woodPx": 1512,
+  "stats": {
+   "contextAlive": true,
+   "contextsCreated": 1,
+   "renders": 1,
+   "cached": 1,
+   "pending": 0,
+   "lastRenderMs": 2476.399999976158,
+   "geometries": 11,
+   "textures": 4
+  }
+ },
+ "contexts_afterFirstRender": {
+  "created": 2,
+  "live": [
+   {
+    "inDocument": true,
+    "size": "1050x779"
+   },
+   {
+    "inDocument": false,
+    "size": "192x192"
+   }
+  ]
+ },
+ "render_table_warm": {
+  "ms": 694.6,
+  "px": "192x192",
+  "bytes": 15786,
+  "opaquePct": 23.1,
+  "woodPx": 5408,
+  "stats": {
+   "contextAlive": true,
+   "contextsCreated": 1,
+   "renders": 2,
+   "cached": 2,
+   "pending": 0,
+   "lastRenderMs": 694.3999999761581,
+   "geometries": 11,
+   "textures": 5
+  }
+ },
+ "render_chair_cached": {
+  "ms": 0,
+  "sameUrl": true,
+  "renders": 2
+ },
+ "render_chair_warm_ms": [
+  740.4,
+  749.5,
+  794.9,
+  600.8,
+  571.2
+ ],
+ "queue_30": {
+  "totalMs": 19367,
+  "perRenderMs": 645.6,
+  "distinctUrls": 2,
+  "cachedBytes": 736440,
+  "statsBefore": {
+   "contextAlive": true,
+   "contextsCreated": 1,
+   "renders": 7,
+   "cached": 2,
+   "pending": 0,
+   "lastRenderMs": 571.1000000238419,
+   "geometries": 11,
+   "textures": 5
+  },
+  "statsAfter": {
+   "contextAlive": true,
+   "contextsCreated": 1,
+   "renders": 37,
+   "cached": 32,
+   "pending": 0,
+   "lastRenderMs": 568.3999999761581,
+   "geometries": 11,
+   "textures": 5
+  },
+  "viewerMemoryBefore": {
+   "geometries": 26,
+   "textures": 5
+  },
+  "viewerMemoryAfter": {
+   "geometries": 26,
+   "textures": 5
+  },
+  "heapMB": 23.2
+ },
+ "contexts_after30": {
+  "created": 2,
+  "live": [
+   {
+    "inDocument": true,
+    "size": "1050x779"
+   },
+   {
+    "inDocument": false,
+    "size": "192x192"
+   }
+  ]
+ },
+ "viewer_after30": {
+  "viewerContextLost": false,
+  "lostEvents": 0,
+  "status": "ready"
+ },
+ "viewerWood_after30": 1072,
+ "render_chair_noFinish": {
+  "ms": 1692,
+  "px": "192x192",
+  "bytes": 7312,
+  "opaquePct": 25.4,
+  "woodPx": 0,
+  "liveContextsWhileSecondRendererExisted": 3,
+  "liveAfterItsDispose": 2
+ },
+ "render_chair_dpr2": {
+  "coldMs": 1426.8,
+  "warmMs": 495.1,
+  "px": "384x384",
+  "bytes": 71145,
+  "opaquePct": 25.8,
+  "woodPx": 6715
+ },
+ "thumbnailUrl_wins": {
+  "url": "/assets/textures/wood-oak.png",
+  "rendersUnchanged": true
+ },
+ "broken_product": {
+  "bad": "rejected: Unexpected token '<', \"<!doctype \"... is not valid JSON",
+  "good": "data:image/png;base64,",
+  "stats": {
+   "contextAlive": true,
+   "contextsCreated": 1,
+   "renders": 38,
+   "cached": 33,
+   "pending": 0,
+   "lastRenderMs": 543.1999999880791,
+   "geometries": 11,
+   "textures": 5
+  }
+ },
+ "contexts_afterViewerRemount": {
+  "created": 5,
+  "live": [
+   {
+    "inDocument": false,
+    "size": "192x192"
+   },
+   {
+    "inDocument": true,
+    "size": "1050x779"
+   }
+  ]
+ },
+ "render_afterRemount": {
+  "ms": 581.5,
+  "px": "192x192",
+  "bytes": 21003,
+  "opaquePct": 25.4,
+  "woodPx": 1512
+ },
+ "viewerWood_afterRemount": 1072,
+ "dispose_with_queue": {
+  "settled": [
+   "rejected: Thumbnail renderer was disposed",
+   "rejected: Thumbnail renderer was disposed",
+   "rejected: Thumbnail renderer was disposed",
+   "rejected: Thumbnail renderer was disposed",
+   "rejected: Thumbnail renderer was disposed"
+  ],
+  "stats": {
+   "contextAlive": false,
+   "contextsCreated": 1,
+   "renders": 39,
+   "cached": 0,
+   "pending": 0,
+   "lastRenderMs": 581.3999999761581,
+   "geometries": 0,
+   "textures": 0
+  },
+  "gl": {
+   "created": 5,
+   "live": [
+    {
+     "inDocument": true,
+     "size": "1050x779"
+    }
+   ]
+  }
+ },
+ "reuse_after_dispose": {
+  "ms": 1416.8,
+  "stats": {
+   "contextAlive": true,
+   "contextsCreated": 2,
+   "renders": 40,
+   "cached": 1,
+   "pending": 0,
+   "lastRenderMs": 1416.5999999642372,
+   "geometries": 11,
+   "textures": 3
+  },
+  "liveWhileAlive": 2,
+  "afterDispose": {
+   "created": 6,
+   "live": [
+    {
+     "inDocument": true,
+     "size": "1050x779"
+    }
+   ]
+  },
+  "statsAfterDispose": {
+   "contextAlive": false,
+   "contextsCreated": 2,
+   "renders": 40,
+   "cached": 0,
+   "pending": 0,
+   "lastRenderMs": 1416.5999999642372,
+   "geometries": 0,
+   "textures": 0
+  }
+ },
+ "final": {
+  "viewerContextLost": false,
+  "lostEvents": 0,
+  "status": "ready"
+ },
+ "consoleErrors": []
+}

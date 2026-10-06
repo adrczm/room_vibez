@@ -1,0 +1,155 @@
+{
+ "G_remount": {
+  "triggerAtLoad": {
+   "text": "Lounge chair (demo) | Product",
+   "img": false,
+   "visualShown": false,
+   "padLeft": "10px"
+  },
+  "before": {
+   "live": 2,
+   "all": 2,
+   "stats": {
+    "contextAlive": true,
+    "contextsCreated": 1,
+    "renders": 2,
+    "cached": 2,
+    "pending": 0,
+    "lastRenderMs": 668.8000000119209,
+    "geometries": 11,
+    "textures": 5
+   },
+   "trigger": {
+    "text": "Lounge chair (demo) | Product",
+    "img": true,
+    "visualShown": true,
+    "padLeft": "4px"
+   }
+  },
+  "afterRemount": {
+   "live": 2,
+   "all": 4,
+   "stats": {
+    "contextAlive": true,
+    "contextsCreated": 1,
+    "renders": 1,
+    "cached": 1,
+    "pending": 0,
+    "lastRenderMs": 1841.9000000357628,
+    "geometries": 11,
+    "textures": 4
+   },
+   "trigger": {
+    "text": "Lounge chair (demo) | Product",
+    "img": true,
+    "visualShown": true,
+    "padLeft": "4px"
+   },
+   "slots": 3,
+   "frame": "wood-walnut",
+   "pressed": "true"
+  },
+  "tilesRightAfterOpen": [
+   "thumb",
+   "none"
+  ],
+  "afterReopen": {
+   "live": 2,
+   "all": 4,
+   "stats": {
+    "contextAlive": true,
+    "contextsCreated": 1,
+    "renders": 2,
+    "cached": 2,
+    "pending": 0,
+    "lastRenderMs": 645.1999999880791,
+    "geometries": 11,
+    "textures": 5
+   }
+  },
+  "pickAfterRemount": {
+   "value": "demo-side-table",
+   "slots": 2
+  },
+  "swatchAfterRemount": "Powder-coat black",
+  "roomAfterRemount": {
+   "live": 2,
+   "all": 6,
+   "stats": {
+    "contextAlive": true,
+    "contextsCreated": 1,
+    "renders": 1,
+    "cached": 1,
+    "pending": 0,
+    "lastRenderMs": 1310,
+    "geometries": 11,
+    "textures": 3
+   },
+   "wall": "stone-marble",
+   "cardInStep": 2,
+   "pickerInStep": 1
+  },
+  "errors": []
+ },
+ "H_invalidate": {
+  "before": {
+   "contextAlive": true,
+   "contextsCreated": 1,
+   "renders": 2,
+   "cached": 2,
+   "pending": 0,
+   "lastRenderMs": 611,
+   "geometries": 11,
+   "textures": 5
+  },
+  "targetWrapShown": true,
+  "targetPickerInWrap": 1,
+  "targetPopup": {
+   "title": "Add to material",
+   "options": 13,
+   "first": "wood-oak",
+   "groups": [
+    "All",
+    "Wood",
+    "Plastic",
+    "Textile",
+    "Stone",
+    "Metal"
+   ],
+   "native": 13,
+   "view": "grid"
+  },
+  "targetValue": "wood-oak",
+  "after": {
+   "contextAlive": true,
+   "contextsCreated": 1,
+   "renders": 3,
+   "cached": 2,
+   "pending": 0,
+   "lastRenderMs": 855.6999999880791,
+   "geometries": 11,
+   "textures": 6
+  },
+  "chairImageChanged": true,
+  "targetWrapHiddenAgain": true,
+  "afterNewMaterial": {
+   "wallNative": 15,
+   "floorNative": 15,
+   "targetNative": 14,
+   "lib": 14
+  },
+  "wallHasNew": {
+   "text": "my-weave",
+   "kind": "swatch",
+   "bg": "url(\"blob:ht",
+   "total": 15
+  },
+  "errors": []
+ },
+ "I_pack": {
+  "failed": "TimeoutError: page.waitForFunction: Timeout 30000ms exceeded.",
+  "errors": [
+   "console.error: Error: MJS load cancelled by user\n    at importModuleFile (http://127.0.0.1:18777/src/viewer/modules.ts:91:26)\n    at async loadPackFromFiles (http://127.0.0.1:18777/src/main.ts?t=1791235303754:2471:29)\n    at async onPackFilesSelected (http://127.0.0.1:18777/src/main.ts?t=1791235303754:2555:3)"
+  ]
+ }
+}

@@ -1,0 +1,22 @@
+01-product-arrival-1440x900.png
+02-product-picker-open-1440x900.png
+03-product-walnut-frame-1440x900.png
+04-room-empty-state-1440x900.png
+05-help-popup-1440x900.png
+06-room-created-floor-visible-1440x900.png
+07-place-products-step-1440x900.png
+08-walnut-chair-placed-toast-1440x900.png
+09-placed-product-selected-1440x900.png
+10-confirm-clear-room-1440x900.png
+1440x900: page errors 0
+01-product-arrival-375x812.png
+02-product-picker-open-375x812.png
+03-product-walnut-frame-375x812.png
+04-room-empty-state-375x812.png
+05-help-popup-375x812.png
+06-room-created-floor-visible-375x812.png
+07-place-products-step-375x812.png
+08-walnut-chair-placed-toast-375x812.png
+09-placed-product-selected-375x812.png
+10-confirm-clear-room-375x812.png
+375x812: page errors 0

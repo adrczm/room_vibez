@@ -1,0 +1,423 @@
+{
+ "label": "after1",
+ "base": "http://127.0.0.1:18781/",
+ "when": "2026-10-05T13:03:16.301Z",
+ "arrival_1440x900": {
+  "f8": {
+   "inRoomFloorPct": 16.1,
+   "wallPct": 16.3,
+   "elevationDeg": 45
+  },
+  "coverage": {
+   "canvas": [
+    1050,
+    763
+   ],
+   "floorAreaOnScreenPct": 100,
+   "floorAreaVisiblePct": 100,
+   "cornersOnScreen": "4/4",
+   "corners": [
+    {
+     "x": -2.5,
+     "z": -2,
+     "onScreen": true,
+     "px": [
+      475,
+      265
+     ]
+    },
+    {
+     "x": 2.5,
+     "z": -2,
+     "onScreen": true,
+     "px": [
+      812,
+      444
+     ]
+    },
+    {
+     "x": 2.5,
+     "z": 2,
+     "onScreen": true,
+     "px": [
+      599,
+      700
+     ]
+    },
+    {
+     "x": -2.5,
+     "z": 2,
+     "onScreen": true,
+     "px": [
+      239,
+      439
+     ]
+    }
+   ],
+   "roomCentreRaycast": {
+    "kind": "floor",
+    "x": -0.001,
+    "z": -0.001
+   },
+   "camera": [
+    4.94,
+    8.75,
+    6.04
+   ],
+   "target": [
+    0,
+    0.94,
+    0
+   ],
+   "camDist": 11.04,
+   "walls": 4,
+   "hiddenWalls": 2,
+   "ceilingVisible": false,
+   "mode": "room"
+  }
+ },
+ "arrival_1440x900_small-bedroom": {
+  "f8": {
+   "inRoomFloorPct": 11.1,
+   "wallPct": 19.3,
+   "elevationDeg": 45
+  },
+  "coverage": {
+   "canvas": [
+    1050,
+    763
+   ],
+   "floorAreaOnScreenPct": 100,
+   "floorAreaVisiblePct": 100,
+   "cornersOnScreen": "4/4",
+   "corners": [
+    {
+     "x": -1.5,
+     "z": -1.5,
+     "onScreen": true,
+     "px": [
+      504,
+      301
+     ]
+    },
+    {
+     "x": 1.5,
+     "z": -1.5,
+     "onScreen": true,
+     "px": [
+      762,
+      440
+     ]
+    },
+    {
+     "x": 1.5,
+     "z": 1.5,
+     "onScreen": true,
+     "px": [
+      554,
+      675
+     ]
+    },
+    {
+     "x": -1.5,
+     "z": 1.5,
+     "onScreen": true,
+     "px": [
+      281,
+      476
+     ]
+    }
+   ],
+   "roomCentreRaycast": {
+    "kind": "floor",
+    "x": -0.001,
+    "z": -0.001
+   },
+   "camera": [
+    3.82,
+    6.98,
+    4.67
+   ],
+   "target": [
+    0,
+    0.94,
+    0
+   ],
+   "camDist": 8.54,
+   "walls": 4,
+   "hiddenWalls": 2,
+   "ceilingVisible": false,
+   "mode": "room"
+  }
+ },
+ "arrival_1440x900_studio": {
+  "f8": {
+   "inRoomFloorPct": 15.2,
+   "wallPct": 16.6,
+   "elevationDeg": 45
+  },
+  "coverage": {
+   "canvas": [
+    1050,
+    763
+   ],
+   "floorAreaOnScreenPct": 100,
+   "floorAreaVisiblePct": 100,
+   "cornersOnScreen": "4/4",
+   "corners": [
+    {
+     "x": -3,
+     "z": -2,
+     "onScreen": true,
+     "px": [
+      452,
+      258
+     ]
+    },
+    {
+     "x": 3,
+     "z": -2,
+     "onScreen": true,
+     "px": [
+      829,
+      459
+     ]
+    },
+    {
+     "x": 3,
+     "z": 2,
+     "onScreen": true,
+     "px": [
+      634,
+      701
+     ]
+    },
+    {
+     "x": -3,
+     "z": 2,
+     "onScreen": true,
+     "px": [
+      233,
+      416
+     ]
+    }
+   ],
+   "roomCentreRaycast": {
+    "kind": "floor",
+    "x": -0.001,
+    "z": -0.001
+   },
+   "camera": [
+    5.35,
+    9.4,
+    6.54
+   ],
+   "target": [
+    0,
+    0.94,
+    0
+   ],
+   "camDist": 11.96,
+   "walls": 4,
+   "hiddenWalls": 2,
+   "ceilingVisible": false,
+   "mode": "room"
+  }
+ },
+ "arrival_375x812": {
+  "f8": {
+   "inRoomFloorPct": 15.2,
+   "wallPct": 15.9,
+   "elevationDeg": 45
+  },
+  "coverage": {
+   "canvas": [
+    341,
+    453
+   ],
+   "floorAreaOnScreenPct": 100,
+   "floorAreaVisiblePct": 100,
+   "cornersOnScreen": "4/4",
+   "corners": [
+    {
+     "x": -2.5,
+     "z": -2,
+     "onScreen": true,
+     "px": [
+      148,
+      173
+     ]
+    },
+    {
+     "x": 2.5,
+     "z": -2,
+     "onScreen": true,
+     "px": [
+      296,
+      254
+     ]
+    },
+    {
+     "x": 2.5,
+     "z": 2,
+     "onScreen": true,
+     "px": [
+      201,
+      357
+     ]
+    },
+    {
+     "x": -2.5,
+     "z": 2,
+     "onScreen": true,
+     "px": [
+      45,
+      251
+     ]
+    }
+   ],
+   "roomCentreRaycast": {
+    "kind": "floor",
+    "x": -0.001,
+    "z": -0.001
+   },
+   "camera": [
+    6.82,
+    11.72,
+    8.34
+   ],
+   "target": [
+    0,
+    0.94,
+    0
+   ],
+   "camDist": 15.23,
+   "walls": 4,
+   "hiddenWalls": 2,
+   "ceilingVisible": false,
+   "mode": "room"
+  }
+ },
+ "contrast_arrival": {
+  "cellCounts": {
+   "floorIn": 79,
+   "wall": 160,
+   "none": 653
+  },
+  "studio-soft": {
+   "w12_first60": {
+    "floor": "#e1ddd7",
+    "wall": "#dddcd9",
+    "background": "#eeefef",
+    "floorVsWall": 1.01,
+    "floorVsBackground": 1.17,
+    "wallVsBackground": 1.19
+   },
+   "allCells": {
+    "floor": "#e1ddd7",
+    "wall": "#dfdedb",
+    "background": "#f1f0f0",
+    "floorVsWall": 1.01,
+    "floorVsBackground": 1.19,
+    "wallVsBackground": 1.18
+   }
+  },
+  "warm-interior": {
+   "w12_first60": {
+    "floor": "#c3b5a4",
+    "wall": "#bdb4a8",
+    "background": "#ede7e0",
+    "floorVsWall": 1.02,
+    "floorVsBackground": 1.63,
+    "wallVsBackground": 1.67
+   },
+   "allCells": {
+    "floor": "#c6b7a5",
+    "wall": "#c0b6ab",
+    "background": "#eee6dc",
+    "floorVsWall": 1.02,
+    "floorVsBackground": 1.58,
+    "wallVsBackground": 1.61
+   }
+  },
+  "neutral": {
+   "w12_first60": {
+    "floor": "#c0bab0",
+    "wall": "#bfbdb8",
+    "background": "#f9f9fa",
+    "floorVsWall": 1.03,
+    "floorVsBackground": 1.83,
+    "wallVsBackground": 1.78
+   },
+   "allCells": {
+    "floor": "#c0bab0",
+    "wall": "#bfbdb8",
+    "background": "#fdfdfd",
+    "floorVsWall": 1.03,
+    "floorVsBackground": 1.9,
+    "wallVsBackground": 1.85
+   }
+  }
+ },
+ "contrast_w12_orbit100": {
+  "cellCounts": {
+   "floorIn": 96,
+   "wall": 149,
+   "none": 628
+  },
+  "studio-soft": {
+   "w12_first60": {
+    "floor": "#dedad4",
+    "wall": "#e0dfdc",
+    "background": "#eeefef",
+    "floorVsWall": 1.04,
+    "floorVsBackground": 1.21,
+    "wallVsBackground": 1.16
+   },
+   "allCells": {
+    "floor": "#ddd9d2",
+    "wall": "#d4d3cf",
+    "background": "#f1f1f1",
+    "floorVsWall": 1.07,
+    "floorVsBackground": 1.25,
+    "wallVsBackground": 1.33
+   }
+  },
+  "warm-interior": {
+   "w12_first60": {
+    "floor": "#bdb2a2",
+    "wall": "#c4bbaf",
+    "background": "#ede7e0",
+    "floorVsWall": 1.1,
+    "floorVsBackground": 1.7,
+    "wallVsBackground": 1.54
+   },
+   "allCells": {
+    "floor": "#bdb2a2",
+    "wall": "#c0b4a5",
+    "background": "#eee7dd",
+    "floorVsWall": 1.03,
+    "floorVsBackground": 1.7,
+    "wallVsBackground": 1.66
+   }
+  },
+  "neutral": {
+   "w12_first60": {
+    "floor": "#ada69b",
+    "wall": "#c7c5c0",
+    "background": "#f9f9fa",
+    "floorVsWall": 1.4,
+    "floorVsBackground": 2.29,
+    "wallVsBackground": 1.64
+   },
+   "allCells": {
+    "floor": "#a7a095",
+    "wall": "#bdbbb6",
+    "background": "#fdfdfd",
+    "floorVsWall": 1.35,
+    "floorVsBackground": 2.55,
+    "wallVsBackground": 1.89
+   }
+  }
+ }
+}

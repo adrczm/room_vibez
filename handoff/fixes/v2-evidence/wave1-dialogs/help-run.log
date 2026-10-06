@@ -1,0 +1,156 @@
+
+===== 1280x800 =====
+PASS  does not auto-open (no <dialog> in the page after load)  [{"dialogInDom":false,"anyOpen":false}]
+PASS  ? button is 28 x 28 and circular  [28x28, radius 50%]
+PASS  ? button: tooltip, aria-label, aria-haspopup, text  [{"title":"How this works","aria":"Help: how this works","haspopup":"dialog","text":"?"}]
+PASS  ? button is the last child of .topbar, after .workspace-nav
+PASS  ? button sits at the right end of the top bar  [gap to bar edge 16px]
+PASS  wide: Workspace switch stays beside the ? (same row)  [nav right 1220, ? left 1236]
+PASS  no horizontal page scroll with the ? in the top bar  [overflowX 0]
+      topbar height with ?: 87px
+PASS  opens as a modal dialog on click
+PASS  first visit opens on Start here (deck §2 Behavior)  [start]
+PASS  accessible names: dialog, close button, tablist or Topic select, tabpanel  [{"dialog":1,"close":1,"tablist":1,"topic":"n/a","panel":1}]
+PASS  initial focus is on the selected tab  [{"id":"help-tab-start","tag":"BUTTON","cls":"","inDialog":true}]
+PASS  tabs shown, Topic select hidden  [{"tabsDisplay":"flex","topicDisplay":"none"}]
+PASS  Esc closes
+PASS  Esc: focus returns to the ? button  [{"id":"btn-help","tag":"BUTTON","cls":"btn help-btn","inDialog":false}]
+PASS  close button closes
+PASS  close button: focus returns to the ? button
+PASS  backdrop click closes
+PASS  backdrop: focus returns to the ? button
+PASS  drag from inside to the backdrop does not close
+PASS  click inside the dialog does not close
+PASS  Product workspace (data-workspace="catalog") opens on Product  [product]
+PASS  Room workspace (data-workspace="room") opens on Room  [room]
+PASS  no workspace set opens on Start here  [start]
+PASS  focus never lands on a page control outside the dialog (14 Tab + 6 Shift+Tab)  [page controls reached: 0; stops with nothing focused (browser-UI stop, BODY in headless): 5; first cycle: help-panel-room > BODY > app-dialog-close > help-tab-room > help-panel-room > BODY]
+PASS  with nothing focused (keys target <body>), Ctrl+Z and y still do not reach a document listener  [active BODY; leaked []]
+PASS  after clicking the (non-focusable) title, Ctrl+Z does not reach a document listener  [active DIALOG#help-dialog; leaked []]
+PASS  Tab from there goes back into the dialog  [{"id":"","tag":"BUTTON","cls":"app-dialog-close","inDialog":true}]
+PASS  page behind is inert while open (? button cannot be clicked)
+PASS  keys pressed inside the dialog (Ctrl+Z, Cmd+Z, y, Esc) do not reach a document keydown listener  [[]]
+PASS  Esc still closed the dialog
+PASS  with the dialog closed, page key listeners receive keys again  [["Control","z"]]
+PASS  arrow keys, Home and End move between tabs (wraps; roving tabindex; one panel shown)  [ArrowRight→files, ArrowRight→built, ArrowRight→start, ArrowLeft→built, Home→start, ArrowLeft→built, End→built, Home→start]
+PASS  clicking a tab selects it
+PASS  tab 1 (start): no horizontal scroll, dialog inside the viewport  [{"pageOverflowX":0,"bodyOverflowX":0,"dialog":[340,60,600,680],"inViewport":true,"scrollTop":0}]
+PASS  tab 2 (product): no horizontal scroll, dialog inside the viewport  [{"pageOverflowX":0,"bodyOverflowX":0,"dialog":[340,60,600,680],"inViewport":true,"scrollTop":0}]
+PASS  tab 3 (room): no horizontal scroll, dialog inside the viewport  [{"pageOverflowX":0,"bodyOverflowX":0,"dialog":[340,60,600,680],"inViewport":true,"scrollTop":0}]
+PASS  tab 4 (files): no horizontal scroll, dialog inside the viewport  [{"pageOverflowX":0,"bodyOverflowX":0,"dialog":[340,60,600,680],"inViewport":true,"scrollTop":0}]
+PASS  tab 5 (built): no horizontal scroll, dialog inside the viewport  [{"pageOverflowX":0,"bodyOverflowX":0,"dialog":[340,60,600,680],"inViewport":true,"scrollTop":0}]
+PASS  "For developers" is a collapsed <details> at the bottom of How it's built  [{"open":false,"summary":"For developers","isLast":true}]
+PASS  deep link #h-why-import: lands on tab "room", section visible, focused and marked  [{"selected":"room","offsetFromScrollerTop":8,"fullyVisible":true,"focused":true,"highlighted":true,"text":"Import plan.","scrollTop":90}]
+PASS  deep link #h-why-import: focus returns to the link that opened it  [{"id":"h-why-import","tag":"BUTTON","cls":"btn","inDialog":false}]
+PASS  deep link #h-why-plans: lands on tab "files", section visible, focused and marked  [{"selected":"files","offsetFromScrollerTop":76,"fullyVisible":true,"focused":true,"highlighted":true,"text":"Plans","scrollTop":457}]
+PASS  deep link #h-why-plans: focus returns to the link that opened it  [{"id":"h-why-plans","tag":"BUTTON","cls":"btn","inDialog":false}]
+PASS  the deep-link highlight is cleared on the next open
+PASS  no page errors or console errors
+
+===== 375x812 =====
+PASS  does not auto-open (no <dialog> in the page after load)  [{"dialogInDom":false,"anyOpen":false}]
+PASS  ? button is 28 x 28 and circular  [28x28, radius 50%]
+PASS  ? button: tooltip, aria-label, aria-haspopup, text  [{"title":"How this works","aria":"Help: how this works","haspopup":"dialog","text":"?"}]
+PASS  ? button is the last child of .topbar, after .workspace-nav
+PASS  ? button sits at the right end of the top bar  [gap to bar edge 16px]
+PASS  narrow (<=720): top bar wraps; brand and ? on row 1, switch below  [brandTop 10, ?Top 10, navTop 54, topbar 157px]
+PASS  no horizontal page scroll with the ? in the top bar  [overflowX 0]
+      topbar height with ?: 157px
+PASS  opens as a modal dialog on click
+PASS  first visit opens on Start here (deck §2 Behavior)  [start]
+PASS  accessible names: dialog, close button, tablist or Topic select, tabpanel  [{"dialog":1,"close":1,"tablist":"n/a","topic":1,"panel":1}]
+PASS  initial focus is on the Topic select  [{"id":"help-topic","tag":"SELECT","cls":"select","inDialog":true}]
+PASS  Topic select replaces the tabs  [{"tabsDisplay":"none","topicDisplay":"flex"}]
+PASS  Esc closes
+PASS  Esc: focus returns to the ? button  [{"id":"btn-help","tag":"BUTTON","cls":"btn help-btn","inDialog":false}]
+PASS  close button closes
+PASS  close button: focus returns to the ? button
+PASS  backdrop click closes
+PASS  backdrop: focus returns to the ? button
+PASS  drag from inside to the backdrop does not close
+PASS  click inside the dialog does not close
+PASS  Product workspace (data-workspace="catalog") opens on Product  [product]
+PASS  Room workspace (data-workspace="room") opens on Room  [room]
+PASS  no workspace set opens on Start here  [start]
+PASS  focus never lands on a page control outside the dialog (14 Tab + 6 Shift+Tab)  [page controls reached: 0; stops with nothing focused (browser-UI stop, BODY in headless): 5; first cycle: help-panel-room > BODY > app-dialog-close > help-topic > help-panel-room > BODY]
+PASS  with nothing focused (keys target <body>), Ctrl+Z and y still do not reach a document listener  [active BODY; leaked []]
+PASS  after clicking the (non-focusable) title, Ctrl+Z does not reach a document listener  [active DIALOG#help-dialog; leaked []]
+PASS  Tab from there goes back into the dialog  [{"id":"","tag":"BUTTON","cls":"app-dialog-close","inDialog":true}]
+PASS  page behind is inert while open (? button cannot be clicked)
+PASS  keys pressed inside the dialog (Ctrl+Z, Cmd+Z, y, Esc) do not reach a document keydown listener  [[]]
+PASS  Esc still closed the dialog
+PASS  with the dialog closed, page key listeners receive keys again  [["Control","z"]]
+PASS  Topic select switches the panel  [{"selected":"files","visiblePanels":["files"],"topicValue":"files"}]
+PASS  tab 1 (start): no horizontal scroll, dialog inside the viewport  [{"pageOverflowX":0,"bodyOverflowX":0,"dialog":[16,66,343,680],"inViewport":true,"scrollTop":0}]
+PASS  tab 2 (product): no horizontal scroll, dialog inside the viewport  [{"pageOverflowX":0,"bodyOverflowX":0,"dialog":[16,66,343,680],"inViewport":true,"scrollTop":0}]
+PASS  tab 3 (room): no horizontal scroll, dialog inside the viewport  [{"pageOverflowX":0,"bodyOverflowX":0,"dialog":[16,66,343,680],"inViewport":true,"scrollTop":0}]
+PASS  tab 4 (files): no horizontal scroll, dialog inside the viewport  [{"pageOverflowX":0,"bodyOverflowX":0,"dialog":[16,66,343,680],"inViewport":true,"scrollTop":0}]
+PASS  tab 5 (built): no horizontal scroll, dialog inside the viewport  [{"pageOverflowX":0,"bodyOverflowX":0,"dialog":[16,66,343,680],"inViewport":true,"scrollTop":0}]
+PASS  "For developers" is a collapsed <details> at the bottom of How it's built  [{"open":false,"summary":"For developers","isLast":true}]
+PASS  deep link #h-why-import: lands on tab "room", section visible, focused and marked  [{"selected":"room","offsetFromScrollerTop":8,"fullyVisible":true,"focused":true,"highlighted":true,"text":"Import plan.","scrollTop":110}]
+PASS  deep link #h-why-import: focus returns to the link that opened it  [{"id":"h-why-import","tag":"BUTTON","cls":"btn","inDialog":false}]
+PASS  deep link #h-why-plans: lands on tab "files", section visible, focused and marked  [{"selected":"files","offsetFromScrollerTop":8,"fullyVisible":true,"focused":true,"highlighted":true,"text":"Plans","scrollTop":747}]
+PASS  deep link #h-why-plans: focus returns to the link that opened it  [{"id":"h-why-plans","tag":"BUTTON","cls":"btn","inDialog":false}]
+PASS  the deep-link highlight is cleared on the next open
+PASS  no page errors or console errors
+
+===== 375x812-touch =====
+PASS  does not auto-open (no <dialog> in the page after load)  [{"dialogInDom":false,"anyOpen":false}]
+PASS  ? button is 44 x 44 and circular  [44x44, radius 50%]
+PASS  ? button: tooltip, aria-label, aria-haspopup, text  [{"title":"How this works","aria":"Help: how this works","haspopup":"dialog","text":"?"}]
+PASS  ? button is the last child of .topbar, after .workspace-nav
+PASS  ? button sits at the right end of the top bar  [gap to bar edge 16px]
+PASS  narrow (<=720): top bar wraps; brand and ? on row 1, switch below  [brandTop 10, ?Top 10, navTop 70, topbar 173px]
+PASS  no horizontal page scroll with the ? in the top bar  [overflowX 0]
+      topbar height with ?: 173px
+PASS  opens as a modal dialog on click
+PASS  first visit opens on Start here (deck §2 Behavior)  [start]
+PASS  accessible names: dialog, close button, tablist or Topic select, tabpanel  [{"dialog":1,"close":1,"tablist":"n/a","topic":1,"panel":1}]
+PASS  initial focus is on the Topic select  [{"id":"help-topic","tag":"SELECT","cls":"select","inDialog":true}]
+PASS  Topic select replaces the tabs  [{"tabsDisplay":"none","topicDisplay":"flex"}]
+PASS  Esc closes
+PASS  Esc: focus returns to the ? button  [{"id":"btn-help","tag":"BUTTON","cls":"btn help-btn","inDialog":false}]
+PASS  close button closes
+PASS  close button: focus returns to the ? button
+PASS  backdrop click closes
+PASS  backdrop: focus returns to the ? button
+PASS  drag from inside to the backdrop does not close
+PASS  click inside the dialog does not close
+PASS  Product workspace (data-workspace="catalog") opens on Product  [product]
+PASS  Room workspace (data-workspace="room") opens on Room  [room]
+PASS  no workspace set opens on Start here  [start]
+PASS  focus never lands on a page control outside the dialog (14 Tab + 6 Shift+Tab)  [page controls reached: 0; stops with nothing focused (browser-UI stop, BODY in headless): 5; first cycle: help-panel-room > BODY > app-dialog-close > help-topic > help-panel-room > BODY]
+PASS  with nothing focused (keys target <body>), Ctrl+Z and y still do not reach a document listener  [active BODY; leaked []]
+PASS  after clicking the (non-focusable) title, Ctrl+Z does not reach a document listener  [active DIALOG#help-dialog; leaked []]
+PASS  Tab from there goes back into the dialog  [{"id":"","tag":"BUTTON","cls":"app-dialog-close","inDialog":true}]
+PASS  page behind is inert while open (? button cannot be clicked)
+PASS  keys pressed inside the dialog (Ctrl+Z, Cmd+Z, y, Esc) do not reach a document keydown listener  [[]]
+PASS  Esc still closed the dialog
+PASS  with the dialog closed, page key listeners receive keys again  [["Control","z"]]
+PASS  Topic select switches the panel  [{"selected":"files","visiblePanels":["files"],"topicValue":"files"}]
+PASS  tab 1 (start): no horizontal scroll, dialog inside the viewport  [{"pageOverflowX":0,"bodyOverflowX":0,"dialog":[16,66,343,680],"inViewport":true,"scrollTop":0}]
+PASS  tab 2 (product): no horizontal scroll, dialog inside the viewport  [{"pageOverflowX":0,"bodyOverflowX":0,"dialog":[16,66,343,680],"inViewport":true,"scrollTop":0}]
+PASS  tab 3 (room): no horizontal scroll, dialog inside the viewport  [{"pageOverflowX":0,"bodyOverflowX":0,"dialog":[16,66,343,680],"inViewport":true,"scrollTop":0}]
+PASS  tab 4 (files): no horizontal scroll, dialog inside the viewport  [{"pageOverflowX":0,"bodyOverflowX":0,"dialog":[16,66,343,680],"inViewport":true,"scrollTop":0}]
+PASS  tab 5 (built): no horizontal scroll, dialog inside the viewport  [{"pageOverflowX":0,"bodyOverflowX":0,"dialog":[16,66,343,680],"inViewport":true,"scrollTop":0}]
+PASS  "For developers" is a collapsed <details> at the bottom of How it's built  [{"open":false,"summary":"For developers","isLast":true}]
+PASS  deep link #h-why-import: lands on tab "room", section visible, focused and marked  [{"selected":"room","offsetFromScrollerTop":8,"fullyVisible":true,"focused":true,"highlighted":true,"text":"Import plan.","scrollTop":110}]
+PASS  deep link #h-why-import: focus returns to the link that opened it  [{"id":"h-why-import","tag":"BUTTON","cls":"btn","inDialog":false}]
+PASS  deep link #h-why-plans: lands on tab "files", section visible, focused and marked  [{"selected":"files","offsetFromScrollerTop":8,"fullyVisible":true,"focused":true,"highlighted":true,"text":"Plans","scrollTop":747}]
+PASS  deep link #h-why-plans: focus returns to the link that opened it  [{"id":"h-why-plans","tag":"BUTTON","cls":"btn","inDialog":false}]
+PASS  the deep-link highlight is cleared on the next open
+PASS  no page errors or console errors
+
+===== breakpoint =====
+PASS  860px: Topic select  [{"tabs":"none","topic":"flex"}]
+PASS  861px: tabs  [{"tabs":"flex","topic":"none"}]
+
+===== options =====
+PASS  startHereOnFirstVisit:false → first open follows the workspace (Product)  [product]
+PASS  unseenDot:true → dot until first opened, remembered in localStorage  [{"before":{"unseen":"true","dot":"\"\""},"after":{"unseen":null,"stored":"1"},"reloaded":null}]
+PASS  second visit (flag stored) opens on the workspace tab, not Start here  [product]
+PASS  default: no dot on the ?
+PASS  storage blocked: opens without errors; first open Start here, later opens follow the workspace  [{"first":"start","second":"product","errors":[]}]
+PASS  initHelp({ button }) sets up a host-written button to spec; closeHelp() and isHelpOpen() work; focus returns to that button  [{"attrs":{"cls":"btn help-btn","title":"How this works","aria":"Help: how this works","haspopup":"dialog","text":"?","type":"button","size":[28,28]},"openAfterClick":true,"openAfterClose":false,"focus":"own-help","dialogs":1}]
+
+ALL HELP CHECKS PASSED

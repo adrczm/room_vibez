@@ -1,0 +1,60 @@
+{
+ "grid": [
+  {
+   "openCallMs": 3.6,
+   "options": 30,
+   "view": "grid",
+   "firstFrameMs": 7.2,
+   "secondFrameMs": 2572,
+   "firstImageMs": 2572,
+   "tilesOnScreenDrawnMs": 8409,
+   "tilesDrawn": 12
+  },
+  {
+   "openCallMs": 3.3,
+   "options": 30,
+   "view": "grid",
+   "firstFrameMs": 20.6,
+   "secondFrameMs": 1898.1,
+   "firstImageMs": 1898,
+   "tilesOnScreenDrawnMs": 7793,
+   "tilesDrawn": 12
+  },
+  {
+   "openCallMs": 3.2,
+   "options": 30,
+   "view": "grid",
+   "firstFrameMs": 37.5,
+   "secondFrameMs": 1812.5,
+   "firstImageMs": 1813,
+   "tilesOnScreenDrawnMs": 7744,
+   "tilesDrawn": 12
+  }
+ ],
+ "list": [
+  {
+   "openCallMs": 3.2,
+   "options": 30,
+   "view": "list",
+   "firstFrameMs": 17.6,
+   "secondFrameMs": 60.2,
+   "thumbnailsAfter2s": null
+  },
+  {
+   "openCallMs": 3.3,
+   "options": 30,
+   "view": "list",
+   "firstFrameMs": 7,
+   "secondFrameMs": 48.2,
+   "thumbnailsAfter2s": null
+  },
+  {
+   "openCallMs": 3.3,
+   "options": 30,
+   "view": "list",
+   "firstFrameMs": 6.2,
+   "secondFrameMs": 45.8,
+   "thumbnailsAfter2s": null
+  }
+ ]
+}

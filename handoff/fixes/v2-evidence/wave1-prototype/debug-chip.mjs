@@ -1,0 +1,22 @@
+import { pathToFileURL } from 'node:url';
+import { chromium } from '/Users/adrian/Desktop/Room Vibez/v2/hackathon-3d-viewer/node_modules/playwright/index.mjs';
+const URL_ = pathToFileURL(process.argv[2]).href;
+const browser = await chromium.launch({ channel: 'chrome', args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+const page = await ctx.newPage(); await page.goto(URL_); await page.waitForTimeout(600);
+await page.click('.role-card[data-role=consumer]'); await page.click('#btnContinueAuth'); await page.click('#tplBlank'); await page.click('#btnCreateProject');
+let chooser = false;
+const p = page.waitForEvent('filechooser', { timeout: 1500 }).then(() => (chooser = true)).catch(() => {});
+await page.click('.file-chip[data-fmt=PNG]'); await p;
+console.log(JSON.stringify({ chipClickOpensFilePicker: chooser, aiCardShown: await page.locator('#aiCard').isVisible() }));
+let chooser2 = false;
+const p2 = page.waitForEvent('filechooser', { timeout: 1500 }).then(() => (chooser2 = true)).catch(() => {});
+await page.locator('#uploadZone strong').click(); await p2;
+console.log(JSON.stringify({ zoneClickOpensFilePicker: chooser2 }));
+// keyboard on a chip
+await page.focus('.file-chip[data-fmt=DWG]');
+let chooser3 = false;
+const p3 = page.waitForEvent('filechooser', { timeout: 1500 }).then(() => (chooser3 = true)).catch(() => {});
+await page.keyboard.press('Enter'); await p3;
+console.log(JSON.stringify({ enterOnChipOpensFilePicker: chooser3, activeChip: await page.locator('.file-chip.active').innerText() }));
+await browser.close();

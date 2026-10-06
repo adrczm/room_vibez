@@ -1,0 +1,384 @@
+{
+  "W2": {
+    "name": "Task \"set up a 5.5 m by 4 m room\": obvious path vs working path",
+    "observed": {
+      "obvious": {
+        "did": "typed 5.5 and 4 into Length/Width, left Preset as it was, Create room",
+        "room": {
+          "name": "Small bedroom",
+          "size": "3 x 3 m",
+          "ceiling": 2.7,
+          "openings": [],
+          "placements": [],
+          "provenance": "authored"
+        },
+        "status": {
+          "text": "Small bedroom · 3.00 m × 3.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored",
+          "isError": false,
+          "visibleInPanel": true
+        },
+        "lengthFieldStillShows": "5.5"
+      },
+      "working": {
+        "did": "chose Preset \"Custom…\" first, then typed, Create room",
+        "room": {
+          "name": "Custom room",
+          "size": "5.5 x 4 m",
+          "ceiling": 2.7,
+          "openings": [],
+          "placements": [],
+          "provenance": "authored"
+        },
+        "status": {
+          "text": "Custom room · 5.50 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored",
+          "isError": false,
+          "visibleInPanel": true
+        }
+      }
+    }
+  },
+  "W3": {
+    "name": "Task \"add a door and a window\": real mouse clicks on walls, on arrival view",
+    "observed": {
+      "wallCellsOnArrival": 359,
+      "afterToggle": {
+        "label": "Opening mode on — click a wall",
+        "hint": "Opening mode · click a wall · orbit drag to look · scroll to zoom",
+        "statusVisible": false
+      },
+      "door": {
+        "clicked": {
+          "x": 332,
+          "y": 501,
+          "wallId": "wall_muv7c5cg_4"
+        },
+        "room": {
+          "name": "Living",
+          "size": "5 x 4 m",
+          "ceiling": 2.7,
+          "openings": [
+            "door"
+          ],
+          "placements": [],
+          "provenance": "authored"
+        },
+        "status": {
+          "text": "Added door on wall · procedural placeholder mesh (not a catalog SKU)",
+          "isError": false,
+          "visibleInPanel": false
+        },
+        "toolStillOn": "true"
+      },
+      "window": {
+        "clicked": {
+          "x": 416,
+          "y": 227,
+          "wallId": "wall_muv7c5cg_5"
+        },
+        "room": {
+          "name": "Living",
+          "size": "5 x 4 m",
+          "ceiling": 2.7,
+          "openings": [
+            "door",
+            "window"
+          ],
+          "placements": [],
+          "provenance": "authored"
+        },
+        "status": {
+          "text": "Added window on wall · procedural placeholder mesh (not a catalog SKU)",
+          "isError": false,
+          "visibleInPanel": false
+        }
+      },
+      "clickOnEmptySpace": {
+        "status": {
+          "text": "Added window on wall · procedural placeholder mesh (not a catalog SKU)",
+          "isError": false,
+          "visibleInPanel": false
+        },
+        "openingsUnchanged": true
+      },
+      "openingListRows": [
+        "door · 0.90 m × 2.10 m · sill 0.00 m\nDelete",
+        "window · 1.20 m × 1.20 m · sill 0.90 m\nDelete"
+      ]
+    }
+  },
+  "W4": {
+    "name": "Task \"put the chair and a side table in the room\", then \"move the chair\": real mouse",
+    "observed": {
+      "arrival": {
+        "inRoomFloorCells": 0,
+        "wallCells": 359
+      },
+      "afterOrbit": {
+        "inRoomFloorCells": 82,
+        "placeModeStillOnAfterDrag": "true",
+        "placementsCreatedByTheDrag": 0
+      },
+      "chair": {
+        "room": {
+          "name": "Living",
+          "size": "5 x 4 m",
+          "ceiling": 2.7,
+          "openings": [],
+          "placements": [
+            {
+              "product": "demo-lounge-chair",
+              "x": 0.77,
+              "z": -0.73,
+              "inside": true
+            }
+          ],
+          "provenance": "authored"
+        },
+        "status": {
+          "text": "Placed “Lounge chair (demo)” on the floor",
+          "isError": false,
+          "visibleInPanel": false
+        }
+      },
+      "afterPickingSideTable": {
+        "workspace": "room",
+        "placeModeStillOn": "true",
+        "productSelectDistanceFromPlaceBtnPx": 175
+      },
+      "table": {
+        "room": {
+          "name": "Living",
+          "size": "5 x 4 m",
+          "ceiling": 2.7,
+          "openings": [],
+          "placements": [
+            {
+              "product": "demo-lounge-chair",
+              "x": 0.77,
+              "z": -0.73,
+              "inside": true
+            },
+            {
+              "product": "demo-side-table",
+              "x": -0.38,
+              "z": -0.5,
+              "inside": true
+            }
+          ],
+          "provenance": "authored"
+        },
+        "status": {
+          "text": "Placed “Side table (demo)” on the floor",
+          "isError": false,
+          "visibleInPanel": false
+        }
+      },
+      "placementListRows": [
+        "Lounge chair (demo)\nDelete",
+        "Side table (demo)\nDelete"
+      ],
+      "task5_move": {
+        "placementsChangedByClickOrDrag": false,
+        "anySelectionUi": false,
+        "statusAfter": "Click the floor inside the room to place furniture.",
+        "rowControls": [
+          "Delete",
+          "Delete"
+        ]
+      }
+    }
+  },
+  "W6": {
+    "name": "Task \"use a floor-plan image to create the room\": PNG underlay path",
+    "observed": {
+      "introWords": 58,
+      "primaryLabel": "Upload & derive candidates",
+      "review": {
+        "importStatus": "Underlay ready — confirm width/depth, then create room.",
+        "underlayStatus": "Trace is rectangular shell matching underlay width×depth. Adjust meters, then confirm. · client-plan.png",
+        "heading": "Raster underlay human confirm",
+        "defaultWidth": "5",
+        "defaultDepth": "4",
+        "confirmLabel": "Confirm underlay → room"
+      },
+      "room": {
+        "name": "Underlay · client-plan.png",
+        "size": "6 x 4.5 m",
+        "ceiling": 2.7,
+        "openings": [],
+        "placements": [],
+        "provenance": "dwg_import"
+      },
+      "status": {
+        "text": "Room from underlay · client-plan.png · place Catalog 3D GLBs",
+        "isError": false,
+        "visibleInPanel": true
+      }
+    }
+  },
+  "W7": {
+    "name": "Task \"make sure you can continue tomorrow\": export, clear, import; plan PNG download",
+    "observed": {
+      "saveAffordances": {
+        "anySaveButton": [
+          "Save current room as template",
+          "Save as template"
+        ],
+        "anyAutosaveNotice": false,
+        "exportVisibleWithoutScroll": false
+      },
+      "export": {
+        "filename": "catalog3d-project.json",
+        "bytes": 2756,
+        "topLevelKeys": [
+          "schema_version",
+          "exported_at",
+          "label",
+          "room_graph",
+          "templates",
+          "note"
+        ],
+        "placementsInFile": 1,
+        "statusAfterExport": "Exported project JSON (room graph + templates)"
+      },
+      "planPng": {
+        "filename": "Living.png"
+      },
+      "afterClear": {
+        "workspace": "catalog",
+        "room": null,
+        "importButtonVisible": false
+      },
+      "importProjectButtonVisibleWithNoRoom": false,
+      "afterImportViaHiddenInput": {
+        "room": {
+          "name": "Living",
+          "size": "5 x 4 m",
+          "ceiling": 2.7,
+          "openings": [],
+          "placements": [
+            {
+              "product": "demo-lounge-chair",
+              "x": 0,
+              "z": 0,
+              "inside": true
+            }
+          ],
+          "provenance": "authored"
+        },
+        "status": {
+          "text": "Imported project “Living”",
+          "isError": false,
+          "visibleInPanel": true
+        }
+      }
+    }
+  },
+  "W9": {
+    "name": "Upload a valid GLB with a long file name at 375 px: overflow, product list, status text",
+    "observed": {
+      "overflowXBefore": 0,
+      "status": "Added “client-living-room-armchair-walnut-final-v2-approved” · 2 slot(s) · session only",
+      "isError": false,
+      "productOptions": [
+        "Lounge chair (demo)",
+        "Side table (demo)",
+        "client-living-room-armchair-walnut-final-v2-approved (upload)"
+      ],
+      "overflowXAfter": 0,
+      "widest": [],
+      "slots": [
+        "Top=wood-oak",
+        "Legs=wood-oak"
+      ],
+      "warnings": "",
+      "meta": "STUB-SKU-UPLOAD-UPLOAD-MUV7D5G0 · slots tagged via upload-detected (top, legs) · session upload"
+    }
+  },
+  "W10": {
+    "name": "Earlier panel figures (3106/1835/926/1705): do they reproduce when the panel content is 15 px narrower (as with a classic scrollbar)?",
+    "observed": {
+      "freshProduct": {
+        "cardWidth": 325,
+        "panelScrollH": 3106,
+        "slotsTop": 1835,
+        "presetsTop": 2704,
+        "roomCardH": 926,
+        "controlsUnder32": 3,
+        "scrollTop": 938
+      },
+      "roomNoRoom": {
+        "cardWidth": 325,
+        "panelScrollH": 3106,
+        "slotsTop": 1835,
+        "presetsTop": 2704,
+        "roomCardH": 926,
+        "controlsUnder32": 3,
+        "scrollTop": 161
+      },
+      "withRoom": {
+        "cardWidth": 325,
+        "panelScrollH": 3885,
+        "slotsTop": 2614,
+        "presetsTop": 3483,
+        "roomCardH": 1705,
+        "controlsUnder32": 5,
+        "scrollTop": 161
+      },
+      "earlierClaims": {
+        "panelScrollH": 3106,
+        "slotsTop": 1835,
+        "presetsTop": 2704,
+        "roomCardH_noRoom": 926,
+        "roomCardH_withRoom": 1705,
+        "controlsUnder32_fresh": 3,
+        "scrollTopAfterSwitchToRoom": 161
+      }
+    }
+  },
+  "W12": {
+    "name": "Rendered pixel contrast: floor vs wall vs background, per light preset (camera orbited so the floor shows)",
+    "observed": {
+      "note": "Averages over up to 60 sampled pixels per surface; walls differ in shade by orientation, so wall is a mixed average. SwiftShader software rendering.",
+      "studio-soft": {
+        "floor": "#dfdbd4",
+        "wall": "#dddcd9",
+        "background": "#eeeeee",
+        "floorVsWall": 1.01,
+        "floorVsBackground": 1.19,
+        "wallVsBackground": 1.18,
+        "samples": {
+          "floor": 60,
+          "wall": 60,
+          "bg": 60
+        }
+      },
+      "warm-interior": {
+        "floor": "#bbb0a1",
+        "wall": "#bbb2a7",
+        "background": "#ebe5de",
+        "floorVsWall": 1.02,
+        "floorVsBackground": 1.71,
+        "wallVsBackground": 1.67,
+        "samples": {
+          "floor": 60,
+          "wall": 60,
+          "bg": 60
+        }
+      },
+      "neutral": {
+        "floor": "#aea69b",
+        "wall": "#bfbdb8",
+        "background": "#f5f5f5",
+        "floorVsWall": 1.28,
+        "floorVsBackground": 2.21,
+        "wallVsBackground": 1.72,
+        "samples": {
+          "floor": 60,
+          "wall": 60,
+          "bg": 60
+        }
+      }
+    }
+  }
+}

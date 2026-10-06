@@ -1,0 +1,161 @@
+run-e2e: specs from /Users/adrian/Desktop/Room Vibez/v2/hackathon-3d-viewer against http://127.0.0.1:18767; run dir /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.ALQi0s
+
+Running 6 tests using 1 worker
+
+  ✘  1 tests/e2e/feedback-and-guards.spec.ts:119:5 › Room workspace with no room: empty stage, a card with four ways to start, the right hint; Product is unaffected (10.1s)
+  ✘  2 tests/e2e/feedback-and-guards.spec.ts:193:5 › Clear room asks first: Keep room changes nothing; confirming empties the room, stays in Room, and a reload after an Export stays empty (6.9s)
+  ✘  3 tests/e2e/feedback-and-guards.spec.ts:260:5 › replacing a room that has work in it asks first; an untouched room is replaced without a question; Delete template asks (12.7s)
+  ✘  4 tests/e2e/feedback-and-guards.spec.ts:332:5 › Place mode answers on the stage: fixed tool labels, a state chip, a toast for a missed click, and nothing is placed outside the room (6.6s)
+  ✘  5 tests/e2e/feedback-and-guards.spec.ts:439:5 › a project file can be opened in the Room workspace before any room exists, and its placed product comes back (22.2s)
+  ✘  6 tests/e2e/feedback-and-guards.spec.ts:487:5 › choosing only a wall finish leaves the floor as it was, and the other way round (6.8s)
+
+
+  1) tests/e2e/feedback-and-guards.spec.ts:119:5 › Room workspace with no room: empty stage, a card with four ways to start, the right hint; Product is unaffected 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator:  locator('#stage-hint')
+    Expected: "Drag to spin · scroll to zoom · right-drag to pan"
+    Received: "Drag to spin product · scroll to zoom · right-drag / two-finger to pan"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveText" locator('#stage-hint') with timeout 5000ms
+      - waiting for locator('#stage-hint')
+        14 × locator resolved to <p class="hint" id="stage-hint">Drag to spin product · scroll to zoom · right-dra…</p>
+           - unexpected value "Drag to spin product · scroll to zoom · right-drag / two-finger to pan"
+
+
+      128 |   expect(await stage(page)).toMatchObject({ workspace: 'catalog', mode: 'catalog', turntable: true });
+      129 |   await expect(page.locator('#stage-empty')).toBeHidden();
+    > 130 |   await expect(page.locator('#stage-hint')).toHaveText('Drag to spin · scroll to zoom · right-drag to pan');
+          |                                             ^
+      131 |
+      132 |   await page.click('#workspace-mode button[data-mode=room]');
+      133 |   // No chair on the stage, a card over it, and the hint for this state (deck §3.3).
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.ALQi0s/tests/e2e/feedback-and-guards.spec.ts:130:45
+
+    Error Context: tests/e2e/screenshots/feedback-and-guards-Room-w-2aab3--hint-Product-is-unaffected/error-context.md
+
+  2) tests/e2e/feedback-and-guards.spec.ts:193:5 › Clear room asks first: Keep room changes nothing; confirming empties the room, stays in Room, and a reload after an Export stays empty 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      209 |     return { narrower: clear.width < create.width * 0.6, gap: clear.top - create.bottom };
+      210 |   });
+    > 211 |   expect(button.narrower).toBe(true);
+          |                           ^
+      212 |   expect(button.gap).toBeGreaterThan(100);
+      213 |
+      214 |   // Ask, with the counts (deck §5).
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.ALQi0s/tests/e2e/feedback-and-guards.spec.ts:211:27
+
+    Error Context: tests/e2e/screenshots/feedback-and-guards-Clear--0858a-after-an-Export-stays-empty/error-context.md
+
+  3) tests/e2e/feedback-and-guards.spec.ts:260:5 › replacing a room that has work in it asks first; an untouched room is replaced without a question; Delete template asks 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('dialog.confirm-dialog')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('dialog.confirm-dialog') with timeout 5000ms
+      - waiting for locator('dialog.confirm-dialog')
+
+
+      275 |   // Create room over it.
+      276 |   await page.click('#btn-create-room');
+    > 277 |   await expect(dialog).toBeVisible();
+          |                        ^
+      278 |   await expect(dialog.locator('.app-dialog-title')).toHaveText('Replace your current room?');
+      279 |   await expect(dialog.locator('.confirm-body')).toContainText('its 1 placed product will be replaced');
+      280 |   await expect(page.locator(CONFIRM)).toHaveText('Replace room');
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.ALQi0s/tests/e2e/feedback-and-guards.spec.ts:277:24
+
+    Error Context: tests/e2e/screenshots/feedback-and-guards-replac-ddbe2-estion-Delete-template-asks/error-context.md
+
+  4) tests/e2e/feedback-and-guards.spec.ts:332:5 › Place mode answers on the stage: fixed tool labels, a state chip, a toast for a missed click, and nothing is placed outside the room 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 3
+    + Received  + 3
+
+      Array [
+    -   "Add opening",
+    -   "Place product",
+    -   "Draw walls",
+    +   "Click wall to mark opening",
+    +   "Click floor to place product",
+    +   "Draw walls mode",
+      ]
+
+      345 |       ['btn-opening-mode', 'btn-place-mode', 'btn-draw-wall-mode'].map((id) => document.getElementById(id)!.textContent),
+      346 |     );
+    > 347 |   expect(await labels()).toEqual(['Add opening', 'Place product', 'Draw walls']);
+          |                          ^
+      348 |   await expect(hint).not.toHaveAttribute('data-tool');
+      349 |   await page.click('#btn-place-mode');
+      350 |   await expect(page.locator('#btn-place-mode')).toHaveAttribute('aria-pressed', 'true');
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.ALQi0s/tests/e2e/feedback-and-guards.spec.ts:347:26
+
+    Error Context: tests/e2e/screenshots/feedback-and-guards-Place--b7caa--is-placed-outside-the-room/error-context.md
+
+  5) tests/e2e/feedback-and-guards.spec.ts:439:5 › a project file can be opened in the Room workspace before any room exists, and its placed product comes back 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 1
+
+      Object {
+        "openings": 0,
+    -   "placements": 1,
+    +   "placements": 0,
+      }
+
+    Call Log:
+    - Timeout 15000ms exceeded while waiting on the predicate
+
+      448 |   const floorPx = await toClient(page, 0.8, 0, -0.5);
+      449 |   await page.mouse.click(floorPx.x, floorPx.y);
+    > 450 |   await expect.poll(() => counts(page), { timeout: 15_000 }).toEqual({ placements: 1, openings: 0 });
+          |                                                              ^
+      451 |   const [download] = await Promise.all([page.waitForEvent('download'), page.click('#btn-export-project')]);
+      452 |   const file = await download.path();
+      453 |
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.ALQi0s/tests/e2e/feedback-and-guards.spec.ts:450:62
+
+    Error Context: tests/e2e/screenshots/feedback-and-guards-a-proj-94c53-s-placed-product-comes-back/error-context.md
+
+  6) tests/e2e/feedback-and-guards.spec.ts:487:5 › choosing only a wall finish leaves the floor as it was, and the other way round 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "#b9b0a2 room:floor"
+    Received: "#ffffff room:floor:default"
+
+      507 |     .not.toBe('');
+      508 |   const wallOnly = await shell();
+    > 509 |   expect(wallOnly.floor).toBe(untouched.floor);
+          |                          ^
+      510 |   expect(wallOnly.wall).not.toBe(untouched.wall);
+      511 |
+      512 |   await page.selectOption('#room-wall-material', '');
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.ALQi0s/tests/e2e/feedback-and-guards.spec.ts:509:26
+
+    Error Context: tests/e2e/screenshots/feedback-and-guards-choosi-d86b3-was-and-the-other-way-round/error-context.md
+
+  6 failed
+    tests/e2e/feedback-and-guards.spec.ts:119:5 › Room workspace with no room: empty stage, a card with four ways to start, the right hint; Product is unaffected 
+    tests/e2e/feedback-and-guards.spec.ts:193:5 › Clear room asks first: Keep room changes nothing; confirming empties the room, stays in Room, and a reload after an Export stays empty 
+    tests/e2e/feedback-and-guards.spec.ts:260:5 › replacing a room that has work in it asks first; an untouched room is replaced without a question; Delete template asks 
+    tests/e2e/feedback-and-guards.spec.ts:332:5 › Place mode answers on the stage: fixed tool labels, a state chip, a toast for a missed click, and nothing is placed outside the room 
+    tests/e2e/feedback-and-guards.spec.ts:439:5 › a project file can be opened in the Room workspace before any room exists, and its placed product comes back 
+    tests/e2e/feedback-and-guards.spec.ts:487:5 › choosing only a wall finish leaves the floor as it was, and the other way round 

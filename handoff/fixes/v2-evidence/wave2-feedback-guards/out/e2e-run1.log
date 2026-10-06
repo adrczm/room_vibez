@@ -1,0 +1,125 @@
+run-e2e: specs from /Users/adrian/Desktop/Room Vibez/v2/hackathon-3d-viewer against http://127.0.0.1:18777; run dir /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.Npdlvl
+
+Running 26 tests using 1 worker
+
+  ✘   1 tests/e2e/dwg-plan-import.spec.ts:18:5 › DWG plan import: mock fixture → confirm → immediate room + template (1.0m)
+  ✘   2 tests/e2e/missing-features.spec.ts:15:5 › missing features: undo, materials, snap, export, underlay path (18.4s)
+  ✓   3 tests/e2e/room-floor-visible.spec.ts:91:7 › floor is visible on arrival at 1440×900 (no camera input) (10.5s)
+  ✓   4 tests/e2e/room-floor-visible.spec.ts:91:7 › floor is visible on arrival at 375×812 (no camera input) (6.2s)
+  ✓   5 tests/e2e/room-floor-visible.spec.ts:132:5 › cutaway is what uncovers the near floor; hidden walls and their openings do not catch clicks (8.3s)
+  ✓   6 tests/e2e/room-floor-visible.spec.ts:194:5 › a ceiling switched on by the host is hidden while the camera is above it (6.8s)
+  ✓   7 tests/e2e/room-from-scratch.spec.ts:12:5 › room from scratch: create, opening cutout, place catalog GLB (11.1s)
+  ✓   8 tests/e2e/room-place-bounds.spec.ts:29:5 › place mode: void and under-wall clicks add nothing, a floor click places inside the room (9.4s)
+  ✓   9 tests/e2e/room-place-bounds.spec.ts:114:5 › a pick in the same tick as a room rebuild is tested against the rebuilt room (6.5s)
+  ✘  10 tests/e2e/room-placement-engine.spec.ts:92:5 › UX-09 engine: placement hits, pose changes and the highlight (6.9s)
+  ✓  11 tests/e2e/room-placement-engine.spec.ts:232:5 › UX-16 step 1: applySlotBindings puts the chosen finish on a placed product (10.5s)
+  ✓  12 tests/e2e/room-product-stage.spec.ts:72:5 › QA-05: picking a product with a room on stage leaves the camera alone (9.8s)
+  ✓  13 tests/e2e/room-product-stage.spec.ts:122:5 › QA-05: a product loaded off stage is framed as soon as the turntable is shown again (7.5s)
+  ✓  14 tests/e2e/room-product-stage.spec.ts:139:5 › UX-06 engine: without the opt-in, a room mode with no room still shows the product (5.1s)
+  ✓  15 tests/e2e/room-product-stage.spec.ts:161:5 › UX-06 engine: with the opt-in, an empty Room stage has no product; Product always has it (8.8s)
+  ✓  16 tests/e2e/trust-fixes.spec.ts:69:5 › room tools: a second click switches the tool off, Esc leaves it, and neither a tool nor a tab moves the camera (5.0s)
+  ✓  17 tests/e2e/trust-fixes.spec.ts:136:5 › room size: the fields win over the preset, and typing in one flips the preset to Custom (3.1s)
+  ✓  18 tests/e2e/trust-fixes.spec.ts:152:5 › room units: switching to cm converts the fields and their limits; the walls are still 0.12 m thick (3.1s)
+  ✓  19 tests/e2e/trust-fixes.spec.ts:199:5 › Cmd/Ctrl+Z typed in a field undoes the typing, not the room (4.4s)
+  ✓  20 tests/e2e/trust-fixes.spec.ts:231:5 › nothing marked hidden is displayed, and room-only buttons wait for a room (3.0s)
+  ✓  21 tests/e2e/viewer.spec.ts:24:5 › viewer loads, swaps slot materials, switches presets, remounts cleanly (11.1s)
+  ✓  22 tests/e2e/viewer.spec.ts:98:5 › mobile layout has no horizontal scroll (2.8s)
+  ✓  23 tests/e2e/model-display-cold-load.spec.ts:77:5 › cold load shows demo GLB pixels + meshes even with persisted roomGraph (11.4s)
+  ✓  24 tests/e2e/model-display-cold-load.spec.ts:142:5 › cold load without persistence shows lounge chair (3.0s)
+  ✓  25 tests/e2e/model-display.spec.ts:44:5 › product GLB visible after room create → Product workspace (13.5s)
+  ✓  26 tests/e2e/room-floor-extent.spec.ts:22:5 › room floor outer footprint matches walls and ground is hidden (10.4s)
+
+
+  1) tests/e2e/dwg-plan-import.spec.ts:18:5 › DWG plan import: mock fixture → confirm → immediate room + template 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: page.click: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for locator('#room-ingress button[data-ingress=import]')
+        - locator resolved to <button role="radio" type="button" aria-checked="true" data-ingress="import">Import plan</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <dialog open="" role="alertdialog" data-destructive="true" class="app-dialog confirm-dialog" aria-labelledby="confirm-dialog-title-1" aria-describedby="confirm-dialog-body-1">…</dialog> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <dialog open="" role="alertdialog" data-destructive="true" class="app-dialog confirm-dialog" aria-labelledby="confirm-dialog-title-1" aria-describedby="confirm-dialog-body-1">…</dialog> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        88 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <dialog open="" role="alertdialog" data-destructive="true" class="app-dialog confirm-dialog" aria-labelledby="confirm-dialog-title-1" aria-describedby="confirm-dialog-body-1">…</dialog> intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+
+
+      88 |   });
+      89 |   await page.click('#btn-clear-room');
+    > 90 |   await page.click('#room-ingress button[data-ingress=import]');
+         |              ^
+      91 |   await page.click('#btn-import-fixture');
+      92 |   await expect(page.locator('#import-review')).toBeVisible({ timeout: 10_000 });
+      93 |   await page.click('#btn-import-save-template');
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.Npdlvl/tests/e2e/dwg-plan-import.spec.ts:90:14
+
+    Error Context: tests/e2e/screenshots/dwg-plan-import-DWG-plan-i-df563-m-→-immediate-room-template/error-context.md
+
+  2) tests/e2e/missing-features.spec.ts:15:5 › missing features: undo, materials, snap, export, underlay path 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 0
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      111 |   await expect
+      112 |     .poll(async () => page.evaluate(() => window.__rv.roomGraph()?.underlay?.uri ? 1 : 0))
+    > 113 |     .toBe(1);
+          |      ^
+      114 |   await page.waitForTimeout(400);
+      115 |   await page.screenshot({ path: path.join(MEDIA, '02-underlay-confirm.png'), fullPage: true });
+      116 |
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.Npdlvl/tests/e2e/missing-features.spec.ts:113:6
+
+    Error Context: tests/e2e/screenshots/missing-features-missing-f-09ac6-s-snap-export-underlay-path/error-context.md
+
+  3) tests/e2e/room-placement-engine.spec.ts:92:5 › UX-09 engine: placement hits, pose changes and the highlight 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 0
+
+      Array [
+        "room",
+        "room",
+    -   "room",
+      ]
+
+      125 |   await page.mouse.click(box.x + 40, box.y + box.height - 60);
+      126 |   const hits = await page.evaluate(() => (window as any).__hits as { hit: any; mode: string }[]);
+    > 127 |   expect(hits.map((h) => h.mode)).toEqual(['room', 'room', 'room']);
+          |                                   ^
+      128 |   expect(hits[0]!.hit).toMatchObject({ kind: 'placement', placementId: chair });
+      129 |   expect(hits[1]!.hit.kind).toBe('floor');
+      130 |   expect(hits[2]!.hit).toBeNull();
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.Npdlvl/tests/e2e/room-placement-engine.spec.ts:127:35
+
+    Error Context: tests/e2e/screenshots/room-placement-engine-UX-0-715c4-e-changes-and-the-highlight/error-context.md
+
+  3 failed
+    tests/e2e/dwg-plan-import.spec.ts:18:5 › DWG plan import: mock fixture → confirm → immediate room + template 
+    tests/e2e/missing-features.spec.ts:15:5 › missing features: undo, materials, snap, export, underlay path 
+    tests/e2e/room-placement-engine.spec.ts:92:5 › UX-09 engine: placement hits, pose changes and the highlight 
+  23 passed (4.4m)

@@ -1,0 +1,123 @@
+{
+  "finish": {
+    "cardSays": "Walnut",
+    "turntable": {
+      "frame": "wood-walnut",
+      "handles": "plastic-black",
+      "pillow": "wool-cream"
+    },
+    "byClick": {
+      "bindings": {
+        "frame": "wood-oak",
+        "handles": "plastic-black",
+        "pillow": "wool-cream"
+      },
+      "meshes": {
+        "frame": [
+          "embedded:placeholder_frame|#e7e7e7|no-map"
+        ],
+        "handles": [
+          "embedded:placeholder_handles|#e7e7e7|no-map"
+        ],
+        "pillow": [
+          "embedded:placeholder_pillow|#e7e7e7|no-map"
+        ]
+      }
+    },
+    "byAddToRoom": {
+      "bindings": {
+        "frame": "wood-oak",
+        "handles": "plastic-black",
+        "pillow": "wool-cream"
+      },
+      "meshes": {
+        "frame": [
+          "embedded:placeholder_frame|#e7e7e7|no-map"
+        ],
+        "handles": [
+          "embedded:placeholder_handles|#e7e7e7|no-map"
+        ],
+        "pillow": [
+          "embedded:placeholder_pillow|#e7e7e7|no-map"
+        ]
+      }
+    },
+    "materialsCardVisibleInRoom": false,
+    "afterReload": {
+      "bindings": {
+        "frame": "wood-oak",
+        "handles": "plastic-black",
+        "pillow": "wool-cream"
+      },
+      "meshes": {
+        "frame": [
+          "embedded:placeholder_frame|#e7e7e7|no-map"
+        ],
+        "handles": [
+          "embedded:placeholder_handles|#e7e7e7|no-map"
+        ],
+        "pillow": [
+          "embedded:placeholder_pillow|#e7e7e7|no-map"
+        ]
+      }
+    }
+  },
+  "selection": {
+    "rows": [
+      {
+        "text": "Lounge chair (demo)",
+        "buttons": [
+          "Delete"
+        ],
+        "ariaCurrent": null
+      },
+      {
+        "text": "Lounge chair (demo)",
+        "buttons": [
+          "Delete"
+        ],
+        "ariaCurrent": null
+      }
+    ],
+    "clickPointFound": true,
+    "afterClick": {
+      "highlight": null,
+      "ariaCurrentRows": 0,
+      "hint": "Drag to orbit · scroll to zoom · right-drag to pan",
+      "keysChangedAnything": false
+    }
+  },
+  "errorsA": [],
+  "upload": {
+    "uploaded": {
+      "id": "upload-muvonli3",
+      "name": "side-table",
+      "sku": "STUB-SKU-UPLOAD-UPLOAD-MUVONLI3"
+    },
+    "beforeRows": [
+      "side-tableDelete"
+    ],
+    "afterReload": {
+      "placements": [
+        {
+          "product_id": "upload-muvonli3",
+          "sku_id": "STUB-SKU-UPLOAD-UPLOAD-MUVONLI3",
+          "asset_ref": "blob:http://127.0.0.",
+          "hasRoot": false
+        }
+      ],
+      "rows": [
+        "STUB-SKU-UPLOAD-UPLOAD-MUVONLI3Delete"
+      ],
+      "toastOpen": "false",
+      "toastText": "",
+      "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 1 placement(s) · authored",
+      "inCatalog": [
+        "demo-lounge-chair",
+        "demo-side-table"
+      ]
+    },
+    "consoleAfterReload": []
+  },
+  "errorsC": []
+}

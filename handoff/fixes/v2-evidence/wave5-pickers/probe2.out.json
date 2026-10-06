@@ -1,0 +1,42 @@
+[
+ {
+  "seenReadyMs": 8138,
+  "readyAt": 5760,
+  "lastRenderMs": 2367,
+  "longAfterReady": [
+   {
+    "start": 5770,
+    "dur": 2357
+   }
+  ],
+  "longBefore": 5282
+ },
+ {
+  "seenReadyMs": 4452,
+  "readyAt": 1976,
+  "lastRenderMs": 2468,
+  "longAfterReady": [
+   {
+    "start": 1980,
+    "dur": 100
+   },
+   {
+    "start": 2083,
+    "dur": 2362
+   }
+  ],
+  "longBefore": 1534
+ },
+ {
+  "seenReadyMs": 4022,
+  "readyAt": 1669,
+  "lastRenderMs": 2343,
+  "longAfterReady": [
+   {
+    "start": 1678,
+    "dur": 2336
+   }
+  ],
+  "longBefore": 1296
+ }
+]

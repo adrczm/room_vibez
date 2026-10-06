@@ -1,0 +1,49 @@
+{
+ "files": [
+  "stool.mtl",
+  "stool.obj",
+  "stool.slots.json",
+  "wood.png"
+ ],
+ "product": {
+  "id": "upload-obj-muvs2jzv",
+  "name": "stool",
+  "slotTagging": "obj-usemtl (top, legs)",
+  "slots": 2,
+  "preserve": false,
+  "hasResourceMap": false
+ },
+ "status": "Added “stool” · 2 slot(s) · 2 MTL material(s) in library · session only · Slots from usemtl/groups + sidecar: top, legs",
+ "tiles": [
+  {
+   "text": "Lounge chair (demo)",
+   "kind": "thumb"
+  },
+  {
+   "text": "Side table (demo)",
+   "kind": "thumb"
+  },
+  {
+   "text": "stool | your upload",
+   "kind": "thumb"
+  }
+ ],
+ "stats": {
+  "contextAlive": true,
+  "contextsCreated": 1,
+  "renders": 3,
+  "cached": 3,
+  "pending": 0,
+  "lastRenderMs": 490.80000001192093,
+  "geometries": 11,
+  "textures": 6
+ },
+ "chairPixels": {
+  "size": 192,
+  "bytes": 28026,
+  "opaqueShare": 0.254,
+  "warmShare": 0.656,
+  "darkShare": 0.034
+ },
+ "errors": []
+}

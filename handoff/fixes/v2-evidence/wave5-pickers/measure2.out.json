@@ -1,0 +1,225 @@
+{
+ "chrome": "154.0.8037.97",
+ "1440x900 product": {
+  "panel": [
+   103,
+   884
+  ],
+  "panelScrollTop": 0,
+  "panelScrollHeight": 1274,
+  "scrollY": 0,
+  "card": [
+   235,
+   725
+  ],
+  "cardH": 491,
+  "slotsH": 432,
+  "slotsTopScreens": 0.31,
+  "slotsBottomScreens": 0.789,
+  "trigger": [
+   146,
+   182
+  ],
+  "add": null,
+  "place": null,
+  "pxBelowFold": {
+   "add": null,
+   "place": null
+  },
+  "rows": [
+   56,
+   119,
+   56
+  ]
+ },
+ "1440x900 room place (chair)": {
+  "panel": [
+   119,
+   884
+  ],
+  "panelScrollTop": 382,
+  "panelScrollHeight": 1439,
+  "scrollY": 0,
+  "card": [
+   215,
+   721
+  ],
+  "cardH": 506,
+  "slotsH": 432,
+  "slotsTopScreens": 0.309,
+  "slotsBottomScreens": 0.789,
+  "trigger": [
+   171,
+   207
+  ],
+  "add": [
+   763,
+   796
+  ],
+  "place": [
+   804,
+   837
+  ],
+  "pxBelowFold": {
+   "add": 0,
+   "place": 0
+  },
+  "rows": [
+   56,
+   119,
+   56
+  ]
+ },
+ "1280x800 product": {
+  "panel": [
+   103,
+   784
+  ],
+  "panelScrollTop": 0,
+  "panelScrollHeight": 1274,
+  "scrollY": 0,
+  "card": [
+   235,
+   725
+  ],
+  "cardH": 491,
+  "slotsH": 432,
+  "slotsTopScreens": 0.348,
+  "slotsBottomScreens": 0.888,
+  "trigger": [
+   146,
+   182
+  ],
+  "add": null,
+  "place": null,
+  "pxBelowFold": {
+   "add": null,
+   "place": null
+  },
+  "rows": [
+   56,
+   119,
+   56
+  ]
+ },
+ "1280x800 room place (chair)": {
+  "panel": [
+   119,
+   784
+  ],
+  "panelScrollTop": 382,
+  "panelScrollHeight": 1439,
+  "scrollY": 0,
+  "card": [
+   215,
+   721
+  ],
+  "cardH": 506,
+  "slotsH": 432,
+  "slotsTopScreens": 0.348,
+  "slotsBottomScreens": 0.888,
+  "trigger": [
+   171,
+   207
+  ],
+  "add": [
+   763,
+   796
+  ],
+  "place": [
+   804,
+   837
+  ],
+  "pxBelowFold": {
+   "add": 12,
+   "place": 53
+  },
+  "rows": [
+   56,
+   119,
+   56
+  ]
+ },
+ "375x812 product": {
+  "panel": [
+   632,
+   800
+  ],
+  "panelScrollTop": 0,
+  "panelScrollHeight": 1322,
+  "scrollY": 0,
+  "card": [
+   772,
+   1302
+  ],
+  "cardH": 531,
+  "slotsH": 472,
+  "slotsTopScreens": 1.004,
+  "slotsBottomScreens": 1.585,
+  "trigger": [
+   675,
+   719
+  ],
+  "add": null,
+  "place": null,
+  "pxBelowFold": {
+   "add": null,
+   "place": null
+  },
+  "rows": [
+   66,
+   139,
+   66
+  ]
+ },
+ "375x812 product, names/44px/trigger switched off in the page": {
+  "panel": [
+   632,
+   800
+  ],
+  "panelScrollTop": 0,
+  "panelScrollHeight": 1144,
+  "scrollY": 0,
+  "card": [
+   762,
+   1124
+  ],
+  "cardH": 362,
+  "slotsH": 303,
+  "slotsTopScreens": 0.992,
+  "slotsBottomScreens": 1.366,
+  "trigger": [
+   675,
+   709
+  ],
+  "add": null,
+  "place": null,
+  "pxBelowFold": {
+   "add": null,
+   "place": null
+  },
+  "rows": [
+   34,
+   34,
+   34
+  ]
+ },
+ "pack 1440x900": {
+  "slots": 5,
+  "tilesPerSlot": [
+   13,
+   13,
+   13,
+   13,
+   13
+  ],
+  "rowHeights": [
+   310,
+   310,
+   310,
+   310,
+   310
+  ],
+  "cardH": 2398
+ }
+}

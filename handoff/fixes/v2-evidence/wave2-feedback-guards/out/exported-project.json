@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "exported_at": "2026-10-05T14:05:04.411Z",
+  "label": "Living",
+  "room_graph": {
+    "schema_version": 1,
+    "units": "m",
+    "rooms": [
+      {
+        "id": "room_muvbnhol_1",
+        "name": "Living",
+        "floor_polygon": [
+          {
+            "x": -2.5,
+            "z": -2
+          },
+          {
+            "x": 2.5,
+            "z": -2
+          },
+          {
+            "x": 2.5,
+            "z": 2
+          },
+          {
+            "x": -2.5,
+            "z": 2
+          }
+        ],
+        "ceiling_height": 2.7,
+        "wall_ids": [
+          "wall_muvbnhol_2",
+          "wall_muvbnhol_3",
+          "wall_muvbnhol_4",
+          "wall_muvbnhol_5"
+        ]
+      }
+    ],
+    "walls": [
+      {
+        "id": "wall_muvbnhol_2",
+        "a": {
+          "x": -2.5,
+          "z": -2
+        },
+        "b": {
+          "x": 2.5,
+          "z": -2
+        },
+        "thickness": 0.12,
+        "height": 2.7,
+        "connected_room_ids": [
+          "room_muvbnhol_1"
+        ]
+      },
+      {
+        "id": "wall_muvbnhol_3",
+        "a": {
+          "x": 2.5,
+          "z": -2
+        },
+        "b": {
+          "x": 2.5,
+          "z": 2
+        },
+        "thickness": 0.12,
+        "height": 2.7,
+        "connected_room_ids": [
+          "room_muvbnhol_1"
+        ]
+      },
+      {
+        "id": "wall_muvbnhol_4",
+        "a": {
+          "x": 2.5,
+          "z": 2
+        },
+        "b": {
+          "x": -2.5,
+          "z": 2
+        },
+        "thickness": 0.12,
+        "height": 2.7,
+        "connected_room_ids": [
+          "room_muvbnhol_1"
+        ]
+      },
+      {
+        "id": "wall_muvbnhol_5",
+        "a": {
+          "x": -2.5,
+          "z": 2
+        },
+        "b": {
+          "x": -2.5,
+          "z": -2
+        },
+        "thickness": 0.12,
+        "height": 2.7,
+        "connected_room_ids": [
+          "room_muvbnhol_1"
+        ]
+      }
+    ],
+    "openings": [],
+    "placements": [
+      {
+        "id": "place_muvbni8l_6",
+        "sku_id": "STUB-SKU-CHAIR-001",
+        "asset_ref": "/assets/models/lounge-chair.glb",
+        "product_id": "demo-lounge-chair",
+        "position": {
+          "x": 0.7990533600884149,
+          "y": 0,
+          "z": -0.5014949913055471
+        },
+        "rotation_y": 0,
+        "scale": 1,
+        "slot_bindings": {
+          "frame": "wood-oak",
+          "handles": "plastic-black",
+          "pillow": "wool-cream"
+        }
+      }
+    ],
+    "source_assets": [],
+    "provenance": {
+      "kind": "authored",
+      "confirm_status": "confirmed"
+    },
+    "display_unit": "m",
+    "label": "Living"
+  },
+  "templates": [],
+  "note": "Local Catalog 3D project export — not a cloud project. Session Object URLs for uploads are not embedded."
+}

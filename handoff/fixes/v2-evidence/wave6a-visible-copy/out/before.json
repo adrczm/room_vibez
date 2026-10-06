@@ -1,0 +1,265 @@
+{
+  "topbar": {
+    "1440x900": {
+      "product": {
+        "topbar": 86.578125,
+        "hintLines": 16,
+        "stageTop": 103
+      },
+      "room": {
+        "topbar": 102.765625,
+        "hintLines": 32,
+        "stageTop": 119
+      }
+    },
+    "1024x768": {
+      "product": {
+        "topbar": 86.578125,
+        "hintLines": 16,
+        "stageTop": 103
+      },
+      "room": {
+        "topbar": 102.765625,
+        "hintLines": 32,
+        "stageTop": 119
+      }
+    },
+    "860x800": {
+      "product": {
+        "topbar": 86.578125,
+        "hintLines": 16,
+        "stageTop": 99
+      },
+      "room": {
+        "topbar": 102.765625,
+        "hintLines": 32,
+        "stageTop": 115
+      }
+    },
+    "721x800": {
+      "product": {
+        "topbar": 86.578125,
+        "hintLines": 16,
+        "stageTop": 99
+      },
+      "room": {
+        "topbar": 102.765625,
+        "hintLines": 32,
+        "stageTop": 115
+      }
+    },
+    "375x812": {
+      "product": {
+        "topbar": 148.8125,
+        "hintLines": 16,
+        "stageTop": 161
+      },
+      "room": {
+        "topbar": 165,
+        "hintLines": 32,
+        "stageTop": 177
+      }
+    },
+    "320x568": {
+      "product": {
+        "topbar": 165,
+        "hintLines": 32,
+        "stageTop": 177
+      },
+      "room": {
+        "topbar": 165,
+        "hintLines": 32,
+        "stageTop": 177
+      }
+    }
+  },
+  "vocab": {
+    "product": {
+      "test": true,
+      "count": 11,
+      "matches": [
+        {
+          "match": "STUB",
+          "line": "STUB-SKU-CHAIR-001 · slots tagged via gltf-extras"
+        },
+        {
+          "match": "material_slot_id",
+          "line": "material_slot_id: frame · 10 mesh(es) · via extras"
+        },
+        {
+          "match": "material_slot_id",
+          "line": "material_slot_id: handles · 2 mesh(es) · via extras"
+        },
+        {
+          "match": "material_slot_id",
+          "line": "material_slot_id: pillow · 2 mesh(es) · via extras"
+        },
+        {
+          "match": "Polyfork",
+          "line": "Adds to the product list (does not replace demos). Prefer self-contained .glb; multi-file .gltf + companions OK. OBJ packages: select .obj with .mtl + texture m"
+        },
+        {
+          "match": "stub",
+          "line": "stub · onPartListUpdate"
+        },
+        {
+          "match": "stub",
+          "line": "\"stub\": true,"
+        },
+        {
+          "match": "STUB",
+          "line": "\"productSku\": \"STUB-SKU-CHAIR-001\","
+        },
+        {
+          "match": "STUB",
+          "line": "\"materialSku\": \"STUB-MAT-WOOD-OAK\","
+        },
+        {
+          "match": "STUB",
+          "line": "\"materialSku\": \"STUB-MAT-PL-BLK\","
+        },
+        {
+          "match": "STUB",
+          "line": "\"materialSku\": \"STUB-MAT-WL-CRM\","
+        }
+      ],
+      "sPlurals": []
+    },
+    "roomEmpty": {
+      "test": true,
+      "count": 3,
+      "matches": [
+        {
+          "match": "MVP",
+          "line": "MVP"
+        },
+        {
+          "match": "SoT",
+          "line": "Three create paths → same owned room graph → Catalog 3D GLB on the floor. Graph JSON is SoT (session + localStorage). DWG is never Three.js SoT."
+        },
+        {
+          "match": "SoT",
+          "line": "Three create paths → same owned room graph → Catalog 3D GLB on the floor. Graph JSON is SoT (session + localStorage). DWG is never Three.js SoT."
+        }
+      ],
+      "sPlurals": []
+    },
+    "importReview": {
+      "test": true,
+      "count": 19,
+      "matches": [
+        {
+          "match": "MVP",
+          "line": "MVP"
+        },
+        {
+          "match": "SoT",
+          "line": "Three create paths → same owned room graph → Catalog 3D GLB on the floor. Graph JSON is SoT (session + localStorage). DWG is never Three.js SoT."
+        },
+        {
+          "match": "SoT",
+          "line": "Three create paths → same owned room graph → Catalog 3D GLB on the floor. Graph JSON is SoT (session + localStorage). DWG is never Three.js SoT."
+        },
+        {
+          "match": "mock",
+          "line": "Import plan mock extract"
+        },
+        {
+          "match": "candidates",
+          "line": "Upload DWG/DXF (kept as SourceAsset), a JSON candidates payload, or a JPG/PNG/WebP underlay. Raster underlays require human confirm of width/depth before the ro"
+        },
+        {
+          "match": "mock",
+          "line": "Upload DWG/DXF (kept as SourceAsset), a JSON candidates payload, or a JPG/PNG/WebP underlay. Raster underlays require human confirm of width/depth before the ro"
+        },
+        {
+          "match": "fixture",
+          "line": "Upload DWG/DXF (kept as SourceAsset), a JSON candidates payload, or a JPG/PNG/WebP underlay. Raster underlays require human confirm of width/depth before the ro"
+        },
+        {
+          "match": "candidates",
+          "line": "Upload & derive candidates"
+        },
+        {
+          "match": "mock",
+          "line": "Load mock fixture"
+        },
+        {
+          "match": "fixture",
+          "line": "Load mock fixture"
+        },
+        {
+          "match": "fixture",
+          "line": "Job import_muvsz7rb_2 · source mock_fixture:sample-plan.candidates.json · scale ×1.000"
+        },
+        {
+          "match": "candidates",
+          "line": "Job import_muvsz7rb_2 · source mock_fixture:sample-plan.candidates.json · scale ×1.000"
+        },
+        {
+          "match": "fixture",
+          "line": "[mock_fixture] ODA available: no — ODA Drawings / APS Model Derivative not available on this machine. Candidates are a labeled mock fixture — not parsed from re"
+        },
+        {
+          "match": "Candidates",
+          "line": "[mock_fixture] ODA available: no — ODA Drawings / APS Model Derivative not available on this machine. Candidates are a labeled mock fixture — not parsed from re"
+        },
+        {
+          "match": "mock",
+          "line": "[mock_fixture] ODA available: no — ODA Drawings / APS Model Derivative not available on this machine. Candidates are a labeled mock fixture — not parsed from re"
+        },
+        {
+          "match": "fixture",
+          "line": "[mock_fixture] ODA available: no — ODA Drawings / APS Model Derivative not available on this machine. Candidates are a labeled mock fixture — not parsed from re"
+        },
+        {
+          "match": "candidates",
+          "line": "Wall candidates"
+        },
+        {
+          "match": "candidates",
+          "line": "Opening candidates"
+        },
+        {
+          "match": "candidates",
+          "line": "Room candidates"
+        }
+      ],
+      "sPlurals": []
+    },
+    "roomWithProduct": {
+      "test": true,
+      "count": 6,
+      "matches": [
+        {
+          "match": "MVP",
+          "line": "MVP"
+        },
+        {
+          "match": "SoT",
+          "line": "Three create paths → same owned room graph → Catalog 3D GLB on the floor. Graph JSON is SoT (session + localStorage). DWG is never Three.js SoT."
+        },
+        {
+          "match": "SoT",
+          "line": "Three create paths → same owned room graph → Catalog 3D GLB on the floor. Graph JSON is SoT (session + localStorage). DWG is never Three.js SoT."
+        },
+        {
+          "match": "material_slot_id",
+          "line": "material_slot_id: frame · 10 mesh(es) · via extras"
+        },
+        {
+          "match": "material_slot_id",
+          "line": "material_slot_id: handles · 2 mesh(es) · via extras"
+        },
+        {
+          "match": "material_slot_id",
+          "line": "material_slot_id: pillow · 2 mesh(es) · via extras"
+        }
+      ],
+      "sPlurals": [
+        "opening(s)",
+        "placement(s)"
+      ]
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+ "atLoad": {
+  "consoleMsgs": [
+   "warning: Scripts \"build/three.js\" and \"build/three.min.js\" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation"
+  ],
+  "pageErrors": [],
+  "failed": []
+ },
+ "afterClickThrough": {
+  "consoleMsgs": [
+   "warning: Scripts \"build/three.js\" and \"build/three.min.js\" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation",
+   "warning: [.WebGL-0x10c000d6e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+   "warning: [.WebGL-0x10c000d6e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+   "warning: [.WebGL-0x10c000d6e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+   "warning: [.WebGL-0x10c000d6e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+  ],
+  "pageErrors": [],
+  "failed": []
+ },
+ "externalHosts": [
+  "fonts.googleapis.com",
+  "unpkg.com",
+  "fonts.gstatic.com"
+ ],
+ "screen": "screen-bom"
+}

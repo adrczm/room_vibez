@@ -1,0 +1,15 @@
+run-e2e: specs from /Users/adrian/Desktop/Room Vibez/v2/hackathon-3d-viewer against http://127.0.0.1:18777; run dir /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.b4C76z
+
+Running 9 tests using 1 worker
+
+  ✓  1 tests/e2e/panel-structure.spec.ts:112:5 › only the active workspace is rendered: the A2 check passes in every state, and no tab stop is in the hidden group (6.6s)
+  ✓  2 tests/e2e/panel-structure.spec.ts:170:5 › Product on arrival at 1440×900: Materials need no panel scroll, the light presets are on the stage, and a switch starts the panel at its top (5.8s)
+  ✓  3 tests/e2e/panel-structure.spec.ts:237:7 › small screen › 375×812 (QA-03): the 3D view is on screen on arrival, after Room workspace and after Create room (6.7s)
+  ✓  4 tests/e2e/panel-structure.spec.ts:278:5 › the Room workspace is four steps, one open at a time; Create room opens the next step and moves focus to its heading (6.2s)
+  ✓  5 tests/e2e/panel-structure.spec.ts:413:5 › one product picker: it is in the Product card in Product and in the Place products step in Room, and keeps its choice (3.4s)
+  ✓  6 tests/e2e/panel-structure.spec.ts:447:5 › Add to room places the selected product inside the room with no pointer: centre first, then a free spot; also from the keyboard (4.4s)
+  ✓  7 tests/e2e/panel-structure.spec.ts:518:5 › Add to room in an L-shaped room: the centre of its bounds is not on the floor, the product still lands on it (4.1s)
+  ✓  8 tests/e2e/panel-structure.spec.ts:549:5 › the room toolbar: Import project with or without a room; Undo, Redo and Export project only with one; one file input (5.2s)
+  ✓  9 tests/e2e/panel-structure.spec.ts:616:5 › an open toast does not block the canvas: a real click on the floor under it places the product, and its close button still works (4.9s)
+
+  9 passed (48.2s)

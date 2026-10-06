@@ -1,0 +1,361 @@
+{
+ "label": "after",
+ "at": "2026-10-05T15:09:58.992Z",
+ "1440x900": {
+  "productFresh": {
+   "ux": {
+    "viewport": [
+     1440,
+     900
+    ],
+    "mode": "catalog",
+    "panelClientH": 781,
+    "panelScrollH": 1144,
+    "slotsTopInPanel": 174,
+    "visibleFileInputs": 1,
+    "visibleFileInputIds": [
+     "model-files"
+    ],
+    "controlsUnder32px": 5,
+    "overflowX": 0,
+    "scrollbarMode": "overlay (0px)",
+    "panelScrollTop": 0,
+    "pageScrollY": 0,
+    "docScrollH": 900,
+    "topbarH": 87
+   },
+   "a2": {
+    "workspace": "catalog",
+    "rendered": []
+   },
+   "materials": {
+    "slotCount": 3,
+    "slotsFullyVisible": true,
+    "scrollNeededFirstSwatchRow": 0,
+    "scrollNeededAllSlots": 0,
+    "screensToSlotsTop": 0.31,
+    "screensToSlotsBottom": 0.64
+   },
+   "stage": {
+    "scrollY": 0,
+    "canvasVisiblePct": 100,
+    "stageTop": 103,
+    "stageH": 781
+   },
+   "tabStops": {
+    "total": 23,
+    "inInactiveGroup": 0,
+    "inHiddenSubtree": 0,
+    "first": "button \"Product\"",
+    "order": [
+     "-: button \"Product\"",
+     "-: button \"Room workspace\"",
+     "-: button#btn-reset \"Reset camera\"",
+     "-: button#btn-remount \"Dispose & remount\"",
+     "-: button \"Studio soft\"",
+     "-: button \"Warm interior\"",
+     "-: button \"Neutral (no IBL)\"",
+     "catalog: select#product-select \"Lounge chair (demo) Side tab\"",
+     "catalog: button \"Natural oak\"",
+     "catalog: button \"Walnut\"",
+     "catalog: button \"Black stained ash\"",
+     "catalog: button \"Matte black PP\"",
+     "catalog: button \"Gloss white ABS\"",
+     "catalog: button \"Sage PP\"",
+     "catalog: button \"Brushed brass\"",
+     "catalog: button \"Powder-coat black\"",
+     "catalog: button \"Chrome\"",
+     "catalog: button \"Wool — cream\"",
+     "catalog: button \"Wool — terracotta\"",
+     "catalog: button \"Wool — forest\"",
+     "catalog: input#model-files \"Upload GLB, glTF, or OBJ pac\"",
+     "catalog: summary#product-advanced-summary \"Advanced\"",
+     "catalog: pre#parts-list \"{ \"stub\": true, \"productId\":\""
+    ]
+   }
+  },
+  "roomNoRoom": {
+   "ux": {
+    "viewport": [
+     1440,
+     900
+    ],
+    "mode": "room",
+    "panelClientH": 765,
+    "panelScrollH": 861,
+    "slotsTopInPanel": -119,
+    "visibleFileInputs": 0,
+    "visibleFileInputIds": [],
+    "controlsUnder32px": 9,
+    "overflowX": 0,
+    "scrollbarMode": "overlay (0px)",
+    "panelScrollTop": 0,
+    "pageScrollY": 0,
+    "docScrollH": 900,
+    "topbarH": 103
+   },
+   "a2": {
+    "workspace": "room",
+    "rendered": []
+   },
+   "stage": {
+    "scrollY": 0,
+    "canvasVisiblePct": 100,
+    "stageTop": 119,
+    "stageH": 765
+   }
+  },
+  "roomWithRoom": {
+   "ux": {
+    "viewport": [
+     1440,
+     900
+    ],
+    "mode": "room",
+    "panelClientH": 765,
+    "panelScrollH": 919,
+    "slotsTopInPanel": -119,
+    "visibleFileInputs": 0,
+    "visibleFileInputIds": [],
+    "controlsUnder32px": 8,
+    "overflowX": 0,
+    "scrollbarMode": "overlay (0px)",
+    "panelScrollTop": 0,
+    "pageScrollY": 0,
+    "docScrollH": 900,
+    "topbarH": 103
+   },
+   "a2": {
+    "workspace": "room",
+    "rendered": []
+   },
+   "stage": {
+    "scrollY": 0,
+    "canvasVisiblePct": 100,
+    "stageTop": 119,
+    "stageH": 765
+   },
+   "tabStops": {
+    "total": 24,
+    "inInactiveGroup": 0,
+    "inHiddenSubtree": 0,
+    "first": "button \"Product\"",
+    "order": [
+     "-: button \"Product\"",
+     "-: button \"Room workspace\"",
+     "-: button#btn-reset \"Reset camera\"",
+     "-: button#btn-remount \"Dispose & remount\"",
+     "-: button \"Studio soft\"",
+     "-: button \"Warm interior\"",
+     "-: button \"Neutral (no IBL)\"",
+     "room: button#btn-export-project \"Export project\"",
+     "room: button#btn-import-project \"Import project\"",
+     "room: button \"1 Room\"",
+     "room: button#btn-step-room-change \"Change\"",
+     "room: summary#room-more-summary \"More\"",
+     "room: button \"2 Openings\"",
+     "room: button \"Door\"",
+     "room: button \"Window\"",
+     "room: input#opening-width \"0.9\"",
+     "room: input#opening-height \"2.1\"",
+     "room: input#opening-sill \"0\"",
+     "room: button#btn-opening-mode \"Add opening\"",
+     "room: button \"3 Place products\"",
+     "room: button \"4 Wall and floor finish\"",
+     "room: button#btn-download-plan \"Download plan PNG\"",
+     "room: button#btn-clear-room \"Clear room\"",
+     "room: summary \"Room graph JSON\""
+    ]
+   }
+  },
+  "productWithRoom": {
+   "ux": {
+    "viewport": [
+     1440,
+     900
+    ],
+    "mode": "catalog",
+    "panelClientH": 781,
+    "panelScrollH": 1144,
+    "slotsTopInPanel": 174,
+    "visibleFileInputs": 1,
+    "visibleFileInputIds": [
+     "model-files"
+    ],
+    "controlsUnder32px": 5,
+    "overflowX": 0,
+    "scrollbarMode": "overlay (0px)",
+    "panelScrollTop": 0,
+    "pageScrollY": 0,
+    "docScrollH": 900,
+    "topbarH": 87
+   },
+   "a2": {
+    "workspace": "catalog",
+    "rendered": []
+   },
+   "materials": {
+    "slotCount": 3,
+    "slotsFullyVisible": true,
+    "scrollNeededFirstSwatchRow": 0,
+    "scrollNeededAllSlots": 0,
+    "screensToSlotsTop": 0.31,
+    "screensToSlotsBottom": 0.64
+   },
+   "stage": {
+    "scrollY": 0,
+    "canvasVisiblePct": 100,
+    "stageTop": 103,
+    "stageH": 781
+   }
+  },
+  "errors": []
+ },
+ "375x812": {
+  "productFresh": {
+   "ux": {
+    "viewport": [
+     375,
+     812
+    ],
+    "mode": "catalog",
+    "panelClientH": 168,
+    "panelScrollH": 1144,
+    "slotsTopInPanel": 174,
+    "visibleFileInputs": 1,
+    "visibleFileInputIds": [
+     "model-files"
+    ],
+    "controlsUnder32px": 5,
+    "overflowX": 0,
+    "scrollbarMode": "overlay (0px)",
+    "panelScrollTop": 0,
+    "pageScrollY": 0,
+    "docScrollH": 1775,
+    "topbarH": 149
+   },
+   "a2": {
+    "workspace": "catalog",
+    "rendered": []
+   },
+   "materials": {
+    "slotCount": 3,
+    "slotsFullyVisible": false,
+    "scrollNeededFirstSwatchRow": 54,
+    "scrollNeededAllSlots": 297,
+    "screensToSlotsTop": 0.99,
+    "screensToSlotsBottom": 1.37
+   },
+   "stage": {
+    "scrollY": 0,
+    "canvasVisiblePct": 100,
+    "stageTop": 161,
+    "stageH": 455
+   }
+  },
+  "roomNoRoom": {
+   "ux": {
+    "viewport": [
+     375,
+     812
+    ],
+    "mode": "room",
+    "panelClientH": 152,
+    "panelScrollH": 861,
+    "slotsTopInPanel": -648,
+    "visibleFileInputs": 0,
+    "visibleFileInputIds": [],
+    "controlsUnder32px": 9,
+    "overflowX": 0,
+    "scrollbarMode": "overlay (0px)",
+    "panelScrollTop": 0,
+    "pageScrollY": 0,
+    "docScrollH": 1509,
+    "topbarH": 165
+   },
+   "a2": {
+    "workspace": "room",
+    "rendered": []
+   },
+   "stage": {
+    "scrollY": 0,
+    "canvasVisiblePct": 100,
+    "stageTop": 177,
+    "stageH": 455
+   }
+  },
+  "roomWithRoom": {
+   "ux": {
+    "viewport": [
+     375,
+     812
+    ],
+    "mode": "room",
+    "panelClientH": 152,
+    "panelScrollH": 982,
+    "slotsTopInPanel": -471,
+    "visibleFileInputs": 0,
+    "visibleFileInputIds": [],
+    "controlsUnder32px": 8,
+    "overflowX": 0,
+    "scrollbarMode": "overlay (0px)",
+    "panelScrollTop": 0,
+    "pageScrollY": 177,
+    "docScrollH": 1630,
+    "topbarH": 165
+   },
+   "a2": {
+    "workspace": "room",
+    "rendered": []
+   },
+   "stage": {
+    "scrollY": 177,
+    "canvasVisiblePct": 100,
+    "stageTop": 0,
+    "stageH": 455
+   }
+  },
+  "productWithRoom": {
+   "ux": {
+    "viewport": [
+     375,
+     812
+    ],
+    "mode": "catalog",
+    "panelClientH": 168,
+    "panelScrollH": 1144,
+    "slotsTopInPanel": 174,
+    "visibleFileInputs": 1,
+    "visibleFileInputIds": [
+     "model-files"
+    ],
+    "controlsUnder32px": 5,
+    "overflowX": 0,
+    "scrollbarMode": "overlay (0px)",
+    "panelScrollTop": 0,
+    "pageScrollY": 0,
+    "docScrollH": 1775,
+    "topbarH": 149
+   },
+   "a2": {
+    "workspace": "catalog",
+    "rendered": []
+   },
+   "materials": {
+    "slotCount": 3,
+    "slotsFullyVisible": false,
+    "scrollNeededFirstSwatchRow": 54,
+    "scrollNeededAllSlots": 297,
+    "screensToSlotsTop": 0.99,
+    "screensToSlotsBottom": 1.37
+   },
+   "stage": {
+    "scrollY": 0,
+    "canvasVisiblePct": 100,
+    "stageTop": 161,
+    "stageH": 455
+   }
+  },
+  "errors": []
+ }
+}

@@ -1,0 +1,22 @@
+{
+ "review": {
+  "reviewVisible": false,
+  "importStatus": "Cannot read properties of undefined (reading 'toFixed')"
+ },
+ "after": {
+  "importStatus": "Cannot read properties of undefined (reading 'toFixed')",
+  "importStatusIsError": true,
+  "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored",
+  "appRoom": "Living, 4 walls, thickness 0.12",
+  "stored": "{\"schema_version\":1,\"units\":\"m\",\"rooms\":[{\"id\":\"room_muv9z2a",
+  "viewerStatus": "ready"
+ },
+ "afterReload": {
+  "viewerStatus": "ready",
+  "appRoom": "Living",
+  "overlay": "Loading…"
+ },
+ "errors": [
+  "click: page.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#btn-import-start-editing')"
+ ]
+}

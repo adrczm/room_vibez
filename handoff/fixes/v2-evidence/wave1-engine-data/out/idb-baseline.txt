@@ -1,0 +1,200 @@
+{
+ "name": "A: create -> export -> clear -> reload",
+ "0 fresh profile": {
+  "appRoomGraph": null,
+  "localStorageRoomKey": null,
+  "idb": {
+   "project": "undefined",
+   "room_graph": "undefined",
+   "updated_at": "undefined"
+  },
+  "viewerStatus": "ready",
+  "workspace": "catalog"
+ },
+ "1 after create": {
+  "appRoomGraph": {
+   "walls": 4,
+   "label": "Living",
+   "openings": 0
+  },
+  "localStorageRoomKey": "984 chars",
+  "idb": {
+   "project": "undefined",
+   "room_graph": "undefined",
+   "updated_at": "undefined"
+  },
+  "viewerStatus": "ready",
+  "workspace": "room"
+ },
+ "exportedFile": "catalog3d-project.json",
+ "2 after export": {
+  "appRoomGraph": {
+   "walls": 4,
+   "label": "Living",
+   "openings": 0
+  },
+  "localStorageRoomKey": "984 chars",
+  "idb": {
+   "project": {
+    "room_graph_walls": 4,
+    "templates": 0
+   },
+   "room_graph": {
+    "walls": 4
+   },
+   "updated_at": "2026-10-05T12:51:47.592Z"
+  },
+  "viewerStatus": "ready",
+  "workspace": "room"
+ },
+ "3 after clear": {
+  "appRoomGraph": null,
+  "localStorageRoomKey": null,
+  "idb": {
+   "project": {
+    "room_graph_walls": 4,
+    "templates": 0
+   },
+   "room_graph": {
+    "walls": 4
+   },
+   "updated_at": "2026-10-05T12:51:47.592Z"
+  },
+  "viewerStatus": "ready",
+  "workspace": "catalog"
+ },
+ "4 after reload": {
+  "appRoomGraph": {
+   "walls": 4,
+   "label": "Living",
+   "openings": 0
+  },
+  "localStorageRoomKey": null,
+  "idb": {
+   "project": {
+    "room_graph_walls": 4,
+    "templates": 0
+   },
+   "room_graph": {
+    "walls": 4
+   },
+   "updated_at": "2026-10-05T12:51:47.592Z"
+  },
+  "viewerStatus": "ready",
+  "workspace": "catalog"
+ },
+ "5 after second reload": {
+  "appRoomGraph": {
+   "walls": 4,
+   "label": "Living",
+   "openings": 0
+  },
+  "localStorageRoomKey": null,
+  "idb": {
+   "project": {
+    "room_graph_walls": 4,
+    "templates": 0
+   },
+   "room_graph": {
+    "walls": 4
+   },
+   "updated_at": "2026-10-05T12:51:47.592Z"
+  },
+  "viewerStatus": "ready",
+  "workspace": "catalog"
+ },
+ "dialogs": []
+}
+{
+ "name": "B (control): create -> clear -> reload, no export",
+ "0 fresh profile": {
+  "appRoomGraph": null,
+  "localStorageRoomKey": null,
+  "idb": {
+   "project": "undefined",
+   "room_graph": "undefined",
+   "updated_at": "undefined"
+  },
+  "viewerStatus": "ready",
+  "workspace": "catalog"
+ },
+ "3 after clear": {
+  "appRoomGraph": null,
+  "localStorageRoomKey": null,
+  "idb": {
+   "project": "undefined",
+   "room_graph": "undefined",
+   "updated_at": "undefined"
+  },
+  "viewerStatus": "ready",
+  "workspace": "catalog"
+ },
+ "4 after reload": {
+  "appRoomGraph": null,
+  "localStorageRoomKey": null,
+  "idb": {
+   "project": "undefined",
+   "room_graph": "undefined",
+   "updated_at": "undefined"
+  },
+  "viewerStatus": "ready",
+  "workspace": "catalog"
+ },
+ "dialogs": []
+}
+{
+ "name": "C: create -> export -> add a door -> clear -> reload",
+ "0 fresh profile": {
+  "appRoomGraph": null,
+  "localStorageRoomKey": null,
+  "idb": {
+   "project": "undefined",
+   "room_graph": "undefined",
+   "updated_at": "undefined"
+  },
+  "viewerStatus": "ready",
+  "workspace": "catalog"
+ },
+ "exportedFile": "catalog3d-project.json",
+ "2 after adding a door (post-export)": {
+  "appRoomGraph": {
+   "walls": 4,
+   "label": "Living",
+   "openings": 1
+  },
+  "localStorageRoomKey": "1118 chars",
+  "idb": {
+   "project": {
+    "room_graph_walls": 4,
+    "templates": 0
+   },
+   "room_graph": {
+    "walls": 4
+   },
+   "updated_at": "2026-10-05T12:52:04.733Z"
+  },
+  "viewerStatus": "ready",
+  "workspace": "room"
+ },
+ "4 after reload": {
+  "appRoomGraph": {
+   "walls": 4,
+   "label": "Living",
+   "openings": 0
+  },
+  "localStorageRoomKey": null,
+  "idb": {
+   "project": {
+    "room_graph_walls": 4,
+    "templates": 0
+   },
+   "room_graph": {
+    "walls": 4
+   },
+   "updated_at": "2026-10-05T12:52:04.733Z"
+  },
+  "viewerStatus": "ready",
+  "workspace": "catalog"
+ },
+ "dialogs": []
+}

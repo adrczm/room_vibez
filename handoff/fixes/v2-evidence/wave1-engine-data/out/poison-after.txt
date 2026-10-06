@@ -1,0 +1,23 @@
+{"case":"control: valid room","status":"ready","appHasRoom":true,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"F1 (stress test R6): null coord, ceiling \"tall\", thickness 0","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"not JSON","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"wrong shape","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"rooms: []","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"rooms: [null]","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"polygon with 2 points","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"polygon point x null","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"ceiling_height \"tall\"","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"ceiling_height 0","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"wall a.x null","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"wall missing b","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"wall thickness 0","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"wall thickness -1","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"wall height null","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"walls: [null]","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"walls: []","status":"ready","appHasRoom":true,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"opening width null","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"openings: [null]","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"placement position null","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"placement position.x null","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"placements: [null]","status":"ready","appHasRoom":false,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}
+{"case":"room missing wall_ids","status":"ready","appHasRoom":true,"mainKeyPresent":true,"otherKeys":[],"overlay":"Loading…","firstError":null,"roomWorkspace":{"status":"ready","newErrors":[]}}

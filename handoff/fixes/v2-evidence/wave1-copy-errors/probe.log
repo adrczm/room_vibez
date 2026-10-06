@@ -1,0 +1,86 @@
+
+ RUN  v5.0.3 /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/ws-copy
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+empty => Error | "No files selected"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+both => Error | "Upload either an OBJ package or a GLB/glTF — not both at once"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+wrongtype => Error | "Select a .glb, .gltf, or .obj file (include .mtl + textures with OBJ when available)"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+no obj => Error | "No .obj file in selection"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+two obj => Error | "Select one .obj file (plus its .mtl / textures / .slots.json)"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+empty obj => Error | "Could not parse OBJ (empty.obj): OBJ file is empty"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+no meshes obj => Error | "OBJ has no meshes: nothing.obj"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+verts only obj => Error | "OBJ has no meshes: verts.obj"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+bad sidecar => Error | "Invalid sidecar JSON (a.slots.json): Expected property name or '}' in JSON at position 1 (line 1 column 2)"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+sidecar array => Error | "Invalid sidecar JSON (a.slots.json): Sidecar must be a JSON object of name → material_slot_id"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+ok obj no mtl => OK [ '0', '1', '2' ]
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+texture wrong => Error | "Texture must be PNG, JPEG, or WebP"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+mjs wrong type => Error | "Select a .mjs ES module file"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+mjs disabled => Error | "MJS loading is disabled (Catalog 3D → enable trusted .mjs loads)"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+mjs cancelled => Error | "MJS load cancelled by user"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+not a pack => ModuleContractError | "Module is not a mesh file and does not export createAsset() / a default Object3D factory. Exports: materials, params. Expected Polyfork-style: export function createAsset(params?) { return new THREE.Group(); }"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+not a pack none => ModuleContractError | "Module is not a mesh file and does not export createAsset() / a default Object3D factory. Exports: (none). Expected Polyfork-style: export function createAsset(params?) { return new THREE.Group(); }"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+underlay pdf => Error | "PDF plan ingest needs a rasterizer (e.g. pdf.js) or a pre-rendered PNG/JPG. Upload PNG/JPG for underlay confirm, or provide imageUri."
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+underlay ifc => Error | "Underlay accepts PNG / JPEG / WebP (PDF blocked without rasterizer)"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+underlay size => Error | "Underlay width and depth must be positive meters"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+project null => Error | "Invalid project JSON"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+project schema => Error | "Unsupported project schema_version (expected 1)"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+project graph => Error | "room_graph failed normalizeRoomGraph"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+png => ReferenceError | "Image is not defined"
+
+stdout | tests/unit/zz-probe2.test.ts > probe
+"Load trusted .mjs module “x.mjs”?\n\nThis executes JavaScript in the page (not a mesh file). Use only files you trust.\n\nWarning: source does not look like a createAsset / three module.\n\nStatic scan flagged: localStorage, fetch(.\nThese patterns are unusual for a furniture pack — proceed only if intentional."
+a wall, “Y” and “Z” | a wall and “Y”
+
+ ✓ tests/unit/zz-probe2.test.ts > probe 82ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  16:13:23
+   Duration  710ms (transform 65%, import 17%, tests 17%, worker 1%)
+

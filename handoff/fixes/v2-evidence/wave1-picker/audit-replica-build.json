@@ -1,0 +1,120 @@
+{
+  "label": "build",
+  "chrome": "154.0.8037.97",
+  "runs": {
+    "1440x900 mouse": {
+      "playwrightSeesSelectVisible": true,
+      "selectOptionWorked": true,
+      "closed": {
+        "pointerCoarse": false,
+        "pickerControlsUnder32px": [],
+        "pickerTargetsUnder24": [],
+        "pickerTargetsUnder44": [
+          "button.tpicker-trigger 310x36",
+          "button.tpicker-trigger 151x36",
+          "button.tpicker-trigger 151x36",
+          "button.tpicker-trigger 310x36"
+        ],
+        "hiddenSelects": [
+          "product-select 1x36 vis=false offsetParent=true",
+          "room-wall-material 1x36 vis=false offsetParent=true",
+          "room-floor-material 1x36 vis=false offsetParent=true",
+          "texture-target 1x36 vis=false offsetParent=true"
+        ],
+        "pickerTargetsCounted": 4
+      },
+      "openProduct30": {
+        "pointerCoarse": false,
+        "pickerControlsUnder32px": [],
+        "pickerTargetsUnder24": [],
+        "pickerTargetsUnder44": [
+          "button.tpicker-trigger 310x36",
+          "button.tpicker-trigger 151x36",
+          "button.tpicker-trigger 151x36",
+          "button.tpicker-trigger 310x36",
+          "button 92x32",
+          "button 92x32",
+          "button.tpicker-close 32x32",
+          "input.tpicker-search.text-input 502x35"
+        ],
+        "hiddenSelects": [
+          "product-select 1x36 vis=false offsetParent=true",
+          "room-wall-material 1x36 vis=false offsetParent=true",
+          "room-floor-material 1x36 vis=false offsetParent=true",
+          "texture-target 1x36 vis=false offsetParent=true"
+        ],
+        "pickerTargetsCounted": 9
+      },
+      "openWall": {
+        "pointerCoarse": false,
+        "pickerControlsUnder32px": [],
+        "pickerTargetsUnder24": [],
+        "pickerTargetsUnder44": [
+          "button.tpicker-trigger 310x36",
+          "button.tpicker-trigger 151x36",
+          "button.tpicker-trigger 151x36",
+          "button.tpicker-trigger 310x36",
+          "button 92x32",
+          "button 92x32",
+          "button.tpicker-close 32x32",
+          "button.tpicker-group 42x32",
+          "button.tpicker-group 58x32",
+          "button.tpicker-group 65x32",
+          "button.tpicker-group 62x32",
+          "button.tpicker-group 59x32",
+          "button.tpicker-group 59x32"
+        ],
+        "hiddenSelects": [
+          "product-select 1x36 vis=false offsetParent=true",
+          "room-wall-material 1x36 vis=false offsetParent=true",
+          "room-floor-material 1x36 vis=false offsetParent=true",
+          "texture-target 1x36 vis=false offsetParent=true"
+        ],
+        "pickerTargetsCounted": 14
+      }
+    },
+    "375x812 coarse": {
+      "playwrightSeesSelectVisible": true,
+      "selectOptionWorked": true,
+      "closed": {
+        "pointerCoarse": true,
+        "pickerControlsUnder32px": [],
+        "pickerTargetsUnder24": [],
+        "pickerTargetsUnder44": [],
+        "hiddenSelects": [
+          "product-select 1x44 vis=false offsetParent=true",
+          "room-wall-material 1x44 vis=false offsetParent=true",
+          "room-floor-material 1x44 vis=false offsetParent=true",
+          "texture-target 1x44 vis=false offsetParent=true"
+        ],
+        "pickerTargetsCounted": 4
+      },
+      "openProduct30": {
+        "pointerCoarse": true,
+        "pickerControlsUnder32px": [],
+        "pickerTargetsUnder24": [],
+        "pickerTargetsUnder44": [],
+        "hiddenSelects": [
+          "product-select 1x44 vis=false offsetParent=true",
+          "room-wall-material 1x44 vis=false offsetParent=true",
+          "room-floor-material 1x44 vis=false offsetParent=true",
+          "texture-target 1x44 vis=false offsetParent=true"
+        ],
+        "pickerTargetsCounted": 9
+      },
+      "openWall": {
+        "pointerCoarse": true,
+        "pickerControlsUnder32px": [],
+        "pickerTargetsUnder24": [],
+        "pickerTargetsUnder44": [],
+        "hiddenSelects": [
+          "product-select 1x44 vis=false offsetParent=true",
+          "room-wall-material 1x44 vis=false offsetParent=true",
+          "room-floor-material 1x44 vis=false offsetParent=true",
+          "texture-target 1x44 vis=false offsetParent=true"
+        ],
+        "pickerTargetsCounted": 14
+      }
+    }
+  }
+}

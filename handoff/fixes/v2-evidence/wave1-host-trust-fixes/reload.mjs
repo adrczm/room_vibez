@@ -1,0 +1,27 @@
+// After a reload, does the Units select come back restored, and are the fields consistent with it? Also: room card heights.
+import { chromium } from '/Users/adrian/Desktop/Room Vibez/v2/hackathon-3d-viewer/node_modules/playwright/index.mjs';
+const browser = await chromium.launch({ channel: 'chrome', args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+const page = await ctx.newPage();
+await page.goto('http://127.0.0.1:18777/');
+await page.waitForFunction(() => document.body.dataset.viewerStatus === 'ready');
+await page.waitForTimeout(1200);
+const read = () => page.evaluate(() => ({ units: document.getElementById('room-units').value, preset: document.getElementById('room-preset').value, fields: ['room-length', 'room-width', 'room-ceiling', 'room-thickness', 'opening-width', 'opening-height', 'opening-sill'].map((id) => { const e = document.getElementById(id); return `${e.value}|${e.min}|${e.step}`; }).join('  ') }));
+const out = {};
+await page.locator('#workspace-mode button[data-mode=room]').click(); await page.waitForTimeout(800);
+out.roomCardHeightNoRoom = await page.evaluate(() => Math.round(document.getElementById('room-card').getBoundingClientRect().height));
+out.panelScrollbar = await page.evaluate(() => { const p = document.querySelector('.panel'); return { offsetWidth: p.offsetWidth, clientWidth: p.clientWidth }; });
+await page.selectOption('#room-units', 'cm');
+await page.fill('#room-length', '450');
+out.beforeReload = await read();
+await page.reload();
+await page.waitForFunction(() => document.body.dataset.viewerStatus === 'ready');
+await page.waitForTimeout(1200);
+out.afterReload = await read();
+await page.locator('#workspace-mode button[data-mode=room]').click(); await page.waitForTimeout(600);
+await page.click('#btn-create-room'); await page.waitForFunction(() => !!window.__rv.roomGraph()); await page.waitForTimeout(800);
+out.createdAfterReload = await page.evaluate(() => { const g = window.__rv.roomGraph(); const p = g.rooms[0].floor_polygon; return { length: Math.abs(p[1].x - p[0].x), width: Math.abs(p[2].z - p[1].z), thickness: g.walls[0].thickness, status: document.getElementById('room-status').textContent }; });
+out.roomCardHeightWithRoom = await page.evaluate(() => Math.round(document.getElementById('room-card').getBoundingClientRect().height));
+out.visibleFileInputs = await page.evaluate(() => [...document.querySelectorAll('input[type=file]')].filter((e) => e.getClientRects().length > 0).map((e) => e.id));
+console.log(JSON.stringify(out, null, 1));
+await browser.close();

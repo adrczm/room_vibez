@@ -1,0 +1,26 @@
+// Load the page once and list console messages, page errors and failed requests; then click through every screen.
+import { pathToFileURL } from 'node:url';
+import { chromium } from '/Users/adrian/Desktop/Room Vibez/v2/hackathon-3d-viewer/node_modules/playwright/index.mjs';
+const URL_ = pathToFileURL('/Users/adrian/Desktop/Room Vibez/v2/prototypes/room-vibez-planner-flows/index.html').href;
+const browser = await chromium.launch({ channel: 'chrome', args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+const page = await ctx.newPage();
+const consoleMsgs = []; const pageErrors = []; const failed = []; const hosts = new Set();
+page.on('console', (m) => consoleMsgs.push(`${m.type()}: ${m.text()}`));
+page.on('pageerror', (e) => pageErrors.push(e.message));
+page.on('requestfailed', (r) => failed.push(r.url()));
+page.on('request', (r) => { if (!r.url().startsWith('file:')) hosts.add(new URL(r.url()).host); });
+await page.goto(URL_); await page.waitForTimeout(1500);
+const atLoad = { consoleMsgs: [...consoleMsgs], pageErrors: [...pageErrors], failed: [...failed] };
+await page.click('.role-card[data-role=architect]'); await page.click('#btnContinueAuth'); await page.click('#tplStarter'); await page.click('#btnCreateProject');
+await page.click('.file-chip[data-fmt=DWG]'); await page.locator('#confirmCard').waitFor({ state: 'visible', timeout: 8000 });
+await page.check('#confirmDims'); await page.click('#btnConfirmPlan');
+await page.click('.tool-btn[data-tool=wall]'); await page.locator('#planSvg').click({ position: { x: 300, y: 200 } });
+await page.click('.catalog-item[data-sku="TABLE-OAK-02"]'); await page.locator('#planSvg').click({ position: { x: 420, y: 300 } });
+await page.click('.mat-grid[data-slot=wood] .mat-btn[data-mat=walnut]');
+await page.click('#btnLightPreset'); await page.click('#btnRenderPreset'); await page.click('#btnApplyTemplate');
+await page.click('.mode-toggle button[data-mode="3d"]'); await page.waitForTimeout(800); await page.click('.mode-toggle button[data-mode="2d"]');
+await page.click('#btnHelp'); await page.keyboard.press('ArrowRight'); await page.keyboard.press('Escape');
+await page.click('#btnOpenBom'); await page.click('#btnExportPdf'); await page.click('#btnRestart'); await page.keyboard.press('Escape');
+console.log(JSON.stringify({ atLoad, afterClickThrough: { consoleMsgs, pageErrors, failed }, externalHosts: [...hosts], screen: await page.evaluate(() => document.querySelector('.screen.active').id) }, null, 1));
+await browser.close();

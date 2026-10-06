@@ -1,0 +1,193 @@
+<!doctype html>
+<!-- HARNESS ONLY. Not merged. A real <select> inside a scrolling 340 px panel like the app's, to check the
+     catalog picker in a browser. Query: ?n=30 (product count) &thumbs=manual|auto|preset|none &searchMin=N -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Picker harness (not merged)</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body data-workspace="catalog">
+    <header class="topbar">
+      <div class="brand">Picker harness (not merged)</div>
+      <button id="page-button" class="btn" type="button">Outside button</button>
+    </header>
+    <main class="layout">
+      <section class="stage card" aria-label="Stage stand-in">
+        <p class="hint" id="harness-log">ready</p>
+      </section>
+      <aside class="panel">
+        <div class="card" id="filler-top" style="min-height: 260px">
+          <h2>Filler above</h2>
+          <p class="muted small">Stands in for the cards above the picker so the panel has to scroll.</p>
+        </div>
+        <div class="card panel-card" id="catalog-card" data-workspace-panel="catalog">
+          <h2>Product</h2>
+          <select id="product-select" class="select" aria-label="Product"></select>
+          <p id="product-meta" class="muted small"></p>
+          <button id="btn-add" class="btn" type="button">Add test upload</button>
+        </div>
+        <div class="card" id="materials-card">
+          <h2>Shell materials</h2>
+          <div class="form-grid room-dims">
+            <label class="field">
+              <span>Wall material</span>
+              <select id="room-wall-material" class="select" aria-label="Wall material"></select>
+            </label>
+            <label class="field">
+              <span>Floor material</span>
+              <select id="room-floor-material" class="select" aria-label="Floor material"></select>
+            </label>
+          </div>
+          <p id="material-meta" class="muted small"></p>
+          <label class="field" id="texture-target-wrap">
+            <span>Target material</span>
+            <select id="texture-target" class="select" aria-label="Target library material"></select>
+          </label>
+          <button id="btn-after" class="btn" type="button">Control after the pickers</button>
+        </div>
+        <div class="card" id="filler-bottom" style="min-height: 900px">
+          <h2>Filler below</h2>
+        </div>
+      </aside>
+    </main>
+
+    <script type="module">
+      import { createThumbnailPicker, buildProductItems, buildMaterialItems } from '/src/ui/thumbnailPicker.ts';
+
+      const params = new URLSearchParams(location.search);
+      const count = Math.max(2, Number(params.get('n') ?? 2));
+      const thumbs = params.get('thumbs') ?? 'manual';
+      const searchMin = params.has('searchMin') ? Number(params.get('searchMin')) : undefined;
+
+      // The handoff's words (UX-14 step 7), harness copies. The app passes its own from src/copy.ts.
+      const productStrings = {
+        searchPlaceholder: 'Search products', noMatches: 'No products match.', close: 'Close',
+        viewGroupLabel: 'View', viewThumbnails: 'Thumbnails', viewList: 'List',
+        groupTabsLabel: 'Category', allGroups: 'All',
+      };
+      const materialStrings = { ...productStrings, searchPlaceholder: 'Search materials', noMatches: 'No materials match.' };
+
+      const $ = (id) => document.getElementById(id);
+      const productSelect = $('product-select');
+      const wallSelect = $('room-wall-material');
+      const floorSelect = $('room-floor-material');
+      const targetSelect = $('texture-target');
+
+      // Products: the two demo products, then numbered test duplicates (harness data only).
+      const products = [
+        { id: 'demo-lounge-chair', name: 'Lounge chair (demo)' },
+        { id: 'demo-side-table', name: 'Side table (demo)' },
+      ];
+      for (let i = 3; i <= count; i++) products.push({ id: `test-product-${i}`, name: `Test product ${i}` });
+
+      function refreshProductSelect(selectId) {
+        const keep = selectId ?? productSelect.value;
+        productSelect.innerHTML = '';
+        for (const p of products) productSelect.add(new Option(p.userAdded ? `${p.name} (upload)` : p.name, p.id));
+        if (keep && products.some((p) => p.id === keep)) productSelect.value = keep;
+      }
+      refreshProductSelect(products[0].id);
+
+      const library = await (await fetch('/assets/library/materials.json')).json();
+      for (const sel of [wallSelect, floorSelect]) {
+        sel.add(new Option('Default', ''));
+        for (const m of library.materials) sel.add(new Option(m.name, m.id));
+      }
+      for (const m of library.materials) targetSelect.add(new Option(`${m.name} (${m.category})`, m.id));
+
+      // Test pattern standing in for a host-rendered thumbnail (harness only; never a product image).
+      function testImage(id) {
+        const c = document.createElement('canvas');
+        c.width = c.height = 192;
+        const g = c.getContext('2d');
+        const n = [...id].reduce((a, ch) => a + ch.charCodeAt(0), 0);
+        g.fillStyle = `hsl(${(n * 37) % 360} 35% 78%)`;
+        g.fillRect(0, 0, 192, 192);
+        g.fillStyle = '#303030';
+        g.font = '600 28px sans-serif';
+        g.textAlign = 'center';
+        g.fillText('TEST', 96, 90);
+        g.fillText(id.replace(/\D+/g, '') || id.slice(5, 9), 96, 126);
+        return c.toDataURL('image/png');
+      }
+
+      const h = (window.__h = { requests: [], changes: [], products, library, errors: [] });
+      window.addEventListener('error', (e) => h.errors.push(String(e.message)));
+      window.addEventListener('unhandledrejection', (e) => h.errors.push(String(e.reason)));
+
+      const presetCache = {};
+      // Made before the picker exists, so their cost is not counted as part of an open.
+      if (thumbs === 'preset') for (const p of products) presetCache[p.id] = testImage(p.id);
+      const requestThumb =
+        thumbs === 'none' || thumbs === 'preset'
+          ? undefined
+          : (id) => {
+              h.requests.push(id);
+              if (thumbs === 'auto') return new Promise((resolve) => setTimeout(() => resolve(testImage(id)), 30));
+            };
+
+      const product = createThumbnailPicker({
+        select: productSelect,
+        label: 'Product',
+        viewKey: 'product',
+        strings: productStrings,
+        getItems: () =>
+          buildProductItems(products, {
+            uploadSublabel: 'Your upload',
+            ...(thumbs === 'preset' ? { thumbFor: (id) => (presetCache[id] ??= testImage(id)) } : {}),
+          }),
+        requestThumb,
+        ...(searchMin !== undefined ? { searchMinItems: searchMin } : {}),
+      });
+      const materialPicker = (select, label, defaultLabel) =>
+        createThumbnailPicker({
+          select,
+          label,
+          viewKey: 'material',
+          strings: materialStrings,
+          getItems: () => buildMaterialItems(library.materials, defaultLabel ? { defaultLabel } : {}),
+          ...(searchMin !== undefined ? { searchMinItems: searchMin } : {}),
+        });
+      const wall = materialPicker(wallSelect, 'Wall material', 'Default');
+      const floor = materialPicker(floorSelect, 'Floor material', 'Default');
+      const target = materialPicker(targetSelect, 'Target material');
+      h.pickers = { product, wall, floor, target };
+      h.createThumbnailPicker = createThumbnailPicker; // lets a check script mount one more picker
+      h.strings = { productStrings, materialStrings };
+      h.buildMaterialItems = buildMaterialItems;
+      h.answer = (id) => product.setThumb(id, testImage(id));
+      h.testImage = testImage;
+
+      // Existing-handler stand-ins: prove a bubbling `change` reaches listeners on the select and above it.
+      productSelect.addEventListener('change', () => {
+        h.changes.push(['product', productSelect.value]);
+        $('product-meta').textContent = productSelect.value;
+      });
+      for (const sel of [wallSelect, floorSelect, targetSelect]) {
+        sel.addEventListener('change', () => {
+          h.changes.push([sel.id, sel.value]);
+          $('material-meta').textContent = `${sel.id} = ${sel.value || '(default)'}`;
+        });
+      }
+      document.addEventListener('change', (e) => h.changes.push(['document', e.target.id]));
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') h.changes.push(['document-escape', '']);
+      });
+
+      // "Add a model": a new product with userAdded, then refresh the select and sync the picker.
+      let uploads = 0;
+      h.addUpload = (name) => {
+        const p = { id: `upload-${++uploads}`, name: name ?? `Test upload ${uploads}`, userAdded: true };
+        products.push(p);
+        refreshProductSelect(p.id);
+        product.sync();
+        return p.id;
+      };
+      $('btn-add').addEventListener('click', () => h.addUpload());
+      document.body.dataset.harness = 'ready';
+    </script>
+  </body>
+</html>

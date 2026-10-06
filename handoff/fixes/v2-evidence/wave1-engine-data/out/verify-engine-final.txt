@@ -1,0 +1,325 @@
+
+## T1a | persistRoomGraph returns true when storage works
+{
+ "name": "persistRoomGraph returns true when storage works",
+ "returned": true,
+ "keyChars": 984,
+ "pageErrors": []
+}
+
+## T1b | persistRoomGraph returns false when setItem throws (stress test F3 method)
+{
+ "name": "persistRoomGraph returns false when setItem throws (stress test F3 method)",
+ "appHasRoom": true,
+ "returned": false,
+ "keyPresent": false,
+ "viewerStatus": "ready",
+ "pageErrors": []
+}
+
+## T1c | persistRoomGraph returns false when reading window.localStorage throws
+{
+ "name": "persistRoomGraph returns false when reading window.localStorage throws",
+ "bootStatus": "ready",
+ "appHasRoom": true,
+ "returned": false,
+ "boot": {
+  "status": "storage_unavailable",
+  "graph": null
+ },
+ "pageErrors": []
+}
+
+## T2 | boot load quarantines the stress-test poison; damaged data is downloadable
+{
+ "name": "boot load quarantines the stress-test poison; damaged data is downloadable",
+ "first": {
+  "result": {
+   "status": "unreadable",
+   "graph": null,
+   "quarantined": {
+    "raw": "{\"schema_version\":1,\"rooms\":[{\"id\":\"r\",\"floor_polygon\":[{\"x\":null,\"z\":0}],\"ceiling_height\":\"tall\"}],\"walls\":[{\"id\":\"w\",\"a\":{\"x\":0,\"z\":0},\"b\":{\"x\":0,\"z\":0},\"thickness\":0}],\"openings\":[],\"placements\":[]}",
+    "reason": "invalid_graph",
+    "detail": "rooms[0].floor_polygon has fewer than 3 points",
+    "quarantined_at": "2026-10-05T13:22:58.262Z"
+   },
+   "backedUp": true,
+   "removed": true
+  },
+  "keys": [
+   "catalog3d.roomGraph.unreadable"
+  ],
+  "mainKey": null,
+  "backup": {
+   "raw": "{\"schema_version\":1,\"rooms\":[{\"id\":\"r\",\"floor_polygon\":[{\"x\":null,\"z\":0}],\"ceiling_height\":\"tall\"}],\"walls\":[{\"id\":\"w\",\"a\":{\"x\":0,\"z\":0},\"b\":{\"x\":0,\"z\":0},\"thickness\":0}],\"openings\":[],\"placements\":[]}",
+   "reason": "invalid_graph",
+   "detail": "rooms[0].floor_polygon has fewer than 3 points",
+   "quarantined_at": "2026-10-05T13:22:58.262Z"
+  }
+ },
+ "afterReload": {
+  "viewerStatus": "ready",
+  "appHasRoom": false,
+  "secondLoad": {
+   "status": "none",
+   "graph": null
+  },
+  "backupStillThere": true
+ },
+ "download": {
+  "filename": "catalog3d-room-unreadable.json",
+  "equalsOriginalText": true
+ },
+ "discarded": {
+  "discard": true,
+  "keys": []
+ },
+ "pageErrors": []
+}
+
+## T6a | create -> export -> clear + clearProjectFromIdb() -> reload: room stays gone
+{
+ "name": "create -> export -> clear + clearProjectFromIdb() -> reload: room stays gone",
+ "clearProjectFromIdbReturned": true,
+ "idbProjectAfterClear": null,
+ "afterReload": {
+  "appRoom": null,
+  "lsRoomKey": false
+ },
+ "afterSecondReload": {
+  "appRoom": null,
+  "lsRoomKey": false
+ },
+ "pageErrors": []
+}
+
+## T6b | same, but export and clear back to back with no wait (ordering)
+{
+ "name": "same, but export and clear back to back with no wait (ordering)",
+ "clearProjectFromIdbReturned": true,
+ "afterReload": {
+  "appRoom": null,
+  "lsRoomKey": false
+ },
+ "pageErrors": []
+}
+
+## T6c | UNEDITED HOST, no clearProjectFromIdb: templates saved after the export are overwritten when boot falls back to IndexedDB
+{
+ "name": "UNEDITED HOST, no clearProjectFromIdb: templates saved after the export are overwritten when boot falls back to IndexedDB",
+ "templatesBeforeClear": [
+  "T2 after export",
+  "T1 before export"
+ ],
+ "templatesAfterClear": [
+  "T2 after export",
+  "T1 before export"
+ ],
+ "templatesAfterReload": [
+  "T1 before export"
+ ],
+ "roomAfterReload": {
+  "appRoom": "Living, 4 walls",
+  "lsRoomKey": false
+ },
+ "pageErrors": []
+}
+
+## T6d | same as T6c but with clearProjectFromIdb() after Clear: templates and empty room survive the reload
+{
+ "name": "same as T6c but with clearProjectFromIdb() after Clear: templates and empty room survive the reload",
+ "templatesAfterReload": [
+  "T2 after export",
+  "T1 before export"
+ ],
+ "roomAfterReload": {
+  "appRoom": null,
+  "lsRoomKey": false
+ },
+ "pageErrors": []
+}
+
+## T3a | UI path (window.confirm fallback): message text, dismiss cancels, accept loads
+{
+ "name": "UI path (window.confirm fallback): message text, dismiss cancels, accept loads",
+ "dialogs": [
+  {
+   "type": "confirm",
+   "message": "Run code from “verify-box.mjs”?\n\nAn .mjs file is a program, not a model. It runs in this page and can do anything the page can. Only continue if you trust where it came from.\n\nChoose OK to load, or Cancel to stop."
+  },
+  {
+   "type": "confirm",
+   "message": "Run code from “verify-box.mjs”?\n\nAn .mjs file is a program, not a model. It runs in this page and can do anything the page can. Only continue if you trust where it came from.\n\nChoose OK to load, or Cancel to stop."
+  }
+ ],
+ "dismissed": {
+  "status": "MJS load cancelled by user",
+  "productsAdded": 0
+ },
+ "accepted": {
+  "status": "Added “verify-box” via createAsset · pack incomplete (no GLB) · exports: createAsset, params",
+  "productsAdded": 1,
+  "viewerStatus": "ready"
+ },
+ "pageErrors": [
+  "console: Error: MJS load cancelled by user\n    at importModuleFile (http://127.0.0.1:18782/src/viewer/modules.ts?t=1791205362939:91:26)\n    at async onModuleFileSelected (http://127.0.0.1:18782/src/main.ts?t=1"
+ ]
+}
+
+## T3b | UI path: flagged, not pack-like source; dismiss means the code never runs
+{
+ "name": "UI path: flagged, not pack-like source; dismiss means the code never runs",
+ "dialogMessage": "Run code from “risky.mjs”?\n\nAn .mjs file is a program, not a model. It runs in this page and can do anything the page can. Only continue if you trust where it came from.\n\nA quick scan flagged: fetch(, absolute http(s) URL in source. These are unusual for a furniture pack.\n\nChoose OK to load, or Cancel to stop.",
+ "status": "MJS load cancelled by user",
+ "codeRan": false,
+ "pageErrors": [
+  "console: Error: MJS load cancelled by user\n    at importModuleFile (http://127.0.0.1:18782/src/viewer/modules.ts?t=1791205362939:91:26)\n    at async onModuleFileSelected (http://127.0.0.1:18782/src/main.ts?t=1"
+ ]
+}
+
+## T3c | importModuleFile with an async confirmFn (what a dialog-backed host passes)
+{
+ "name": "importModuleFile with an async confirmFn (what a dialog-backed host passes)",
+ "declined": "MJS load cancelled by user",
+ "declinedCodeRan": false,
+ "messageGiven": "Run code from “risky.mjs”?\n\nAn .mjs file is a program, not a model. It runs in this page and can do anything the page can. Only continue if you trust where it came from.\n\nA quick scan flagged: fetch(, absolute http(s) URL in source. These are unusual for a furniture pack.",
+ "parsed": {
+  "title": "Run code from “risky.mjs”?",
+  "paragraphs": [
+   "An .mjs file is a program, not a model. It runs in this page and can do anything the page can. Only continue if you trust where it came from.",
+   "A quick scan flagged: fetch(, absolute http(s) URL in source. These are unusual for a furniture pack."
+  ]
+ },
+ "accepted": {
+  "exports": [
+   "createAsset",
+   "params"
+  ],
+  "isObject3D": true,
+  "children": 1,
+  "rewritten": true
+ },
+ "nativeDialogsShown": 0,
+ "pageErrors": []
+}
+
+## T5a | checkPlanFile on browser File objects
+{
+ "name": "checkPlanFile on browser File objects",
+ "building.ifc": {
+  "ok": false,
+  "reason": "unsupported_type",
+  "filename": "building.ifc",
+  "extension": "ifc"
+ },
+ "setup.exe": {
+  "ok": false,
+  "reason": "unsupported_type",
+  "filename": "setup.exe",
+  "extension": "exe"
+ },
+ "random.dwg": {
+  "ok": false,
+  "reason": "not_dwg",
+  "filename": "random.dwg",
+  "extension": "dwg"
+ },
+ "setup.dwg": {
+  "ok": false,
+  "reason": "not_dwg",
+  "filename": "setup.dwg",
+  "extension": "dwg"
+ },
+ "empty.dwg": {
+  "ok": false,
+  "reason": "not_dwg",
+  "filename": "empty.dwg",
+  "extension": "dwg"
+ },
+ "starts-with-AC1032.dwg": {
+  "ok": true,
+  "kind": "dwg",
+  "filename": "starts-with-AC1032.dwg"
+ },
+ "random.dxf": {
+  "ok": false,
+  "reason": "not_dxf",
+  "filename": "random.dxf",
+  "extension": "dxf"
+ },
+ "synthetic.dxf": {
+  "ok": true,
+  "kind": "dxf",
+  "filename": "synthetic.dxf"
+ },
+ "plan.png": {
+  "ok": true,
+  "kind": "raster",
+  "filename": "plan.png"
+ },
+ "plan.pdf": {
+  "ok": false,
+  "reason": "pdf_unsupported",
+  "filename": "plan.pdf",
+  "extension": "pdf"
+ },
+ "plan.json": {
+  "ok": true,
+  "kind": "json_candidates",
+  "filename": "plan.json"
+ },
+ "pageErrors": []
+}
+
+## T5b | UNEDITED HOST: what the Import plan button does now with .ifc, .exe, random .dwg, bad .json
+{
+ "name": "UNEDITED HOST: what the Import plan button does now with .ifc, .exe, random .dwg, bad .json",
+ "building.ifc": {
+  "importStatus": "Unsupported plan file type: \"building.ifc\" (expected .dwg, .dxf or .json)",
+  "statusIsError": true,
+  "reviewVisible": false,
+  "job": null
+ },
+ "setup.exe": {
+  "importStatus": "Unsupported plan file type: \"setup.exe\" (expected .dwg, .dxf or .json)",
+  "statusIsError": true,
+  "reviewVisible": false,
+  "job": null
+ },
+ "bad.json": {
+  "importStatus": "Candidates payload must be a JSON object",
+  "statusIsError": true,
+  "reviewVisible": false,
+  "job": null
+ },
+ "random.dwg (host does not call checkPlanFile yet)": {
+  "importStatus": "Job import_muva6pxf_2 · source dwg:random.dwg · scale ×1.000",
+  "statusIsError": false,
+  "reviewVisible": true,
+  "job": {
+   "source": "dwg:random.dwg",
+   "walls": 4
+  }
+ },
+ "pageErrors": []
+}
+
+## T4 | RoomSizeError carries the field; UI message unchanged
+{
+ "name": "RoomSizeError carries the field; UI message unchanged",
+ "ui": {
+  "status": "Room size must be positive (length, width, ceiling height, wall thickness)",
+  "isError": true,
+  "roomCreated": false
+ },
+ "engine": {
+  "isRoomSizeError": true,
+  "name": "RoomSizeError",
+  "fields": [
+   "width",
+   "wallThickness"
+  ],
+  "message": "Room size must be positive (length, width, ceiling height, wall thickness)"
+ },
+ "pageErrors": []
+}

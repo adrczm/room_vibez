@@ -1,0 +1,202 @@
+{
+  "P01": {
+    "name": "Auth screen 1440x900: structure, contrast, targets, external requests, keyboard",
+    "observed": {
+      "facts": {
+        "screen": "screen-auth",
+        "overflowX": 0,
+        "offenders": [],
+        "headings": [
+          "H1 Plan a room. Place real products. Get your parts l",
+          "H2 Who's this for?",
+          "H3 Planning my own space",
+          "H3 Interior designer",
+          "H3 Architect",
+          "H3 Reseller or catalog manager"
+        ],
+        "fontSizes": {
+          "16.0px": 9,
+          "11.5px": 7,
+          "13.6px": 6,
+          "12.5px": 2,
+          "18.4px": 1,
+          "48.0px": 1
+        },
+        "fontFamilies": {
+          "\"IBM Plex Sans\"": 24,
+          "Fraunces": 2
+        },
+        "fontsLoaded": [
+          "Fraunces",
+          "IBM Plex Sans"
+        ],
+        "brand": "Room Vibez",
+        "title": "Room Vibez — Planner flows prototype"
+      },
+      "contrast": {
+        "textElements": 27,
+        "failing": 1,
+        "failingExcludingDisabled": 0,
+        "groups": [
+          {
+            "pair": "#edf2ed on #95b2a2 = 2.03:1 (16px, disabled control, opacity 0.45)",
+            "count": 1,
+            "examples": [
+              "button#btnContinueAuth \"Continue\""
+            ]
+          }
+        ]
+      },
+      "targetsUnder24": [],
+      "targetsUnder44": 4,
+      "targetsTotal": 8,
+      "tabOrder": [
+        "button#btnHelp \"?\" [auto 1px]",
+        "input#email [auto 1px]",
+        "button.role-card \"Planning my own space Add a plan, place \" [auto 1px]",
+        "button.role-card \"Interior designer Start from templates, \" [auto 1px]",
+        "button.role-card \"Architect See how a DWG plan becomes an \" [auto 1px]",
+        "button.role-card \"Reseller or catalog manager Match catalo\" [auto 1px]",
+        "button#btnSkipDemo \"Skip to a demo project\" [auto 1px]"
+      ],
+      "externalHostsRequested": [
+        "fonts.googleapis.com",
+        "unpkg.com",
+        "fonts.gstatic.com"
+      ],
+      "failedRequests": [],
+      "errors": []
+    }
+  },
+  "P02": {
+    "name": "Editor screen 1440x900 (via \"Open demo project\")",
+    "observed": {
+      "facts": {
+        "screen": "screen-editor",
+        "overflowX": 0,
+        "offenders": [],
+        "headings": [
+          "H2 TOOLS",
+          "H2 PRODUCTS",
+          "H2 TEMPLATES",
+          "H2 SELECTION",
+          "H3 Loft Chair",
+          "H2 FINISHES",
+          "H3 Wood",
+          "H3 Plastic",
+          "H3 Wool",
+          "H2 PARTS LIST"
+        ],
+        "fontSizes": {
+          "16.0px": 16,
+          "12.0px": 9,
+          "12.5px": 8,
+          "13.1px": 6,
+          "15.2px": 4,
+          "18.4px": 1,
+          "11.5px": 1,
+          "12.8px": 1,
+          "13.6px": 1
+        },
+        "fontFamilies": {
+          "\"IBM Plex Sans\"": 46,
+          "Fraunces": 1
+        },
+        "fontsLoaded": [
+          "Fraunces",
+          "IBM Plex Sans"
+        ],
+        "brand": "Room Vibez",
+        "title": "Room Vibez — Planner flows prototype"
+      },
+      "rolePillAfterSkipDemo": "Interior designer",
+      "contrast": {
+        "textElements": 47,
+        "failing": 0,
+        "failingExcludingDisabled": 0,
+        "groups": []
+      },
+      "targetsUnder24": [],
+      "targetsUnder32": [],
+      "targetsTotal": 22,
+      "bom": {
+        "facts": {
+          "screen": "screen-bom",
+          "overflowX": 0,
+          "offenders": [],
+          "headings": [
+            "H1 Parts list",
+            "H3 Items",
+            "H3 Catalog SKUs",
+            "H3 Share"
+          ],
+          "fontSizes": {
+            "16.0px": 14,
+            "11.5px": 6,
+            "15.2px": 3,
+            "13.1px": 3,
+            "12.5px": 2,
+            "18.4px": 1,
+            "48.0px": 1,
+            "13.6px": 1
+          },
+          "fontFamilies": {
+            "\"IBM Plex Sans\"": 29,
+            "Fraunces": 2
+          },
+          "fontsLoaded": [
+            "Fraunces",
+            "IBM Plex Sans"
+          ],
+          "brand": "Room Vibez",
+          "title": "Room Vibez — Planner flows prototype"
+        },
+        "contrast": {
+          "textElements": 31,
+          "failing": 0,
+          "failingExcludingDisabled": 0,
+          "groups": []
+        },
+        "restart": {
+          "className": "",
+          "bg": "rgb(255, 255, 255)",
+          "color": "rgb(26, 34, 28)"
+        }
+      },
+      "errors": []
+    }
+  },
+  "P03": {
+    "name": "Mobile 375x812: horizontal overflow per screen",
+    "observed": {
+      "auth": {
+        "overflowX": 0,
+        "offenders": [],
+        "skipDemoButton": {
+          "rect": [
+            123,
+            725,
+            191,
+            40
+          ],
+          "viewport": [
+            375,
+            812
+          ],
+          "elementAtCentreAndCorners": [
+            "button",
+            "button",
+            "button"
+          ],
+          "pageScrollX": 0,
+          "mainOverflow": "visible"
+        }
+      },
+      "editor": {
+        "screen": "screen-editor",
+        "overflowX": 0,
+        "offenders": []
+      }
+    }
+  }
+}

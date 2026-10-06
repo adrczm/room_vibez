@@ -1,0 +1,143 @@
+{
+ "edge": {
+  "productWood": 1072,
+  "remountEmptyRoom": {
+   "workspace": "room",
+   "mode": "room",
+   "turntable": false,
+   "ground": false,
+   "room": null,
+   "hasRoom": false,
+   "hint": "Create or import a room to start.",
+   "hintShown": true,
+   "roomStatus": "No room yet — from scratch, import plan, or template.",
+   "toast": "",
+   "toastOpen": "false",
+   "toastKind": null,
+   "empty": {
+    "shown": true
+   }
+  },
+  "pickInEmptyRoom": {
+   "workspace": "room",
+   "mode": "room",
+   "turntable": false,
+   "ground": false,
+   "room": null,
+   "hasRoom": false,
+   "hint": "Create or import a room to start.",
+   "hintShown": true,
+   "roomStatus": "No room yet — from scratch, import plan, or template.",
+   "toast": "",
+   "toastOpen": "false",
+   "toastKind": null,
+   "empty": {
+    "shown": true
+   }
+  },
+  "resetInEmptyRoom": {
+   "workspace": "room",
+   "mode": "room",
+   "turntable": false,
+   "ground": false,
+   "room": null,
+   "hasRoom": false,
+   "hint": "Create or import a room to start.",
+   "hintShown": true,
+   "roomStatus": "No room yet — from scratch, import plan, or template.",
+   "toast": "",
+   "toastOpen": "false",
+   "toastKind": null,
+   "empty": {
+    "shown": true
+   }
+  },
+  "backToProduct": {
+   "workspace": "catalog",
+   "mode": "catalog",
+   "turntable": true,
+   "ground": true,
+   "room": null,
+   "hasRoom": false,
+   "hint": "Drag to spin · scroll to zoom · right-drag to pan",
+   "hintShown": true,
+   "roomStatus": "No room yet — from scratch, import plan, or template.",
+   "toast": "",
+   "toastOpen": "false",
+   "toastKind": null,
+   "empty": {
+    "shown": false
+   },
+   "wood": 1072,
+   "camDist": 1.996
+  },
+  "remountInPlace": {
+   "mode": "place",
+   "hint": "Click the floor to place “Lounge chair (demo)”.",
+   "tool": "place",
+   "pressed": "true",
+   "room": true,
+   "card": {
+    "shown": false
+   }
+  },
+  "placeAfterRemount": "Placed “Lounge chair (demo)”.",
+  "clearFromProduct": {
+   "workspace": "catalog",
+   "mode": "catalog",
+   "turntable": true,
+   "ground": true,
+   "room": null,
+   "hasRoom": false,
+   "hint": "Drag to spin · scroll to zoom · right-drag to pan",
+   "hintShown": true,
+   "roomStatus": "No room yet — from scratch, import plan, or template.",
+   "toast": "Placed “Lounge chair (demo)”.",
+   "toastOpen": "true",
+   "toastKind": "success",
+   "empty": {
+    "shown": false
+   },
+   "wood": 1071
+  },
+  "errors": []
+ },
+ "coldWithRoom": {
+  "cold": {
+   "workspace": "catalog",
+   "mode": "catalog",
+   "turntable": true,
+   "ground": true,
+   "room": false,
+   "hasRoom": true,
+   "hint": "Drag to spin · scroll to zoom · right-drag to pan",
+   "hintShown": true,
+   "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored",
+   "toast": "",
+   "toastOpen": "false",
+   "toastKind": null,
+   "empty": {
+    "shown": false
+   },
+   "wood": 1072
+  },
+  "room": {
+   "workspace": "room",
+   "mode": "room",
+   "turntable": false,
+   "ground": false,
+   "room": true,
+   "hasRoom": true,
+   "hint": "Drag to orbit · scroll to zoom · right-drag to pan",
+   "hintShown": true,
+   "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored",
+   "toast": "",
+   "toastOpen": "false",
+   "toastKind": null,
+   "empty": {
+    "shown": false
+   }
+  },
+  "errors": []
+ }
+}

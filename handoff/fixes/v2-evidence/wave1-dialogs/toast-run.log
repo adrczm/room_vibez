@@ -1,0 +1,148 @@
+
+===== 1440x900 =====
+PASS  mounted once inside .stage; idle: no box, no focusable buttons  [{"inStage":true,"count":1,"w":0,"h":0,"hiddenAttr":false,"liveInside":1,"containerLive":null,"probe":"viewer-host","focusables":0}]
+PASS  idle: Playwright sees #stage-toast as hidden
+PASS  one live region inside the toast; the container itself is not one  [live regions inside: 1]
+PASS  idle: a click where the toast will appear reaches the stage, not the toast  [viewer-host]
+PASS  idle: the toast's own region is already in Chrome's accessibility tree (status, polite, not ignored)  [{"ignored":false,"role":"status","live":"polite"}]
+PASS  notify(): #stage-toast is visible with the text  [Undid last change.]
+PASS  info: inside the stage bounds  [toast [29,810,169,36] in stage [1052,781]]
+PASS  info: does not cover the stage toolbar or the hint line  [gap above hint 3px, gap below toolbar 661px]
+PASS  info: text >= 12 px and contrast >= 4.5:1  [13px, 13.2:1 (rgb(48, 48, 48) on rgb(255, 255, 255))]
+PASS  info: role="status", aria-live="polite", aria-atomic
+PASS  announces once: the live region's text changed exactly once for one notify()  [["Undid last change."]]
+PASS  announces once: exactly one live region in the accessibility tree holds the message (status, polite)  [[{"role":"status","live":"polite","text":"Undid last change."}]]
+PASS  close button has the accessible name "Dismiss"
+PASS  info: really painted once the fade-in ends (opacity 1, top-most at its own text)  [{"opacity":"1","transform":"none","onTop":true,"topIs":"stage-toast-text","gapAboveHint":9,"gapBelowToolbar":655,"left":13}]
+PASS  info: settled position is 9 px above the hint, 12 px from the stage's left edge  [gap above hint 9px (3 px at the first animation frame), left 13px incl. 1 px border]
+PASS  same message again: region emptied, then written again  [["","Undid last change."]]
+PASS  success: neutral surface with an icon; inside stage; clear of toolbar and hint  [13.2:1]
+PASS  replacement: still one toast, with the new text  [Placed “Lounge chair”.]
+PASS  warning: .warning colours, icon, polite  [rgb(79, 71, 0) on rgb(255, 248, 219)]
+PASS  warning: text >= 12 px and contrast >= 4.5:1; clear of toolbar and hint  [13px, 8.82:1]
+PASS  warning: really painted (opacity 1, top-most at its own text)  [{"opacity":"1","transform":"none","onTop":true,"topIs":"stage-toast-text","gapAboveHint":9,"gapBelowToolbar":655,"left":13}]
+PASS  error: role="alert", aria-live="assertive"  [alert/assertive]
+PASS  error: marked by more than colour (icon, 4 px left edge, weight 550)  [icon true, left edge 4px, weight 550]
+PASS  error: .warning.critical colours, text >= 12 px, contrast >= 4.5:1  [13px, 7.67:1]
+PASS  error: inside the stage; clear of toolbar and hint  [toast [29,792,420,54]; gap above hint 3px, below toolbar 643px]
+PASS  error: accessibility tree shows one alert (assertive) holding the message  [[{"role":"alert","live":"assertive","text":"Couldn't place “Lounge chair”. Load its pack again and try once more."}]]
+PASS  error: really painted (opacity 1, top-most at its own text)  [{"opacity":"1","transform":"none","onTop":true,"topIs":"stage-toast-text","gapAboveHint":9,"gapBelowToolbar":637,"left":13}]
+PASS  long warning: inside the stage; clear of toolbar and hint  [toast [29,792,420,54]; gap above hint 3px, below toolbar 643px]
+PASS  hint grows while the toast is open: the toast moves up and still clears it  [toast [29,786,420,54]; gap above hint 9px]
+PASS  no horizontal page scroll  [overflowX 0]
+PASS  hint hidden: the toast drops to 12 px above the stage edge  [toast [29,817,420,54]]
+PASS  timeoutMs: 0 keeps the toast (still open after 1.1 s)
+PASS  Dismiss closes the toast and empties the region
+PASS  action: button shows the caller's label; toast still clear of toolbar and hint  [{"text":"Undo","shown":true,"h":32.1875}]
+PASS  action: the live region holds only the message, not the button label  [Placed “Lounge chair”.]
+PASS  action: really painted (opacity 1, top-most at its own text)  [{"opacity":"1","transform":"none","onTop":true,"topIs":"stage-toast-text","gapAboveHint":9,"gapBelowToolbar":655,"left":13}]
+PASS  action: runs onSelect and closes the toast
+PASS  times out: open at 250 ms, closed by 850 ms with timeoutMs 500
+PASS  the countdown pauses while the pointer is over the toast and resumes after  [open after 1 s of hover: true]
+PASS  no preference: entrance animation stage-toast-in, 0.18 s  [stage-toast-in 0.18s, running 1]
+PASS  prefers-reduced-motion: reduce → no animation at all  [none, running 0]
+PASS  QA-08 check: every [hidden] element from these components computes display:none  [[]]
+PASS  no page errors or console errors
+
+===== 375x812 =====
+PASS  mounted once inside .stage; idle: no box, no focusable buttons  [{"inStage":true,"count":1,"w":0,"h":0,"hiddenAttr":false,"liveInside":1,"containerLive":null,"probe":"viewer-host","focusables":0}]
+PASS  idle: Playwright sees #stage-toast as hidden
+PASS  one live region inside the toast; the container itself is not one  [live regions inside: 1]
+PASS  idle: a click where the toast will appear reaches the stage, not the toast  [viewer-host]
+PASS  idle: the toast's own region is already in Chrome's accessibility tree (status, polite, not ignored)  [{"ignored":false,"role":"status","live":"polite"}]
+PASS  notify(): #stage-toast is visible with the text  [Undid last change.]
+PASS  info: inside the stage bounds  [toast [29,338,169,36] in stage [343,455]]
+PASS  info: does not cover the stage toolbar or the hint line  [gap above hint 3px, gap below toolbar 335px]
+PASS  info: text >= 12 px and contrast >= 4.5:1  [13px, 13.2:1 (rgb(48, 48, 48) on rgb(255, 255, 255))]
+PASS  info: role="status", aria-live="polite", aria-atomic
+PASS  announces once: the live region's text changed exactly once for one notify()  [["Undid last change."]]
+PASS  announces once: exactly one live region in the accessibility tree holds the message (status, polite)  [[{"role":"status","live":"polite","text":"Undid last change."}]]
+PASS  close button has the accessible name "Dismiss"
+PASS  info: really painted once the fade-in ends (opacity 1, top-most at its own text)  [{"opacity":"1","transform":"none","onTop":true,"topIs":"stage-toast-text","gapAboveHint":9,"gapBelowToolbar":329,"left":13}]
+PASS  info: settled position is 9 px above the hint, 12 px from the stage's left edge  [gap above hint 9px (3 px at the first animation frame), left 13px incl. 1 px border]
+PASS  same message again: region emptied, then written again  [["","Undid last change."]]
+PASS  success: neutral surface with an icon; inside stage; clear of toolbar and hint  [13.2:1]
+PASS  replacement: still one toast, with the new text  [Placed “Lounge chair”.]
+PASS  warning: .warning colours, icon, polite  [rgb(79, 71, 0) on rgb(255, 248, 219)]
+PASS  warning: text >= 12 px and contrast >= 4.5:1; clear of toolbar and hint  [13px, 8.82:1]
+PASS  warning: really painted (opacity 1, top-most at its own text)  [{"opacity":"1","transform":"none","onTop":true,"topIs":"stage-toast-text","gapAboveHint":9,"gapBelowToolbar":329,"left":13}]
+PASS  error: role="alert", aria-live="assertive"  [alert/assertive]
+PASS  error: marked by more than colour (icon, 4 px left edge, weight 550)  [icon true, left edge 4px, weight 550]
+PASS  error: .warning.critical colours, text >= 12 px, contrast >= 4.5:1  [13px, 7.67:1]
+PASS  error: inside the stage; clear of toolbar and hint  [toast [29,320,317,54]; gap above hint 3px, below toolbar 317px]
+PASS  error: accessibility tree shows one alert (assertive) holding the message  [[{"role":"alert","live":"assertive","text":"Couldn't place “Lounge chair”. Load its pack again and try once more."}]]
+PASS  error: really painted (opacity 1, top-most at its own text)  [{"opacity":"1","transform":"none","onTop":true,"topIs":"stage-toast-text","gapAboveHint":9,"gapBelowToolbar":311,"left":13}]
+PASS  long warning: inside the stage; clear of toolbar and hint  [toast [29,302,317,73]; gap above hint 3px, below toolbar 298px]
+PASS  hint grows while the toast is open: the toast moves up and still clears it  [toast [29,280,317,73]; gap above hint 9px]
+PASS  no horizontal page scroll  [overflowX 0]
+PASS  hint hidden: the toast drops to 12 px above the stage edge  [toast [29,327,317,73]]
+PASS  timeoutMs: 0 keeps the toast (still open after 1.1 s)
+PASS  Dismiss closes the toast and empties the region
+PASS  action: button shows the caller's label; toast still clear of toolbar and hint  [{"text":"Undo","shown":true,"h":32.1875}]
+PASS  action: the live region holds only the message, not the button label  [Placed “Lounge chair”.]
+PASS  action: really painted (opacity 1, top-most at its own text)  [{"opacity":"1","transform":"none","onTop":true,"topIs":"stage-toast-text","gapAboveHint":9,"gapBelowToolbar":329,"left":13}]
+PASS  action: runs onSelect and closes the toast
+PASS  times out: open at 250 ms, closed by 850 ms with timeoutMs 500
+PASS  the countdown pauses while the pointer is over the toast and resumes after  [open after 1 s of hover: true]
+PASS  no preference: entrance animation stage-toast-in, 0.18 s  [stage-toast-in 0.18s, running 1]
+PASS  prefers-reduced-motion: reduce → no animation at all  [none, running 0]
+PASS  QA-08 check: every [hidden] element from these components computes display:none  [[]]
+PASS  no page errors or console errors
+
+===== 1280x800 =====
+PASS  mounted once inside .stage; idle: no box, no focusable buttons  [{"inStage":true,"count":1,"w":0,"h":0,"hiddenAttr":false,"liveInside":1,"containerLive":null,"probe":"viewer-host","focusables":0}]
+PASS  idle: Playwright sees #stage-toast as hidden
+PASS  one live region inside the toast; the container itself is not one  [live regions inside: 1]
+PASS  idle: a click where the toast will appear reaches the stage, not the toast  [viewer-host]
+PASS  idle: the toast's own region is already in Chrome's accessibility tree (status, polite, not ignored)  [{"ignored":false,"role":"status","live":"polite"}]
+PASS  notify(): #stage-toast is visible with the text  [Undid last change.]
+PASS  info: inside the stage bounds  [toast [29,710,169,36] in stage [892,681]]
+PASS  info: does not cover the stage toolbar or the hint line  [gap above hint 3px, gap below toolbar 561px]
+PASS  info: text >= 12 px and contrast >= 4.5:1  [13px, 13.2:1 (rgb(48, 48, 48) on rgb(255, 255, 255))]
+PASS  info: role="status", aria-live="polite", aria-atomic
+PASS  announces once: the live region's text changed exactly once for one notify()  [["Undid last change."]]
+PASS  announces once: exactly one live region in the accessibility tree holds the message (status, polite)  [[{"role":"status","live":"polite","text":"Undid last change."}]]
+PASS  close button has the accessible name "Dismiss"
+PASS  info: really painted once the fade-in ends (opacity 1, top-most at its own text)  [{"opacity":"1","transform":"none","onTop":true,"topIs":"stage-toast-text","gapAboveHint":9,"gapBelowToolbar":555,"left":13}]
+PASS  info: settled position is 9 px above the hint, 12 px from the stage's left edge  [gap above hint 9px (3 px at the first animation frame), left 13px incl. 1 px border]
+PASS  same message again: region emptied, then written again  [["","Undid last change."]]
+PASS  success: neutral surface with an icon; inside stage; clear of toolbar and hint  [13.2:1]
+PASS  replacement: still one toast, with the new text  [Placed “Lounge chair”.]
+PASS  warning: .warning colours, icon, polite  [rgb(79, 71, 0) on rgb(255, 248, 219)]
+PASS  warning: text >= 12 px and contrast >= 4.5:1; clear of toolbar and hint  [13px, 8.82:1]
+PASS  warning: really painted (opacity 1, top-most at its own text)  [{"opacity":"1","transform":"none","onTop":true,"topIs":"stage-toast-text","gapAboveHint":9,"gapBelowToolbar":555,"left":13}]
+PASS  error: role="alert", aria-live="assertive"  [alert/assertive]
+PASS  error: marked by more than colour (icon, 4 px left edge, weight 550)  [icon true, left edge 4px, weight 550]
+PASS  error: .warning.critical colours, text >= 12 px, contrast >= 4.5:1  [13px, 7.67:1]
+PASS  error: inside the stage; clear of toolbar and hint  [toast [29,692,420,54]; gap above hint 3px, below toolbar 543px]
+PASS  error: accessibility tree shows one alert (assertive) holding the message  [[{"role":"alert","live":"assertive","text":"Couldn't place “Lounge chair”. Load its pack again and try once more."}]]
+PASS  error: really painted (opacity 1, top-most at its own text)  [{"opacity":"1","transform":"none","onTop":true,"topIs":"stage-toast-text","gapAboveHint":9,"gapBelowToolbar":537,"left":13}]
+PASS  long warning: inside the stage; clear of toolbar and hint  [toast [29,692,420,54]; gap above hint 3px, below toolbar 543px]
+PASS  hint grows while the toast is open: the toast moves up and still clears it  [toast [29,686,420,54]; gap above hint 9px]
+PASS  no horizontal page scroll  [overflowX 0]
+PASS  hint hidden: the toast drops to 12 px above the stage edge  [toast [29,717,420,54]]
+PASS  timeoutMs: 0 keeps the toast (still open after 1.1 s)
+PASS  Dismiss closes the toast and empties the region
+PASS  action: button shows the caller's label; toast still clear of toolbar and hint  [{"text":"Undo","shown":true,"h":32.1875}]
+PASS  action: the live region holds only the message, not the button label  [Placed “Lounge chair”.]
+PASS  action: really painted (opacity 1, top-most at its own text)  [{"opacity":"1","transform":"none","onTop":true,"topIs":"stage-toast-text","gapAboveHint":9,"gapBelowToolbar":555,"left":13}]
+PASS  action: runs onSelect and closes the toast
+PASS  times out: open at 250 ms, closed by 850 ms with timeoutMs 500
+PASS  the countdown pauses while the pointer is over the toast and resumes after  [open after 1 s of hover: true]
+PASS  no preference: entrance animation stage-toast-in, 0.18 s  [stage-toast-in 0.18s, running 1]
+PASS  prefers-reduced-motion: reduce → no animation at all  [none, running 0]
+PASS  QA-08 check: every [hidden] element from these components computes display:none  [[]]
+PASS  no page errors or console errors
+
+===== default timeouts (controlled clock) =====
+PASS  default timeout for info: open at 5900 ms, closed at 6100 ms  [true → false]
+PASS  default timeout for success: open at 5900 ms, closed at 6100 ms  [true → false]
+PASS  default timeout for warning: open at 11900 ms, closed at 12100 ms  [true → false]
+PASS  default timeout for error: open at 11900 ms, closed at 12100 ms  [true → false]
+PASS  timeoutMs: 0 → still open after 120 s
+
+===== existing #stage-toast markup =====
+PASS  an existing <div id="stage-toast" aria-live="polite" hidden> is taken over, not duplicated  [{"count":1,"same":true,"hidden":false,"containerLive":null,"liveInside":1,"visible":true,"text":"Click the floor inside the room."}]
+PASS  dismissNotification() closes; destroy() removes; notify() with nothing mounted mounts one in .stage  [{"closed":"false","gone":0,"remounted":true,"text":"Undid last change.","count":1}]
+
+ALL TOAST CHECKS PASSED

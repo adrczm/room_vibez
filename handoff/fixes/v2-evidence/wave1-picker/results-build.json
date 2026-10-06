@@ -1,0 +1,1415 @@
+{
+  "chromeVersion": "154.0.8037.97",
+  "failures": 0,
+  "results": [
+    {
+      "vp": "1440x900",
+      "name": "A1 select rendered (1 px wide, trigger height), clipped + transparent + no pointer events, not hidden/display:none, aria-hidden, tabindex -1",
+      "pass": true,
+      "value": {
+        "w": 1,
+        "h": 36,
+        "triggerH": 36,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "0",
+        "clipPath": "inset(50%)",
+        "pointerEvents": "none",
+        "hiddenAttr": false,
+        "ariaHidden": "true",
+        "tabindex": "-1",
+        "parent": "tpicker",
+        "id": "product-select",
+        "hitTestReachesSelect": false
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "A2 Playwright sees #product-select as visible",
+      "pass": true
+    },
+    {
+      "vp": "1440x900",
+      "name": "A3 trigger shows current item; name = label + item",
+      "pass": true,
+      "value": {
+        "text": "Lounge chair (demo)",
+        "accName": "Product Lounge chair (demo)"
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "A4 trigger height >= 32, aria-haspopup, aria-expanded=false, aria-controls resolves",
+      "pass": true,
+      "value": {
+        "h": 36,
+        "w": 310,
+        "haspopup": "dialog",
+        "expanded": "false",
+        "controls": true
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "B1 Tab from the previous control lands on the trigger (not the hidden select)",
+      "pass": true,
+      "value": "trigger"
+    },
+    {
+      "vp": "1440x900",
+      "name": "B2 Enter opens; focus on the selected option; aria-expanded true",
+      "pass": true,
+      "value": {
+        "open": true,
+        "focus": "option:demo-lounge-chair",
+        "selected": [
+          "demo-lounge-chair"
+        ]
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "B3 opening does not scroll the panel or page",
+      "pass": true,
+      "value": {
+        "scrollBefore": [
+          0,
+          0
+        ],
+        "scrollAfter": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "B4 ArrowRight moves focus to the next tile; selection has not moved",
+      "pass": true,
+      "value": {
+        "focus": "option:demo-side-table",
+        "value": "demo-lounge-chair",
+        "tabStops": [
+          "demo-side-table"
+        ]
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "B5 Home / End go to first / last",
+      "pass": true,
+      "value": [
+        "option:demo-lounge-chair",
+        "option:demo-side-table"
+      ]
+    },
+    {
+      "vp": "1440x900",
+      "name": "B6 Enter selects: select.value set, bubbling change reached select + document, popup closed, focus on trigger, trigger updated",
+      "pass": true,
+      "value": {
+        "value": "demo-side-table",
+        "changes": [
+          "product=demo-side-table",
+          "document=product-select"
+        ],
+        "open": false,
+        "focus": "trigger",
+        "trigger": "Side table (demo)"
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "B7 Space opens; Esc closes, focus returns to the trigger, page-level Esc handler not reached",
+      "pass": true,
+      "value": {
+        "openedBySpace": true,
+        "open": false,
+        "focus": "trigger",
+        "changes": [
+          "product=demo-side-table",
+          "document=product-select"
+        ]
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "B8 ArrowDown opens; ArrowLeft + Space selects the first item",
+      "pass": true,
+      "value": {
+        "openedByArrow": true,
+        "value": "demo-lounge-chair",
+        "focus": "trigger"
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "B9 Tab from the closed trigger skips the hidden select",
+      "pass": true,
+      "value": "btn-add"
+    },
+    {
+      "vp": "1440x900",
+      "name": "B10 Shift+Tab from the listbox reaches Close, then the view toggle, inside the popup",
+      "pass": true,
+      "value": {
+        "back1": "tpicker-close|Close",
+        "back2": "|Thumbnails"
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "B11 Tab past the listbox leaves the popup and closes it",
+      "pass": true,
+      "value": {
+        "backOnOption": "option:demo-lounge-chair",
+        "open": false,
+        "focusNow": "btn-add"
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "C1 page.selectOption works on the hidden select; trigger follows (the picker listens for change)",
+      "pass": true,
+      "value": {
+        "value": "demo-side-table",
+        "trigger": "Side table (demo)",
+        "changes": [
+          "product=demo-side-table",
+          "document=product-select"
+        ]
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "C2 .value set in code: trigger stale until sync(), correct after",
+      "pass": true,
+      "value": {
+        "before": "Side table (demo)",
+        "after": "Lounge chair (demo)"
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "C3 #room-wall-material keeps its 14 options; selectOption({index:1}) works and the trigger follows",
+      "pass": true,
+      "value": {
+        "wallCount": 14,
+        "value": "wood-oak",
+        "trigger": "Natural oak",
+        "visual": "swatch"
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "D1 added product: trigger and grid show it with \"Your upload\" and a placeholder; it is requested in the thumbnail view",
+      "pass": true,
+      "value": {
+        "trigAfterAdd": {
+          "text": "My chair",
+          "sub": "Your upload",
+          "accName": "Product My chair Your upload"
+        },
+        "options": [
+          "demo-lounge-chair",
+          "demo-side-table",
+          "upload-1"
+        ],
+        "added": {
+          "name": "My chair",
+          "sub": "Your upload",
+          "kind": "none",
+          "selected": "true"
+        },
+        "requests": [
+          "demo-lounge-chair",
+          "demo-side-table",
+          "upload-1"
+        ]
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "D2 setThumb(id, url) fills tile and trigger in place; setThumb(id, null) restores the placeholder and it is asked for again",
+      "pass": true,
+      "value": {
+        "withImg": {
+          "tile": true,
+          "tileKind": "thumb",
+          "trigger": true
+        },
+        "dropped": {
+          "tileKind": "none",
+          "requests": [
+            "upload-1"
+          ]
+        }
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "E1 List: one row per item, text only (no placeholder box), radio state and storage updated",
+      "pass": true,
+      "value": {
+        "view": "list",
+        "rows": 3,
+        "tops": 3,
+        "placeholdersShown": 0,
+        "radios": [
+          "Thumbnails:false",
+          "List:true"
+        ],
+        "stored": "list"
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "E2 selecting in the list works the same (value, change, closed, focus on trigger)",
+      "pass": true,
+      "value": {
+        "value": "demo-side-table",
+        "open": false,
+        "focus": "trigger",
+        "changes": [
+          "product=demo-side-table",
+          "document=product-select"
+        ]
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "E3 list keyboard: Left/Right do nothing, Up/Down move by one",
+      "pass": true,
+      "value": {
+        "afterRight": "option:demo-side-table",
+        "afterUp": "option:demo-lounge-chair",
+        "afterDown": "option:upload-1"
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "E4 after reload the picker opens in List; G1 the list view requested no thumbnails",
+      "pass": true,
+      "value": {
+        "view": "list",
+        "requests": []
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "E5 arrow key on the view toggle switches back to Thumbnails; stored; thumbnails are now requested",
+      "pass": true,
+      "value": {
+        "view": "grid",
+        "stored": "grid",
+        "requests": [
+          "demo-lounge-chair",
+          "demo-side-table"
+        ],
+        "focus": "BUTTON"
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "errors so far (A–E)",
+      "pass": true,
+      "value": []
+    },
+    {
+      "vp": "1440x900",
+      "name": "F (setItem throws): storage really blocked, nothing throws, List holds for the session",
+      "pass": true,
+      "value": {
+        "threw": true,
+        "first": "grid",
+        "reopened": "list",
+        "errors": []
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "F (localStorage getter throws): storage really blocked, nothing throws, List holds for the session",
+      "pass": true,
+      "value": {
+        "threw": true,
+        "first": "grid",
+        "reopened": "list",
+        "errors": []
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "G2 30 items in List: 0 requests on open, after scrolling to the end, and after searching",
+      "pass": true,
+      "value": {
+        "view": "list",
+        "atOpen": 0,
+        "afterScroll": 0,
+        "afterSearch": 0,
+        "matches": [
+          "test-product-12"
+        ]
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "G3 Thumbnails with 30 items: only tiles in view are requested first, the rest as they scroll in, none twice",
+      "pass": true,
+      "value": {
+        "requestedBeforeScroll": 12,
+        "requestedAfterScrollToEnd": 22,
+        "unique": 22
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "errors (G)",
+      "pass": true,
+      "value": []
+    },
+    {
+      "vp": "1440x900",
+      "name": "Default view: no image, no swatch, no thumbnail source → List (trigger text only); materials (swatches) → Thumbnails",
+      "pass": true,
+      "value": {
+        "product": "list",
+        "trigBox": "none",
+        "material": "grid"
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "H1 group tabs: none for the two products; All + five groups for materials; no search in either",
+      "pass": true,
+      "value": {
+        "product": {
+          "groups": false,
+          "search": false
+        },
+        "materialTabs": [
+          "All",
+          "wood",
+          "plastic",
+          "textile",
+          "stone",
+          "metal"
+        ],
+        "materialSearch": false,
+        "options": 14
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "H2 swatches are CSS (colour × map, multiply, cover), no <img>; Default has the neutral placeholder",
+      "pass": true,
+      "value": {
+        "kind": "swatch",
+        "color": "rgb(74, 74, 74)",
+        "image": "url(\"http://127.0.0.1:18784/assets/textures/wood-oak.png\")",
+        "blend": "multiply",
+        "size": "cover",
+        "defaultKind": "none",
+        "imgs": 0
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "H3 a group tab filters; arrow keys move between tabs",
+      "pass": true,
+      "value": {
+        "wood": [
+          "wood-oak",
+          "wood-walnut",
+          "wood-black"
+        ],
+        "tabsAfterArrow": [
+          "plastic*"
+        ],
+        "plastic": [
+          "plastic-black",
+          "plastic-white",
+          "plastic-green"
+        ]
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "H4 picking a wall material: change reaches the existing listener; native select still has 14 options",
+      "pass": true,
+      "value": {
+        "value": "wood-walnut",
+        "changes": [
+          "room-wall-material=wood-walnut",
+          "document=room-wall-material"
+        ],
+        "meta": "room-wall-material = wood-walnut",
+        "optCount": 14,
+        "trigger": "Walnut"
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "H5 the view is remembered per kind: floor follows wall (material), product keeps its own",
+      "pass": true,
+      "value": {
+        "floor": "list",
+        "product": "grid"
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "M1 outside click closes; trigger click while open closes and stays closed; a host <label> opens it; a click on the popup chrome keeps it open",
+      "pass": true,
+      "value": {
+        "closedOutside": true,
+        "closedByTrigger": true,
+        "openedByLabel": true,
+        "stillOpenAfterInsideClick": true
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "M2 clicking the host <label> while open closes it and it does not reopen",
+      "pass": true,
+      "value": {
+        "open": false
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "M3 opening one picker closes another",
+      "pass": true,
+      "value": [
+        false,
+        true
+      ]
+    },
+    {
+      "vp": "1440x900",
+      "name": "I1 popup is in the top layer, extends beyond the panel box and every corner is hit-testable (not clipped); fully inside the viewport",
+      "pass": true,
+      "value": {
+        "popup": [
+          730,
+          69,
+          1250,
+          549
+        ],
+        "panel": [
+          1084,
+          70,
+          1424,
+          884
+        ],
+        "panelOverflowY": "auto",
+        "vw": 1440,
+        "vh": 900,
+        "pts": {
+          "topLeft": true,
+          "topRight": true,
+          "bottomLeft": true,
+          "bottomRight": true,
+          "centre": true
+        },
+        "insideViewport": true,
+        "leavesPanel": true,
+        "layout": "anchored",
+        "side": "above",
+        "docScrollW": 1440,
+        "bodyScrollW": 1440,
+        "topLayer": true
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "J1 no horizontal scroll with the popup open",
+      "pass": true,
+      "value": {
+        "scrollWidth": 1440,
+        "bodyScrollWidth": 1440,
+        "clientWidth": 1440
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "I2 desktop: anchored popup, 520 px wide, right edge on the trigger",
+      "pass": true,
+      "value": {
+        "layout": "anchored",
+        "side": "above",
+        "popup": [
+          730,
+          69,
+          1250,
+          549
+        ]
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "I3 scrolling the panel while open: the popup stays attached to the trigger",
+      "pass": true,
+      "value": {
+        "before": [
+          425.6875,
+          421.6875
+        ],
+        "after": [
+          305.6875,
+          301.6875,
+          true
+        ]
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "U1 a 59-character unbroken name wraps: no overflow in trigger, list or page",
+      "pass": true,
+      "value": {
+        "listOverflow": 0,
+        "triggerOverflow": 0,
+        "triggerW": 310,
+        "cardW": 338,
+        "doc": 0
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "W1 after re-parenting el: selectOption and the picker both still work",
+      "pass": true,
+      "value": {
+        "value": "demo-lounge-chair",
+        "changes": [
+          "product=demo-side-table",
+          "document=product-select",
+          "product=demo-lounge-chair",
+          "document=product-select"
+        ]
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "V1 destroy() puts the select back as it was and removes the popup",
+      "pass": true,
+      "value": {
+        "parent": "texture-target-wrap",
+        "w": true,
+        "ariaHidden": null,
+        "tabindex": null,
+        "cls": "select",
+        "popups": 0,
+        "wrappers": 0
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "errors (H–W)",
+      "pass": true,
+      "value": []
+    },
+    {
+      "vp": "1440x900",
+      "name": "L1 30 items: search shown; typing on a tile continues in the field and filters; ArrowDown reaches the first match; Enter selects it",
+      "pass": true,
+      "value": {
+        "shown": true,
+        "typed": "prod",
+        "afterType": {
+          "focus": "tpicker-search text-input",
+          "count": 28
+        },
+        "narrowed": 11,
+        "focusAfterDown": "option:test-product-12",
+        "value": "test-product-12"
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "L2 no match: the empty message shows in a status region; reopening had cleared the previous search",
+      "pass": true,
+      "value": {
+        "empty": "No products match.",
+        "role": "status"
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "L3 Esc from the search field closes and returns focus to the trigger",
+      "pass": true,
+      "value": {
+        "open": false,
+        "focus": "trigger"
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "L4 grid arrows move in two dimensions (Down = +columns, Up = -columns); End scrolls the last tile into view",
+      "pass": true,
+      "value": {
+        "cols": 4,
+        "down": "option:test-product-5",
+        "up": "option:demo-side-table",
+        "inView": true
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "errors (L)",
+      "pass": true,
+      "value": []
+    },
+    {
+      "vp": "1440x900",
+      "name": "X1 requestThumb returning a promise: every requested tile gets its image, and the trigger shows the current one",
+      "pass": true,
+      "value": {
+        "imgs": 12,
+        "requests": 12,
+        "trigger": true
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "O1 prefers-reduced-motion: reduce → no transition or animation on the popup",
+      "pass": true,
+      "value": {
+        "normal": "0.15s",
+        "reduced": [
+          "0s",
+          "1",
+          "none"
+        ]
+      }
+    },
+    {
+      "vp": "1440x900",
+      "name": "Q1 without showPopover(): the plain select stays visible and usable, nothing throws",
+      "pass": true,
+      "value": {
+        "enhanced": "false",
+        "w": 310,
+        "h": 34,
+        "ariaHidden": null,
+        "triggers": 0,
+        "value": "demo-side-table",
+        "errors": []
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "A1 select rendered (1 px wide, trigger height), clipped + transparent + no pointer events, not hidden/display:none, aria-hidden, tabindex -1",
+      "pass": true,
+      "value": {
+        "w": 1,
+        "h": 36,
+        "triggerH": 36,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "0",
+        "clipPath": "inset(50%)",
+        "pointerEvents": "none",
+        "hiddenAttr": false,
+        "ariaHidden": "true",
+        "tabindex": "-1",
+        "parent": "tpicker",
+        "id": "product-select",
+        "hitTestReachesSelect": false
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "A2 Playwright sees #product-select as visible",
+      "pass": true
+    },
+    {
+      "vp": "375x812",
+      "name": "A3 trigger shows current item; name = label + item",
+      "pass": true,
+      "value": {
+        "text": "Lounge chair (demo)",
+        "accName": "Product Lounge chair (demo)"
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "A4 trigger height >= 32, aria-haspopup, aria-expanded=false, aria-controls resolves",
+      "pass": true,
+      "value": {
+        "h": 36,
+        "w": 313,
+        "haspopup": "dialog",
+        "expanded": "false",
+        "controls": true
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "B1 Tab from the previous control lands on the trigger (not the hidden select)",
+      "pass": true,
+      "value": "trigger"
+    },
+    {
+      "vp": "375x812",
+      "name": "B2 Enter opens; focus on the selected option; aria-expanded true",
+      "pass": true,
+      "value": {
+        "open": true,
+        "focus": "option:demo-lounge-chair",
+        "selected": [
+          "demo-lounge-chair"
+        ]
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "B3 opening does not scroll the panel or page",
+      "pass": true,
+      "value": {
+        "scrollBefore": [
+          0,
+          464
+        ],
+        "scrollAfter": [
+          0,
+          464
+        ]
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "B4 ArrowRight moves focus to the next tile; selection has not moved",
+      "pass": true,
+      "value": {
+        "focus": "option:demo-side-table",
+        "value": "demo-lounge-chair",
+        "tabStops": [
+          "demo-side-table"
+        ]
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "B5 Home / End go to first / last",
+      "pass": true,
+      "value": [
+        "option:demo-lounge-chair",
+        "option:demo-side-table"
+      ]
+    },
+    {
+      "vp": "375x812",
+      "name": "B6 Enter selects: select.value set, bubbling change reached select + document, popup closed, focus on trigger, trigger updated",
+      "pass": true,
+      "value": {
+        "value": "demo-side-table",
+        "changes": [
+          "product=demo-side-table",
+          "document=product-select"
+        ],
+        "open": false,
+        "focus": "trigger",
+        "trigger": "Side table (demo)"
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "B7 Space opens; Esc closes, focus returns to the trigger, page-level Esc handler not reached",
+      "pass": true,
+      "value": {
+        "openedBySpace": true,
+        "open": false,
+        "focus": "trigger",
+        "changes": [
+          "product=demo-side-table",
+          "document=product-select"
+        ]
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "B8 ArrowDown opens; ArrowLeft + Space selects the first item",
+      "pass": true,
+      "value": {
+        "openedByArrow": true,
+        "value": "demo-lounge-chair",
+        "focus": "trigger"
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "B9 Tab from the closed trigger skips the hidden select",
+      "pass": true,
+      "value": "btn-add"
+    },
+    {
+      "vp": "375x812",
+      "name": "B10 Shift+Tab from the listbox reaches Close, then the view toggle, inside the popup",
+      "pass": true,
+      "value": {
+        "back1": "tpicker-close|Close",
+        "back2": "|Thumbnails"
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "B11 Tab past the listbox leaves the popup and closes it",
+      "pass": true,
+      "value": {
+        "backOnOption": "option:demo-lounge-chair",
+        "open": false,
+        "focusNow": "btn-add"
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "C1 page.selectOption works on the hidden select; trigger follows (the picker listens for change)",
+      "pass": true,
+      "value": {
+        "value": "demo-side-table",
+        "trigger": "Side table (demo)",
+        "changes": [
+          "product=demo-side-table",
+          "document=product-select"
+        ]
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "C2 .value set in code: trigger stale until sync(), correct after",
+      "pass": true,
+      "value": {
+        "before": "Side table (demo)",
+        "after": "Lounge chair (demo)"
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "C3 #room-wall-material keeps its 14 options; selectOption({index:1}) works and the trigger follows",
+      "pass": true,
+      "value": {
+        "wallCount": 14,
+        "value": "wood-oak",
+        "trigger": "Natural oak",
+        "visual": "swatch"
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "D1 added product: trigger and grid show it with \"Your upload\" and a placeholder; it is requested in the thumbnail view",
+      "pass": true,
+      "value": {
+        "trigAfterAdd": {
+          "text": "My chair",
+          "sub": "Your upload",
+          "accName": "Product My chair Your upload"
+        },
+        "options": [
+          "demo-lounge-chair",
+          "demo-side-table",
+          "upload-1"
+        ],
+        "added": {
+          "name": "My chair",
+          "sub": "Your upload",
+          "kind": "none",
+          "selected": "true"
+        },
+        "requests": [
+          "demo-lounge-chair",
+          "demo-side-table",
+          "upload-1"
+        ]
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "D2 setThumb(id, url) fills tile and trigger in place; setThumb(id, null) restores the placeholder and it is asked for again",
+      "pass": true,
+      "value": {
+        "withImg": {
+          "tile": true,
+          "tileKind": "thumb",
+          "trigger": true
+        },
+        "dropped": {
+          "tileKind": "none",
+          "requests": [
+            "upload-1"
+          ]
+        }
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "E1 List: one row per item, text only (no placeholder box), radio state and storage updated",
+      "pass": true,
+      "value": {
+        "view": "list",
+        "rows": 3,
+        "tops": 3,
+        "placeholdersShown": 0,
+        "radios": [
+          "Thumbnails:false",
+          "List:true"
+        ],
+        "stored": "list"
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "E2 selecting in the list works the same (value, change, closed, focus on trigger)",
+      "pass": true,
+      "value": {
+        "value": "demo-side-table",
+        "open": false,
+        "focus": "trigger",
+        "changes": [
+          "product=demo-side-table",
+          "document=product-select"
+        ]
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "E3 list keyboard: Left/Right do nothing, Up/Down move by one",
+      "pass": true,
+      "value": {
+        "afterRight": "option:demo-side-table",
+        "afterUp": "option:demo-lounge-chair",
+        "afterDown": "option:upload-1"
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "E4 after reload the picker opens in List; G1 the list view requested no thumbnails",
+      "pass": true,
+      "value": {
+        "view": "list",
+        "requests": []
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "E5 arrow key on the view toggle switches back to Thumbnails; stored; thumbnails are now requested",
+      "pass": true,
+      "value": {
+        "view": "grid",
+        "stored": "grid",
+        "requests": [
+          "demo-lounge-chair",
+          "demo-side-table"
+        ],
+        "focus": "BUTTON"
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "errors so far (A–E)",
+      "pass": true,
+      "value": []
+    },
+    {
+      "vp": "375x812",
+      "name": "F (setItem throws): storage really blocked, nothing throws, List holds for the session",
+      "pass": true,
+      "value": {
+        "threw": true,
+        "first": "grid",
+        "reopened": "list",
+        "errors": []
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "F (localStorage getter throws): storage really blocked, nothing throws, List holds for the session",
+      "pass": true,
+      "value": {
+        "threw": true,
+        "first": "grid",
+        "reopened": "list",
+        "errors": []
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "G2 30 items in List: 0 requests on open, after scrolling to the end, and after searching",
+      "pass": true,
+      "value": {
+        "view": "list",
+        "atOpen": 0,
+        "afterScroll": 0,
+        "afterSearch": 0,
+        "matches": [
+          "test-product-12"
+        ]
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "G3 Thumbnails with 30 items: only tiles in view are requested first, the rest as they scroll in, none twice",
+      "pass": true,
+      "value": {
+        "requestedBeforeScroll": 12,
+        "requestedAfterScrollToEnd": 24,
+        "unique": 24
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "errors (G)",
+      "pass": true,
+      "value": []
+    },
+    {
+      "vp": "375x812",
+      "name": "Default view: no image, no swatch, no thumbnail source → List (trigger text only); materials (swatches) → Thumbnails",
+      "pass": true,
+      "value": {
+        "product": "list",
+        "trigBox": "none",
+        "material": "grid"
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "H1 group tabs: none for the two products; All + five groups for materials; no search in either",
+      "pass": true,
+      "value": {
+        "product": {
+          "groups": false,
+          "search": false
+        },
+        "materialTabs": [
+          "All",
+          "wood",
+          "plastic",
+          "textile",
+          "stone",
+          "metal"
+        ],
+        "materialSearch": false,
+        "options": 14
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "H2 swatches are CSS (colour × map, multiply, cover), no <img>; Default has the neutral placeholder",
+      "pass": true,
+      "value": {
+        "kind": "swatch",
+        "color": "rgb(74, 74, 74)",
+        "image": "url(\"http://127.0.0.1:18784/assets/textures/wood-oak.png\")",
+        "blend": "multiply",
+        "size": "cover",
+        "defaultKind": "none",
+        "imgs": 0
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "H3 a group tab filters; arrow keys move between tabs",
+      "pass": true,
+      "value": {
+        "wood": [
+          "wood-oak",
+          "wood-walnut",
+          "wood-black"
+        ],
+        "tabsAfterArrow": [
+          "plastic*"
+        ],
+        "plastic": [
+          "plastic-black",
+          "plastic-white",
+          "plastic-green"
+        ]
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "H4 picking a wall material: change reaches the existing listener; native select still has 14 options",
+      "pass": true,
+      "value": {
+        "value": "wood-walnut",
+        "changes": [
+          "room-wall-material=wood-walnut",
+          "document=room-wall-material"
+        ],
+        "meta": "room-wall-material = wood-walnut",
+        "optCount": 14,
+        "trigger": "Walnut"
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "H5 the view is remembered per kind: floor follows wall (material), product keeps its own",
+      "pass": true,
+      "value": {
+        "floor": "list",
+        "product": "grid"
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "M1 outside click closes; trigger click while open closes and stays closed; a host <label> opens it; a click on the popup chrome keeps it open",
+      "pass": true,
+      "value": {
+        "closedOutside": true,
+        "closedByTrigger": true,
+        "openedByLabel": true,
+        "stillOpenAfterInsideClick": true
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "M2 (sheet) the Close button closes and returns focus to the trigger",
+      "pass": true,
+      "value": {
+        "open": false,
+        "focus": "trigger"
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "M3 opening one picker closes another",
+      "pass": true,
+      "value": [
+        false,
+        true
+      ]
+    },
+    {
+      "vp": "375x812",
+      "name": "I1 popup is in the top layer, extends beyond the panel box and every corner is hit-testable (not clipped); fully inside the viewport",
+      "pass": true,
+      "value": {
+        "popup": [
+          0,
+          172,
+          375,
+          812
+        ],
+        "panel": [
+          16,
+          73,
+          359,
+          336
+        ],
+        "panelOverflowY": "visible",
+        "vw": 375,
+        "vh": 812,
+        "pts": {
+          "topLeft": true,
+          "topRight": true,
+          "bottomLeft": true,
+          "bottomRight": true,
+          "centre": true
+        },
+        "insideViewport": true,
+        "leavesPanel": true,
+        "layout": "sheet",
+        "docScrollW": 375,
+        "bodyScrollW": 375,
+        "topLayer": true
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "J1 no horizontal scroll with the popup open",
+      "pass": true,
+      "value": {
+        "scrollWidth": 375,
+        "bodyScrollWidth": 375,
+        "clientWidth": 375
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "I2 sheet: full width, on the bottom edge",
+      "pass": true,
+      "value": {
+        "layout": "sheet",
+        "popup": [
+          0,
+          172,
+          375,
+          812
+        ]
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "U1 a 59-character unbroken name wraps: no overflow in trigger, list or page",
+      "pass": true,
+      "value": {
+        "listOverflow": 0,
+        "triggerOverflow": 0,
+        "triggerW": 313,
+        "cardW": 341,
+        "doc": 0
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "W1 after re-parenting el: selectOption and the picker both still work",
+      "pass": true,
+      "value": {
+        "value": "demo-lounge-chair",
+        "changes": [
+          "product=demo-side-table",
+          "document=product-select",
+          "product=demo-lounge-chair",
+          "document=product-select"
+        ]
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "V1 destroy() puts the select back as it was and removes the popup",
+      "pass": true,
+      "value": {
+        "parent": "texture-target-wrap",
+        "w": true,
+        "ariaHidden": null,
+        "tabindex": null,
+        "cls": "select",
+        "popups": 0,
+        "wrappers": 0
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "errors (H–W)",
+      "pass": true,
+      "value": []
+    },
+    {
+      "vp": "375x812",
+      "name": "L1 30 items: search shown; typing on a tile continues in the field and filters; ArrowDown reaches the first match; Enter selects it",
+      "pass": true,
+      "value": {
+        "shown": true,
+        "typed": "prod",
+        "afterType": {
+          "focus": "tpicker-search text-input",
+          "count": 28
+        },
+        "narrowed": 11,
+        "focusAfterDown": "option:test-product-12",
+        "value": "test-product-12"
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "L2 no match: the empty message shows in a status region; reopening had cleared the previous search",
+      "pass": true,
+      "value": {
+        "empty": "No products match.",
+        "role": "status"
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "L3 Esc from the search field closes and returns focus to the trigger",
+      "pass": true,
+      "value": {
+        "open": false,
+        "focus": "trigger"
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "L4 grid arrows move in two dimensions (Down = +columns, Up = -columns); End scrolls the last tile into view",
+      "pass": true,
+      "value": {
+        "cols": 3,
+        "down": "option:test-product-4",
+        "up": "option:demo-side-table",
+        "inView": true
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "errors (L)",
+      "pass": true,
+      "value": []
+    },
+    {
+      "vp": "375x812",
+      "name": "X1 requestThumb returning a promise: every requested tile gets its image, and the trigger shows the current one",
+      "pass": true,
+      "value": {
+        "imgs": 12,
+        "requests": 12,
+        "trigger": true
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "O1 prefers-reduced-motion: reduce → no transition or animation on the popup",
+      "pass": true,
+      "value": {
+        "normal": "0.15s",
+        "reduced": [
+          "0s",
+          "1",
+          "none"
+        ]
+      }
+    },
+    {
+      "vp": "375x812",
+      "name": "Q1 without showPopover(): the plain select stays visible and usable, nothing throws",
+      "pass": true,
+      "value": {
+        "enhanced": "false",
+        "w": 313,
+        "h": 34,
+        "ariaHidden": null,
+        "triggers": 0,
+        "value": "demo-side-table",
+        "errors": []
+      }
+    },
+    {
+      "vp": "375x812 touch",
+      "name": "T1 coarse pointer: trigger, tiles, rows, Close, view buttons and search are all >= 44 px; tap selects",
+      "pass": true,
+      "value": {
+        "coarse": true,
+        "trigger": 44,
+        "tile": [
+          114,
+          158
+        ],
+        "close": [
+          44,
+          44
+        ],
+        "viewButton": 44,
+        "search": 44,
+        "row": 44,
+        "value": "test-product-5"
+      }
+    },
+    {
+      "vp": "375x812 touch",
+      "name": "errors (T)",
+      "pass": true,
+      "value": []
+    },
+    {
+      "vp": "1440x900",
+      "name": "T2 desktop: no picker control under 32 px",
+      "pass": true,
+      "value": {
+        "trigger": 36,
+        "close": 32,
+        "viewButton": 32,
+        "groupTab": 32,
+        "tile": 138,
+        "row": 36
+      }
+    }
+  ]
+}

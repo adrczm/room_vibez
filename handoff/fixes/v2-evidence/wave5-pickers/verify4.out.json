@@ -1,0 +1,197 @@
+{
+ "selected": {
+  "n": 1,
+  "pos": [
+   0,
+   0,
+   0
+  ],
+  "selectedRow": "place_muvrez2i_6",
+  "outline": "place_muvrez2i_6",
+  "productOpen": false,
+  "wallOpen": false,
+  "focus": "placement-name",
+  "focusId": null,
+  "product": "demo-lounge-chair",
+  "undo": true
+ },
+ "afterKeysInPopup": {
+  "n": 1,
+  "pos": [
+   0,
+   0,
+   0
+  ],
+  "selectedRow": "place_muvrez2i_6",
+  "outline": "place_muvrez2i_6",
+  "productOpen": true,
+  "wallOpen": false,
+  "focus": "tpicker-option",
+  "focusId": "demo-lounge-chair",
+  "product": "demo-lounge-chair",
+  "undo": true
+ },
+ "afterEsc": {
+  "n": 1,
+  "pos": [
+   0,
+   0,
+   0
+  ],
+  "selectedRow": "place_muvrez2i_6",
+  "outline": "place_muvrez2i_6",
+  "productOpen": false,
+  "wallOpen": false,
+  "focus": "tpicker-trigger",
+  "focusId": null,
+  "product": "demo-lounge-chair",
+  "undo": true
+ },
+ "afterArrowDownOnTrigger": {
+  "n": 1,
+  "pos": [
+   0,
+   0,
+   0
+  ],
+  "selectedRow": "place_muvrez2i_6",
+  "outline": "place_muvrez2i_6",
+  "productOpen": true,
+  "wallOpen": false,
+  "focus": "tpicker-option",
+  "focusId": "demo-lounge-chair",
+  "product": "demo-lounge-chair",
+  "undo": true
+ },
+ "afterSecondEsc": {
+  "n": 1,
+  "pos": [
+   0,
+   0,
+   0
+  ],
+  "selectedRow": "place_muvrez2i_6",
+  "outline": "place_muvrez2i_6",
+  "productOpen": false,
+  "wallOpen": false,
+  "focus": "tpicker-trigger",
+  "focusId": null,
+  "product": "demo-lounge-chair",
+  "undo": true
+ },
+ "afterEnterSame": {
+  "n": 1,
+  "pos": [
+   0,
+   0,
+   0
+  ],
+  "selectedRow": "place_muvrez2i_6",
+  "outline": "place_muvrez2i_6",
+  "productOpen": false,
+  "wallOpen": false,
+  "focus": "tpicker-trigger",
+  "focusId": null,
+  "product": "demo-lounge-chair",
+  "undo": true
+ },
+ "afterEnterOther": {
+  "n": 1,
+  "pos": [
+   0,
+   0,
+   0
+  ],
+  "selectedRow": null,
+  "outline": null,
+  "productOpen": false,
+  "wallOpen": false,
+  "focus": "tpicker-trigger",
+  "focusId": null,
+  "product": "demo-side-table",
+  "undo": true
+ },
+ "afterOpeningFinishStep": {
+  "n": 1,
+  "pos": [
+   0,
+   0,
+   0
+  ],
+  "selectedRow": "place_muvrez2i_6",
+  "outline": "place_muvrez2i_6",
+  "productOpen": false,
+  "wallOpen": false,
+  "focus": "step-toggle",
+  "focusId": null,
+  "product": "demo-side-table",
+  "undo": true
+ },
+ "wallKeys": {
+  "n": 1,
+  "pos": [
+   0,
+   0,
+   0
+  ],
+  "selectedRow": "place_muvrez2i_6",
+  "outline": "place_muvrez2i_6",
+  "productOpen": false,
+  "wallOpen": true,
+  "focus": "tpicker-option",
+  "focusId": "wood-oak",
+  "product": "demo-side-table",
+  "undo": true
+ },
+ "afterWallEnter": {
+  "n": 1,
+  "pos": [
+   0,
+   0,
+   0
+  ],
+  "selectedRow": "place_muvrez2i_6",
+  "outline": "place_muvrez2i_6",
+  "productOpen": false,
+  "wallOpen": false,
+  "focus": "tpicker-trigger",
+  "focusId": null,
+  "product": "demo-side-table",
+  "undo": true,
+  "wall": "wood-oak"
+ },
+ "afterWallEsc": {
+  "n": 1,
+  "pos": [
+   0,
+   0,
+   0
+  ],
+  "selectedRow": "place_muvrez2i_6",
+  "outline": "place_muvrez2i_6",
+  "productOpen": false,
+  "wallOpen": false,
+  "focus": "tpicker-trigger",
+  "focusId": null,
+  "product": "demo-side-table",
+  "undo": true
+ },
+ "controlNudge": {
+  "n": 1,
+  "pos": [
+   0.05,
+   0,
+   0
+  ],
+  "selectedRow": "place_muvrez2i_6",
+  "outline": "place_muvrez2i_6",
+  "productOpen": false,
+  "wallOpen": false,
+  "focus": "BODY",
+  "focusId": null,
+  "product": "demo-side-table",
+  "undo": true
+ },
+ "id": "place_muvrez2i_6",
+ "errors": []
+}

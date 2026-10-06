@@ -1,0 +1,290 @@
+{
+ "1440x900:product": {
+  "panel": {
+   "top": 103,
+   "bottom": 884,
+   "h": 781,
+   "scrollTop": 0,
+   "scrollH": 1144,
+   "clientW": 340
+  },
+  "toolbar": {
+   "top": 0,
+   "bottom": 0,
+   "h": 0,
+   "w": 0
+  },
+  "picker": {
+   "top": 146,
+   "bottom": 180,
+   "h": 34,
+   "w": 310
+  },
+  "card": {
+   "top": 233,
+   "bottom": 595,
+   "h": 362,
+   "w": 340
+  },
+  "slots": {
+   "top": 277,
+   "bottom": 580,
+   "h": 303,
+   "w": 310
+  },
+  "swatches": [
+   {
+    "top": 304,
+    "bottom": 338,
+    "h": 34,
+    "w": 310
+   },
+   {
+    "top": 408,
+    "bottom": 442,
+    "h": 34,
+    "w": 310
+   },
+   {
+    "top": 513,
+    "bottom": 547,
+    "h": 34,
+    "w": 310
+   }
+  ],
+  "add": {
+   "top": 0,
+   "bottom": 0,
+   "h": 0,
+   "w": 0
+  },
+  "place": {
+   "top": 0,
+   "bottom": 0,
+   "h": 0,
+   "w": 0
+  },
+  "step": {
+   "top": 0,
+   "bottom": 0,
+   "h": 0,
+   "w": 0
+  }
+ },
+ "1440x900:room-place": {
+  "panel": {
+   "top": 119,
+   "bottom": 884,
+   "h": 765,
+   "scrollTop": 225,
+   "scrollH": 1309,
+   "clientW": 340
+  },
+  "toolbar": {
+   "top": 119,
+   "bottom": 165,
+   "h": 46,
+   "w": 340
+  },
+  "picker": {
+   "top": 328,
+   "bottom": 362,
+   "h": 34,
+   "w": 310
+  },
+  "card": {
+   "top": 370,
+   "bottom": 748,
+   "h": 378,
+   "w": 310
+  },
+  "slots": {
+   "top": 433,
+   "bottom": 737,
+   "h": 303,
+   "w": 288
+  },
+  "swatches": [
+   {
+    "top": 460,
+    "bottom": 494,
+    "h": 34,
+    "w": 288
+   },
+   {
+    "top": 565,
+    "bottom": 599,
+    "h": 34,
+    "w": 288
+   },
+   {
+    "top": 670,
+    "bottom": 704,
+    "h": 34,
+    "w": 288
+   }
+  ],
+  "add": {
+   "top": 790,
+   "bottom": 823,
+   "h": 33,
+   "w": 310
+  },
+  "place": {
+   "top": 831,
+   "bottom": 863,
+   "h": 33,
+   "w": 113
+  },
+  "step": {
+   "top": 228,
+   "bottom": 884,
+   "h": 656,
+   "w": 310
+  }
+ },
+ "1280x800:product": {
+  "panel": {
+   "top": 103,
+   "bottom": 784,
+   "h": 681,
+   "scrollTop": 0,
+   "scrollH": 1144,
+   "clientW": 340
+  },
+  "toolbar": {
+   "top": 0,
+   "bottom": 0,
+   "h": 0,
+   "w": 0
+  },
+  "picker": {
+   "top": 146,
+   "bottom": 180,
+   "h": 34,
+   "w": 310
+  },
+  "card": {
+   "top": 233,
+   "bottom": 595,
+   "h": 362,
+   "w": 340
+  },
+  "slots": {
+   "top": 277,
+   "bottom": 580,
+   "h": 303,
+   "w": 310
+  },
+  "swatches": [
+   {
+    "top": 304,
+    "bottom": 338,
+    "h": 34,
+    "w": 310
+   },
+   {
+    "top": 408,
+    "bottom": 442,
+    "h": 34,
+    "w": 310
+   },
+   {
+    "top": 513,
+    "bottom": 547,
+    "h": 34,
+    "w": 310
+   }
+  ],
+  "add": {
+   "top": 0,
+   "bottom": 0,
+   "h": 0,
+   "w": 0
+  },
+  "place": {
+   "top": 0,
+   "bottom": 0,
+   "h": 0,
+   "w": 0
+  },
+  "step": {
+   "top": 0,
+   "bottom": 0,
+   "h": 0,
+   "w": 0
+  }
+ },
+ "1280x800:room-place": {
+  "panel": {
+   "top": 119,
+   "bottom": 784,
+   "h": 665,
+   "scrollTop": 276,
+   "scrollH": 1309,
+   "clientW": 340
+  },
+  "toolbar": {
+   "top": 119,
+   "bottom": 165,
+   "h": 46,
+   "w": 340
+  },
+  "picker": {
+   "top": 277,
+   "bottom": 311,
+   "h": 34,
+   "w": 310
+  },
+  "card": {
+   "top": 319,
+   "bottom": 697,
+   "h": 378,
+   "w": 310
+  },
+  "slots": {
+   "top": 382,
+   "bottom": 686,
+   "h": 303,
+   "w": 288
+  },
+  "swatches": [
+   {
+    "top": 409,
+    "bottom": 443,
+    "h": 34,
+    "w": 288
+   },
+   {
+    "top": 514,
+    "bottom": 548,
+    "h": 34,
+    "w": 288
+   },
+   {
+    "top": 619,
+    "bottom": 653,
+    "h": 34,
+    "w": 288
+   }
+  ],
+  "add": {
+   "top": 739,
+   "bottom": 772,
+   "h": 33,
+   "w": 310
+  },
+  "place": {
+   "top": 780,
+   "bottom": 812,
+   "h": 33,
+   "w": 113
+  },
+  "step": {
+   "top": 177,
+   "bottom": 833,
+   "h": 656,
+   "w": 310
+  }
+ }
+}

@@ -1,0 +1,9 @@
+
+ RUN  v5.0.3 /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/ws-copy
+
+
+ Test Files  2 passed (2)
+      Tests  88 passed (88)
+   Start at  16:18:42
+   Duration  342ms (transform 54%, import 24%, tests 20%, worker 1%)
+

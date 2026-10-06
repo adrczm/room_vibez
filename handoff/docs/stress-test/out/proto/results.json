@@ -1,0 +1,261 @@
+[
+  {
+    "id": "P01",
+    "name": "Continue disabled until a role is chosen",
+    "observed": {
+      "disabledAtStart": true
+    }
+  },
+  {
+    "id": "P02",
+    "name": "Invalid email accepted?",
+    "observed": {
+      "screenAfterContinue": "screen-project",
+      "emailValue": "not-an-email",
+      "note": "no validation / no account created"
+    }
+  },
+  {
+    "id": "P02b",
+    "name": "Pill wording after role pick (no sign-in happened)",
+    "observed": {
+      "rolePill": "Consumer"
+    }
+  },
+  {
+    "id": "P25",
+    "name": "Pick Architect then \"Open demo project\"",
+    "observed": {
+      "rolePillAfter": "Interior designer",
+      "screen": "screen-editor"
+    }
+  },
+  {
+    "id": "P03",
+    "name": "Project name empty / HTML / 300 chars",
+    "observed": {
+      "emptyBecomes": "Untitled",
+      "htmlRenderedAsText": "<img src=x onerror=\"window.__xss=1\">",
+      "xssExecuted": false,
+      "longNameOverflow": {
+        "topbarScrollW": 2611,
+        "topbarClientW": 1280,
+        "docScrollW": 2611,
+        "innerW": 1280
+      },
+      "errors": []
+    }
+  },
+  {
+    "id": "P04",
+    "name": "Create from template -> Back -> choose Blank -> Create: furniture in the \"blank\" project",
+    "observed": {
+      "furnitureCount": 1,
+      "bom": "Loft Chair\nCHAIR-LOFT-01 × 1\n€249"
+    }
+  },
+  {
+    "id": "P05",
+    "name": "Re-pick a different file after ticking \"Dimensions look right\"",
+    "observed": {
+      "confirmHiddenWhileReprocessing": true,
+      "checkboxStillChecked": true,
+      "confirmButtonEnabledWithoutReview": true
+    }
+  },
+  {
+    "id": "P06",
+    "name": "Any file -> same hard-coded detection result",
+    "observed": {
+      "confirmText": "Detected ≈ 4.2 m × 5.1 m living room · 2 openings. Review before editing."
+    }
+  },
+  {
+    "id": "P07",
+    "name": "Unsupported .txt bypassing accept filter",
+    "observed": {
+      "aiCardVisible": true,
+      "status": "Recognizing PNG… (illustrative delay)",
+      "activeChip": [
+        ".PNG"
+      ]
+    }
+  },
+  {
+    "id": "P08",
+    "name": "Zero-byte .dwg",
+    "observed": {
+      "aiCardVisible": true,
+      "status": "Recognizing DWG… (illustrative delay)"
+    }
+  },
+  {
+    "id": "P09",
+    "name": "Zone says \"Drop or click\" - drop handler?",
+    "observed": {
+      "dragoverDefaultPrevented": false,
+      "dropDefaultPrevented": false,
+      "aiCardShown": false
+    }
+  },
+  {
+    "id": "P10",
+    "name": "Upload zone is role=button tabindex=0: Enter / Space open picker?",
+    "observed": {
+      "enterOpensPicker": false,
+      "spaceOpensPicker": false
+    }
+  },
+  {
+    "id": "P11",
+    "name": "Place furniture far outside the room polygon",
+    "observed": {
+      "transform": "translate(5.128205299377441,-114.82371520996094)",
+      "roomPolygon": "180,120 620,120 620,400 180,400"
+    }
+  },
+  {
+    "id": "P12",
+    "name": "\"Draw wall\" tool: do different clicks draw different walls?",
+    "observed": {
+      "afterClickA": "160,100 640,110 630,410 150,390",
+      "afterClickB": "160,100 640,110 630,410 150,390",
+      "identical": true
+    }
+  },
+  {
+    "id": "P16",
+    "name": "Click empty canvas with Select tool",
+    "observed": {
+      "before": "Loft Chair",
+      "after": "Loft Chair",
+      "deselected": false
+    }
+  },
+  {
+    "id": "P17",
+    "name": "Delete / Backspace / Undo on a mistaken placement",
+    "observed": {
+      "countBefore": 1,
+      "countAfter": 1,
+      "removable": false
+    }
+  },
+  {
+    "id": "P17b",
+    "name": "Drag a placed item to move it",
+    "observed": {
+      "moved": false
+    }
+  },
+  {
+    "id": "P13",
+    "name": "400 placements in one burst",
+    "observed": {
+      "ms": 2502,
+      "furn": 400,
+      "domNodes": 2668,
+      "bomText": "Loft Chair CHAIR-LOFT-01 × 400 €99600"
+    }
+  },
+  {
+    "id": "P14",
+    "name": "Two chairs with different wood finishes -> what does the BOM say?",
+    "observed": {
+      "bomText": "Loft Chair | CHAIR-LOFT-01 × 2 | €498",
+      "totalText": "Total: €498",
+      "ledeText": "Lines below are Room Vibez system-of-record demos. Planner cart events would feed this service in a real embed.",
+      "variantInfoShown": false
+    }
+  },
+  {
+    "id": "P15",
+    "name": "Finish changed on a TABLE leaks into the next CHAIR placed?",
+    "observed": {
+      "newChairMeta": "CHAIR-LOFT-01 · wood:walnut · plastic:slate · wool:sand"
+    }
+  },
+  {
+    "id": "P24",
+    "name": "\"Apply starter template\" clicked 5 more times",
+    "observed": {
+      "furnitureCount": 9
+    }
+  },
+  {
+    "id": "P19",
+    "name": "3D view with ONLY a table placed (CDN blocked)",
+    "observed": {
+      "threeLoaded": false,
+      "fallbackVisible": true,
+      "fallbackHasChairOnly": true,
+      "placed": [
+        "Oak Side Table"
+      ],
+      "toast": "Three.js CDN unavailable — CSS 3D fallback (network needed for CDN)"
+    }
+  },
+  {
+    "id": "P18",
+    "name": "3D view with ONLY a table placed (CDN allowed)",
+    "observed": {
+      "threeLoaded": true,
+      "fallbackVisible": false,
+      "fallbackHasChairOnly": true,
+      "placed": [
+        "Oak Side Table"
+      ],
+      "toast": "Placed Oak Side Table"
+    }
+  },
+  {
+    "id": "P20",
+    "name": "\"Start over\" on BOM screen",
+    "observed": {
+      "confirmDialogShown": false,
+      "screenAfter": "screen-auth",
+      "furnitureAfter": 0,
+      "beforeunloadHandler": "object"
+    }
+  },
+  {
+    "id": "P21",
+    "name": "URL / history per screen (deep link, browser Back)",
+    "observed": {
+      "historyLength": 2,
+      "hash": "",
+      "href": "vibez-planner-flows/index.html"
+    }
+  },
+  {
+    "id": "P22",
+    "name": "Accessibility signals (role=option without aria-selected, focus after screen change, step chips)",
+    "observed": {
+      "listboxHasSelectedState": false,
+      "optionCount": 4,
+      "stepChipsAriaCurrent": false,
+      "h1Count": 4,
+      "activeElementAfterScreenChange": "BUTTON#btnContinueAuth",
+      "toastRole": "status",
+      "optionSelectedAfterPick": [
+        null,
+        null,
+        null,
+        null
+      ]
+    }
+  },
+  {
+    "id": "P23",
+    "name": "Mobile 375x812: horizontal overflow (px) per screen",
+    "observed": {
+      "auth": 140,
+      "editorOverflowPx": 153,
+      "editorGrid": {
+        "cols": "375px",
+        "h": 1067,
+        "canvasH": 420
+      }
+    }
+  }
+]

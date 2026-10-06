@@ -1,0 +1,277 @@
+{
+  "1920x1080": {
+    "product": 86.578125,
+    "room": 86.578125,
+    "backToProduct": 86.578125,
+    "same": true,
+    "hintLines": [
+      1,
+      1
+    ],
+    "stageTop": [
+      103,
+      103
+    ],
+    "help": {
+      "w": 28,
+      "h": 28,
+      "right": 16,
+      "top": 29
+    },
+    "overflowX": [
+      0,
+      0
+    ],
+    "coarse": false
+  },
+  "1440x900": {
+    "product": 86.578125,
+    "room": 86.578125,
+    "backToProduct": 86.578125,
+    "same": true,
+    "hintLines": [
+      1,
+      1
+    ],
+    "stageTop": [
+      103,
+      103
+    ],
+    "help": {
+      "w": 28,
+      "h": 28,
+      "right": 16,
+      "top": 29
+    },
+    "overflowX": [
+      0,
+      0
+    ],
+    "coarse": false
+  },
+  "1280x800": {
+    "product": 86.578125,
+    "room": 86.578125,
+    "backToProduct": 86.578125,
+    "same": true,
+    "hintLines": [
+      1,
+      1
+    ],
+    "stageTop": [
+      103,
+      103
+    ],
+    "help": {
+      "w": 28,
+      "h": 28,
+      "right": 16,
+      "top": 29
+    },
+    "overflowX": [
+      0,
+      0
+    ],
+    "coarse": false
+  },
+  "1024x768": {
+    "product": 86.578125,
+    "room": 86.578125,
+    "backToProduct": 86.578125,
+    "same": true,
+    "hintLines": [
+      1,
+      1
+    ],
+    "stageTop": [
+      103,
+      103
+    ],
+    "help": {
+      "w": 28,
+      "h": 28,
+      "right": 16,
+      "top": 29
+    },
+    "overflowX": [
+      0,
+      0
+    ],
+    "coarse": false
+  },
+  "861x800": {
+    "product": 86.578125,
+    "room": 86.578125,
+    "backToProduct": 86.578125,
+    "same": true,
+    "hintLines": [
+      1,
+      1
+    ],
+    "stageTop": [
+      103,
+      103
+    ],
+    "help": {
+      "w": 28,
+      "h": 28,
+      "right": 16,
+      "top": 29
+    },
+    "overflowX": [
+      0,
+      0
+    ],
+    "coarse": false
+  },
+  "860x800": {
+    "product": 86.578125,
+    "room": 86.578125,
+    "backToProduct": 86.578125,
+    "same": true,
+    "hintLines": [
+      1,
+      1
+    ],
+    "stageTop": [
+      99,
+      99
+    ],
+    "help": {
+      "w": 28,
+      "h": 28,
+      "right": 16,
+      "top": 29
+    },
+    "overflowX": [
+      0,
+      0
+    ],
+    "coarse": false
+  },
+  "721x800": {
+    "product": 86.578125,
+    "room": 86.578125,
+    "backToProduct": 86.578125,
+    "same": true,
+    "hintLines": [
+      1,
+      1
+    ],
+    "stageTop": [
+      99,
+      99
+    ],
+    "help": {
+      "w": 28,
+      "h": 28,
+      "right": 16,
+      "top": 29
+    },
+    "overflowX": [
+      0,
+      0
+    ],
+    "coarse": false
+  },
+  "720x800": {
+    "product": 156.515625,
+    "room": 156.515625,
+    "backToProduct": 156.515625,
+    "same": true,
+    "hintLines": [
+      1,
+      1
+    ],
+    "stageTop": [
+      169,
+      169
+    ],
+    "help": {
+      "w": 28,
+      "h": 28,
+      "right": 16,
+      "top": 10
+    },
+    "overflowX": [
+      0,
+      0
+    ],
+    "coarse": false
+  },
+  "375x812 touch": {
+    "product": 172.515625,
+    "room": 172.515625,
+    "backToProduct": 172.515625,
+    "same": true,
+    "hintLines": [
+      1,
+      1
+    ],
+    "stageTop": [
+      185,
+      185
+    ],
+    "help": {
+      "w": 44,
+      "h": 44,
+      "right": 16,
+      "top": 10
+    },
+    "overflowX": [
+      0,
+      0
+    ],
+    "coarse": true
+  },
+  "375x812": {
+    "product": 156.515625,
+    "room": 156.515625,
+    "backToProduct": 156.515625,
+    "same": true,
+    "hintLines": [
+      1,
+      1
+    ],
+    "stageTop": [
+      169,
+      169
+    ],
+    "help": {
+      "w": 28,
+      "h": 28,
+      "right": 16,
+      "top": 10
+    },
+    "overflowX": [
+      0,
+      0
+    ],
+    "coarse": false
+  },
+  "320x568 touch": {
+    "product": 172.515625,
+    "room": 172.515625,
+    "backToProduct": 172.515625,
+    "same": true,
+    "hintLines": [
+      1,
+      1
+    ],
+    "stageTop": [
+      185,
+      185
+    ],
+    "help": {
+      "w": 44,
+      "h": 44,
+      "right": 49,
+      "top": 10
+    },
+    "overflowX": [
+      0,
+      0
+    ],
+    "coarse": true
+  }
+}

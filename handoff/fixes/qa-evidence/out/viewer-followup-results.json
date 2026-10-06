@@ -1,0 +1,662 @@
+{
+  "F1": {
+    "name": "Cold load, Product mode: where does the panel settle, and how far is the first swatch from view?",
+    "observed": {
+      "1440x900": {
+        "scrollTopEvery150ms": [
+          0,
+          2,
+          2,
+          873,
+          886,
+          886,
+          886,
+          886,
+          886,
+          886,
+          886,
+          886,
+          886,
+          886
+        ],
+        "settledScrollTop": 886,
+        "panelClientH": 781,
+        "panelScrollH": 3036,
+        "catalogCardTop": 886,
+        "slotsTop": 1766,
+        "headings": [
+          "Room workspace",
+          "Product [in view]",
+          "Material slots",
+          "Add texture",
+          "Light preset",
+          "Parts list"
+        ],
+        "materialSlotsHeadingInView": false,
+        "scrollNeededToFullyShowFirstSlotSwatches": 159,
+        "scrollNeededToShowAllSlots": 402,
+        "roomCardInView": false,
+        "productSelectInView": true,
+        "hiddenAttrButDisplayed": [
+          "div#room-plan \"2D plan\" display:grid 310x140",
+          "div#room-plan-actions \"Download plan PNG\" display:flex 310x33",
+          "input#project-file[file] \"Import project JSON\" display:block 0x0",
+          "div#pack-params display:flex 310x11",
+          "label#texture-target-wrap \"Target material Natural oak (woo\" display:flex 310x54"
+        ]
+      },
+      "1280x800": {
+        "scrollTopEvery150ms": [
+          0,
+          2,
+          2,
+          2,
+          2,
+          886,
+          886,
+          886,
+          886,
+          886,
+          886,
+          886,
+          886,
+          886
+        ],
+        "settledScrollTop": 886,
+        "panelClientH": 681,
+        "panelScrollH": 3036,
+        "catalogCardTop": 886,
+        "slotsTop": 1766,
+        "headings": [
+          "Room workspace",
+          "Product [in view]",
+          "Material slots",
+          "Add texture",
+          "Light preset",
+          "Parts list"
+        ],
+        "materialSlotsHeadingInView": false,
+        "scrollNeededToFullyShowFirstSlotSwatches": 259,
+        "scrollNeededToShowAllSlots": 502,
+        "roomCardInView": false,
+        "productSelectInView": true,
+        "hiddenAttrButDisplayed": [
+          "div#room-plan \"2D plan\" display:grid 310x140",
+          "div#room-plan-actions \"Download plan PNG\" display:flex 310x33",
+          "input#project-file[file] \"Import project JSON\" display:block 0x0",
+          "div#pack-params display:flex 310x11",
+          "label#texture-target-wrap \"Target material Natural oak (woo\" display:flex 310x54"
+        ]
+      }
+    }
+  },
+  "F2": {
+    "name": "Do the earlier figures (3106 / 1835 / 926 / 1705 px) reproduce when the panel has a 15 px classic scrollbar?",
+    "observed": {
+      "overlayScrollbar_default": {
+        "freshProduct": {
+          "panelOffsetW": 340,
+          "panelClientW": 340,
+          "panelClientH": 781,
+          "panelScrollH": 3036,
+          "slotsTop": 1766,
+          "presetsTop": 2635,
+          "roomCardH": 874,
+          "controlsUnder32": 6,
+          "scrollTop": 886
+        },
+        "roomNoRoom": {
+          "panelOffsetW": 340,
+          "panelClientW": 340,
+          "panelClientH": 765,
+          "panelScrollH": 3036,
+          "slotsTop": 1766,
+          "presetsTop": 2635,
+          "roomCardH": 874,
+          "controlsUnder32": 6,
+          "scrollTop": 109
+        },
+        "withRoom": {
+          "panelOffsetW": 340,
+          "panelClientW": 340,
+          "panelClientH": 765,
+          "panelScrollH": 3832,
+          "slotsTop": 2562,
+          "presetsTop": 3431,
+          "roomCardH": 1670,
+          "controlsUnder32": 8,
+          "scrollTop": 109
+        },
+        "statusToPlaceBtnPx": 964
+      },
+      "classicScrollbar_15px": {
+        "freshProduct": {
+          "panelOffsetW": 340,
+          "panelClientW": 340,
+          "panelClientH": 781,
+          "panelScrollH": 3036,
+          "slotsTop": 1766,
+          "presetsTop": 2635,
+          "roomCardH": 874,
+          "controlsUnder32": 6,
+          "scrollTop": 886
+        },
+        "roomNoRoom": {
+          "panelOffsetW": 340,
+          "panelClientW": 340,
+          "panelClientH": 765,
+          "panelScrollH": 3036,
+          "slotsTop": 1766,
+          "presetsTop": 2635,
+          "roomCardH": 874,
+          "controlsUnder32": 6,
+          "scrollTop": 109
+        },
+        "withRoom": {
+          "panelOffsetW": 340,
+          "panelClientW": 340,
+          "panelClientH": 765,
+          "panelScrollH": 3832,
+          "slotsTop": 2562,
+          "presetsTop": 3431,
+          "roomCardH": 1670,
+          "controlsUnder32": 8,
+          "scrollTop": 109
+        },
+        "statusToPlaceBtnPx": 964
+      },
+      "earlierClaims": {
+        "panelScrollH": 3106,
+        "slotsTop": 1835,
+        "presetsTop": 2704,
+        "roomCardH_noRoom": 926,
+        "roomCardH_withRoom": 1705,
+        "controlsUnder32_fresh": 3,
+        "scrollTopAfterSwitchToRoom": 161,
+        "statusToPlaceBtnPx": 963
+      }
+    }
+  },
+  "F3": {
+    "name": "Keyboard: tab order starting at the first control (Product mode; Room mode with a room)",
+    "observed": {
+      "firstTabOnFreshLoadLandsOn": "select#product-select \"Lounge chair (demo) Side table (\"",
+      "productMode": {
+        "totalStops": 47,
+        "byZone": {
+          "topbar": 2,
+          "stage": 2,
+          "room": 15,
+          "catalog": 6,
+          "panel-shared": 22
+        },
+        "stopsBeforeProductSelect": 19,
+        "stopsBeforeFirstSwatch": 25,
+        "stopsBeforeLightPreset": 43,
+        "focusRingStyles": {
+          "custom 2px accent": 32,
+          "browser default": 14
+        },
+        "order": [
+          "topbar: button \"Product\"",
+          "topbar: button \"Room workspace\"",
+          "stage: button#btn-reset \"Reset camera\"",
+          "stage: button#btn-remount \"Dispose & remount\"",
+          "room: button \"From scratch\"",
+          "room: button \"Import plan\"",
+          "room: button \"From template\"",
+          "room: select#room-units \"meters (m) centimeters (cm) feet\"",
+          "room: select#room-preset \"Small bedroom 3×3 m Living 5×4 m\"",
+          "room: input#room-length[number] \"3\"",
+          "room: input#room-width[number] \"3\"",
+          "room: input#room-ceiling[number] \"2.7\"",
+          "room: input#room-thickness[number] \"0.12\"",
+          "room: input#template-title[text]",
+          "room: button#btn-save-template-scratch \"Save current room as template\"",
+          "room: button#btn-create-room \"Create room\"",
+          "room: button#btn-clear-room \"Clear room\"",
+          "room: button#btn-download-plan \"Download plan PNG\"",
+          "room: summary \"Room graph JSON\"",
+          "catalog: select#product-select \"Lounge chair (demo) Side table (\"",
+          "catalog: input#model-files[file] \"Upload GLB, glTF, or OBJ package\"",
+          "catalog: input#pack-files[file] \"Load MJS and optional GLB pack\"",
+          "catalog: input#pack-glb-mate[file] \"Pack mate GLB\"",
+          "catalog: input#module-file[file] \"Load ES module .mjs\"",
+          "catalog: input#mjs-enabled[checkbox] \"on\"",
+          "panel-shared: button.swatch \"Natural oak\"",
+          "panel-shared: button.swatch \"Walnut\"",
+          "panel-shared: button.swatch \"Black stained ash\"",
+          "panel-shared: button.swatch \"Matte black PP\"",
+          "panel-shared: button.swatch \"Gloss white ABS\"",
+          "panel-shared: button.swatch \"Sage PP\"",
+          "panel-shared: button.swatch \"Brushed brass\"",
+          "panel-shared: button.swatch \"Powder-coat black\"",
+          "panel-shared: button.swatch \"Chrome\"",
+          "panel-shared: button.swatch \"Wool — cream\"",
+          "panel-shared: button.swatch \"Wool — terracotta\"",
+          "panel-shared: button.swatch \"Wool — forest\"",
+          "panel-shared: input#texture-file[file] \"Upload texture image\"",
+          "panel-shared: input#texture-name[text]",
+          "panel-shared: select#texture-category \"wood textile plastic stone metal\"",
+          "panel-shared: select#texture-role \"baseColor (new material) normal \"",
+          "panel-shared: select#texture-target \"Natural oak (wood) Walnut (wood)\"",
+          "panel-shared: button#btn-add-texture \"Add to library\"",
+          "panel-shared: button \"Studio soft\"",
+          "panel-shared: button \"Warm interior\"",
+          "panel-shared: button \"Neutral (no IBL)\"",
+          "panel-shared: pre#parts-list \"{ \"stub\": true, \"productId\": \"de\""
+        ]
+      },
+      "roomModeWithRoomAndOnePlacement": {
+        "totalStops": 63,
+        "byZone": {
+          "topbar": 2,
+          "stage": 2,
+          "room": 31,
+          "catalog": 6,
+          "panel-shared": 22
+        },
+        "stopsBeforeCreateRoom": 15,
+        "stopsBeforePlaceButton": 32,
+        "stopsFromPlaceButtonToProductSelect": 3,
+        "undoRedoInOrderWhileDisabled": [
+          "button#btn-undo \"Undo\" disabled=false"
+        ],
+        "order": [
+          "topbar: button \"Product\"",
+          "topbar: button \"Room workspace\"",
+          "stage: button#btn-reset \"Reset camera\"",
+          "stage: button#btn-remount \"Dispose & remount\"",
+          "room: button \"From scratch\"",
+          "room: button \"Import plan\"",
+          "room: button \"From template\"",
+          "room: select#room-units \"meters (m) centimeters (cm) feet\"",
+          "room: select#room-preset \"Small bedroom 3×3 m Living 5×4 m\"",
+          "room: input#room-length[number] \"5\"",
+          "room: input#room-width[number] \"4\"",
+          "room: input#room-ceiling[number] \"2.7\"",
+          "room: input#room-thickness[number] \"0.12\"",
+          "room: input#template-title[text]",
+          "room: button#btn-save-template-scratch \"Save current room as template\"",
+          "room: button#btn-create-room \"Create room\"",
+          "room: button#btn-clear-room \"Clear room\"",
+          "room: button#btn-download-plan \"Download plan PNG\"",
+          "room: button#btn-undo \"Undo\"",
+          "room: button#btn-export-project \"Export project\"",
+          "room: button#btn-import-project \"Import project\"",
+          "room: input#project-file[file] \"Import project JSON\"",
+          "room: select#room-wall-material \"Default Natural oak Walnut Black\"",
+          "room: select#room-floor-material \"Default Natural oak Walnut Black\"",
+          "room: button#btn-draw-wall-mode \"Draw walls mode\"",
+          "room: button \"Door\"",
+          "room: button \"Window\"",
+          "room: input#opening-width[number] \"0.9\"",
+          "room: input#opening-height[number] \"2.1\"",
+          "room: input#opening-sill[number] \"0\"",
+          "room: button#btn-opening-mode \"Click wall to mark opening\"",
+          "room: input#place-wall-snap[checkbox] \"on\"",
+          "room: button#btn-place-mode \"Click floor to place product\"",
+          "room: button \"Delete\"",
+          "room: summary \"Room graph JSON\"",
+          "catalog: select#product-select \"Lounge chair (demo) Side table (\"",
+          "catalog: input#model-files[file] \"Upload GLB, glTF, or OBJ package\"",
+          "catalog: input#pack-files[file] \"Load MJS and optional GLB pack\"",
+          "catalog: input#pack-glb-mate[file] \"Pack mate GLB\"",
+          "catalog: input#module-file[file] \"Load ES module .mjs\"",
+          "catalog: input#mjs-enabled[checkbox] \"on\"",
+          "panel-shared: button.swatch \"Natural oak\"",
+          "panel-shared: button.swatch \"Walnut\"",
+          "panel-shared: button.swatch \"Black stained ash\"",
+          "panel-shared: button.swatch \"Matte black PP\"",
+          "panel-shared: button.swatch \"Gloss white ABS\"",
+          "panel-shared: button.swatch \"Sage PP\"",
+          "panel-shared: button.swatch \"Brushed brass\"",
+          "panel-shared: button.swatch \"Powder-coat black\"",
+          "panel-shared: button.swatch \"Chrome\"",
+          "panel-shared: button.swatch \"Wool — cream\"",
+          "panel-shared: button.swatch \"Wool — terracotta\"",
+          "panel-shared: button.swatch \"Wool — forest\"",
+          "panel-shared: input#texture-file[file] \"Upload texture image\"",
+          "panel-shared: input#texture-name[text]",
+          "panel-shared: select#texture-category \"wood textile plastic stone metal\"",
+          "panel-shared: select#texture-role \"baseColor (new material) normal \"",
+          "panel-shared: select#texture-target \"Natural oak (wood) Walnut (wood)\"",
+          "panel-shared: button#btn-add-texture \"Add to library\"",
+          "panel-shared: button \"Studio soft\"",
+          "panel-shared: button \"Warm interior\"",
+          "panel-shared: button \"Neutral (no IBL)\"",
+          "panel-shared: pre#parts-list \"{ \"stub\": true, \"productId\": \"de\""
+        ]
+      }
+    }
+  },
+  "F4": {
+    "name": "prefers-reduced-motion: is the workspace-switch panel scroll animated?",
+    "observed": {
+      "noPreference": {
+        "mediaQueryReduce": false,
+        "before": 1500,
+        "distinct": 11,
+        "first": 1500,
+        "last": 109,
+        "frames": 16,
+        "sample": [
+          1500,
+          1141,
+          109
+        ]
+      },
+      "reduce": {
+        "mediaQueryReduce": true,
+        "before": 1500,
+        "distinct": 10,
+        "first": 1500,
+        "last": 109,
+        "frames": 15,
+        "sample": [
+          1500,
+          984,
+          109
+        ]
+      }
+    }
+  },
+  "F5": {
+    "name": "WCAG 2.5.3 Label in Name: aria-label vs the visible label text",
+    "observed": {
+      "total": 15,
+      "mismatches": [
+        {
+          "id": "plan-file",
+          "visibleLabel": "Plan file (.dwg / .dxf / .json / .png / .jpg / .pdf)",
+          "accessibleName": "Upload DWG, DXF, candidates JSON, raster underlay, or PDF",
+          "nameContainsVisibleLabel": false
+        },
+        {
+          "id": "model-files",
+          "visibleLabel": "Add 3D model",
+          "accessibleName": "Upload GLB, glTF, or OBJ package",
+          "nameContainsVisibleLabel": false
+        },
+        {
+          "id": "pack-files",
+          "visibleLabel": "Load pack (.mjs + .glb)",
+          "accessibleName": "Load MJS and optional GLB pack",
+          "nameContainsVisibleLabel": false
+        },
+        {
+          "id": "pack-glb-mate",
+          "visibleLabel": "Or attach pack-mate GLB",
+          "accessibleName": "Pack mate GLB",
+          "nameContainsVisibleLabel": false
+        },
+        {
+          "id": "module-file",
+          "visibleLabel": "Load module (.mjs only)",
+          "accessibleName": "Load ES module .mjs",
+          "nameContainsVisibleLabel": false
+        },
+        {
+          "id": "texture-target",
+          "visibleLabel": "Target material",
+          "accessibleName": "Target library material",
+          "nameContainsVisibleLabel": false
+        }
+      ],
+      "noVisibleLabel": [
+        "project-file: \"Import project JSON\"",
+        "product-select: \"Product\""
+      ],
+      "ok": 7
+    }
+  },
+  "F6": {
+    "name": "Mobile 375x812: where the page settles on cold load, after switching workspace, after Create room; touch scroll over the canvas",
+    "observed": {
+      "scrollYEvery150msFromReady": [
+        0,
+        47,
+        1290,
+        1546,
+        1632,
+        1643,
+        1643,
+        1643,
+        1643,
+        1643,
+        1643,
+        1643,
+        1643,
+        1643
+      ],
+      "coldLoad": {
+        "scrollY": 1643,
+        "canvasVisiblePx": 0,
+        "canvasVisiblePctOfItself": 0,
+        "elementAtTopOfViewport": "div#catalog-card \"Product Lounge chair (demo) Side\"",
+        "docH": 3794
+      },
+      "firstViewportBudget": {
+        "topbarPx": 149,
+        "canvasPx": 455,
+        "remainingBelowCanvasPx": 196
+      },
+      "swipes": {
+        "canvasTouchAction": "none",
+        "overCanvas_250pxUp": 0,
+        "belowCanvas_250pxUp": 235,
+        "topbar_100pxUp": 85
+      },
+      "afterSwitchToRoom": {
+        "scrollY": 648,
+        "canvasVisiblePx": 0,
+        "canvasVisiblePctOfItself": 0,
+        "elementAtTopOfViewport": "div#room-card \"Room workspace MVP Three create \"",
+        "docH": 3810
+      },
+      "afterCreateRoom": {
+        "scrollY": 648,
+        "canvasVisiblePx": 0,
+        "canvasVisiblePctOfItself": 0,
+        "elementAtTopOfViewport": "div#room-card \"Room workspace MVP Three create \"",
+        "docH": 4730
+      },
+      "afterPlaceModeTap": {
+        "scrollY": 1756,
+        "canvasVisiblePx": 0,
+        "canvasVisiblePctOfItself": 0,
+        "elementAtTopOfViewport": "div#room-card \"Room workspace MVP Three create \"",
+        "docH": 4730
+      }
+    }
+  },
+  "F7": {
+    "name": "320 px wide: what forces the 33 px horizontal overflow?",
+    "observed": {
+      "base": {
+        "overflowX": 33,
+        "layoutW": 320,
+        "stageW": 337
+      },
+      "overflowXAfterEachProbe": {
+        "hide .file-input": 33,
+        "file-input min-width:0": 33,
+        "hide #room-card": 33,
+        "hide #catalog-card": 33,
+        "hide .segmented": 33,
+        "hide pre.code": 0,
+        ".panel min-width:0": 0,
+        ".panel > * min-width:0": 0,
+        "hide .stage-toolbar + hint": 33,
+        "layout cols minmax(0,1fr)": 0
+      },
+      "widestPanelDescendants": [
+        {
+          "el": "div#room-card \"Room workspace MVP Three create \"",
+          "w": 337,
+          "sw": 335
+        },
+        {
+          "el": "div#catalog-card \"Product Lounge chair (demo) Side\"",
+          "w": 337,
+          "sw": 335
+        },
+        {
+          "el": "div.card \"Material slots Frame Natural oak\"",
+          "w": 337,
+          "sw": 335
+        },
+        {
+          "el": "div.card \"Add texture Uploads go into the \"",
+          "w": 337,
+          "sw": 335
+        },
+        {
+          "el": "div.card \"Light preset Studio soft Warm in\"",
+          "w": 337,
+          "sw": 335
+        },
+        {
+          "el": "div.card \"Parts list stub · onPartListUpda\"",
+          "w": 337,
+          "sw": 335
+        },
+        {
+          "el": "h2 \"Room workspace MVP\"",
+          "w": 307,
+          "sw": 307
+        },
+        {
+          "el": "p.muted.small \"Three create paths → same owned \"",
+          "w": 307,
+          "sw": 307
+        }
+      ]
+    }
+  },
+  "F8": {
+    "name": "After Create room (Living 5x4): floor share of the canvas after a vertical mouse drag; and with a raised default camera",
+    "observed": {
+      "arrival": {
+        "inRoomFloorPct": 0,
+        "wallPct": 57.1,
+        "elevationDeg": 21.2
+      },
+      "afterDragDown_100px": {
+        "inRoomFloorPct": 18.4,
+        "wallPct": 47.2,
+        "elevationDeg": 51
+      },
+      "afterDragDown_200px": {
+        "inRoomFloorPct": 34.2,
+        "wallPct": 36.3,
+        "elevationDeg": 90
+      },
+      "afterDragDown_300px": {
+        "inRoomFloorPct": 34.2,
+        "wallPct": 36.3,
+        "elevationDeg": 90
+      },
+      "afterDragDown_400px": {
+        "inRoomFloorPct": 34.2,
+        "wallPct": 36.3,
+        "elevationDeg": 90
+      },
+      "cameraElevation_35deg_sameDistance": {
+        "inRoomFloorPct": 7,
+        "wallPct": 56.7,
+        "elevationDeg": 40.2
+      },
+      "cameraElevation_45deg_sameDistance": {
+        "inRoomFloorPct": 14.7,
+        "wallPct": 51,
+        "elevationDeg": 48.4
+      },
+      "cameraElevation_55deg_sameDistance": {
+        "inRoomFloorPct": 22.7,
+        "wallPct": 41.7,
+        "elevationDeg": 56.3
+      }
+    }
+  },
+  "F9": {
+    "name": "Placed product materials (evidence shot); Create room over existing work; Cmd/Ctrl+Z while typing in a field",
+    "observed": {
+      "placedRootMaterials": {
+        "placeholder_frame #e7e7e7 map:none": 10,
+        "placeholder_handles #e7e7e7 map:none": 2,
+        "placeholder_pillow #e7e7e7 map:none": 2
+      },
+      "afterReload": {
+        "set": {
+          "placeholder_frame #e7e7e7 map:none": 10,
+          "placeholder_handles #e7e7e7 map:none": 2,
+          "placeholder_pillow #e7e7e7 map:none": 2
+        },
+        "placements": 1,
+        "productSlotsAfterReload": [
+          "frame=wood-oak",
+          "handles=plastic-black",
+          "pillow=wool-cream"
+        ]
+      },
+      "undoWhileTypingInLengthField": {
+        "placementsBefore": 2,
+        "fieldAfterTyping": "39",
+        "afterMetaZ": {
+          "placements": 1,
+          "field": "39",
+          "status": "Undid last room change"
+        },
+        "roomUndoFiredInsteadOfTextUndo": true
+      },
+      "createRoomOverExistingWork": {
+        "placementsBefore": 2,
+        "confirmDialogShown": false,
+        "after": {
+          "placements": 0,
+          "undoDisabled": true,
+          "status": "Small bedroom · 3.00 m × 3.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored"
+        }
+      }
+    }
+  },
+  "F10": {
+    "name": "Elements carrying the hidden attribute that are still displayed (per state)",
+    "observed": {
+      "freshProduct": [
+        "div#room-plan \"2D plan\" display:grid 310x140",
+        "div#room-plan-actions \"Download plan PNG\" display:flex 310x33",
+        "input#project-file[file] \"Import project JSON\" display:block 0x0",
+        "div#pack-params display:flex 310x11",
+        "label#texture-target-wrap \"Target material Natural oak (woo\" display:flex 310x54"
+      ],
+      "roomPlanBoxVisibleWithNoRoom": {
+        "display": "grid",
+        "size": "310x140",
+        "downloadBtnVisible": true
+      },
+      "downloadPlanWithNoRoom": {
+        "downloadStarted": false,
+        "roomStatus": "No room yet — from scratch, import plan, or template."
+      },
+      "roomNoRoom": [
+        "div#room-plan \"2D plan\" display:grid 310x140",
+        "div#room-plan-actions \"Download plan PNG\" display:flex 310x33",
+        "input#project-file[file] \"Import project JSON\" display:block 0x0",
+        "div#pack-params display:flex 310x11",
+        "label#texture-target-wrap \"Target material Natural oak (woo\" display:flex 310x54"
+      ],
+      "roomWithRoom": [
+        "input#project-file[file] \"Import project JSON\" display:block 310x20",
+        "div#pack-params display:flex 310x11",
+        "label#texture-target-wrap \"Target material Natural oak (woo\" display:flex 310x54"
+      ],
+      "importTab": [
+        "input#project-file[file] \"Import project JSON\" display:block 310x20",
+        "div#pack-params display:flex 310x11",
+        "label#texture-target-wrap \"Target material Natural oak (woo\" display:flex 310x54"
+      ]
+    }
+  }
+}

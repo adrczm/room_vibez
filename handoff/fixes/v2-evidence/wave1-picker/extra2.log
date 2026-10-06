@@ -1,0 +1,9 @@
+PASS type-ahead without a search field: "w" → Walnut, "w" again → next W, "wh" → White marble :: {"searchHidden":true,"first":"wood-walnut","second":"wool-cream","third":"stone-marble"}
+PASS a disabled select gives a disabled trigger that does not open; sync() re-enables it :: {"triggerDisabled":true,"opened":false,"enabledAgain":true}
+PASS a broken thumbnail URL falls back to the neutral placeholder :: {"kind":"none","imgs":0}
+PASS sync() while open: the new item appears, the popup stays open, focus stays on an option, selection follows the select :: {"before":2,"count":3,"focusRole":"option","focusId":"demo-lounge-chair","selected":["upload-1"],"open":true}
+PASS alignTo lines the popup up with that element; formatGroup relabels the tabs :: {"popupRight":1424,"panelRight":1424,"triggerRight":1409,"tabs":["All","WOOD","PLASTIC","TEXTILE","STONE","METAL"]}
+PASS panel scroll: popup stays open while 20 px of the trigger still show, closes when the trigger is above the panel edge :: {"panelTop":70,"stillVisible":{"open":true,"triggerBottom":90},"scrolledOut":{"open":false,"triggerBottom":30,"expanded":"false"}}
+PASS resizing across 860 px while open switches anchored → sheet → anchored :: {"l1":"anchored","l2":{"layout":"sheet","open":true,"left":0,"right":800,"bottom":900,"vw":800,"vh":900},"l3":{"layout":"anchored","open":true,"width":520}}
+PASS no page errors :: []
+all extra2 checks passed

@@ -1,0 +1,25 @@
+// Quick look: load, report console errors, empty data-copy elements, and take screenshots of the main states.
+import { launch, fresh, openStep, waitPlacements, OUT } from './lib.mjs';
+const browser = await launch();
+const { ctx, page, errors } = await fresh(browser, { viewport: { width: 1280, height: 800 } });
+const empties = await page.evaluate(() => [...document.querySelectorAll('[data-copy]')].filter((e) => !e.textContent.trim()).map((e) => e.outerHTML.slice(0, 120)));
+console.log('errors', errors, 'empty data-copy', empties);
+await page.screenshot({ path: `${OUT}/out/look-product.png` });
+await page.click('#workspace-mode button[data-mode=room]');
+await page.waitForTimeout(300);
+await page.screenshot({ path: `${OUT}/out/look-room-empty.png` });
+await page.click('#room-ingress button[data-ingress=import]');
+await page.waitForTimeout(200);
+await page.screenshot({ path: `${OUT}/out/look-import.png` });
+await page.click('#btn-import-fixture');
+await page.waitForSelector('#import-review:not([hidden])');
+await page.waitForTimeout(300);
+await page.screenshot({ path: `${OUT}/out/look-import-review.png`, fullPage: false });
+await page.evaluate(() => document.querySelector('.panel').scrollTo(0, 400));
+await page.waitForTimeout(200);
+await page.screenshot({ path: `${OUT}/out/look-import-review-2.png` });
+await page.evaluate(() => document.querySelector('.panel').scrollTo(0, 9999));
+await page.waitForTimeout(200);
+await page.screenshot({ path: `${OUT}/out/look-import-review-3.png` });
+console.log('errors', errors);
+await browser.close();

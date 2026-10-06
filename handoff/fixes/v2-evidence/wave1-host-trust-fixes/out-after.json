@@ -1,0 +1,337 @@
+{
+ "UX01_size": {
+  "presetBefore": "small-bedroom",
+  "presetAfterTyping": "custom",
+  "lengthM": 6,
+  "widthM": 3,
+  "ceilingM": 2.7,
+  "roomName": "Custom room",
+  "status": "Custom room · 6.00 m × 3.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored",
+  "field": "6",
+  "preset": "custom",
+  "presetLabel": "Custom…",
+  "errors": []
+ },
+ "UX01_units": {
+  "m": {
+   "room-length": "3 (min 0.5, step 0.1)",
+   "room-width": "3 (min 0.5, step 0.1)",
+   "room-ceiling": "2.7 (min 0.5, step 0.1)",
+   "room-thickness": "0.12 (min 0.05, step 0.01)",
+   "opening-width": "0.9 (min 0.2, step 0.05)",
+   "opening-height": "2.1 (min 0.2, step 0.05)",
+   "opening-sill": "0 (min 0, step 0.05)"
+  },
+  "cm": {
+   "room-length": "300 (min 50, step 10)",
+   "room-width": "300 (min 50, step 10)",
+   "room-ceiling": "270 (min 50, step 10)",
+   "room-thickness": "12 (min 5, step 1)",
+   "opening-width": "90 (min 20, step 5)",
+   "opening-height": "210 (min 20, step 5)",
+   "opening-sill": "0 (min 0, step 5)"
+  },
+  "presetAfterUnit": "small-bedroom",
+  "created": {
+   "lengthM": 3,
+   "widthM": 3,
+   "ceilingM": 2.7,
+   "wallThicknessM": 0.12,
+   "status": "Small bedroom · 300 cm × 300 cm · ceiling 270 cm · 0 opening(s) · 0 placement(s) · authored"
+  },
+  "ft": {
+   "room-length": "9.84252 (min 1.64, step any)",
+   "room-width": "9.84252 (min 1.64, step any)",
+   "room-ceiling": "8.858268 (min 1.64, step any)",
+   "room-thickness": "0.393701 (min 0.16, step any)",
+   "opening-width": "2.952756 (min 0.65, step any)",
+   "opening-height": "6.889764 (min 0.65, step any)",
+   "opening-sill": "0 (min 0, step any)"
+  },
+  "backToM": {
+   "room-length": "3 (min 0.5, step 0.1)",
+   "room-width": "3 (min 0.5, step 0.1)",
+   "room-ceiling": "2.7 (min 0.5, step 0.1)",
+   "room-thickness": "0.12 (min 0.05, step 0.01)",
+   "opening-width": "0.9 (min 0.2, step 0.05)",
+   "opening-height": "2.1 (min 0.2, step 0.05)",
+   "opening-sill": "0 (min 0, step 0.05)"
+  },
+  "errors": []
+ },
+ "QA08_hidden": {
+  "freshProduct": [],
+  "roomNoRoom": [],
+  "downloadPlanVisibleNoRoom": false,
+  "importTab": [],
+  "roomWithRoom": [],
+  "projectFileDisplay": "none",
+  "textureTarget": {
+   "map": {
+    "hiddenAttr": true,
+    "display": "none"
+   },
+   "normalMap": {
+    "hiddenAttr": false,
+    "display": "flex"
+   },
+   "roughnessMap": {
+    "hiddenAttr": false,
+    "display": "flex"
+   },
+   "map_again": {
+    "hiddenAttr": true,
+    "display": "none"
+   }
+  },
+  "textureTargetVisibleForNormal": true,
+  "roomCardHeight": 1642,
+  "errors": []
+ },
+ "QA01_tools": {
+  "arrival": {
+   "mode": "room",
+   "workspace": "room",
+   "place": "false",
+   "opening": "false",
+   "draw": "false",
+   "elevationDeg": 21.16,
+   "camDist": 8
+  },
+  "place": {
+   "modes": [
+    "place",
+    "room",
+    "place"
+   ],
+   "pressed": [
+    "true",
+    "false",
+    "true"
+   ]
+  },
+  "opening": {
+   "modes": [
+    "opening",
+    "room",
+    "opening"
+   ],
+   "pressed": [
+    "true",
+    "false",
+    "true"
+   ]
+  },
+  "draw-wall": {
+   "modes": [
+    "draw-wall",
+    "room",
+    "draw-wall"
+   ],
+   "pressed": [
+    "true",
+    "false",
+    "true"
+   ]
+  },
+  "afterCycling": {
+   "mode": "room",
+   "workspace": "room",
+   "place": "false",
+   "opening": "false",
+   "draw": "false",
+   "elevationDeg": 21.16,
+   "camDist": 8
+  },
+  "orbitThenTool": {
+   "place": {
+    "framedDeg": 21.16,
+    "orbitedDeg": 50.95,
+    "afterToolDeg": 59.41,
+    "deltaDeg": 8.46,
+    "modeAfter": "place"
+   },
+   "opening": {
+    "framedDeg": 23.37,
+    "orbitedDeg": 56.06,
+    "afterToolDeg": 64.38,
+    "deltaDeg": 8.32,
+    "modeAfter": "opening"
+   },
+   "draw-wall": {
+    "framedDeg": 23.34,
+    "orbitedDeg": 55.99,
+    "afterToolDeg": 64.75,
+    "deltaDeg": 8.76,
+    "modeAfter": "draw-wall"
+   }
+  },
+  "escFromButtonFocus": {
+   "mode": "room",
+   "workspace": "room",
+   "place": "false",
+   "opening": "false",
+   "draw": "false",
+   "elevationDeg": 66.95,
+   "camDist": 8
+  },
+  "placeOnBeforeEsc": "place",
+  "activeElementAfterToolClick": "btn-place-mode",
+  "escInPlace": {
+   "mode": "room",
+   "workspace": "room",
+   "place": "false",
+   "opening": "false",
+   "draw": "false",
+   "elevationDeg": 69.94,
+   "camDist": 8
+  },
+  "ingressTab": {
+   "before": 90,
+   "after": 90,
+   "deltaDeg": 0,
+   "ingress": "template"
+  },
+  "ingressTabWhilePlaceOn": {
+   "mode": "place",
+   "workspace": "room",
+   "place": "true",
+   "opening": "false",
+   "draw": "false",
+   "elevationDeg": 90,
+   "camDist": 8
+  },
+  "inProduct": {
+   "mode": "catalog",
+   "workspace": "catalog",
+   "place": "false",
+   "opening": "false",
+   "draw": "false",
+   "elevationDeg": 20.58,
+   "camDist": 1.996
+  },
+  "productThenRoom": {
+   "mode": "room",
+   "workspace": "room",
+   "place": "false",
+   "opening": "false",
+   "draw": "false",
+   "elevationDeg": 21.63,
+   "camDist": 8
+  },
+  "toolFromProduct": {
+   "mode": "place",
+   "workspace": "room",
+   "place": "true",
+   "opening": "false",
+   "draw": "false",
+   "elevationDeg": 21.25,
+   "camDist": 8
+  },
+  "errors": []
+ },
+ "QA06_undo_in_field": {
+  "placedWith": "real pointer clicks",
+  "activeElementAfterCanvasClick": "BODY",
+  "placementsBefore": 2,
+  "fieldAfterTyping": "59",
+  "afterUndoKeyInField": {
+   "placements": 2,
+   "field": "5",
+   "fieldBeforeTyping": "5",
+   "status": "Placed “Lounge chair (demo)” on the floor"
+  },
+  "modeBeforeEscInField": "place",
+  "modeAfterEscInField": "place",
+  "activeElementOutside": "BODY",
+  "afterUndoKeyOutsideField": {
+   "placementsBefore": 2,
+   "placements": 1,
+   "status": "Undid last room change"
+  },
+  "afterRedoKeyOutsideField": {
+   "placements": 2
+  },
+  "activeElementAfterCheckbox": "place-wall-snap",
+  "undoWithCheckboxFocused": {
+   "placementsBefore": 2,
+   "placements": 2
+  },
+  "errors": []
+ },
+ "QA07_disabled": {
+  "undoDisabled": {
+   "disabled": true,
+   "color": "rgb(48, 48, 48)",
+   "background": "rgb(255, 255, 255)",
+   "border": "rgb(201, 204, 207)",
+   "opacity": "0.5",
+   "cursor": "default",
+   "boxShadow": "none"
+  },
+  "exportEnabled": {
+   "disabled": false,
+   "color": "rgb(48, 48, 48)",
+   "background": "rgb(255, 255, 255)",
+   "border": "rgb(201, 204, 207)",
+   "opacity": "1",
+   "cursor": "pointer",
+   "boxShadow": "rgba(26, 26, 26, 0.07) 0px 1px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px"
+  },
+  "differsIn": [
+   "opacity",
+   "cursor",
+   "boxShadow"
+  ],
+  "undoHoverBackground": "rgb(255, 255, 255)",
+  "errors": []
+ },
+ "QA18_no_room": {
+  "noRoom": {
+   "btn-save-template-scratch": {
+    "disabled": true,
+    "visible": true
+   },
+   "btn-clear-room": {
+    "disabled": true,
+    "visible": true
+   },
+   "btn-download-plan": {
+    "disabled": false,
+    "visible": false
+   }
+  },
+  "hasRoomGraph": false,
+  "withRoom": {
+   "btn-save-template-scratch": {
+    "disabled": false,
+    "visible": true
+   },
+   "btn-clear-room": {
+    "disabled": false,
+    "visible": true
+   },
+   "btn-download-plan": {
+    "disabled": false,
+    "visible": true
+   }
+  },
+  "afterClear": {
+   "hasRoomGraph": false,
+   "workspace": "catalog",
+   "btn-save-template-scratch": {
+    "disabled": true,
+    "visible": true
+   },
+   "btn-clear-room": {
+    "disabled": true,
+    "visible": true
+   },
+   "btn-download-plan": {
+    "disabled": false,
+    "visible": false
+   }
+  },
+  "errors": []
+ }
+}

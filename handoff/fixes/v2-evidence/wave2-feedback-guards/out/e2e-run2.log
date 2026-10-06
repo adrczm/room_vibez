@@ -1,0 +1,16 @@
+run-e2e: specs from /Users/adrian/Desktop/Room Vibez/v2/hackathon-3d-viewer against http://127.0.0.1:18777; run dir /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.cQCXAj
+
+Running 10 tests using 1 worker
+
+  ✓   1 tests/e2e/dwg-plan-import.spec.ts:18:5 › DWG plan import: mock fixture → confirm → immediate room + template (12.1s)
+  ✓   2 tests/e2e/feedback-and-guards.spec.ts:119:5 › Room workspace with no room: empty stage, a card with four ways to start, the right hint; Product is unaffected (3.5s)
+  ✓   3 tests/e2e/feedback-and-guards.spec.ts:193:5 › Clear room asks first: Keep room changes nothing; confirming empties the room, stays in Room, and a reload after an Export stays empty (5.4s)
+  ✓   4 tests/e2e/feedback-and-guards.spec.ts:260:5 › replacing a room that has work in it asks first; an untouched room is replaced without a question; Delete template asks (6.5s)
+  ✓   5 tests/e2e/feedback-and-guards.spec.ts:332:5 › Place mode answers on the stage: fixed tool labels, a state chip, a toast for a missed click, and nothing is placed outside the room (7.0s)
+  ✓   6 tests/e2e/feedback-and-guards.spec.ts:439:5 › a project file can be opened in the Room workspace before any room exists, and its placed product comes back (10.0s)
+  ✓   7 tests/e2e/feedback-and-guards.spec.ts:487:5 › choosing only a wall finish leaves the floor as it was, and the other way round (3.2s)
+  ✓   8 tests/e2e/missing-features.spec.ts:15:5 › missing features: undo, materials, snap, export, underlay path (9.7s)
+  ✓   9 tests/e2e/room-placement-engine.spec.ts:92:5 › UX-09 engine: placement hits, pose changes and the highlight (7.7s)
+  ✓  10 tests/e2e/room-placement-engine.spec.ts:234:5 › UX-16 step 1: applySlotBindings puts the chosen finish on a placed product (7.6s)
+
+  10 passed (1.2m)

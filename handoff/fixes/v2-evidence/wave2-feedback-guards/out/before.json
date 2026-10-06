@@ -1,0 +1,121 @@
+{
+ "T3_emptyRoom": {
+  "workspace": "room",
+  "mode": "catalog",
+  "turntable": true,
+  "ground": true,
+  "room": null,
+  "hasRoom": false,
+  "hint": "Room · drag to orbit · scroll to zoom · right-drag to pan",
+  "hintShown": true,
+  "roomStatus": "No room yet — from scratch, import plan, or template.",
+  "toast": null,
+  "toastOpen": null,
+  "toastKind": null,
+  "empty": null
+ },
+ "T4_importProjectVisible": false,
+ "T1_replace": {
+  "dialogs": 0,
+  "placementsAfterCreateAgain": 0
+ },
+ "T1_clearButton": {
+  "clear": {
+   "x": 1099,
+   "y": 534.34375,
+   "width": 310,
+   "height": 32.84375
+  },
+  "create": {
+   "x": 1099,
+   "y": 493.5,
+   "width": 310,
+   "height": 32.84375
+  },
+  "gapBelowCreate": 8
+ },
+ "T1_clear": {
+  "dialogs": 0,
+  "hasRoom": false,
+  "workspace": "catalog"
+ },
+ "T1_templatesBefore": 1,
+ "T1_deleteTemplate": {
+  "dialogs": 0,
+  "templatesAfter": 0
+ },
+ "T1_idb": {
+  "afterClear": {
+   "room": false,
+   "ls": null
+  },
+  "afterReloadHasRoom": true,
+  "walls": 4
+ },
+ "T2_labelsOff": [
+  "Click wall to mark opening",
+  "Click floor to place product",
+  "Draw walls mode"
+ ],
+ "T2_labelPlaceOn": "Place mode on — click the floor",
+ "T2_hintPlaceOn": "Place mode · click floor to drop the selected product · orbit to look",
+ "T2_wallClick": {
+  "raycast": "wall",
+  "roomStatus": "Click the floor inside the room to place furniture.",
+  "toast": null,
+  "toastEl": 0,
+  "dist": {
+   "statusTop": -433.8125,
+   "placeTop": 484.140625,
+   "apart": 918,
+   "statusInsideStage": false
+  },
+  "placements": 0
+ },
+ "T5_voidClick": {
+  "placements": 0,
+  "roomStatus": "Click the floor inside the room to place furniture.",
+  "toast": null
+ },
+ "T5_outsideViaHook": {
+  "placements": [
+   {
+    "x": -0.48,
+    "z": 3.74
+   }
+  ],
+  "roomStatus": "Placed “Lounge chair (demo)” on the floor"
+ },
+ "T6": {
+  "before": {
+   "floor": {
+    "hex": "#766b5e",
+    "name": "room:floor"
+   },
+   "wall": {
+    "hex": "#d8d4cc",
+    "name": "room:wall"
+   }
+  },
+  "afterWallOnly": {
+   "floor": {
+    "hex": "#ffffff",
+    "name": "room:floor:default"
+   },
+   "wall": {
+    "hex": "#ffffff",
+    "name": "room:wall:wood-walnut"
+   }
+  },
+  "options": [
+   "|Default",
+   "wood-oak|Natural oak",
+   "wood-walnut|Walnut",
+   "wood-black|Black stained ash"
+  ],
+  "graph": {
+   "wall": "wood-walnut",
+   "floor": null
+  }
+ }
+}

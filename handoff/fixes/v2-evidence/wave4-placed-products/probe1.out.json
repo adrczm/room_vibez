@@ -1,0 +1,345 @@
+{
+  "cardInRoom": {
+    "parent": "materials-home-room",
+    "count": 1,
+    "visible": true,
+    "state": "Applies to the next product you place.",
+    "pressed": "wood-walnut"
+  },
+  "finish": {
+    "byClick": {
+      "bindings": {
+        "frame": "wood-walnut",
+        "handles": "plastic-black",
+        "pillow": "wool-cream"
+      },
+      "meshes": {
+        "frame": [
+          "wood-walnut|#ffffff|wood-walnut.png"
+        ],
+        "handles": [
+          "plastic-black|#1e1e1e|no-map"
+        ],
+        "pillow": [
+          "wool-cream|#efe6d4|wool-knit.png"
+        ]
+      }
+    },
+    "byAddToRoom": {
+      "bindings": {
+        "frame": "wood-oak",
+        "handles": "plastic-black",
+        "pillow": "wool-cream"
+      },
+      "meshes": {
+        "frame": [
+          "wood-oak|#ffffff|wood-oak.png"
+        ],
+        "handles": [
+          "plastic-black|#1e1e1e|no-map"
+        ],
+        "pillow": [
+          "wool-cream|#efe6d4|wool-knit.png"
+        ]
+      }
+    }
+  },
+  "before": {
+    "highlight": null,
+    "current": [],
+    "rows": [
+      "Lounge chair (demo) 1 | Delete",
+      "Lounge chair (demo) 2 | Delete"
+    ],
+    "hint": "Drag to orbit · scroll to zoom · right-drag to pan",
+    "state": "Applies to the next product you place.",
+    "slots": [
+      "frame=wood-oak",
+      "handles=plastic-black",
+      "pillow=wool-cream"
+    ],
+    "active": "BUTTON#btn-add-to-room"
+  },
+  "afterCanvasSelect": {
+    "highlight": "place_muvp0wr0_7",
+    "current": [
+      "place_muvp0wr0_7"
+    ],
+    "rows": [
+      "Lounge chair (demo) 1 | Delete",
+      "Lounge chair (demo) 2 | Delete | Rotate leftRotate right"
+    ],
+    "hint": "Arrow keys to move · R to rotate · Delete to remove",
+    "state": "Applies to “Lounge chair (demo) 2”.",
+    "slots": [
+      "frame=wood-oak",
+      "handles=plastic-black",
+      "pillow=wool-cream"
+    ],
+    "active": "BODY"
+  },
+  "keys": {
+    "p0": {
+      "x": 0,
+      "z": 0,
+      "r": 0,
+      "f": "wood-oak"
+    },
+    "afterR": {
+      "x": 0,
+      "z": 0,
+      "r": -1.5708,
+      "f": "wood-oak"
+    },
+    "afterShiftR": {
+      "x": 0,
+      "z": 0,
+      "r": 0,
+      "f": "wood-oak"
+    },
+    "afterLeft": {
+      "x": -0.05,
+      "z": 0,
+      "r": 0,
+      "f": "wood-oak"
+    },
+    "afterShiftDown": {
+      "x": -0.05,
+      "z": 0.25,
+      "r": 0,
+      "f": "wood-oak"
+    }
+  },
+  "rootFollows": {
+    "x": -0.05,
+    "z": 0.25,
+    "rot": 0
+  },
+  "toastAfterMoves": {
+    "open": "true",
+    "text": "Placed “Lounge chair (demo)”."
+  },
+  "undo": [
+    {
+      "x": -0.05,
+      "z": 0,
+      "r": 0,
+      "f": "wood-oak"
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "r": 0,
+      "f": "wood-oak"
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "r": -1.5708,
+      "f": "wood-oak"
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "r": 0,
+      "f": "wood-oak"
+    }
+  ],
+  "afterUndoSel": {
+    "highlight": "place_muvp0wr0_7",
+    "current": [
+      "place_muvp0wr0_7"
+    ],
+    "rows": [
+      "Lounge chair (demo) 1 | Delete",
+      "Lounge chair (demo) 2 | Delete | Rotate leftRotate right"
+    ],
+    "hint": "Arrow keys to move · R to rotate · Delete to remove",
+    "state": "Applies to “Lounge chair (demo) 2”.",
+    "slots": [
+      "frame=wood-oak",
+      "handles=plastic-black",
+      "pillow=wool-cream"
+    ],
+    "active": "BODY"
+  },
+  "sixteenB": {
+    "bindings": [
+      "wood-walnut",
+      "wood-walnut"
+    ],
+    "meshes2": {
+      "frame": [
+        "wood-walnut|#ffffff|wood-walnut.png"
+      ],
+      "handles": [
+        "plastic-black|#1e1e1e|no-map"
+      ],
+      "pillow": [
+        "wool-cream|#efe6d4|wool-knit.png"
+      ]
+    },
+    "meshes1": {
+      "frame": [
+        "wood-walnut|#ffffff|wood-walnut.png"
+      ],
+      "handles": [
+        "plastic-black|#1e1e1e|no-map"
+      ],
+      "pillow": [
+        "wool-cream|#efe6d4|wool-knit.png"
+      ]
+    },
+    "sel": {
+      "highlight": "place_muvp0wr0_7",
+      "current": [
+        "place_muvp0wr0_7"
+      ],
+      "rows": [
+        "Lounge chair (demo) 1 | Delete",
+        "Lounge chair (demo) 2 | Delete | Rotate leftRotate right"
+      ],
+      "hint": "Arrow keys to move · R to rotate · Delete to remove",
+      "state": "Applies to “Lounge chair (demo) 2”.",
+      "slots": [
+        "frame=wood-walnut",
+        "handles=plastic-black",
+        "pillow=wool-cream"
+      ],
+      "active": "BUTTON"
+    },
+    "turntable": {
+      "frame": "wood-oak",
+      "handles": "plastic-black",
+      "pillow": "wool-cream"
+    }
+  },
+  "sixteenBUndo": {
+    "bindings": [
+      "wood-walnut",
+      "wood-oak"
+    ],
+    "sel": {
+      "highlight": "place_muvp0wr0_7",
+      "current": [
+        "place_muvp0wr0_7"
+      ],
+      "rows": [
+        "Lounge chair (demo) 1 | Delete",
+        "Lounge chair (demo) 2 | Delete | Rotate leftRotate right"
+      ],
+      "hint": "Arrow keys to move · R to rotate · Delete to remove",
+      "state": "Applies to “Lounge chair (demo) 2”.",
+      "slots": [
+        "frame=wood-oak",
+        "handles=plastic-black",
+        "pillow=wool-cream"
+      ],
+      "active": "BUTTON"
+    }
+  },
+  "afterDeselect": {
+    "highlight": null,
+    "current": [],
+    "rows": [
+      "Lounge chair (demo) 1 | Delete",
+      "Lounge chair (demo) 2 | Delete"
+    ],
+    "hint": "Drag to orbit · scroll to zoom · right-drag to pan",
+    "state": "Applies to the next product you place.",
+    "slots": [
+      "frame=wood-oak",
+      "handles=plastic-black",
+      "pillow=wool-cream"
+    ],
+    "active": "BODY"
+  },
+  "afterRowSelect": {
+    "highlight": "place_muvp0w1j_6",
+    "current": [
+      "place_muvp0w1j_6"
+    ],
+    "rows": [
+      "Lounge chair (demo) 1 | Delete | Rotate leftRotate right",
+      "Lounge chair (demo) 2 | Delete"
+    ],
+    "hint": "Arrow keys to move · R to rotate · Delete to remove",
+    "state": "Applies to “Lounge chair (demo) 1”.",
+    "slots": [
+      "frame=wood-walnut",
+      "handles=plastic-black",
+      "pillow=wool-cream"
+    ],
+    "active": "BUTTON"
+  },
+  "afterDelete": {
+    "n": 1,
+    "sel": {
+      "highlight": "place_muvp0wr0_7",
+      "current": [],
+      "rows": [
+        "Lounge chair (demo) 1 | Delete"
+      ],
+      "hint": "Drag to orbit · scroll to zoom · right-drag to pan",
+      "state": "Applies to the next product you place.",
+      "slots": [
+        "frame=wood-oak",
+        "handles=plastic-black",
+        "pillow=wool-cream"
+      ],
+      "active": "BUTTON"
+    }
+  },
+  "afterDeleteUndo": {
+    "n": 2,
+    "sel": {
+      "highlight": "place_muvp0w1j_6",
+      "current": [],
+      "rows": [
+        "Lounge chair (demo) 1 | Delete",
+        "Lounge chair (demo) 2 | Delete"
+      ],
+      "hint": "Drag to orbit · scroll to zoom · right-drag to pan",
+      "state": "Applies to the next product you place.",
+      "slots": [
+        "frame=wood-oak",
+        "handles=plastic-black",
+        "pillow=wool-cream"
+      ],
+      "active": "BUTTON"
+    }
+  },
+  "afterReload": [
+    {
+      "frame": "wood-walnut"
+    },
+    {
+      "frame": "wood-oak"
+    }
+  ],
+  "afterReloadMeshes": [
+    {
+      "frame": [
+        "wood-walnut|#ffffff|wood-walnut.png"
+      ],
+      "handles": [
+        "plastic-black|#1e1e1e|no-map"
+      ],
+      "pillow": [
+        "wool-cream|#efe6d4|wool-knit.png"
+      ]
+    },
+    {
+      "frame": [
+        "wood-oak|#ffffff|wood-oak.png"
+      ],
+      "handles": [
+        "plastic-black|#1e1e1e|no-map"
+      ],
+      "pillow": [
+        "wool-cream|#efe6d4|wool-knit.png"
+      ]
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,263 @@
+{
+ "B_upload": {
+  "uploadId": "upload-muvr6rp6",
+  "statsBeforeOpen": null,
+  "trigger": "my-table | your upload | Product",
+  "nativeOptions": [
+   "Lounge chair (demo)",
+   "Side table (demo)",
+   "my-table (upload)"
+  ],
+  "tiles": [
+   {
+    "id": "demo-lounge-chair",
+    "name": "Lounge chair (demo)",
+    "sub": null,
+    "kind": "none",
+    "text": "Lounge chair (demo)"
+   },
+   {
+    "id": "demo-side-table",
+    "name": "Side table (demo)",
+    "sub": null,
+    "kind": "none",
+    "text": "Side table (demo)"
+   },
+   {
+    "id": "upload-muvr6rp6",
+    "name": "my-table",
+    "sub": "your upload",
+    "kind": "none",
+    "text": "my-table | your upload"
+   }
+  ],
+  "afterThumbs": {
+   "contextAlive": true,
+   "contextsCreated": 1,
+   "renders": 3,
+   "cached": 3,
+   "pending": 0,
+   "lastRenderMs": 288.60000002384186,
+   "geometries": 11,
+   "textures": 5
+  },
+  "secondUploadTrigger": {
+   "text": "my-chair | your upload | Product",
+   "img": true
+  },
+  "statsAfterSecond": {
+   "contextAlive": true,
+   "contextsCreated": 1,
+   "renders": 4,
+   "cached": 4,
+   "pending": 0,
+   "lastRenderMs": 327.10000002384186,
+   "geometries": 11,
+   "textures": 5
+  },
+  "ownImage": {
+   "kind": "thumb",
+   "srcStart": "data:image/svg+xml,%3C"
+  },
+  "rendersForOwnImage": 0,
+  "live": 2,
+  "errors": []
+ },
+ "C_30grid": {
+  "products": 30,
+  "firstOpen": {
+   "syncMs": 3.6,
+   "toSecondFrameMs": 1864.2,
+   "open": true,
+   "options": 30,
+   "view": "grid"
+  },
+  "popup": {
+   "open": true,
+   "view": "grid",
+   "layout": "anchored",
+   "rect": [
+    904,
+    186,
+    1424,
+    666
+   ],
+   "search": true,
+   "options": 30,
+   "imgs": 1,
+   "groups": []
+  },
+  "visibleTilesDrawnMs": 5802,
+  "afterVisible": {
+   "stats": {
+    "contextAlive": true,
+    "contextsCreated": 1,
+    "renders": 12,
+    "cached": 12,
+    "pending": 0,
+    "lastRenderMs": 492.4000000357628,
+    "geometries": 11,
+    "textures": 5
+   },
+   "imgs": 12,
+   "live": 2,
+   "all": 2
+  },
+  "afterScrollToEndMs": 5416,
+  "afterAll": {
+   "stats": {
+    "contextAlive": true,
+    "contextsCreated": 1,
+    "renders": 22,
+    "cached": 22,
+    "pending": 0,
+    "lastRenderMs": 512.8999999761581,
+    "geometries": 11,
+    "textures": 5
+   },
+   "live": 2,
+   "all": 2
+  },
+  "search": [
+   "dup-12"
+  ],
+  "noMatch": {
+   "text": "No products match.",
+   "placeholder": "Search products"
+  },
+  "secondOpen": {
+   "syncMs": 1.7,
+   "toSecondFrameMs": 26.6,
+   "open": true,
+   "options": 30,
+   "view": "grid"
+  },
+  "errors": []
+ },
+ "D_list": {
+  "afterToggle": {
+   "view": "list",
+   "stored": "list"
+  },
+  "wallDefault": {
+   "open": true,
+   "view": "grid",
+   "layout": "anchored",
+   "rect": [
+    904,
+    70,
+    1424,
+    550
+   ],
+   "search": false,
+   "options": 14,
+   "imgs": 0,
+   "groups": [
+    "All",
+    "Wood",
+    "Plastic",
+    "Textile",
+    "Stone",
+    "Metal"
+   ]
+  },
+  "wallAfterToggle": {
+   "view": "list",
+   "stored": "list"
+  },
+  "products": 30,
+  "listFirstOpen": {
+   "syncMs": 3.1,
+   "toSecondFrameMs": 332.6,
+   "open": true,
+   "options": 30,
+   "view": "list"
+  },
+  "listPopup": {
+   "open": true,
+   "view": "list",
+   "layout": "anchored",
+   "rect": [
+    904,
+    186,
+    1424,
+    666
+   ],
+   "search": true,
+   "options": 30,
+   "imgs": 0,
+   "groups": []
+  },
+  "listDrawsNothing": {
+   "stats": null,
+   "live": 1,
+   "all": 1
+  },
+  "listPick": {
+   "value": "demo-side-table",
+   "slots": 2
+  },
+  "wallAfterReload": "list",
+  "wallBackToGrid": "grid",
+  "errors": []
+ },
+ "E_375": {
+  "closed": {
+   "x": 0,
+   "w": 375
+  },
+  "grid": {
+   "open": true,
+   "view": "grid",
+   "layout": "sheet",
+   "rect": [
+    0,
+    172,
+    375,
+    812
+   ],
+   "search": true,
+   "options": 30,
+   "imgs": 1,
+   "groups": [],
+   "overflow": {
+    "x": 0,
+    "w": 375
+   }
+  },
+  "list": {
+   "open": true,
+   "view": "list",
+   "layout": "sheet",
+   "rect": [
+    0,
+    172,
+    375,
+    812
+   ],
+   "search": true,
+   "options": 30,
+   "imgs": 10,
+   "groups": [],
+   "overflow": {
+    "x": 0,
+    "w": 375
+   },
+   "rowH": 44,
+   "rowsVisible": 11
+  },
+  "pickedLast": "dup-28",
+  "afterPick": {
+   "x": 0,
+   "w": 375
+  },
+  "errors": []
+ },
+ "F_blockedStorage": {
+  "afterToggle": "list",
+  "reopened": "list",
+  "stored": null,
+  "pick": "demo-side-table",
+  "errors": []
+ }
+}

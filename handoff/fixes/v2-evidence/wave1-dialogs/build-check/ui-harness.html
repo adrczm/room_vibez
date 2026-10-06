@@ -1,0 +1,68 @@
+<!doctype html>
+<!-- THROWAWAY HARNESS for src/help.ts, src/ui/confirmDialog.ts and src/ui/notify.ts.
+     Not part of the app. Do not merge. The top bar and stage markup are copied from
+     index.html so the ? button, the dialogs and the toast can be checked without WebGL. -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UI harness (throwaway)</title>
+    <link rel="icon" href="data:," />
+    <script type="module" crossorigin src="/assets/ui-harness-taBD5YEr.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/ui-harness-D13tHmEC.css">
+  </head>
+  <body data-workspace="catalog">
+    <header class="topbar">
+      <div class="brand">Catalog 3D</div>
+      <nav class="workspace-nav" aria-label="Workspace">
+        <div class="workspace-nav-row">
+          <span class="workspace-nav-label" id="workspace-mode-label">Workspace</span>
+          <div class="mode-toggle segmented cols-2" id="workspace-mode" role="radiogroup" aria-labelledby="workspace-mode-label">
+            <button type="button" data-mode="catalog" aria-checked="true" role="radio">Product</button>
+            <button type="button" data-mode="room" aria-checked="false" role="radio">Room workspace</button>
+          </div>
+        </div>
+        <p class="workspace-nav-hint muted small" id="workspace-mode-hint" role="status">Spin a product and try materials.</p>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <section class="stage card" aria-label="3D viewer">
+        <div id="viewer-host" class="viewer-host"></div>
+        <div id="viewer-overlay" class="overlay hidden" role="status"></div>
+        <div class="stage-toolbar">
+          <button id="btn-reset" class="btn">Reset camera</button>
+          <button id="btn-remount" class="btn">Restart 3D view</button>
+        </div>
+        <p id="stage-hint" class="hint">Drag to spin · scroll to zoom · right-drag to pan</p>
+      </section>
+
+      <aside class="panel">
+        <div class="card">
+          <h2>Harness</h2>
+          <div class="btn-row">
+            <button class="btn" id="h-why-import">Why? (import plan)</button>
+            <button class="btn" id="h-why-plans">Why? (plans)</button>
+          </div>
+          <div class="btn-row">
+            <button class="btn" id="h-clear">Clear room</button>
+            <button class="btn" id="h-replace">Replace room</button>
+            <button class="btn" id="h-delete">Delete template</button>
+            <button class="btn" id="h-mjs">Load .mjs</button>
+          </div>
+          <p id="h-result" class="upload-status muted small">no result yet</p>
+          <div class="btn-row">
+            <button class="btn" id="h-toast-info">Toast: info</button>
+            <button class="btn" id="h-toast-success">Toast: success</button>
+            <button class="btn" id="h-toast-warning">Toast: warning</button>
+            <button class="btn" id="h-toast-error">Toast: error</button>
+            <button class="btn" id="h-toast-action">Toast: action</button>
+            <button class="btn" id="h-toast-long">Toast: long</button>
+          </div>
+          <label class="field"><span>A text field</span><input class="text-input" id="h-input" /></label>
+        </div>
+      </aside>
+    </main>
+
+  </body>
+</html>

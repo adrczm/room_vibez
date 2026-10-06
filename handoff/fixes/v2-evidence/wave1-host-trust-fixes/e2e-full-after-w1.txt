@@ -1,0 +1,20 @@
+run-e2e: specs from /Users/adrian/Desktop/Room Vibez/v2/hackathon-3d-viewer against http://127.0.0.1:18777; run dir /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.pZoR07
+
+Running 14 tests using 1 worker
+
+  ✓   1 tests/e2e/dwg-plan-import.spec.ts:18:5 › DWG plan import: mock fixture → confirm → immediate room + template (23.2s)
+  ✓   2 tests/e2e/missing-features.spec.ts:15:5 › missing features: undo, materials, snap, export, underlay path (15.5s)
+  ✓   3 tests/e2e/room-from-scratch.spec.ts:12:5 › room from scratch: create, opening cutout, place catalog GLB (14.1s)
+  ✓   4 tests/e2e/trust-fixes.spec.ts:69:5 › room tools: a second click switches the tool off, Esc leaves it, and neither a tool nor a tab moves the camera (12.7s)
+  ✓   5 tests/e2e/trust-fixes.spec.ts:136:5 › room size: the fields win over the preset, and typing in one flips the preset to Custom (7.0s)
+  ✓   6 tests/e2e/trust-fixes.spec.ts:152:5 › room units: switching to cm converts the fields and their limits; the walls are still 0.12 m thick (5.4s)
+  ✓   7 tests/e2e/trust-fixes.spec.ts:199:5 › Cmd/Ctrl+Z typed in a field undoes the typing, not the room (6.7s)
+  ✓   8 tests/e2e/trust-fixes.spec.ts:231:5 › nothing marked hidden is displayed, and room-only buttons wait for a room (4.9s)
+  ✓   9 tests/e2e/viewer.spec.ts:24:5 › viewer loads, swaps slot materials, switches presets, remounts cleanly (11.6s)
+  ✓  10 tests/e2e/viewer.spec.ts:98:5 › mobile layout has no horizontal scroll (2.9s)
+  ✓  11 tests/e2e/model-display-cold-load.spec.ts:77:5 › cold load shows demo GLB pixels + meshes even with persisted roomGraph (12.7s)
+  ✓  12 tests/e2e/model-display-cold-load.spec.ts:142:5 › cold load without persistence shows lounge chair (3.5s)
+  ✓  13 tests/e2e/model-display.spec.ts:44:5 › product GLB visible after room create → Product workspace (16.9s)
+  ✓  14 tests/e2e/room-floor-extent.spec.ts:22:5 › room floor outer footprint matches walls and ground is hidden (11.6s)
+
+  14 passed (2.6m)

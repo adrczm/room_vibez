@@ -1,0 +1,538 @@
+{
+ "1440x900": {
+  "idle": {
+   "hint": {
+    "text": "Drag to orbit · scroll to zoom · right-drag to pan",
+    "tool": null,
+    "fontPx": "11px",
+    "color": "rgb(97, 97, 97)",
+    "background": "rgba(255, 255, 255, 0.85)",
+    "border": "0px rgb(97, 97, 97)",
+    "insideStage": true,
+    "w": 265,
+    "h": 24
+   },
+   "labels": [
+    "Add opening [false]",
+    "Place product [false]",
+    "Draw walls [false]"
+   ]
+  },
+  "placeOn": {
+   "hint": {
+    "text": "Click the floor to place “Lounge chair (demo)”.",
+    "tool": "place",
+    "fontPx": "13px",
+    "color": "rgb(48, 48, 48)",
+    "background": "rgb(227, 241, 236)",
+    "border": "1px rgb(0, 128, 96)",
+    "insideStage": true,
+    "w": 311,
+    "h": 33
+   },
+   "labels": [
+    "Add opening [false]",
+    "Place product [true]",
+    "Draw walls [false]"
+   ],
+   "mode": "place"
+  },
+  "wallClick": {
+   "text": "Click the floor inside the room.",
+   "open": "true",
+   "kind": "warning",
+   "role": "status",
+   "live": "polite",
+   "insideStage": true,
+   "inViewport": true,
+   "aboveHint": true,
+   "belowToolbar": true,
+   "fontPx": "13px",
+   "rect": [
+    13,
+    676,
+    265,
+    36
+   ],
+   "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored",
+   "roomStatusIsSame": false,
+   "dismissLabel": "Dismiss",
+   "placements": 0,
+   "panelScrollTop": 1150
+  },
+  "voidClick": {
+   "text": "That spot is outside the room, so nothing was placed. Click the floor inside the room.",
+   "open": "true",
+   "kind": "warning",
+   "role": "status",
+   "live": "polite",
+   "insideStage": true,
+   "inViewport": true,
+   "aboveHint": true,
+   "belowToolbar": true,
+   "fontPx": "13px",
+   "rect": [
+    13,
+    658,
+    420,
+    54
+   ],
+   "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored",
+   "roomStatusIsSame": false,
+   "dismissLabel": "Dismiss",
+   "placements": 0
+  },
+  "hookNull": {
+   "text": "That spot is outside the room, so nothing was placed. Click the floor inside the room.",
+   "placements": 0
+  },
+  "hookOutsideFloor": {
+   "text": "That spot is outside the room, so nothing was placed. Click the floor inside the room.",
+   "kind": "warning",
+   "placements": []
+  },
+  "floorClick": {
+   "text": "Placed “Lounge chair (demo)”.",
+   "open": "true",
+   "kind": "success",
+   "role": "status",
+   "live": "polite",
+   "insideStage": true,
+   "inViewport": true,
+   "aboveHint": true,
+   "belowToolbar": true,
+   "fontPx": "13px",
+   "rect": [
+    13,
+    682,
+    263,
+    36
+   ],
+   "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 1 placement(s) · authored",
+   "roomStatusIsSame": false,
+   "dismissLabel": "Dismiss",
+   "placements": [
+    {
+     "x": 0.799,
+     "z": -0.501
+    }
+   ]
+  },
+  "overlap": {
+   "text": "Placed “Lounge chair (demo)”. It overlaps “Lounge chair (demo)”. You can leave it, or delete it from the list below.",
+   "open": "true",
+   "kind": "warning",
+   "role": "status",
+   "live": "polite",
+   "insideStage": true,
+   "inViewport": true,
+   "aboveHint": true,
+   "belowToolbar": true,
+   "fontPx": "13px",
+   "rect": [
+    13,
+    664,
+    420,
+    54
+   ],
+   "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 2 placement(s) · authored",
+   "roomStatusIsSame": false,
+   "dismissLabel": "Dismiss"
+  },
+  "placeOtherProduct": "Click the floor to place “Side table (demo)”.",
+  "undo": {
+   "text": "Undid last change.",
+   "open": "true",
+   "kind": "info",
+   "role": "status",
+   "live": "polite",
+   "insideStage": true,
+   "inViewport": true,
+   "aboveHint": true,
+   "belowToolbar": true,
+   "fontPx": "13px",
+   "rect": [
+    13,
+    680,
+    169,
+    36
+   ],
+   "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 1 placement(s) · authored",
+   "roomStatusIsSame": false,
+   "dismissLabel": "Dismiss",
+   "placements": 1
+  },
+  "redo": {
+   "text": "Redid change.",
+   "kind": "info",
+   "placements": 2
+  },
+  "afterEsc": {
+   "hint": {
+    "text": "Drag to orbit · scroll to zoom · right-drag to pan",
+    "tool": null,
+    "fontPx": "11px",
+    "color": "rgb(97, 97, 97)",
+    "background": "rgba(255, 255, 255, 0.85)",
+    "border": "0px rgb(97, 97, 97)",
+    "insideStage": true,
+    "w": 265,
+    "h": 24
+   },
+   "labels": [
+    "Add opening [false]",
+    "Place product [false]",
+    "Draw walls [false]"
+   ],
+   "mode": "room"
+  },
+  "openingOn": {
+   "hint": "Click a wall to add a door.",
+   "tool": "opening",
+   "labels": [
+    "Add opening [true]",
+    "Place product [false]",
+    "Draw walls [false]"
+   ]
+  },
+  "openingWindowHint": "Click a wall to add a window.",
+  "openingFloorClick": {
+   "text": "Click a wall to place the opening.",
+   "open": "true",
+   "kind": "warning",
+   "role": "status",
+   "live": "polite",
+   "insideStage": true,
+   "inViewport": true,
+   "aboveHint": true,
+   "belowToolbar": true,
+   "fontPx": "13px",
+   "rect": [
+    13,
+    676,
+    279,
+    36
+   ],
+   "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 2 placement(s) · authored",
+   "roomStatusIsSame": false,
+   "dismissLabel": "Dismiss",
+   "openings": 0
+  },
+  "openingAdded": {
+   "text": "Added a window.",
+   "kind": "success",
+   "openings": 1,
+   "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 1 opening(s) · 2 placement(s) · authored"
+  },
+  "openingTooWide": {
+   "text": "Click a wall to place the opening.",
+   "kind": "warning",
+   "role": "status"
+  },
+  "drawOn": {
+   "hint": "Click floor corners. Click the first corner to close.",
+   "tool": "draw-wall",
+   "labels": [
+    "Add opening [false]",
+    "Place product [false]",
+    "Draw walls [true]"
+   ]
+  },
+  "drawOne": {
+   "text": "1 corner. Click the first one to close.",
+   "kind": "info"
+  },
+  "drawTwo": "2 corners. Click the first one to close.",
+  "drawCloseTooFew": {
+   "text": "3 corners. Click the first one to close.",
+   "kind": "info"
+  },
+  "end": {
+   "hint": {
+    "text": "Drag to orbit · scroll to zoom · right-drag to pan",
+    "tool": null,
+    "fontPx": "11px",
+    "color": "rgb(97, 97, 97)",
+    "background": "rgba(255, 255, 255, 0.85)",
+    "border": "0px rgb(97, 97, 97)",
+    "insideStage": true,
+    "w": 265,
+    "h": 24
+   },
+   "labels": [
+    "Add opening [false]",
+    "Place product [false]",
+    "Draw walls [false]"
+   ]
+  },
+  "errors": []
+ },
+ "375x812": {
+  "idle": {
+   "hint": {
+    "text": "Drag to orbit · scroll to zoom · right-drag to pan",
+    "tool": null,
+    "fontPx": "11px",
+    "color": "rgb(97, 97, 97)",
+    "background": "rgba(255, 255, 255, 0.85)",
+    "border": "0px rgb(97, 97, 97)",
+    "insideStage": true,
+    "w": 265,
+    "h": 24
+   },
+   "labels": [
+    "Add opening [false]",
+    "Place product [false]",
+    "Draw walls [false]"
+   ]
+  },
+  "placeOn": {
+   "hint": {
+    "text": "Click the floor to place “Lounge chair (demo)”.",
+    "tool": "place",
+    "fontPx": "13px",
+    "color": "rgb(48, 48, 48)",
+    "background": "rgb(227, 241, 236)",
+    "border": "1px rgb(0, 128, 96)",
+    "insideStage": true,
+    "w": 311,
+    "h": 33
+   },
+   "labels": [
+    "Add opening [false]",
+    "Place product [true]",
+    "Draw walls [false]"
+   ],
+   "mode": "place"
+  },
+  "wallClick": {
+   "text": "Click the floor inside the room.",
+   "open": "true",
+   "kind": "warning",
+   "role": "status",
+   "live": "polite",
+   "insideStage": true,
+   "inViewport": true,
+   "aboveHint": true,
+   "belowToolbar": true,
+   "fontPx": "13px",
+   "rect": [
+    13,
+    366,
+    265,
+    36
+   ],
+   "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored",
+   "roomStatusIsSame": false,
+   "dismissLabel": "Dismiss",
+   "placements": 0,
+   "panelScrollTop": 0
+  },
+  "voidClick": {
+   "text": "That spot is outside the room, so nothing was placed. Click the floor inside the room.",
+   "open": "true",
+   "kind": "warning",
+   "role": "status",
+   "live": "polite",
+   "insideStage": true,
+   "inViewport": true,
+   "aboveHint": true,
+   "belowToolbar": true,
+   "fontPx": "13px",
+   "rect": [
+    13,
+    329,
+    317,
+    73
+   ],
+   "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored",
+   "roomStatusIsSame": false,
+   "dismissLabel": "Dismiss",
+   "placements": 0
+  },
+  "hookNull": {
+   "text": "That spot is outside the room, so nothing was placed. Click the floor inside the room.",
+   "placements": 0
+  },
+  "hookOutsideFloor": {
+   "text": "That spot is outside the room, so nothing was placed. Click the floor inside the room.",
+   "kind": "warning",
+   "placements": []
+  },
+  "floorClick": {
+   "text": "Placed “Lounge chair (demo)”.",
+   "open": "true",
+   "kind": "success",
+   "role": "status",
+   "live": "polite",
+   "insideStage": true,
+   "inViewport": true,
+   "aboveHint": true,
+   "belowToolbar": true,
+   "fontPx": "13px",
+   "rect": [
+    13,
+    372,
+    263,
+    36
+   ],
+   "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 1 placement(s) · authored",
+   "roomStatusIsSame": false,
+   "dismissLabel": "Dismiss",
+   "placements": [
+    {
+     "x": 0.799,
+     "z": -0.502
+    }
+   ]
+  },
+  "overlap": {
+   "text": "Placed “Lounge chair (demo)”. It overlaps “Lounge chair (demo)”. You can leave it, or delete it from the list below.",
+   "open": "true",
+   "kind": "warning",
+   "role": "status",
+   "live": "polite",
+   "insideStage": true,
+   "inViewport": true,
+   "aboveHint": true,
+   "belowToolbar": true,
+   "fontPx": "13px",
+   "rect": [
+    13,
+    317,
+    317,
+    91
+   ],
+   "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 2 placement(s) · authored",
+   "roomStatusIsSame": false,
+   "dismissLabel": "Dismiss"
+  },
+  "placeOtherProduct": "Click the floor to place “Side table (demo)”.",
+  "undo": {
+   "text": "Undid last change.",
+   "open": "true",
+   "kind": "info",
+   "role": "status",
+   "live": "polite",
+   "insideStage": true,
+   "inViewport": true,
+   "aboveHint": true,
+   "belowToolbar": true,
+   "fontPx": "13px",
+   "rect": [
+    13,
+    370,
+    169,
+    36
+   ],
+   "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 1 placement(s) · authored",
+   "roomStatusIsSame": false,
+   "dismissLabel": "Dismiss",
+   "placements": 1
+  },
+  "redo": {
+   "text": "Redid change.",
+   "kind": "info",
+   "placements": 2
+  },
+  "afterEsc": {
+   "hint": {
+    "text": "Drag to orbit · scroll to zoom · right-drag to pan",
+    "tool": null,
+    "fontPx": "11px",
+    "color": "rgb(97, 97, 97)",
+    "background": "rgba(255, 255, 255, 0.85)",
+    "border": "0px rgb(97, 97, 97)",
+    "insideStage": true,
+    "w": 265,
+    "h": 24
+   },
+   "labels": [
+    "Add opening [false]",
+    "Place product [false]",
+    "Draw walls [false]"
+   ],
+   "mode": "room"
+  },
+  "openingOn": {
+   "hint": "Click a wall to add a door.",
+   "tool": "opening",
+   "labels": [
+    "Add opening [true]",
+    "Place product [false]",
+    "Draw walls [false]"
+   ]
+  },
+  "openingWindowHint": "Click a wall to add a window.",
+  "openingFloorClick": {
+   "text": "Click a wall to place the opening.",
+   "open": "true",
+   "kind": "warning",
+   "role": "status",
+   "live": "polite",
+   "insideStage": true,
+   "inViewport": true,
+   "aboveHint": true,
+   "belowToolbar": true,
+   "fontPx": "13px",
+   "rect": [
+    13,
+    366,
+    279,
+    36
+   ],
+   "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 2 placement(s) · authored",
+   "roomStatusIsSame": false,
+   "dismissLabel": "Dismiss",
+   "openings": 0
+  },
+  "openingAdded": {
+   "text": "Added a window.",
+   "kind": "success",
+   "openings": 1,
+   "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 1 opening(s) · 2 placement(s) · authored"
+  },
+  "openingTooWide": {
+   "text": "Click a wall to place the opening.",
+   "kind": "warning",
+   "role": "status"
+  },
+  "drawOn": {
+   "hint": "Click floor corners. Click the first corner to close.",
+   "tool": "draw-wall",
+   "labels": [
+    "Add opening [false]",
+    "Place product [false]",
+    "Draw walls [true]"
+   ]
+  },
+  "drawOne": {
+   "text": "1 corner. Click the first one to close.",
+   "kind": "info"
+  },
+  "drawTwo": "2 corners. Click the first one to close.",
+  "drawCloseTooFew": {
+   "text": "3 corners. Click the first one to close.",
+   "kind": "info"
+  },
+  "end": {
+   "hint": {
+    "text": "Drag to orbit · scroll to zoom · right-drag to pan",
+    "tool": null,
+    "fontPx": "11px",
+    "color": "rgb(97, 97, 97)",
+    "background": "rgba(255, 255, 255, 0.85)",
+    "border": "0px rgb(97, 97, 97)",
+    "insideStage": true,
+    "w": 265,
+    "h": 24
+   },
+   "labels": [
+    "Add opening [false]",
+    "Place product [false]",
+    "Draw walls [false]"
+   ]
+  },
+  "errors": []
+ }
+}

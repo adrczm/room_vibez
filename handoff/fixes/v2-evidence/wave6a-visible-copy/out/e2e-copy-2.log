@@ -1,0 +1,8 @@
+run-e2e: specs from /Users/adrian/Desktop/Room Vibez/v2/hackathon-3d-viewer against http://127.0.0.1:18777; run dir /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.IN7tjC
+
+Running 2 tests using 1 worker
+
+  ✓  1 tests/e2e/copy-pass.spec.ts:267:5 › the two honesty pins: one friendly line on screen, the technical sentence kept in a collapsed "Technical details" (6.5s)
+  ✓  2 tests/e2e/copy-pass.spec.ts:480:5 › static words come from the deck: labels, badges, options; the removed paragraphs are gone; no team vocabulary on screen (4.3s)
+
+  2 passed (12.4s)

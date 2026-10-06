@@ -1,0 +1,305 @@
+{
+ "1440x900": {
+  "productBefore": {
+   "workspace": "catalog",
+   "mode": "catalog",
+   "turntable": true,
+   "ground": true,
+   "room": null,
+   "hasRoom": false,
+   "hint": "Drag to spin · scroll to zoom · right-drag to pan",
+   "hintShown": true,
+   "roomStatus": "No room yet — from scratch, import plan, or template.",
+   "toast": "",
+   "toastOpen": "false",
+   "toastKind": null,
+   "empty": {
+    "shown": false
+   },
+   "wood": 1072
+  },
+  "emptyRoom": {
+   "workspace": "room",
+   "mode": "room",
+   "turntable": false,
+   "ground": false,
+   "room": null,
+   "hasRoom": false,
+   "hint": "Create or import a room to start.",
+   "hintShown": true,
+   "roomStatus": "No room yet — from scratch, import plan, or template.",
+   "toast": "",
+   "toastOpen": "false",
+   "toastKind": null,
+   "empty": {
+    "shown": true
+   },
+   "wood": 0
+  },
+  "card": {
+   "title": "No room yet",
+   "body": "Pick a way to start.",
+   "buttons": [
+    {
+     "action": "scratch",
+     "text": "From scratch",
+     "h": 33,
+     "w": 109
+    },
+    {
+     "action": "import",
+     "text": "Import plan",
+     "h": 33,
+     "w": 98
+    },
+    {
+     "action": "template",
+     "text": "From template",
+     "h": 33,
+     "w": 117
+    },
+    {
+     "action": "project",
+     "text": "Import project",
+     "h": 33,
+     "w": 115
+    }
+   ],
+   "insideStage": true,
+   "clearOfToolbar": true,
+   "clearOfHint": true,
+   "cardRect": [
+    326,
+    299,
+    400,
+    180
+   ],
+   "stage": [
+    1052,
+    765
+   ],
+   "overflowX": 0,
+   "hiddenButDisplayed": []
+  },
+  "starts": {
+   "import": {
+    "ingress": "import",
+    "sectionShown": true,
+    "tabChecked": "true",
+    "focusOnTab": true,
+    "tabInViewport": true,
+    "tabInPanel": true,
+    "cardStillShown": true
+   },
+   "template": {
+    "ingress": "template",
+    "sectionShown": true,
+    "tabChecked": "true",
+    "focusOnTab": true,
+    "tabInViewport": true,
+    "tabInPanel": true,
+    "cardStillShown": true
+   },
+   "scratch": {
+    "ingress": "scratch",
+    "sectionShown": true,
+    "tabChecked": "true",
+    "focusOnTab": true,
+    "tabInViewport": true,
+    "tabInPanel": true,
+    "cardStillShown": true
+   }
+  },
+  "productAfter": {
+   "workspace": "catalog",
+   "mode": "catalog",
+   "turntable": true,
+   "ground": true,
+   "room": null,
+   "hasRoom": false,
+   "hint": "Drag to spin · scroll to zoom · right-drag to pan",
+   "hintShown": true,
+   "roomStatus": "No room yet — from scratch, import plan, or template.",
+   "toast": "",
+   "toastOpen": "false",
+   "toastKind": null,
+   "empty": {
+    "shown": false
+   },
+   "wood": 1072
+  },
+  "errors": []
+ },
+ "375x812": {
+  "productBefore": {
+   "workspace": "catalog",
+   "mode": "catalog",
+   "turntable": true,
+   "ground": true,
+   "room": null,
+   "hasRoom": false,
+   "hint": "Drag to spin · scroll to zoom · right-drag to pan",
+   "hintShown": true,
+   "roomStatus": "No room yet — from scratch, import plan, or template.",
+   "toast": "",
+   "toastOpen": "false",
+   "toastKind": null,
+   "empty": {
+    "shown": false
+   },
+   "wood": 232
+  },
+  "emptyRoom": {
+   "workspace": "room",
+   "mode": "room",
+   "turntable": false,
+   "ground": false,
+   "room": null,
+   "hasRoom": false,
+   "hint": "Create or import a room to start.",
+   "hintShown": true,
+   "roomStatus": "No room yet — from scratch, import plan, or template.",
+   "toast": "",
+   "toastOpen": "false",
+   "toastKind": null,
+   "empty": {
+    "shown": true
+   },
+   "wood": 0
+  },
+  "card": {
+   "title": "No room yet",
+   "body": "Pick a way to start.",
+   "buttons": [
+    {
+     "action": "scratch",
+     "text": "From scratch",
+     "h": 33,
+     "w": 109
+    },
+    {
+     "action": "import",
+     "text": "Import plan",
+     "h": 33,
+     "w": 98
+    },
+    {
+     "action": "template",
+     "text": "From template",
+     "h": 33,
+     "w": 117
+    },
+    {
+     "action": "project",
+     "text": "Import project",
+     "h": 33,
+     "w": 115
+    }
+   ],
+   "insideStage": true,
+   "clearOfToolbar": true,
+   "clearOfHint": true,
+   "cardRect": [
+    13,
+    123,
+    317,
+    221
+   ],
+   "stage": [
+    343,
+    455
+   ],
+   "overflowX": 0,
+   "hiddenButDisplayed": []
+  },
+  "starts": {
+   "import": {
+    "ingress": "import",
+    "sectionShown": true,
+    "tabChecked": "true",
+    "focusOnTab": true,
+    "tabInViewport": true,
+    "tabInPanel": true,
+    "cardStillShown": true
+   },
+   "template": {
+    "ingress": "template",
+    "sectionShown": true,
+    "tabChecked": "true",
+    "focusOnTab": true,
+    "tabInViewport": true,
+    "tabInPanel": true,
+    "cardStillShown": true
+   },
+   "scratch": {
+    "ingress": "scratch",
+    "sectionShown": true,
+    "tabChecked": "true",
+    "focusOnTab": true,
+    "tabInViewport": true,
+    "tabInPanel": true,
+    "cardStillShown": true
+   }
+  },
+  "productAfter": {
+   "workspace": "catalog",
+   "mode": "catalog",
+   "turntable": true,
+   "ground": true,
+   "room": null,
+   "hasRoom": false,
+   "hint": "Drag to spin · scroll to zoom · right-drag to pan",
+   "hintShown": true,
+   "roomStatus": "No room yet — from scratch, import plan, or template.",
+   "toast": "",
+   "toastOpen": "false",
+   "toastKind": null,
+   "empty": {
+    "shown": false
+   },
+   "wood": 232
+  },
+  "errors": []
+ },
+ "QA04": {
+  "exportedPlacements": 1,
+  "exportedLabel": "Living",
+  "panelImportButtonVisibleWithNoRoom": false,
+  "chooserOpenedFromCard": true,
+  "restored": [
+   {
+    "x": 0.799,
+    "z": -0.501
+   }
+  ],
+  "meshInScene": {
+   "meshes": 14,
+   "visible": true
+  },
+  "after": {
+   "workspace": "room",
+   "mode": "room",
+   "turntable": false,
+   "ground": false,
+   "room": true,
+   "hasRoom": true,
+   "hint": "Drag to orbit · scroll to zoom · right-drag to pan",
+   "hintShown": true,
+   "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 1 placement(s) · authored",
+   "toast": "Opened project “Living”.",
+   "toastOpen": "true",
+   "toastKind": "success",
+   "empty": {
+    "shown": false
+   }
+  },
+  "errors": []
+ },
+ "QA04_badFile": {
+  "toast": "Couldn't open that file. It isn't a Catalog 3D project, or it's damaged. Your current room is unchanged.",
+  "kind": "error",
+  "role": "alert",
+  "roomStatus": "No room yet — from scratch, import plan, or template.",
+  "hasRoom": false
+ }
+}

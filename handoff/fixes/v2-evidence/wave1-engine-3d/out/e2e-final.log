@@ -1,0 +1,27 @@
+run-e2e: specs from /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/ws-engine against http://127.0.0.1:18781; run dir /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.yAaqeP
+
+Running 21 tests using 5 workers
+
+  ✓   5 tests/e2e/room-floor-visible.spec.ts:91:7 › floor is visible on arrival at 1440×900 (no camera input) (20.4s)
+  ✓   2 tests/e2e/room-place-bounds.spec.ts:29:5 › place mode: void and under-wall clicks add nothing, a floor click places inside the room (21.5s)
+  ✓   3 tests/e2e/room-from-scratch.spec.ts:12:5 › room from scratch: create, opening cutout, place catalog GLB (26.5s)
+  ✓   4 tests/e2e/dwg-plan-import.spec.ts:18:5 › DWG plan import: mock fixture → confirm → immediate room + template (27.6s)
+  ✓   1 tests/e2e/missing-features.spec.ts:15:5 › missing features: undo, materials, snap, export, underlay path (29.6s)
+  ✓   6 tests/e2e/room-floor-visible.spec.ts:91:7 › floor is visible on arrival at 375×812 (no camera input) (13.4s)
+  ✓   7 tests/e2e/room-place-bounds.spec.ts:114:5 › a pick in the same tick as a room rebuild is tested against the rebuilt room (15.1s)
+  ✓   8 tests/e2e/room-placement-engine.spec.ts:92:5 › UX-09 engine: placement hits, pose changes and the highlight (22.3s)
+  ✓   9 tests/e2e/room-product-stage.spec.ts:72:5 › QA-05: picking a product with a room on stage leaves the camera alone (24.0s)
+  ✓  11 tests/e2e/room-floor-visible.spec.ts:132:5 › cutaway is what uncovers the near floor; hidden walls and their openings do not catch clicks (19.3s)
+  ✓  10 tests/e2e/viewer.spec.ts:24:5 › viewer loads, swaps slot materials, switches presets, remounts cleanly (25.4s)
+  ✓  16 tests/e2e/viewer.spec.ts:98:5 › mobile layout has no horizontal scroll (7.4s)
+  ✓  12 tests/e2e/model-display-cold-load.spec.ts:77:5 › cold load shows demo GLB pixels + meshes even with persisted roomGraph (25.2s)
+  ✓  13 tests/e2e/room-placement-engine.spec.ts:232:5 › UX-16 step 1: applySlotBindings puts the chosen finish on a placed product (16.5s)
+  ✓  14 tests/e2e/room-product-stage.spec.ts:122:5 › QA-05: a product loaded off stage is framed as soon as the turntable is shown again (16.6s)
+  ✓  15 tests/e2e/room-floor-visible.spec.ts:194:5 › a ceiling switched on by the host is hidden while the camera is above it (17.4s)
+  ✓  18 tests/e2e/model-display-cold-load.spec.ts:142:5 › cold load without persistence shows lounge chair (7.3s)
+  ✓  20 tests/e2e/room-product-stage.spec.ts:139:5 › UX-06 engine: without the opt-in, a room mode with no room still shows the product (10.6s)
+  ✓  19 tests/e2e/room-floor-extent.spec.ts:22:5 › room floor outer footprint matches walls and ground is hidden (15.6s)
+  ✓  17 tests/e2e/model-display.spec.ts:44:5 › product GLB visible after room create → Product workspace (21.4s)
+  ✓  21 tests/e2e/room-product-stage.spec.ts:156:5 › UX-06 engine: with the opt-in, an empty Room stage has no product; Product always has it (10.5s)
+
+  21 passed (1.5m)

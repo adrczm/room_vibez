@@ -1,0 +1,208 @@
+{
+  "label": "before",
+  "chrome": "154.0.8037.97",
+  "runs": {
+    "1440x900 mouse": {
+      "playwrightSeesSelectVisible": true,
+      "selectOptionWorked": true,
+      "closed": {
+        "pointerCoarse": false,
+        "pickerControlsUnder32px": [
+          "select#product-select.select.tpicker-native 1x1",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "select#texture-target.select.tpicker-native 1x1"
+        ],
+        "pickerTargetsUnder24": [
+          "select#product-select.select.tpicker-native 1x1",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "select#texture-target.select.tpicker-native 1x1"
+        ],
+        "pickerTargetsUnder44": [
+          "button.tpicker-trigger 310x36",
+          "select#product-select.select.tpicker-native 1x1",
+          "button.tpicker-trigger 151x36",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "button.tpicker-trigger 151x36",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "button.tpicker-trigger 310x36",
+          "select#texture-target.select.tpicker-native 1x1"
+        ],
+        "hiddenSelects": [
+          "product-select 1x1 vis=true offsetParent=true",
+          "room-wall-material 1x1 vis=true offsetParent=true",
+          "room-floor-material 1x1 vis=true offsetParent=true",
+          "texture-target 1x1 vis=true offsetParent=true"
+        ],
+        "pickerTargetsCounted": 8
+      },
+      "openProduct30": {
+        "pointerCoarse": false,
+        "pickerControlsUnder32px": [
+          "select#product-select.select.tpicker-native 1x1",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "select#texture-target.select.tpicker-native 1x1"
+        ],
+        "pickerTargetsUnder24": [
+          "select#product-select.select.tpicker-native 1x1",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "select#texture-target.select.tpicker-native 1x1"
+        ],
+        "pickerTargetsUnder44": [
+          "button.tpicker-trigger 310x36",
+          "select#product-select.select.tpicker-native 1x1",
+          "button.tpicker-trigger 151x36",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "button.tpicker-trigger 151x36",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "button.tpicker-trigger 310x36",
+          "select#texture-target.select.tpicker-native 1x1",
+          "button 92x32",
+          "button 92x32",
+          "button.tpicker-close 32x32",
+          "input.tpicker-search.text-input 502x35"
+        ],
+        "hiddenSelects": [
+          "product-select 1x1 vis=true offsetParent=true",
+          "room-wall-material 1x1 vis=true offsetParent=true",
+          "room-floor-material 1x1 vis=true offsetParent=true",
+          "texture-target 1x1 vis=true offsetParent=true"
+        ],
+        "pickerTargetsCounted": 13
+      },
+      "openWall": {
+        "pointerCoarse": false,
+        "pickerControlsUnder32px": [
+          "select#product-select.select.tpicker-native 1x1",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "select#texture-target.select.tpicker-native 1x1"
+        ],
+        "pickerTargetsUnder24": [
+          "select#product-select.select.tpicker-native 1x1",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "select#texture-target.select.tpicker-native 1x1"
+        ],
+        "pickerTargetsUnder44": [
+          "button.tpicker-trigger 310x36",
+          "select#product-select.select.tpicker-native 1x1",
+          "button.tpicker-trigger 151x36",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "button.tpicker-trigger 151x36",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "button.tpicker-trigger 310x36",
+          "select#texture-target.select.tpicker-native 1x1",
+          "button 92x32",
+          "button 92x32",
+          "button.tpicker-close 32x32",
+          "button.tpicker-group 42x32",
+          "button.tpicker-group 58x32",
+          "button.tpicker-group 65x32",
+          "button.tpicker-group 62x32",
+          "button.tpicker-group 59x32",
+          "button.tpicker-group 59x32"
+        ],
+        "hiddenSelects": [
+          "product-select 1x1 vis=true offsetParent=true",
+          "room-wall-material 1x1 vis=true offsetParent=true",
+          "room-floor-material 1x1 vis=true offsetParent=true",
+          "texture-target 1x1 vis=true offsetParent=true"
+        ],
+        "pickerTargetsCounted": 18
+      }
+    },
+    "375x812 coarse": {
+      "playwrightSeesSelectVisible": true,
+      "selectOptionWorked": true,
+      "closed": {
+        "pointerCoarse": true,
+        "pickerControlsUnder32px": [
+          "select#product-select.select.tpicker-native 1x1",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "select#texture-target.select.tpicker-native 1x1"
+        ],
+        "pickerTargetsUnder24": [
+          "select#product-select.select.tpicker-native 1x1",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "select#texture-target.select.tpicker-native 1x1"
+        ],
+        "pickerTargetsUnder44": [
+          "select#product-select.select.tpicker-native 1x1",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "select#texture-target.select.tpicker-native 1x1"
+        ],
+        "hiddenSelects": [
+          "product-select 1x1 vis=true offsetParent=true",
+          "room-wall-material 1x1 vis=true offsetParent=true",
+          "room-floor-material 1x1 vis=true offsetParent=true",
+          "texture-target 1x1 vis=true offsetParent=true"
+        ],
+        "pickerTargetsCounted": 8
+      },
+      "openProduct30": {
+        "pointerCoarse": true,
+        "pickerControlsUnder32px": [
+          "select#product-select.select.tpicker-native 1x1",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "select#texture-target.select.tpicker-native 1x1"
+        ],
+        "pickerTargetsUnder24": [
+          "select#product-select.select.tpicker-native 1x1",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "select#texture-target.select.tpicker-native 1x1"
+        ],
+        "pickerTargetsUnder44": [
+          "select#product-select.select.tpicker-native 1x1",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "select#texture-target.select.tpicker-native 1x1"
+        ],
+        "hiddenSelects": [
+          "product-select 1x1 vis=true offsetParent=true",
+          "room-wall-material 1x1 vis=true offsetParent=true",
+          "room-floor-material 1x1 vis=true offsetParent=true",
+          "texture-target 1x1 vis=true offsetParent=true"
+        ],
+        "pickerTargetsCounted": 13
+      },
+      "openWall": {
+        "pointerCoarse": true,
+        "pickerControlsUnder32px": [
+          "select#product-select.select.tpicker-native 1x1",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "select#texture-target.select.tpicker-native 1x1"
+        ],
+        "pickerTargetsUnder24": [
+          "select#product-select.select.tpicker-native 1x1",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "select#texture-target.select.tpicker-native 1x1"
+        ],
+        "pickerTargetsUnder44": [
+          "select#product-select.select.tpicker-native 1x1",
+          "select#room-wall-material.select.tpicker-native 1x1",
+          "select#room-floor-material.select.tpicker-native 1x1",
+          "select#texture-target.select.tpicker-native 1x1",
+          "button.tpicker-group 42x44"
+        ],
+        "hiddenSelects": [
+          "product-select 1x1 vis=true offsetParent=true",
+          "room-wall-material 1x1 vis=true offsetParent=true",
+          "room-floor-material 1x1 vis=true offsetParent=true",
+          "texture-target 1x1 vis=true offsetParent=true"
+        ],
+        "pickerTargetsCounted": 18
+      }
+    }
+  }
+}

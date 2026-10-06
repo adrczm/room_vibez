@@ -1,0 +1,207 @@
+{
+  "bug1_confirmTick": {
+    "before": {
+      "checked": false,
+      "confirmEnabled": false
+    },
+    "ticked": {
+      "checked": true,
+      "confirmEnabled": true
+    },
+    "during": {
+      "cardHidden": true,
+      "checked": true,
+      "confirmDisabledProp": false
+    },
+    "afterChip": {
+      "checked": true,
+      "confirmEnabled": true
+    },
+    "afterFileInput": {
+      "checked": true,
+      "confirmEnabled": true,
+      "status": "Draft ready — confirm dimensions"
+    }
+  },
+  "bug2_skipDemoRole": {
+    "consumer": {
+      "pillBefore": "Consumer",
+      "pillAfter": "Interior designer",
+      "screen": "screen-editor",
+      "toast": "Manual draw path — AI skipped",
+      "selectedCard": "designer"
+    },
+    "designer": {
+      "pillBefore": "Interior designer",
+      "pillAfter": "Interior designer",
+      "screen": "screen-editor",
+      "toast": "Manual draw path — AI skipped",
+      "selectedCard": "designer"
+    },
+    "architect": {
+      "pillBefore": "Architect",
+      "pillAfter": "Interior designer",
+      "screen": "screen-editor",
+      "toast": "Manual draw path — AI skipped",
+      "selectedCard": "designer"
+    },
+    "reseller": {
+      "pillBefore": "Reseller / ops",
+      "pillAfter": "Interior designer",
+      "screen": "screen-editor",
+      "toast": "Manual draw path — AI skipped",
+      "selectedCard": "designer"
+    },
+    "none": {
+      "pillBefore": "Not signed in",
+      "pillAfter": "Interior designer",
+      "screen": "screen-editor",
+      "toast": "Manual draw path — AI skipped",
+      "selectedCard": "designer"
+    }
+  },
+  "bug3_starter": {
+    "furnitureCountAfterEachClick": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "buttonLabelAfterEachClick": [
+      "Apply starter template",
+      "Apply starter template",
+      "Apply starter template",
+      "Apply starter template",
+      "Apply starter template",
+      "Apply starter template"
+    ],
+    "totalAfterEachClick": [
+      "Total: €0",
+      "Total: €428",
+      "Total: €607",
+      "Total: €786",
+      "Total: €965",
+      "Total: €1144"
+    ],
+    "disabledAtEnd": false,
+    "toast": "Owned CMS starter contents applied"
+  },
+  "side_toastOnBomScreen": {
+    "screen": "screen-bom",
+    "text": "PDF export stub — consumer share path",
+    "hasShowClass": true,
+    "rects": 0,
+    "box": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "opacity": "1",
+    "inInnerText": false
+  },
+  "side_uploadZoneKeyboard": {
+    "enterOpensPicker": false,
+    "spaceOpensPicker": false,
+    "label": "Drop or click to choose a file"
+  },
+  "side_startOver": {
+    "restartClass": "primary",
+    "nativeDialogs": [],
+    "htmlDialogOpen": false,
+    "screenAfter": "screen-auth"
+  },
+  "side_overflow375_plainViewport": {
+    "auth": {
+      "screen": "screen-auth",
+      "innerWidth": 375,
+      "scrollWidth": 502,
+      "overflowX": 127,
+      "offenders": [
+        "span#rolePill.role-pill right=424",
+        "span#projectPill.meta-pill right=502"
+      ]
+    },
+    "project": {
+      "screen": "screen-project",
+      "innerWidth": 375,
+      "scrollWidth": 514,
+      "overflowX": 139,
+      "offenders": [
+        "span#rolePill.role-pill right=436",
+        "span#projectPill.meta-pill right=514"
+      ]
+    },
+    "upload": {
+      "screen": "screen-upload",
+      "innerWidth": 375,
+      "scrollWidth": 515,
+      "overflowX": 140,
+      "offenders": [
+        "span#rolePill.role-pill right=436",
+        "span#projectPill.meta-pill right=515"
+      ]
+    },
+    "realPointerClickWorks": true,
+    "editor": {
+      "screen": "screen-editor",
+      "innerWidth": 375,
+      "scrollWidth": 515,
+      "overflowX": 140,
+      "offenders": [
+        "span#rolePill.role-pill right=436",
+        "span#projectPill.meta-pill right=515"
+      ]
+    },
+    "bom": {
+      "screen": "screen-bom",
+      "innerWidth": 375,
+      "scrollWidth": 515,
+      "overflowX": 140,
+      "offenders": [
+        "span#rolePill.role-pill right=436",
+        "span#projectPill.meta-pill right=515"
+      ]
+    }
+  },
+  "side_overflow375_mobileEmulation": {
+    "auth": {
+      "screen": "screen-auth",
+      "innerWidth": 502,
+      "scrollWidth": 502,
+      "overflowX": 0,
+      "offenders": []
+    },
+    "project": {
+      "screen": "screen-project",
+      "innerWidth": 514,
+      "scrollWidth": 514,
+      "overflowX": 0,
+      "offenders": []
+    },
+    "upload": {
+      "screen": "screen-upload",
+      "innerWidth": 515,
+      "scrollWidth": 515,
+      "overflowX": 0,
+      "offenders": []
+    },
+    "realPointerClickWorks": true,
+    "editor": {
+      "screen": "screen-editor",
+      "innerWidth": 515,
+      "scrollWidth": 515,
+      "overflowX": 0,
+      "offenders": []
+    },
+    "bom": {
+      "screen": "screen-bom",
+      "innerWidth": 515,
+      "scrollWidth": 515,
+      "overflowX": 0,
+      "offenders": []
+    }
+  }
+}

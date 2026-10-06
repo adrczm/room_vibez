@@ -1,0 +1,52 @@
+run-e2e: specs from /Users/adrian/Desktop/Room Vibez/v2/hackathon-3d-viewer against http://127.0.0.1:18777; run dir /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.ZYWGxd
+
+Running 12 tests using 1 worker
+
+  ✓   1 tests/e2e/catalog-pickers.spec.ts:101:5 › UX-14: the product picker opens a tile grid over the stage; picking a tile changes the select, the turntable and the Materials card (10.0s)
+  ✓   2 tests/e2e/catalog-pickers.spec.ts:155:5 › UX-14: keyboard only: open, arrow to a tile, Enter selects, Esc closes, focus returns to the trigger (6.3s)
+  ✓   3 tests/e2e/catalog-pickers.spec.ts:183:5 › UX-14: a select set in code shows in the trigger after sync(); selectOption keeps the trigger in step by itself (3.4s)
+  ✘   4 tests/e2e/catalog-pickers.spec.ts:206:5 › UX-14 step 2b: List shows one row per item and selects the same way; the choice survives a reload, per picker kind; the list view draws no thumbnail (13.0s)
+  ✓   5 tests/e2e/catalog-pickers.spec.ts:279:5 › UX-14 step 2b: with localStorage.setItem throwing from before load, nothing throws and the view choice holds for the session (9.7s)
+  ✓   6 tests/e2e/catalog-pickers.spec.ts:301:5 › UX-14: a model the user adds appears in the grid with "your upload" and a placeholder, then its thumbnail (6.7s)
+  ✓   7 tests/e2e/catalog-pickers.spec.ts:345:5 › thumbnails: real images in the default finish; one thumbnail WebGL context beside the 3D view; thumbnailUrl wins; Restart 3D view leaves pickers, thumbnails and Materials working (12.9s)
+  ✓   8 tests/e2e/catalog-pickers.spec.ts:443:5 › UX-15: wall and floor pickers show swatches, names and category tabs; a pick goes through the existing handler; the native selects keep 14 options (6.8s)
+  ✓   9 tests/e2e/catalog-pickers.spec.ts:509:5 › UX-15: the texture-target picker stays inside #texture-target-wrap and follows the map role; a new texture appears in every material picker; category and role stay native (4.7s)
+  ✓  10 tests/e2e/catalog-pickers.spec.ts:563:5 › UX-15 step 6: slot swatches stay inline buttons and each shows its name on one line; the tooltip keeps "Name (SKU)"; Materials still need no panel scroll at 1440×900 (4.4s)
+  ✓  11 tests/e2e/catalog-pickers.spec.ts:619:5 › wave 4 interplay: with a placed product selected, arrows, Enter and Esc inside a picker do not move or deselect it; Esc closes the picker only (7.7s)
+  ✓  12 tests/e2e/catalog-pickers.spec.ts:709:7 › at 375×812 with a touch screen › the product picker is a full-width sheet: 30 products in the list view, no horizontal scroll, 44 px rows and swatches (3.9s)
+
+
+  1) tests/e2e/catalog-pickers.spec.ts:206:5 › UX-14 step 2b: List shows one row per item and selects the same way; the choice survives a reload, per picker kind; the list view draws no thumbnail 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator: locator('.tpicker-popup[data-picker-for=product-select] [role=option]')
+    Timeout: 5000ms
+    - Expected  - 1
+    + Received  + 1
+
+      Array [
+    -   "Side table copy 12",
+    +   "Lounge chair copy 12",
+      ]
+
+    Call log:
+      - Expect "toHaveText" locator('.tpicker-popup[data-picker-for=product-select] [role=option]') with timeout 5000ms
+      - waiting for locator('.tpicker-popup[data-picker-for=product-select] [role=option]')
+        14 × locator resolved to 1 element
+
+
+      241 |   await expect(page.locator(`${popup(PRODUCT)} .tpicker-empty`)).toHaveText('No products match.');
+      242 |   await page.fill(`${popup(PRODUCT)} .tpicker-search`, 'copy 12');
+    > 243 |   await expect(page.locator(`${popup(PRODUCT)} [role=option]`)).toHaveText(['Side table copy 12']);
+          |                                                                 ^
+      244 |   await page.fill(`${popup(PRODUCT)} .tpicker-search`, '');
+      245 |   await page.waitForTimeout(1500);
+      246 |   expect(await thumbStats(page)).toBeNull();
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.ZYWGxd/tests/e2e/catalog-pickers.spec.ts:243:65
+
+    Error Context: tests/e2e/screenshots/catalog-pickers-UX-14-step-26239-ist-view-draws-no-thumbnail/error-context.md
+
+  1 failed
+    tests/e2e/catalog-pickers.spec.ts:206:5 › UX-14 step 2b: List shows one row per item and selects the same way; the choice survives a reload, per picker kind; the list view draws no thumbnail 
+  11 passed (1.5m)

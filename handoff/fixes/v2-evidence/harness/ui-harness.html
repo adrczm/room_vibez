@@ -1,0 +1,142 @@
+<!doctype html>
+<!-- THROWAWAY HARNESS for src/help.ts, src/ui/confirmDialog.ts and src/ui/notify.ts.
+     Not part of the app. Do not merge. The top bar and stage markup are copied from
+     index.html so the ? button, the dialogs and the toast can be checked without WebGL. -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UI harness (throwaway)</title>
+    <link rel="icon" href="data:," />
+  </head>
+  <body data-workspace="catalog">
+    <header class="topbar">
+      <div class="brand">Catalog 3D</div>
+      <nav class="workspace-nav" aria-label="Workspace">
+        <div class="workspace-nav-row">
+          <span class="workspace-nav-label" id="workspace-mode-label">Workspace</span>
+          <div class="mode-toggle segmented cols-2" id="workspace-mode" role="radiogroup" aria-labelledby="workspace-mode-label">
+            <button type="button" data-mode="catalog" aria-checked="true" role="radio">Product</button>
+            <button type="button" data-mode="room" aria-checked="false" role="radio">Room workspace</button>
+          </div>
+        </div>
+        <p class="workspace-nav-hint muted small" id="workspace-mode-hint" role="status">Spin a product and try materials.</p>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <section class="stage card" aria-label="3D viewer">
+        <div id="viewer-host" class="viewer-host"></div>
+        <div id="viewer-overlay" class="overlay hidden" role="status"></div>
+        <div class="stage-toolbar">
+          <button id="btn-reset" class="btn">Reset camera</button>
+          <button id="btn-remount" class="btn">Restart 3D view</button>
+        </div>
+        <p id="stage-hint" class="hint">Drag to spin · scroll to zoom · right-drag to pan</p>
+      </section>
+
+      <aside class="panel">
+        <div class="card">
+          <h2>Harness</h2>
+          <div class="btn-row">
+            <button class="btn" id="h-why-import">Why? (import plan)</button>
+            <button class="btn" id="h-why-plans">Why? (plans)</button>
+          </div>
+          <div class="btn-row">
+            <button class="btn" id="h-clear">Clear room</button>
+            <button class="btn" id="h-replace">Replace room</button>
+            <button class="btn" id="h-delete">Delete template</button>
+            <button class="btn" id="h-mjs">Load .mjs</button>
+          </div>
+          <p id="h-result" class="upload-status muted small">no result yet</p>
+          <div class="btn-row">
+            <button class="btn" id="h-toast-info">Toast: info</button>
+            <button class="btn" id="h-toast-success">Toast: success</button>
+            <button class="btn" id="h-toast-warning">Toast: warning</button>
+            <button class="btn" id="h-toast-error">Toast: error</button>
+            <button class="btn" id="h-toast-action">Toast: action</button>
+            <button class="btn" id="h-toast-long">Toast: long</button>
+          </div>
+          <label class="field"><span>A text field</span><input class="text-input" id="h-input" /></label>
+        </div>
+      </aside>
+    </main>
+
+    <script type="module">
+      import '/src/styles.css';
+      import * as help from '/src/help.ts';
+      import { confirmDialog } from '/src/ui/confirmDialog.ts';
+      import * as toast from '/src/ui/notify.ts';
+
+      const query = new URLSearchParams(location.search);
+      help.initHelp({
+        storageFailureIsSurfaced: query.get('surfaced') === '1',
+        unseenDot: query.get('dot') === '1',
+        startHereOnFirstVisit: query.get('first') !== '0',
+      });
+      document.querySelector('.topbar').append(help.createHelpButton());
+      const notifier = toast.mountNotifier(document.querySelector('.stage'));
+
+      // Page-level key spy: keys pressed inside a modal dialog must not arrive here.
+      const keys = [];
+      document.addEventListener('keydown', (event) => keys.push(event.key));
+
+      const $ = (id) => document.getElementById(id);
+      const result = $('h-result');
+      const ask = async (options) => {
+        const answer = await confirmDialog(options);
+        result.textContent = `result: ${answer}`;
+        return answer;
+      };
+
+      // Wording from deck §5 (the counts are filled in the way the host would).
+      const CONFIRMS = {
+        clear: {
+          title: 'Clear this room?',
+          body: "This removes the walls, 1 opening and 2 placed products. **You can't undo it.** Export project first if you want to keep it.",
+          confirmLabel: 'Clear room', cancelLabel: 'Keep room', destructive: true,
+        },
+        replace: {
+          title: 'Replace your current room?',
+          body: "Your current room and its 2 placed products will be replaced, and **you won't be able to undo it.** Export project first to keep a copy.",
+          confirmLabel: 'Replace room', cancelLabel: 'Keep current room', destructive: true,
+        },
+        delete: {
+          title: 'Delete “Supercalifragilisticexpialidocious_plan_template_final_v2_REV-B”?',
+          body: "This template will be removed from this browser. You can't undo this.",
+          confirmLabel: 'Delete template', cancelLabel: 'Keep template', destructive: true,
+        },
+        mjs: {
+          title: 'Run code from “core-rulebook-4aedc7.mjs”?',
+          body: 'An .mjs file is a program, not a model. It runs in this page and can do anything the page can. Only continue if you trust where it came from.\nA quick scan flagged: fetch(, localStorage. These are unusual for a furniture pack.',
+          confirmLabel: 'Load and run', cancelLabel: "Don't load", destructive: false,
+        },
+      };
+      $('h-clear').addEventListener('click', () => ask(CONFIRMS.clear));
+      $('h-replace').addEventListener('click', () => ask(CONFIRMS.replace));
+      $('h-delete').addEventListener('click', () => ask(CONFIRMS.delete));
+      $('h-mjs').addEventListener('click', () => ask(CONFIRMS.mjs));
+
+      $('h-why-import').addEventListener('click', (event) => help.openHelp({ anchor: 'import-plan', returnFocusTo: event.currentTarget }));
+      $('h-why-plans').addEventListener('click', (event) => help.openHelp({ anchor: '#plans', returnFocusTo: event.currentTarget }));
+
+      // Wording from deck §4.F.
+      $('h-toast-info').addEventListener('click', () => toast.notify('Undid last change.'));
+      $('h-toast-success').addEventListener('click', () => toast.notify('Placed “Lounge chair”.', { kind: 'success' }));
+      $('h-toast-warning').addEventListener('click', () => toast.notify('Click the floor inside the room.', { kind: 'warning' }));
+      $('h-toast-error').addEventListener('click', () => toast.notify("Couldn't place “Lounge chair”. Load its pack again and try once more.", { kind: 'error' }));
+      $('h-toast-action').addEventListener('click', () => toast.notify('Placed “Lounge chair”.', { kind: 'success', action: { label: 'Undo', onSelect: () => { result.textContent = 'action: chosen'; } } }));
+      $('h-toast-long').addEventListener('click', () => toast.notify('Placed “Lounge chair”. It overlaps a wall and “Side table”. You can leave it, or delete it from the list below.', { kind: 'warning', timeoutMs: 0 }));
+
+      document.querySelectorAll('#workspace-mode button').forEach((button) => {
+        button.addEventListener('click', () => {
+          document.body.dataset.workspace = button.dataset.mode;
+          document.querySelectorAll('#workspace-mode button').forEach((b) => b.setAttribute('aria-checked', String(b === button)));
+        });
+      });
+
+      window.__ui = { help, confirmDialog, toast, notifier, keys, CONFIRMS };
+      document.body.dataset.harnessReady = 'true';
+    </script>
+  </body>
+</html>

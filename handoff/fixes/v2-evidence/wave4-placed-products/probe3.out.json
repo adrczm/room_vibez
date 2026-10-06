@@ -1,0 +1,232 @@
+{
+ "upload": {
+  "uploadName": "STUB-SKU-UPLOAD-UPLOAD-MUVP4QNK",
+  "upBindings": {
+   "top": "wood-oak",
+   "legs": "wood-oak"
+  },
+  "upMeshes": {
+   "top": [
+    "wood-oak|#ffffff|wood-oak.png"
+   ],
+   "legs": [
+    "wood-oak|#ffffff|wood-oak.png"
+   ]
+  },
+  "rowsBefore": [
+   "side-table 1Delete",
+   "Lounge chair (demo) 1Delete"
+  ],
+  "inProduct": {
+   "open": "false",
+   "text": ""
+  },
+  "onArrival": {
+   "open": "true",
+   "kind": "warning",
+   "text": "“STUB-SKU-UPLOAD-UPLOAD-MUVP4QNK” isn't available after a refresh, so it wasn't placed back. Add the model again to use it."
+  },
+  "rows": [
+   {
+    "cls": "placement-missing",
+    "text": "“STUB-SKU-UPLOAD-UPLOAD-MUVP4QNK” isn't available after a refresh, so it wasn't placed back. Add the model again to use it.",
+    "buttons": [
+     "Delete"
+    ]
+   },
+   {
+    "cls": "placement-row",
+    "text": "Lounge chair (demo) 1",
+    "buttons": [
+     "Lounge chair (demo) 1",
+     "Delete"
+    ]
+   }
+  ],
+  "afterClickMissing": {
+   "cur": null,
+   "hl": null,
+   "hint": "Drag to orbit · scroll to zoom · right-drag to pan"
+  },
+  "secondArrival": {
+   "open": "false",
+   "text": ""
+  },
+  "afterDelete": {
+   "n": 1,
+   "rows": [
+    "Lounge chair (demo) 1Delete"
+   ]
+  },
+  "errors": []
+ },
+ "startPos": [
+  {
+   "x": 0,
+   "z": 0,
+   "r": 0
+  },
+  {
+   "x": -0.75,
+   "z": 0,
+   "r": 0
+  }
+ ],
+ "bounds": {
+  "steps": 11,
+  "refusedAt": {
+   "x": 2.5,
+   "z": 0,
+   "r": 1.5708
+  },
+  "refusalToast": {
+   "open": "true",
+   "kind": "warning",
+   "text": "That would put “Lounge chair (demo) 1” outside the room, so it stayed where it is."
+  },
+  "small": 0,
+  "atWall": {
+   "x": 2.5,
+   "z": 0,
+   "r": 1.5708
+  },
+  "toastAtWall": {
+   "open": "true",
+   "kind": "warning",
+   "text": ""
+  },
+  "toastAfterBack": {
+   "open": "true",
+   "kind": "warning",
+   "text": "“Lounge chair (demo) 1” overlaps a wall. You can leave it, or move it again."
+  },
+  "rootX": 2.45
+ },
+ "wallOverlapToastSeen": {
+  "open": "true",
+  "kind": "warning",
+  "text": ""
+ },
+ "guards": {
+  "popover": {
+   "unchanged": true
+  },
+  "selectFocused": true,
+  "selectionStill": true
+ },
+ "remount": {
+  "sel": {
+   "cur": "place_muvp522j_6",
+   "hl": "place_muvp522j_6",
+   "hint": "Arrow keys to move · R to rotate · Delete to remove"
+  },
+  "meshesA": {
+   "frame": [
+    "wood-walnut|#ffffff|wood-walnut.png"
+   ],
+   "handles": [
+    "plastic-black|#1e1e1e|no-map"
+   ],
+   "pillow": [
+    "wool-cream|#efe6d4|wool-knit.png"
+   ]
+  },
+  "helper": 1,
+  "mode": "room"
+ },
+ "backInProduct": {
+  "order": [
+   "catalog-card",
+   "materials-card",
+   "add-model-card",
+   "product-advanced",
+   "parts-card"
+  ],
+  "stateHidden": true,
+  "count": 1,
+  "hl": null,
+  "slots": [
+   "frame",
+   "handles",
+   "pillow"
+  ],
+  "meta": 3,
+  "warningsHidden": false
+ },
+ "sel": {
+  "hoverOn": {
+   "cur": null,
+   "hl": "place_muvp52br_7",
+   "hint": "Drag to orbit · scroll to zoom · right-drag to pan"
+  },
+  "hoverOff": {
+   "cur": null,
+   "hl": null,
+   "hint": "Drag to orbit · scroll to zoom · right-drag to pan"
+  },
+  "rowSel": {
+   "cur": "place_muvp52br_7",
+   "hl": "place_muvp52br_7",
+   "hint": "Arrow keys to move · R to rotate · Delete to remove"
+  },
+  "focusAfterRowSelect": "select@place_muvp52br_7",
+  "afterEsc": {
+   "cur": null,
+   "hl": null,
+   "hint": "Drag to orbit · scroll to zoom · right-drag to pan"
+  },
+  "afterTool": {
+   "cur": null,
+   "hl": null,
+   "hint": "Click the floor to place “Lounge chair (demo)”.",
+   "mode": "place"
+  },
+  "selWhileTool": {
+   "cur": "place_muvp522j_6",
+   "hl": "place_muvp522j_6",
+   "hint": "Arrow keys to move · R to rotate · Delete to remove",
+   "mode": "room",
+   "pressed": "false"
+  },
+  "afterPicker": {
+   "cur": null,
+   "hl": null,
+   "hint": "Drag to orbit · scroll to zoom · right-drag to pan",
+   "state": "Applies to the next product you place.",
+   "slots": [
+    "top",
+    "legs"
+   ]
+  },
+  "otherProduct": {
+   "state": "Applies to “Lounge chair (demo) 1”.",
+   "slots": [
+    "frame",
+    "handles",
+    "pillow"
+   ],
+   "picker": "demo-side-table",
+   "warningsHidden": true,
+   "meta": 0
+  },
+  "rotL": {
+   "x": 0,
+   "z": 0,
+   "r": 1.5708
+  },
+  "focusAfterRotate": "rotate-left",
+  "rotL2": {
+   "x": 0,
+   "z": 0,
+   "r": 3.1416
+  },
+  "rotR": {
+   "x": 0,
+   "z": 0,
+   "r": 1.5708
+  },
+  "a": "place_muvp522j_6",
+  "b": "place_muvp52br_7"
+ },
+ "errorsD": []
+}

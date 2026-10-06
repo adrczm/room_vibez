@@ -1,0 +1,110 @@
+{
+ "pack": {
+  "id": "pack-muvrdxpa",
+  "name": "core-rulebook-4aedc7",
+  "userAdded": true,
+  "sourceKind": "glb",
+  "preserve": false,
+  "mapping": "slots",
+  "completeness": "complete"
+ },
+ "trigger": "core-rulebook-4aedc7 | your upload | Product",
+ "tiles": [
+  {
+   "text": "Lounge chair (demo)",
+   "kind": "thumb"
+  },
+  {
+   "text": "Side table (demo)",
+   "kind": "thumb"
+  },
+  {
+   "text": "core-rulebook-4aedc7 | your upload",
+   "kind": "thumb"
+  }
+ ],
+ "stats": {
+  "contextAlive": true,
+  "contextsCreated": 1,
+  "renders": 3,
+  "cached": 3,
+  "pending": 0,
+  "lastRenderMs": 311.19999998807907,
+  "geometries": 11,
+  "textures": 5
+ },
+ "params": [
+  {
+   "label": "Colorway",
+   "tag": "SELECT",
+   "type": null
+  },
+  {
+   "label": "Cover",
+   "tag": "INPUT",
+   "type": "color"
+  },
+  {
+   "label": "Gold",
+   "tag": "INPUT",
+   "type": "color"
+  },
+  {
+   "label": "Page edges",
+   "tag": "INPUT",
+   "type": "color"
+  },
+  {
+   "label": "Paper",
+   "tag": "INPUT",
+   "type": "color"
+  },
+  {
+   "label": "Ribbon",
+   "tag": "INPUT",
+   "type": "color"
+  },
+  {
+   "label": "Ink",
+   "tag": "INPUT",
+   "type": "color"
+  },
+  {
+   "label": "State (geometry)",
+   "tag": "SELECT",
+   "type": null
+  },
+  {
+   "label": "Pages (geometry)",
+   "tag": "INPUT",
+   "type": "range"
+  },
+  {
+   "label": "Spine bands (geometry)",
+   "tag": "INPUT",
+   "type": "range"
+  },
+  {
+   "label": "Corner protectors (geometry)",
+   "tag": "SELECT",
+   "type": null
+  }
+ ],
+ "afterParam": {
+  "stats": {
+   "contextAlive": true,
+   "contextsCreated": 1,
+   "renders": 3,
+   "cached": 3,
+   "pending": 0,
+   "lastRenderMs": 311.19999998807907,
+   "geometries": 11,
+   "textures": 5
+  },
+  "sourceKind": "glb",
+  "imgLenBefore": 10114,
+  "imgLenAfter": 10114,
+  "status": "Applied pack colors to slots: cover, gold, gilt, paper, ribbon"
+ },
+ "errors": []
+}

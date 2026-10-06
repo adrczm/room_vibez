@@ -1,0 +1,180 @@
+run-e2e: specs from /Users/adrian/Desktop/Room Vibez/v2/hackathon-3d-viewer against http://127.0.0.1:18777; run dir /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.dB0M4t
+
+Running 14 tests using 5 workers
+
+  ✘   2 tests/e2e/trust-fixes.spec.ts:76:5 › room tools: a second click switches the tool off, Esc leaves it, and neither a tool nor a tab moves the camera (30.2s)
+  ✘   5 tests/e2e/dwg-plan-import.spec.ts:18:5 › DWG plan import: mock fixture → confirm → immediate room + template (41.7s)
+  ✘   3 tests/e2e/room-from-scratch.spec.ts:12:5 › room from scratch: create, opening cutout, place catalog GLB (1.0m)
+  ✘   1 tests/e2e/missing-features.spec.ts:15:5 › missing features: undo, materials, snap, export, underlay path (1.0m)
+  ✘   4 tests/e2e/viewer.spec.ts:24:5 › viewer loads, swaps slot materials, switches presets, remounts cleanly (1.0m)
+  ✓   6 tests/e2e/trust-fixes.spec.ts:147:5 › room size: the fields win over the preset, and typing in one flips the preset to Custom (33.5s)
+  ✓  11 tests/e2e/trust-fixes.spec.ts:163:5 › room units: switching to cm converts the fields and their limits; the walls are still 0.12 m thick (23.5s)
+  ✓   9 tests/e2e/viewer.spec.ts:98:5 › mobile layout has no horizontal scroll (30.8s)
+  ✘   7 tests/e2e/model-display-cold-load.spec.ts:77:5 › cold load shows demo GLB pixels + meshes even with persisted roomGraph (1.0m)
+  ✓  12 tests/e2e/trust-fixes.spec.ts:210:5 › Cmd/Ctrl+Z typed in a field undoes the typing, not the room (20.0s)
+  ✓   8 tests/e2e/room-floor-extent.spec.ts:22:5 › room floor outer footprint matches walls and ground is hidden (50.9s)
+  ✓  14 tests/e2e/trust-fixes.spec.ts:242:5 › nothing marked hidden is displayed, and room-only buttons wait for a room (14.0s)
+  ✘  10 tests/e2e/model-display.spec.ts:44:5 › product GLB visible after room create → Product workspace (1.0m)
+  ✓  13 tests/e2e/model-display-cold-load.spec.ts:142:5 › cold load without persistence shows lounge chair (19.9s)
+
+
+  1) tests/e2e/dwg-plan-import.spec.ts:18:5 › DWG plan import: mock fixture → confirm → immediate room + template 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 0
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      77 |   await expect
+      78 |     .poll(async () => page.evaluate(() => window.__rv.roomGraph()?.placements.length ?? 0))
+    > 79 |     .toBe(1);
+         |      ^
+      80 |
+      81 |   await page.waitForTimeout(400);
+      82 |   await page.screenshot({ path: path.join(MEDIA, '02-immediate-room.png'), fullPage: true });
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.dB0M4t/tests/e2e/dwg-plan-import.spec.ts:79:6
+
+    Error Context: tests/e2e/screenshots/dwg-plan-import-DWG-plan-i-df563-m-→-immediate-room-template/error-context.md
+
+  2) tests/e2e/missing-features.spec.ts:15:5 › missing features: undo, materials, snap, export, underlay path 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: page.screenshot: Test timeout of 60000ms exceeded.
+    Call log:
+      - taking page screenshot
+      - waiting for fonts to load...
+      - fonts loaded
+
+
+      113 |     .toBe(1);
+      114 |   await page.waitForTimeout(400);
+    > 115 |   await page.screenshot({ path: path.join(MEDIA, '02-underlay-confirm.png'), fullPage: true });
+          |              ^
+      116 |
+      117 |   expect(errors.filter((e) => !/SwiftShader|WebGL/i.test(e))).toEqual([]);
+      118 | });
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.dB0M4t/tests/e2e/missing-features.spec.ts:115:14
+
+    Error Context: tests/e2e/screenshots/missing-features-missing-f-09ac6-s-snap-export-underlay-path/error-context.md
+
+  3) tests/e2e/model-display-cold-load.spec.ts:77:5 › cold load shows demo GLB pixels + meshes even with persisted roomGraph 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: page.screenshot: Test timeout of 60000ms exceeded.
+    Call log:
+      - taking page screenshot
+      - waiting for fonts to load...
+      - fonts loaded
+
+
+      106 |   const afterCold = await page.locator('#viewer-host canvas').screenshot();
+      107 |   fs.writeFileSync(path.join(MEDIA, '11-cold-load-after-fix.png'), afterCold);
+    > 108 |   await page.screenshot({ path: path.join(MEDIA, '12-cold-load-after-fix-full.png') });
+          |              ^
+      109 |
+      110 |   const stats = canvasStats(afterCold);
+      111 |   const state = await productStageState(page);
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.dB0M4t/tests/e2e/model-display-cold-load.spec.ts:108:14
+
+    Error Context: tests/e2e/screenshots/model-display-cold-load-co-127d3-en-with-persisted-roomGraph/error-context.md
+
+  4) tests/e2e/model-display.spec.ts:44:5 › product GLB visible after room create → Product workspace 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.screenshot: Test timeout of 60000ms exceeded.
+    Call log:
+      - taking element screenshot
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+
+
+      106 |   await ready(page);
+      107 |   await page.waitForTimeout(400);
+    > 108 |   const table = await page.locator('#viewer-host canvas').screenshot();
+          |                                                           ^
+      109 |   fs.writeFileSync(path.join(MEDIA, '04-product-side-table.png'), table);
+      110 |   expect(canvasStats(table).distinct).toBeGreaterThan(20);
+      111 |
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.dB0M4t/tests/e2e/model-display.spec.ts:108:59
+
+    Error Context: tests/e2e/screenshots/model-display-product-GLB--0c52c--create-→-Product-workspace/error-context.md
+
+  5) tests/e2e/room-from-scratch.spec.ts:12:5 › room from scratch: create, opening cutout, place catalog GLB 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: page.screenshot: Test timeout of 60000ms exceeded.
+    Call log:
+      - taking page screenshot
+      - waiting for fonts to load...
+      - fonts loaded
+
+
+      102 |
+      103 |   await page.waitForTimeout(500);
+    > 104 |   await page.screenshot({ path: path.join(MEDIA, '03-furniture-place.png'), fullPage: true });
+          |              ^
+      105 |   await page.screenshot({ path: path.join(ARTIFACTS, 'room-furniture.png'), fullPage: true });
+      106 |
+      107 |   // Persist + catalog path still alive
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.dB0M4t/tests/e2e/room-from-scratch.spec.ts:104:14
+
+    Error Context: tests/e2e/screenshots/room-from-scratch-room-fro-fefc2-ng-cutout-place-catalog-GLB/error-context.md
+
+  6) tests/e2e/trust-fixes.spec.ts:76:5 › room tools: a second click switches the tool off, Esc leaves it, and neither a tool nor a tab moves the camera 
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 1
+    Received:   2.580768712631887
+
+      121 |     await page.waitForTimeout(400);
+      122 |     const after = await settledCamera(page);
+    > 123 |     expect(Math.abs(after.elevationDeg - orbited.elevationDeg)).toBeLessThan(1);
+          |                                                                 ^
+      124 |     expect(moved(orbited, after)).toBeLessThan(0.15);
+      125 |   }
+      126 |
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.dB0M4t/tests/e2e/trust-fixes.spec.ts:123:65
+
+    Error Context: tests/e2e/screenshots/trust-fixes-room-tools-a-s-9ef8c--nor-a-tab-moves-the-camera/error-context.md
+
+  7) tests/e2e/viewer.spec.ts:24:5 › viewer loads, swaps slot materials, switches presets, remounts cleanly 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: page.screenshot: Test timeout of 60000ms exceeded.
+    Call log:
+      - taking page screenshot
+      - waiting for fonts to load...
+      - fonts loaded
+
+
+      91 |   await expect.poll(async () => (await parts(page))?.parts.find((p) => p.slotId === 'legs')?.materialId).toBe('metal-black');
+      92 |   await page.waitForTimeout(300);
+    > 93 |   await page.screenshot({ path: 'tests/e2e/screenshots/03-table.png' });
+         |              ^
+      94 |
+      95 |   expect(errors).toEqual([]);
+      96 | });
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.dB0M4t/tests/e2e/viewer.spec.ts:93:14
+
+    Error Context: tests/e2e/screenshots/viewer-viewer-loads-swaps--9d5c5-es-presets-remounts-cleanly/error-context.md
+
+  7 failed
+    tests/e2e/dwg-plan-import.spec.ts:18:5 › DWG plan import: mock fixture → confirm → immediate room + template 
+    tests/e2e/missing-features.spec.ts:15:5 › missing features: undo, materials, snap, export, underlay path 
+    tests/e2e/model-display-cold-load.spec.ts:77:5 › cold load shows demo GLB pixels + meshes even with persisted roomGraph 
+    tests/e2e/model-display.spec.ts:44:5 › product GLB visible after room create → Product workspace 
+    tests/e2e/room-from-scratch.spec.ts:12:5 › room from scratch: create, opening cutout, place catalog GLB 
+    tests/e2e/trust-fixes.spec.ts:76:5 › room tools: a second click switches the tool off, Esc leaves it, and neither a tool nor a tab moves the camera 
+    tests/e2e/viewer.spec.ts:24:5 › viewer loads, swaps slot materials, switches presets, remounts cleanly 
+  7 passed (2.2m)

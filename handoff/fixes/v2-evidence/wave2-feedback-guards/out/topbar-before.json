@@ -1,0 +1,62 @@
+{
+ "1440x900": {
+  "product": {
+   "topbarH": 87,
+   "navLeft": 1089,
+   "navRight": 1424,
+   "navTop": 10,
+   "brandLeft": 16,
+   "brandTop": 33,
+   "overflowX": 0
+  },
+  "room": {
+   "topbarH": 103,
+   "navLeft": 1064,
+   "navRight": 1424,
+   "navTop": 10,
+   "brandLeft": 16,
+   "brandTop": 41,
+   "overflowX": 0
+  }
+ },
+ "1024x768": {
+  "product": {
+   "topbarH": 87,
+   "navLeft": 673,
+   "navRight": 1008,
+   "navTop": 10,
+   "brandLeft": 16,
+   "brandTop": 33,
+   "overflowX": 0
+  },
+  "room": {
+   "topbarH": 103,
+   "navLeft": 648,
+   "navRight": 1008,
+   "navTop": 10,
+   "brandLeft": 16,
+   "brandTop": 41,
+   "overflowX": 0
+  }
+ },
+ "375x812": {
+  "product": {
+   "topbarH": 149,
+   "navLeft": 16,
+   "navRight": 359,
+   "navTop": -1395,
+   "brandLeft": 16,
+   "brandTop": -1431,
+   "overflowX": 0
+  },
+  "room": {
+   "topbarH": 165,
+   "navLeft": 16,
+   "navRight": 359,
+   "navTop": -598,
+   "brandLeft": 16,
+   "brandTop": -634,
+   "overflowX": 0
+  }
+ }
+}

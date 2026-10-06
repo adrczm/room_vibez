@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Sample plan preview (mock)">
+  <rect width="240" height="240" fill="#f0eee8"/>
+  <text x="12" y="20" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#666">Mock plan preview · not ODA raster</text>
+  <!-- 5×4 m room mapped into view -->
+  <rect x="40" y="50" width="160" height="128" fill="none" stroke="#222" stroke-width="3"/>
+  <!-- door on south -->
+  <line x1="88" y1="178" x2="117" y2="178" stroke="#c45c26" stroke-width="6" stroke-linecap="square"/>
+  <!-- window on north -->
+  <line x1="96" y1="50" x2="134" y2="50" stroke="#2a6f97" stroke-width="6" stroke-linecap="square"/>
+  <text x="120" y="120" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#444">5 × 4 m</text>
+  <text x="120" y="210" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" fill="#888">A-WALL · DOOR-36 · WIN-48</text>
+</svg>

@@ -1,0 +1,151 @@
+run-e2e: specs from /Users/adrian/Desktop/Room Vibez/v2/hackathon-3d-viewer against http://127.0.0.1:18767; run dir /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.LKkGzR
+
+Running 5 tests using 1 worker
+
+  ✘  1 tests/e2e/trust-fixes.spec.ts:69:5 › room tools: a second click switches the tool off, Esc leaves it, and neither a tool nor a tab moves the camera (14.5s)
+  ✘  2 tests/e2e/trust-fixes.spec.ts:136:5 › room size: the fields win over the preset, and typing in one flips the preset to Custom (12.2s)
+  ✘  3 tests/e2e/trust-fixes.spec.ts:152:5 › room units: switching to cm converts the fields and their limits; the walls are still 0.12 m thick (10.6s)
+  ✘  4 tests/e2e/trust-fixes.spec.ts:199:5 › Cmd/Ctrl+Z typed in a field undoes the typing, not the room (12.4s)
+  ✘  5 tests/e2e/trust-fixes.spec.ts:231:5 › nothing marked hidden is displayed, and room-only buttons wait for a room (10.4s)
+
+
+  1) tests/e2e/trust-fixes.spec.ts:69:5 › room tools: a second click switches the tool off, Esc leaves it, and neither a tool nor a tab moves the camera 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('#btn-place-mode')
+    Expected: "false"
+    Received: "true"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('#btn-place-mode') with timeout 5000ms
+      - waiting for locator('#btn-place-mode')
+        14 × locator resolved to <button class="btn" type="button" id="btn-place-mode" aria-pressed="true">Place mode on — click the floor</button>
+           - unexpected value "true"
+
+
+      85 |     expect(await mode(page)).toBe(tool);
+      86 |     await page.click(button);
+    > 87 |     await expect(page.locator(button)).toHaveAttribute('aria-pressed', 'false');
+         |                                        ^
+      88 |     expect(await mode(page)).toBe('room');
+      89 |   }
+      90 |
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.LKkGzR/tests/e2e/trust-fixes.spec.ts:87:40
+
+    Error Context: tests/e2e/screenshots/trust-fixes-room-tools-a-s-9ef8c--nor-a-tab-moves-the-camera/error-context.md
+
+  2) tests/e2e/trust-fixes.spec.ts:136:5 › room size: the fields win over the preset, and typing in one flips the preset to Custom 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  locator('#room-preset')
+    Expected: "custom"
+    Received: "small-bedroom"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" locator('#room-preset') with timeout 5000ms
+      - waiting for locator('#room-preset')
+        13 × locator resolved to <select class="select" id="room-preset" aria-label="Room size preset">…</select>
+           - unexpected value "small-bedroom"
+
+
+      139 |
+      140 |   await page.fill('#room-length', '6');
+    > 141 |   await expect(page.locator('#room-preset')).toHaveValue('custom');
+          |                                              ^
+      142 |
+      143 |   await createRoom(page);
+      144 |   const size = await roomSize(page);
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.LKkGzR/tests/e2e/trust-fixes.spec.ts:141:46
+
+    Error Context: tests/e2e/screenshots/trust-fixes-room-size-the--da92f--flips-the-preset-to-Custom/error-context.md
+
+  3) tests/e2e/trust-fixes.spec.ts:152:5 › room units: switching to cm converts the fields and their limits; the walls are still 0.12 m thick 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 7
+    + Received  + 7
+
+      Array [
+    -   "room-length 300 min 50 step 10",
+    -   "room-width 300 min 50 step 10",
+    -   "room-ceiling 270 min 50 step 10",
+    -   "room-thickness 12 min 5 step 1",
+    -   "opening-width 90 min 20 step 5",
+    -   "opening-height 210 min 20 step 5",
+    -   "opening-sill 0 min 0 step 5",
+    +   "room-length 3 min 0.5 step 0.1",
+    +   "room-width 3 min 0.5 step 0.1",
+    +   "room-ceiling 2.7 min 0.5 step 0.1",
+    +   "room-thickness 0.12 min 0.05 step 0.01",
+    +   "opening-width 90 min 0.2 step 0.05",
+    +   "opening-height 210 min 0.2 step 0.05",
+    +   "opening-sill 0 min 0 step 0.05",
+      ]
+
+      175 |
+      176 |   await page.selectOption('#room-units', 'cm');
+    > 177 |   expect(await fields()).toEqual([
+          |                          ^
+      178 |     'room-length 300 min 50 step 10',
+      179 |     'room-width 300 min 50 step 10',
+      180 |     'room-ceiling 270 min 50 step 10',
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.LKkGzR/tests/e2e/trust-fixes.spec.ts:177:26
+
+    Error Context: tests/e2e/screenshots/trust-fixes-room-units-swi-ba50a-alls-are-still-0-12-m-thick/error-context.md
+
+  4) tests/e2e/trust-fixes.spec.ts:199:5 › Cmd/Ctrl+Z typed in a field undoes the typing, not the room 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 2
+    Received: 1
+
+      219 |   await page.keyboard.press('ControlOrMeta+z');
+      220 |   await page.waitForTimeout(400);
+    > 221 |   expect(await placementCount(page)).toBe(2);
+          |                                      ^
+      222 |   await expect(page.locator('#room-status')).not.toContainText('Undid');
+      223 |   await expect(page.locator('#room-length')).toHaveValue('5'); // the field undid its own text
+      224 |
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.LKkGzR/tests/e2e/trust-fixes.spec.ts:221:38
+
+    Error Context: tests/e2e/screenshots/trust-fixes-Cmd-Ctrl-Z-typ-395f6-oes-the-typing-not-the-room/error-context.md
+
+  5) tests/e2e/trust-fixes.spec.ts:231:5 › nothing marked hidden is displayed, and room-only buttons wait for a room 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 7
+
+    - Array []
+    + Array [
+    +   "room-plan",
+    +   "room-plan-actions",
+    +   "project-file",
+    +   "pack-params",
+    +   "texture-target-wrap",
+    + ]
+
+      247 |     }, role);
+      248 |
+    > 249 |   expect(await hiddenButDisplayed()).toEqual([]); // fresh Product
+          |                                      ^
+      250 |   expect(await targetDisplay('normalMap')).not.toBe('none');
+      251 |   expect(await targetDisplay('roughnessMap')).not.toBe('none');
+      252 |   expect(await targetDisplay('map')).toBe('none');
+        at /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.LKkGzR/tests/e2e/trust-fixes.spec.ts:249:38
+
+    Error Context: tests/e2e/screenshots/trust-fixes-nothing-marked-7ebf1-nly-buttons-wait-for-a-room/error-context.md
+
+  5 failed
+    tests/e2e/trust-fixes.spec.ts:69:5 › room tools: a second click switches the tool off, Esc leaves it, and neither a tool nor a tab moves the camera 
+    tests/e2e/trust-fixes.spec.ts:136:5 › room size: the fields win over the preset, and typing in one flips the preset to Custom 
+    tests/e2e/trust-fixes.spec.ts:152:5 › room units: switching to cm converts the fields and their limits; the walls are still 0.12 m thick 
+    tests/e2e/trust-fixes.spec.ts:199:5 › Cmd/Ctrl+Z typed in a field undoes the typing, not the room 
+    tests/e2e/trust-fixes.spec.ts:231:5 › nothing marked hidden is displayed, and room-only buttons wait for a room 

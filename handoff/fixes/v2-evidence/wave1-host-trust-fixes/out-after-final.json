@@ -1,0 +1,31 @@
+{
+ "QA06_undo_in_field": {
+  "placedWith": "real pointer clicks",
+  "activeElementAfterCanvasClick": "BODY",
+  "placementsBefore": 2,
+  "fieldAfterTyping": "59",
+  "afterUndoKeyInField": {
+   "placements": 2,
+   "field": "5",
+   "fieldBeforeTyping": "5",
+   "status": "Placed “Lounge chair (demo)” on the floor"
+  },
+  "modeBeforeEscInField": "place",
+  "modeAfterEscInField": "place",
+  "activeElementOutside": "BODY",
+  "afterUndoKeyOutsideField": {
+   "placementsBefore": 2,
+   "placements": 1,
+   "status": "Undid last room change"
+  },
+  "afterRedoKeyOutsideField": {
+   "placements": 2
+  },
+  "activeElementAfterCheckbox": "place-wall-snap",
+  "undoWithCheckboxFocused": {
+   "placementsBefore": 2,
+   "placements": 1
+  },
+  "errors": []
+ }
+}

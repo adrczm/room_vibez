@@ -1,0 +1,13 @@
+import { launch, fresh, toRoom, createRoom, toClient, placements, stageState, SHOTS } from './lib.mjs';
+const browser = await launch();
+const { ctx, page, errors } = await fresh(browser, { width: 1440, height: 900 });
+await toRoom(page); await createRoom(page);
+await page.click('#btn-place-mode');
+const p = await toClient(page, 0.8, 0, -0.5);
+const hit = await page.evaluate(({ x, y }) => { const v = window.__rv.viewer(); const h = v.raycastRoom(x, y); const el = document.elementFromPoint(x, y); return { hit: h, el: el?.tagName + '#' + el?.id + '.' + el?.className, mode: v.getInteractionMode() }; }, p);
+console.log(JSON.stringify({ p, hit }, null, 1));
+await page.mouse.click(p.x, p.y);
+await page.waitForTimeout(3000);
+console.log(JSON.stringify({ st: await stageState(page), pl: await placements(page), errors }, null, 1));
+await page.screenshot({ path: `${SHOTS}/dbg1.png` });
+await browser.close();

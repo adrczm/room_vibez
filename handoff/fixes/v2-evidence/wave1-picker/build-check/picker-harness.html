@@ -1,0 +1,59 @@
+<!doctype html>
+<!-- HARNESS ONLY. Not merged. A real <select> inside a scrolling 340 px panel like the app's, to check the
+     catalog picker in a browser. Query: ?n=30 (product count) &thumbs=manual|auto|preset|none &searchMin=N -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Picker harness (not merged)</title>
+    <link rel="icon" href="data:," />
+    <script type="module" crossorigin src="/assets/picker-harness-BB-RqhKd.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/picker-harness-BnPeeQ2l.css">
+  </head>
+  <body data-workspace="catalog">
+    <header class="topbar">
+      <div class="brand">Picker harness (not merged)</div>
+      <button id="page-button" class="btn" type="button">Outside button</button>
+    </header>
+    <main class="layout">
+      <section class="stage card" aria-label="Stage stand-in">
+        <p class="hint" id="harness-log">ready</p>
+      </section>
+      <aside class="panel">
+        <div class="card" id="filler-top" style="min-height: 260px">
+          <h2>Filler above</h2>
+          <p class="muted small">Stands in for the cards above the picker so the panel has to scroll.</p>
+        </div>
+        <div class="card panel-card" id="catalog-card" data-workspace-panel="catalog">
+          <h2>Product</h2>
+          <select id="product-select" class="select" aria-label="Product"></select>
+          <p id="product-meta" class="muted small"></p>
+          <button id="btn-add" class="btn" type="button">Add test upload</button>
+        </div>
+        <div class="card" id="materials-card">
+          <h2>Shell materials</h2>
+          <div class="form-grid room-dims">
+            <label class="field">
+              <span>Wall material</span>
+              <select id="room-wall-material" class="select" aria-label="Wall material"></select>
+            </label>
+            <label class="field">
+              <span>Floor material</span>
+              <select id="room-floor-material" class="select" aria-label="Floor material"></select>
+            </label>
+          </div>
+          <p id="material-meta" class="muted small"></p>
+          <label class="field" id="texture-target-wrap">
+            <span>Target material</span>
+            <select id="texture-target" class="select" aria-label="Target library material"></select>
+          </label>
+          <button id="btn-after" class="btn" type="button">Control after the pickers</button>
+        </div>
+        <div class="card" id="filler-bottom" style="min-height: 900px">
+          <h2>Filler below</h2>
+        </div>
+      </aside>
+    </main>
+
+  </body>
+</html>

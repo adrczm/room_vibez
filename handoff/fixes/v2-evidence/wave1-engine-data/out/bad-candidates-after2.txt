@@ -1,0 +1,20 @@
+{
+ "review": {
+  "reviewVisible": true,
+  "importStatus": "Job import_muva2dmm_2 · source json_candidates:hand.json · scale ×1.000"
+ },
+ "after": {
+  "importStatus": "Import candidates are not a usable room: walls[0].thickness is not a number above 0",
+  "importStatusIsError": true,
+  "roomStatus": "Living · 5.00 m × 4.00 m · ceiling 2.70 m · 0 opening(s) · 0 placement(s) · authored",
+  "appRoom": "Living, 4 walls, thickness 0.12",
+  "stored": "{\"schema_version\":1,\"units\":\"m\",\"rooms\":[{\"id\":\"room_muva2bu",
+  "viewerStatus": "ready"
+ },
+ "afterReload": {
+  "viewerStatus": "ready",
+  "appRoom": "Living",
+  "overlay": "Loading…"
+ },
+ "errors": []
+}

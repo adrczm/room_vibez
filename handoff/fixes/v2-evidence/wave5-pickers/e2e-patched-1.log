@@ -1,0 +1,22 @@
+run-e2e: specs from /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/h5/patched-root against http://127.0.0.1:18777; run dir /private/tmp/claude-501/-Users-adrian-Desktop-Room-Vibez/7ac663fe-e0d6-4b3c-af69-487be083d847/scratchpad/e2e-run.iLUS2N
+
+Running 16 tests using 1 worker
+
+  ✓   1 tests/e2e/panel-structure.spec.ts:112:5 › only the active workspace is rendered: the A2 check passes in every state, and no tab stop is in the hidden group (7.8s)
+  ✓   2 tests/e2e/panel-structure.spec.ts:170:5 › Product on arrival at 1440×900: Materials need no panel scroll, the light presets are on the stage, and a switch starts the panel at its top (5.9s)
+  ✓   3 tests/e2e/panel-structure.spec.ts:231:7 › small screen › 375×812 (QA-03): the 3D view is on screen on arrival, after Room workspace and after Create room (7.1s)
+  ✓   4 tests/e2e/panel-structure.spec.ts:271:5 › the Room workspace is four steps, one open at a time; Create room opens the next step and moves focus to its heading (6.8s)
+  ✓   5 tests/e2e/panel-structure.spec.ts:406:5 › one product picker: it is in the Product card in Product and in the Place products step in Room, and keeps its choice (4.0s)
+  ✓   6 tests/e2e/panel-structure.spec.ts:440:5 › Add to room places the selected product inside the room with no pointer: centre first, then a free spot; also from the keyboard (5.4s)
+  ✓   7 tests/e2e/panel-structure.spec.ts:511:5 › Add to room in an L-shaped room: the centre of its bounds is not on the floor, the product still lands on it (4.9s)
+  ✓   8 tests/e2e/panel-structure.spec.ts:542:5 › the room toolbar: Import project with or without a room; Undo, Redo and Export project only with one; one file input (6.2s)
+  ✓   9 tests/e2e/panel-structure.spec.ts:609:5 › an open toast does not block the canvas: a real click on the floor under it places the product, and its close button still works (5.2s)
+  ✓  10 tests/e2e/placed-products.spec.ts:171:5 › UX-16: a product is placed with the finish the Materials card shows, by Add to room and by a click on the floor (6.8s)
+  ✓  11 tests/e2e/placed-products.spec.ts:239:5 › UX-16: the finish survives undo, redo and a reload of the page (10.0s)
+  ✓  12 tests/e2e/placed-products.spec.ts:271:5 › UX-16 step 3: one Materials card, after the Product card in Product and under the picker in the Place products step (4.5s)
+  ✓  13 tests/e2e/placed-products.spec.ts:340:5 › UX-09: rows are numbered per product; a product is selected by a real click on it and from its row (7.3s)
+  ✓  14 tests/e2e/placed-products.spec.ts:426:5 › UX-09: rotate, nudge and delete the selected product by key and by button; Undo reverses each step (14.4s)
+  ✓  15 tests/e2e/placed-products.spec.ts:561:5 › UX-16 step 4: with a placed product selected, the Materials card shows and changes that product; Undo reverses it (11.1s)
+  ✓  16 tests/e2e/placed-products.spec.ts:637:5 › Copy §6 C: a room saved with an uploaded model says, after a refresh, that the model was not placed back (10.1s)
+
+  16 passed (2.0m)

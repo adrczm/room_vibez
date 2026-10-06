@@ -1,0 +1,66 @@
+
+===== 1280x800 =====
+PASS  opens as a modal <dialog> with role="alertdialog"
+PASS  title and body are the caller's strings; named and described by them  [Clear this room? / This removes the walls, 1 opening and 2 placed products. You can't undo it. Export project first if you want to keep it.]
+PASS  **…** in the body is shown bold, with no literal asterisks  [["You can't undo it."]]
+PASS  buttons carry the caller's labels  [Keep room · Clear room]
+PASS  destructive confirm: critical styling, not the primary colour  [bg rgb(254, 233, 232), text rgb(142, 31, 11), border rgb(240, 182, 174); --accent #008060]
+PASS  destructive confirm text contrast >= 4.5:1  [7.67:1]
+PASS  cancel is a plain .btn  [rgb(255, 255, 255)]
+PASS  initial focus is on the cancel button  [cancel]
+PASS  dialog inside the viewport, no horizontal overflow  [[420,328,440,145]]
+PASS  accessible: getByRole(alertdialog, name)
+PASS  click confirm → resolves true  [result: true]
+PASS  dialog is removed from the page after closing
+PASS  focus returns to the button that opened it  [{"id":"h-clear","action":"","tag":"BUTTON"}]
+PASS  click cancel → resolves false  [result: false]
+PASS  Enter on a freshly opened dialog → false (cancel has focus)  [result: false]
+PASS  Tab to the confirm button, Enter → true  [focused confirm; result: true]
+PASS  Space on the confirm button → true  [result: true]
+PASS  Esc → resolves false  [result: false]
+PASS  Ctrl+Z and Esc pressed in the dialog do not reach a document keydown listener  [[]]
+PASS  Esc: focus returns to the opener
+PASS  backdrop click → resolves false  [result: false]
+PASS  click on the body text neither resolves nor closes
+PASS  Tab never reaches a page control behind the dialog  [cancel > confirm > BODY > cancel > confirm > BODY > cancel > confirm]
+PASS  non-destructive confirm uses .btn-primary (accent), auto width, no top margin  [{"cls":"btn btn-primary","bg":"rgb(0, 128, 96)","color":"rgb(255, 255, 255)","marginTop":"0px","notFullWidth":true,"paragraphs":2,"focused":"cancel","text":"Load and run"}]
+PASS  a line break in the body starts a new paragraph  [2 paragraphs]
+PASS  non-destructive: initial focus is still on cancel
+PASS  64-character unbroken name in the title wraps; buttons stay inside the dialog  [{"overflowX":0,"pageOverflowX":0,"inViewport":true,"buttonsInside":true,"width":440}]
+PASS  markup in title, body and labels is rendered as text (no elements created, nothing runs)  [{"imgs":0,"bs":0,"titleText":true,"bodyHasText":true,"strongText":true,"buttonText":true,"answer":false,"pwned":null}]
+PASS  a Node body is appended as given; the promise settles once; nothing is left in the page  [{"present":true,"answer":true,"settled":1,"left":0}]
+PASS  no page errors or console errors
+
+===== 375x812 =====
+PASS  opens as a modal <dialog> with role="alertdialog"
+PASS  title and body are the caller's strings; named and described by them  [Clear this room? / This removes the walls, 1 opening and 2 placed products. You can't undo it. Export project first if you want to keep it.]
+PASS  **…** in the body is shown bold, with no literal asterisks  [["You can't undo it."]]
+PASS  buttons carry the caller's labels  [Keep room · Clear room]
+PASS  destructive confirm: critical styling, not the primary colour  [bg rgb(254, 233, 232), text rgb(142, 31, 11), border rgb(240, 182, 174); --accent #008060]
+PASS  destructive confirm text contrast >= 4.5:1  [7.67:1]
+PASS  cancel is a plain .btn  [rgb(255, 255, 255)]
+PASS  initial focus is on the cancel button  [cancel]
+PASS  dialog inside the viewport, no horizontal overflow  [[16,324,343,164]]
+PASS  accessible: getByRole(alertdialog, name)
+PASS  click confirm → resolves true  [result: true]
+PASS  dialog is removed from the page after closing
+PASS  focus returns to the button that opened it  [{"id":"h-clear","action":"","tag":"BUTTON"}]
+PASS  click cancel → resolves false  [result: false]
+PASS  Enter on a freshly opened dialog → false (cancel has focus)  [result: false]
+PASS  Tab to the confirm button, Enter → true  [focused confirm; result: true]
+PASS  Space on the confirm button → true  [result: true]
+PASS  Esc → resolves false  [result: false]
+PASS  Ctrl+Z and Esc pressed in the dialog do not reach a document keydown listener  [[]]
+PASS  Esc: focus returns to the opener
+PASS  backdrop click → resolves false  [result: false]
+PASS  click on the body text neither resolves nor closes
+PASS  Tab never reaches a page control behind the dialog  [cancel > confirm > BODY > cancel > confirm > BODY > cancel > confirm]
+PASS  non-destructive confirm uses .btn-primary (accent), auto width, no top margin  [{"cls":"btn btn-primary","bg":"rgb(0, 128, 96)","color":"rgb(255, 255, 255)","marginTop":"0px","notFullWidth":true,"paragraphs":2,"focused":"cancel","text":"Load and run"}]
+PASS  a line break in the body starts a new paragraph  [2 paragraphs]
+PASS  non-destructive: initial focus is still on cancel
+PASS  64-character unbroken name in the title wraps; buttons stay inside the dialog  [{"overflowX":0,"pageOverflowX":0,"inViewport":true,"buttonsInside":true,"width":343}]
+PASS  markup in title, body and labels is rendered as text (no elements created, nothing runs)  [{"imgs":0,"bs":0,"titleText":true,"bodyHasText":true,"strongText":true,"buttonText":true,"answer":false,"pwned":null}]
+PASS  a Node body is appended as given; the promise settles once; nothing is left in the page  [{"present":true,"answer":true,"settled":1,"left":0}]
+PASS  no page errors or console errors
+
+ALL CONFIRM CHECKS PASSED

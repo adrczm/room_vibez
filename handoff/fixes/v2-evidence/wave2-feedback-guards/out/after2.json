@@ -1,0 +1,287 @@
+{
+ "clear_1440x900": {
+  "before": {
+   "placements": 1,
+   "openings": 1,
+   "walls": 4,
+   "prov": "authored",
+   "canUndo": true
+  },
+  "clearButton": {
+   "width": 95,
+   "rowWidth": 310,
+   "pxBelowCreate": 243,
+   "color": "rgb(142, 31, 11)",
+   "background": "rgb(255, 255, 255)",
+   "createBackground": "rgb(0, 128, 96)",
+   "sameRowAs": "room-plan-actions"
+  },
+  "clearDialog": {
+   "title": "Clear this room?",
+   "body": "This removes the walls, 1 opening and 1 placed product. You can't undo it. Export project first if you want to keep it.",
+   "strong": [
+    "You can't undo it."
+   ],
+   "confirm": "Clear room",
+   "cancel": "Keep room",
+   "confirmClass": "btn btn-critical",
+   "focus": "cancel"
+  },
+  "afterKeep": {
+   "placements": 1,
+   "openings": 1,
+   "walls": 4,
+   "prov": "authored",
+   "canUndo": true,
+   "dialogs": 0,
+   "workspace": "room",
+   "focusBack": "btn-clear-room"
+  },
+  "afterEsc": {
+   "placements": 1,
+   "openings": 1,
+   "walls": 4,
+   "prov": "authored",
+   "canUndo": true
+  },
+  "afterClear": {
+   "hasRoom": false,
+   "workspace": "room",
+   "mode": "room",
+   "turntable": false,
+   "hint": "Create or import a room to start.",
+   "card": {
+    "shown": true
+   },
+   "roomStatus": "No room yet — from scratch, import plan, or template.",
+   "ls": null,
+   "focus": "scratch",
+   "placementRootsLeft": 0,
+   "toolPressed": [
+    "false",
+    "false",
+    "false"
+   ],
+   "clearBtnShown": false
+  },
+  "errors": []
+ },
+ "clear_375x812": {
+  "before": {
+   "placements": 1,
+   "openings": 1,
+   "walls": 4,
+   "prov": "authored",
+   "canUndo": true
+  },
+  "clearButton": {
+   "width": 95,
+   "rowWidth": 313,
+   "pxBelowCreate": 243,
+   "color": "rgb(142, 31, 11)",
+   "background": "rgb(255, 255, 255)",
+   "createBackground": "rgb(0, 128, 96)",
+   "sameRowAs": "room-plan-actions"
+  },
+  "clearDialog": {
+   "title": "Clear this room?",
+   "body": "This removes the walls, 1 opening and 1 placed product. You can't undo it. Export project first if you want to keep it.",
+   "strong": [
+    "You can't undo it."
+   ],
+   "confirm": "Clear room",
+   "cancel": "Keep room",
+   "confirmClass": "btn btn-critical",
+   "focus": "cancel"
+  },
+  "afterKeep": {
+   "placements": 1,
+   "openings": 1,
+   "walls": 4,
+   "prov": "authored",
+   "canUndo": true,
+   "dialogs": 0,
+   "workspace": "room",
+   "focusBack": "btn-clear-room"
+  },
+  "afterEsc": {
+   "placements": 1,
+   "openings": 1,
+   "walls": 4,
+   "prov": "authored",
+   "canUndo": true
+  },
+  "afterClear": {
+   "hasRoom": false,
+   "workspace": "room",
+   "mode": "room",
+   "turntable": false,
+   "hint": "Create or import a room to start.",
+   "card": {
+    "shown": true
+   },
+   "roomStatus": "No room yet — from scratch, import plan, or template.",
+   "ls": null,
+   "focus": "scratch",
+   "placementRootsLeft": 0,
+   "toolPressed": [
+    "false",
+    "false",
+    "false"
+   ],
+   "clearBtnShown": false
+  },
+  "errors": []
+ },
+ "replace": {
+  "createOverEmptyRoom": {
+   "dialogs": 0,
+   "room": {
+    "placements": 0,
+    "openings": 0,
+    "walls": 4,
+    "prov": "authored",
+    "canUndo": false
+   }
+  },
+  "createDialog": {
+   "title": "Replace your current room?",
+   "body": "Your current room and its 1 placed product will be replaced, and you won't be able to undo it. Export project first to keep a copy.",
+   "strong": [
+    "you won't be able to undo it."
+   ],
+   "confirm": "Replace room",
+   "cancel": "Keep current room",
+   "confirmClass": "btn btn-critical",
+   "focus": "cancel"
+  },
+  "createKeep": {
+   "placements": 1,
+   "openings": 0,
+   "walls": 4,
+   "prov": "authored",
+   "canUndo": true
+  },
+  "invalidSize": {
+   "dialogs": 0,
+   "status": "Room size must be positive (length, width, ceiling height, wall thickness)",
+   "room": {
+    "placements": 1,
+    "openings": 0,
+    "walls": 4,
+    "prov": "authored",
+    "canUndo": true
+   }
+  },
+  "templateDialog": "Replace your current room?",
+  "templateKeep": {
+   "placements": 1,
+   "openings": 0,
+   "walls": 4,
+   "prov": "authored",
+   "canUndo": true
+  },
+  "deleteDialog": {
+   "title": "Delete “T-one”?",
+   "body": "This template will be removed from this browser. You can't undo this.",
+   "strong": [],
+   "confirm": "Delete template",
+   "cancel": "Keep template",
+   "confirmClass": "btn btn-critical",
+   "focus": "cancel"
+  },
+  "deleteKeep": 1,
+  "planDialog": "Replace your current room?",
+  "planKeep": {
+   "placements": 1,
+   "openings": 0,
+   "walls": 4,
+   "prov": "authored",
+   "canUndo": true
+  },
+  "imageDialog": "Replace your current room?",
+  "imageKeep": {
+   "room": {
+    "placements": 1,
+    "openings": 0,
+    "walls": 4,
+    "prov": "authored",
+    "canUndo": true
+   },
+   "underlayReviewStillShown": true
+  },
+  "projectDialog": "Replace your current room?",
+  "projectKeep": {
+   "room": {
+    "placements": 1,
+    "openings": 0,
+    "walls": 4,
+    "prov": "authored",
+    "canUndo": true
+   },
+   "templates": 1
+  },
+  "createReplaced": {
+   "room": {
+    "placements": 0,
+    "openings": 0,
+    "walls": 4,
+    "prov": "authored",
+    "canUndo": false
+   },
+   "placementRootsLeft": 0,
+   "workspace": "room"
+  },
+  "deleteConfirmed": 0,
+  "errors": []
+ },
+ "idb": {
+  "idbAfterExport": "project",
+  "idbAfterClear": null,
+  "afterReloadHasRoom": false,
+  "afterReload": {
+   "workspace": "room",
+   "mode": "room",
+   "turntable": false,
+   "ground": false,
+   "room": null,
+   "hasRoom": false,
+   "hint": "Create or import a room to start.",
+   "hintShown": true,
+   "roomStatus": "No room yet — from scratch, import plan, or template.",
+   "toast": "",
+   "toastOpen": "false",
+   "toastKind": null,
+   "empty": {
+    "shown": true
+   }
+  },
+  "keepRoomLeavesIdb": "project"
+ },
+ "T6": {
+  "default": {
+   "floor": "#766b5e room:floor",
+   "wall": "#d8d4cc room:wall"
+  },
+  "wallOnly": {
+   "floor": "#766b5e room:floor",
+   "wall": "#ffffff room:wall:wood-walnut"
+  },
+  "floorOnly": {
+   "floor": "#ffffff room:floor:wood-oak",
+   "wall": "#d8d4cc room:wall"
+  },
+  "both": {
+   "floor": "#ffffff room:floor:wood-oak",
+   "wall": "#ffffff room:wall:wood-walnut"
+  },
+  "backToDefault": {
+   "floor": "#766b5e room:floor",
+   "wall": "#d8d4cc room:wall"
+  },
+  "wallOnlyAfterReload": {
+   "floor": "#766b5e room:floor",
+   "wall": "#ffffff room:wall:wood-walnut"
+  }
+ }
+}
