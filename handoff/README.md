@@ -10,9 +10,14 @@ Everything in this folder was copied from the owner's project folder on 2026-10-
 | `v2/prototypes/room-vibez-planner-flows/` | `prototypes/room-vibez-planner-flows/` |
 | `hackathon-3d-viewer/` with no `v2/` prefix (the **original** app, port 18767) | Not in this repository. Its state at copy time is the "Baseline" commit (`git log --oneline` shows it right after the owner's initial commit) |
 | `fixes/…` | `handoff/fixes/…` |
-| `docs/…` (`ux-copy-deck.md`, the research and stress-test reports, the three earlier fix notes) | `handoff/docs/…` |
+| `docs/…` (all 27 of the project's design notes and reports, from the feasibility studies to the copy deck; `docs/stress-test/` too) | `handoff/docs/…`. The app's own README points here for its design notes |
+| `docs/ux-fix.md`, `docs/ux-copy-fix.md` | Never written: the completion report belonged to the skipped wave 8. The handoff files are the record instead |
 | `media/ux-fix/` (final screenshots) | `docs/screenshots/` |
-| `media/usability-test/` | `handoff/media/usability-test/` |
+| `media/usability-test/`, `media/model-display-fix/`, `media/model-display-deep-qa/` | `handoff/media/…` |
+| `media/ux-copy/`, `media/room-floor-fix/`, `media/catalog-room-toggle-fix/`, `media/usability-research/` | Never existed; the documents that name them planned screenshots that were not saved |
+| `models/` (the `.glb` + `.mjs` pack "smoke pair" and other sample models the app README names) | **Not included.** They are third-party sample assets whose licence is not recorded anywhere in the project. Test the pack flow with your own files |
+| `History/` | **Not included.** The owner's running project log; it names people |
+| `screenshots/`, `diagrams/`, `chrome-profile-coohom/`, the `probe-*`, `cdp-*`, `continue-*` and `exploration-*` JSON files | **Not included.** Research captures of a third-party product, and a browser profile with session data. Keep them out of every upload |
 | `fixes/v2-evidence/<wave>/shots/` and `…/out/shots/` (about 350 intermediate screenshots, 42 MB) | **Not included**, to keep the repository small. They remain in the owner's project folder. Each wave's `REPORT.md`, `PROGRESS.md`, scripts and measurement files are here |
 | `.claude/launch.json` | Not included; it held absolute paths on the owner's machine. Use `npm run dev` |
 | The session scratchpad (`/private/tmp/claude-501/…`) | Gone. Everything useful from it is under `fixes/v2-evidence/` |

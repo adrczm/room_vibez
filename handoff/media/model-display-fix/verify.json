@@ -1,0 +1,21 @@
+{
+  "stats": {
+    "distinct": 134,
+    "nonBg": 4548,
+    "wood": 794,
+    "bg": [
+      241,
+      241,
+      241
+    ]
+  },
+  "productState": {
+    "workspace": "catalog",
+    "mode": "catalog",
+    "turntable": true,
+    "room": false,
+    "ground": true,
+    "camDist": 1.9955702920479317
+  },
+  "errors": []
+}

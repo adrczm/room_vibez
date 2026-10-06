@@ -18,6 +18,7 @@ This site documents **v2**: the app after a large UX fix, built and verified in 
 | Know what is unfinished or unverified | [Known gaps](known-gaps.md) |
 | See the decisions still open for the owner | [Decisions for the owner](decisions-for-the-owner.md) |
 | Continue the work as an AI agent or developer | [The handoff](../handoff/README.md) and [AGENTS.md](../AGENTS.md) |
+| Read the design notes and research written before the fix | [handoff/docs/](../handoff/docs/) (27 documents, from the feasibility studies to the copy deck) |
 
 ## The app in six pictures
 

@@ -4,8 +4,8 @@ Owned **Three.js** catalog furniture viewer: load a GLB, spin it on a turntable,
 
 **Room workspace (MVP):** three create paths share one owned **room graph JSON** (session + `localStorage`); meshes are derived via Shape holes + `ExtrudeGeometry` — DWG is never Three.js SoT.
 
-1. **From scratch** — rectangular room (presets + custom L×W×ceiling), door/window cutouts, place Catalog 3D GLBs. See `../docs/room-from-scratch-feasibility.md`.
-2. **Import plan** — upload DWG/DXF (SourceAsset) or candidates JSON → review candidates → confirm → immediate room **or** save as template. ODA/APS unavailable on this machine → labeled **mock fixture extract** (not AutoCAD-class parsing). See `../docs/dwg-plan-import-room-feasibility.md` + `../docs/dwg-plan-import-mvp-build.md`.
+1. **From scratch** — rectangular room (presets + custom L×W×ceiling), door/window cutouts, place Catalog 3D GLBs. See `../handoff/docs/room-from-scratch-feasibility.md`.
+2. **Import plan** — upload DWG/DXF (SourceAsset) or candidates JSON → review candidates → confirm → immediate room **or** save as template. ODA/APS unavailable on this machine → labeled **mock fixture extract** (not AutoCAD-class parsing). See `../handoff/docs/dwg-plan-import-room-feasibility.md` + `../handoff/docs/dwg-plan-import-mvp-build.md`.
 3. **From template** — instantiate a saved room-graph seed (local Template CMS).
 
 ## Run
@@ -82,8 +82,8 @@ Fixture for tests: `tests/fixtures/obj-stool/` (`stool.obj` + `stool.mtl` + `woo
 ## Module contract (.mjs) and GLB+MJS packs
 
 `.mjs` is **JavaScript (ES modules)**, not GLB/OBJ. Full write-ups:
-- `../docs/mjs-loading-in-hackathon-viewer.md`
-- `../docs/glb-mjs-pack-conversion-approach.md` (automated pack pipeline)
+- `../handoff/docs/mjs-loading-in-hackathon-viewer.md`
+- `../handoff/docs/glb-mjs-pack-conversion-approach.md` (automated pack pipeline)
 
 **Accepted exports** (from the real Polyfork sample on Desktop, not invented):
 

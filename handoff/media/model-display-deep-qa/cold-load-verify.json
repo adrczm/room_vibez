@@ -1,0 +1,36 @@
+{
+  "stats": {
+    "distinct": 134,
+    "nonBg": 4548,
+    "wood": 794,
+    "bg": [
+      241,
+      241,
+      241
+    ]
+  },
+  "state": {
+    "workspace": "catalog",
+    "mode": "catalog",
+    "turntable": true,
+    "turntableChildren": 1,
+    "roomVisible": false,
+    "ground": true,
+    "hasRoomGraph": true,
+    "meshCount": 14,
+    "camDist": 1.9955702920479317
+  },
+  "roomState": {
+    "workspace": "room",
+    "mode": "room",
+    "turntable": false,
+    "turntableChildren": 1,
+    "roomVisible": true,
+    "ground": false,
+    "hasRoomGraph": true,
+    "meshCount": 14,
+    "camDist": 7.999999999999999
+  },
+  "errors": [],
+  "failed": []
+}

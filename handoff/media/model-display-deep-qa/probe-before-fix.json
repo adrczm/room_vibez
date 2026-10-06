@@ -1,0 +1,249 @@
+{
+  "a": {
+    "state": {
+      "workspace": "catalog",
+      "status": "ready",
+      "mode": "catalog",
+      "turntable": true,
+      "turntableChildren": 1,
+      "roomVisible": null,
+      "roomMeshes": 0,
+      "ground": true,
+      "hasRoomGraph": false,
+      "meshCount": 14,
+      "visibleMeshes": 14,
+      "canvasCss": {
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "w": "890px",
+        "h": "679.422px"
+      },
+      "overlay": [],
+      "cam": {
+        "pos": [
+          1.13,
+          1.15,
+          1.5
+        ],
+        "target": [
+          0,
+          0.47,
+          0
+        ],
+        "dist": 1.996
+      },
+      "lsLen": 0,
+      "label": "02-fresh-product"
+    },
+    "stats": {
+      "distinct": 134,
+      "nonBg": 4548,
+      "wood": 794,
+      "dark": 87,
+      "bg": [
+        241,
+        241,
+        241
+      ]
+    }
+  },
+  "b": {
+    "state": {
+      "workspace": "room",
+      "status": "ready",
+      "mode": "room",
+      "turntable": false,
+      "turntableChildren": 1,
+      "roomVisible": true,
+      "roomMeshes": 6,
+      "ground": false,
+      "hasRoomGraph": true,
+      "meshCount": 14,
+      "visibleMeshes": 14,
+      "canvasCss": {
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "w": "890px",
+        "h": "663.234px"
+      },
+      "overlay": [],
+      "cam": {
+        "pos": [
+          4.72,
+          3.83,
+          5.77
+        ],
+        "target": [
+          0,
+          0.94,
+          0
+        ],
+        "dist": 8
+      },
+      "lsLen": 984,
+      "label": "03-after-create-room"
+    },
+    "stats": {
+      "distinct": 43,
+      "nonBg": 11270,
+      "wood": 0,
+      "dark": 0,
+      "bg": [
+        241,
+        241,
+        241
+      ]
+    }
+  },
+  "c": {
+    "state": {
+      "workspace": "room",
+      "status": "ready",
+      "mode": "room",
+      "turntable": false,
+      "turntableChildren": 1,
+      "roomVisible": true,
+      "roomMeshes": 6,
+      "ground": false,
+      "hasRoomGraph": true,
+      "meshCount": 14,
+      "visibleMeshes": 14,
+      "canvasCss": {
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "w": "890px",
+        "h": "663.234px"
+      },
+      "overlay": [],
+      "cam": {
+        "pos": [
+          4.72,
+          3.83,
+          5.77
+        ],
+        "target": [
+          0,
+          0.94,
+          0
+        ],
+        "dist": 8
+      },
+      "lsLen": 984,
+      "label": "04-cold-reload-with-room-persist"
+    },
+    "stats": {
+      "distinct": 43,
+      "nonBg": 11270,
+      "wood": 0,
+      "dark": 0,
+      "bg": [
+        241,
+        241,
+        241
+      ]
+    }
+  },
+  "d": {
+    "state": {
+      "workspace": "catalog",
+      "status": "ready",
+      "mode": "catalog",
+      "turntable": true,
+      "turntableChildren": 1,
+      "roomVisible": false,
+      "roomMeshes": 6,
+      "ground": true,
+      "hasRoomGraph": true,
+      "meshCount": 14,
+      "visibleMeshes": 14,
+      "canvasCss": {
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "w": "890px",
+        "h": "679.422px"
+      },
+      "overlay": [],
+      "cam": {
+        "pos": [
+          1.13,
+          1.15,
+          1.5
+        ],
+        "target": [
+          0,
+          0.47,
+          0
+        ],
+        "dist": 1.996
+      },
+      "lsLen": 984,
+      "label": "05-after-click-product"
+    },
+    "stats": {
+      "distinct": 134,
+      "nonBg": 4548,
+      "wood": 794,
+      "dark": 87,
+      "bg": [
+        241,
+        241,
+        241
+      ]
+    }
+  },
+  "e": {
+    "state": {
+      "workspace": "room",
+      "status": "ready",
+      "mode": "room",
+      "turntable": false,
+      "turntableChildren": 1,
+      "roomVisible": true,
+      "roomMeshes": 6,
+      "ground": false,
+      "hasRoomGraph": true,
+      "meshCount": 14,
+      "visibleMeshes": 14,
+      "canvasCss": {
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "w": "890px",
+        "h": "663.234px"
+      },
+      "overlay": [],
+      "cam": {
+        "pos": [
+          4.72,
+          3.83,
+          5.77
+        ],
+        "target": [
+          0,
+          0.94,
+          0
+        ],
+        "dist": 8
+      },
+      "lsLen": 984,
+      "label": "06-cold-again"
+    },
+    "stats": {
+      "distinct": 43,
+      "nonBg": 11270,
+      "wood": 0,
+      "dark": 0,
+      "bg": [
+        241,
+        241,
+        241
+      ]
+    }
+  },
+  "errors": [],
+  "failed": []
+}
